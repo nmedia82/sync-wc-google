@@ -25,6 +25,7 @@ include_once WCGS_PATH . "/inc/gs-api.php";
 include_once WCGS_PATH . "/inc/gs-categories.php";
 include_once WCGS_PATH . "/inc/rest.php";
 include_once WCGS_PATH . "/inc/hooks.php";
+include_once WCGS_PATH . "/inc/callbacks.php";
 
 
 class WC_GOOGLESHEET {

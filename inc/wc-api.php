@@ -29,8 +29,8 @@
      
      function add_categories($data, $rowRef) {
          
-         $response = $this->woocommerce->post('products/categories/batch', $data);
-         
+        $response = $this->woocommerce->post('products/categories/batch', $data);
+        
          // Getting Rows to update Google Sheet
          $googleSheetRow = array();
          if( isset($response->create) ) {
@@ -41,6 +41,7 @@
                  
                  $rowNo = $rowRef[$cat->name];
                  $googleSheetRow[$rowNo] = [$cat->name, $cat->description, $cat->id, $cat->parent, 1];
+                 do_action('wcgs_after_category_created', $cat, $data);
              }
          }
          
@@ -53,10 +54,12 @@
                  
                  $rowNo = $rowRef[$cat->id];
                  $googleSheetRow[$rowNo] = [$cat->name, $cat->description, $cat->id, $cat->parent, 1];
+                 do_action('wcgs_after_category_updated', $cat, $data);
              }
          }
          
          ksort($googleSheetRow);
+         do_action('wcgs_after_categories_updated', $googleSheetRow, $data);
         //  wcgs_pa($googleSheetRow);
          return $googleSheetRow;
      }

@@ -12,15 +12,13 @@
   echo '<a class="button" href="'.esc_url($gs->auth_link).'">Authorize Account</a>';
  } else {
   
+  echo '<a class="button button-primary" href="#" id="wcgs-sync-categories">Sync Categories</a>';
    // $gs->getSheetInfo();
-   $category = new WCGS_Categories();
-   $categories = $category->get_data();
    
-   $wcapi = new WCGS_WC_API();
-   $googleSheetRows = $wcapi->add_categories($categories, $category->rowRef);
    // wcgs_pa($googleSheetRows); exit;
    
-   $gs->update_rows('categories', $googleSheetRows);
+   // $gs->update_rows('categories', $googleSheetRows);
+   // $gs->delete_row(3);
    // $gs->add_row($sheet_id);
  }
  ?>

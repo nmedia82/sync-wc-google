@@ -72,7 +72,7 @@ class WCGS_Categories {
             
         }
         
-        wcgs_pa($parse_Rows);
+        // wcgs_pa($parse_Rows);
         $this->rowRef = $rowRef;
         return $parse_Rows;
     }

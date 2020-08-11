@@ -95,29 +95,27 @@ class GoogleSheet_API {
         // }
         // file_put_contents($this->token_path, json_encode($client->getAccessToken()));
         $this->save_token( json_encode($accessToken) ); 
+        // $this->setSheetInfo();
     }
     
     
-    function getSheetInfo() {
+    function setSheetInfo() {
         
         $service = new Google_Service_Sheets($this->client);
 
         // Prints the names and majors of students in a sample spreadsheet:
         // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
         // $spreadsheetId = '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms';
-        $range = 'categories';
-        $response = $service->spreadsheets_values->get($this->sheet_id, $range);
-        $values = $response->getValues();
+        $spreadsheet_info = $service->spreadsheets->get($this->sheet_id);
         
-        
-        if (empty($values)) {
-            print "No data found.\n";
-        } else {
-            foreach ($values as $row) {
-                // Print columns A and E, which correspond to indices 0 and 4.
-                wcgs_pa($category->get_column_value('Category Name', $row));
-            }
+        $gs_info = array();
+        foreach ($spreadsheet_info as $item) {
+            $sheet_id = $item['properties']['sheetId'];
+            $sheet_title = $item['properties']['title'];
+            $gs_info[$sheet_id] = $sheet_title;
         }
+        
+        update_option('wcgs_sheets_info', $gs_info);
     }
     
     
@@ -147,7 +145,7 @@ class GoogleSheet_API {
         
         // Update the spreadsheet
         $result = $service->spreadsheets_values->append($spreadsheetId, $range, $valueRange, $conf);
-        var_dump($result->getUpdates()->getUpdatedRange());
+        // var_dump($result->getUpdates()->getUpdatedRange());
         
     }
     
@@ -170,14 +168,14 @@ class GoogleSheet_API {
             ]);
         }
         
-        wcgs_pa($data);
+        // wcgs_pa($data);
         // Additional ranges to update ...
         $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
             'valueInputOption' => "RAW",
             'data' => $data
         ]);
         $result = $service->spreadsheets_values->batchUpdate($this->sheet_id, $body);
-        do_action('wcgs_after_categories_synced', $Rows, $sheet_name);
+        do_action('wcgs_after_categories_synced', $Rows, $sheet_name, $result);
         // wcgs_pa($result);
     }
     
@@ -192,7 +190,7 @@ class GoogleSheet_API {
             'values' => [$row]
         ]);
         
-        wcgs_pa($data);
+        // wcgs_pa($data);
         // Additional ranges to update ...
         $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
             'valueInputOption' => "RAW",
@@ -201,5 +199,32 @@ class GoogleSheet_API {
         $result = $service->spreadsheets_values->batchUpdate($this->sheet_id, $body);
         do_action('wcgs_after_category_synced', $row, $range);
         // wcgs_pa($result);
+    }
+    
+    // Delete Single Row
+    function delete_row($sheetId, $rowNo) {
+        
+        $service = new Google_Service_Sheets($this->client);
+        
+        $start = intval($rowNo)-1;
+        $end   = $start+1;
+        $deleteOperation = array(
+                            'range' => array(
+                                'sheetId'   => $sheetId, // <======= This mean the very first sheet on worksheet
+                                'dimension' => 'ROWS',
+                                'startIndex'=> $start, //Identify the starting point,
+                                'endIndex'  => ($end) //Identify where to stop when deleting
+                            )
+                        );
+        $deletable_row[] = new Google_Service_Sheets_Request(
+                                array('deleteDimension' =>  $deleteOperation)
+                            );
+                            
+        $body    = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest(array(
+                        'requests' => $deletable_row
+                    )
+                );
+        // wcgs_pa($body);
+        $result = $service->spreadsheets->batchUpdate($this->sheet_id, $body);
     }
 }

@@ -1,10 +1,10 @@
 <?php
 /**
- * Google Sheet Categories Controller
+ * Google Sheet Products Controller
  * 
  * */
 
-class WCGS_Categories {
+class WCGS_Products {
     
     function __construct() {
         
@@ -22,16 +22,16 @@ class WCGS_Categories {
         // wcgs_pa($this->map);
     }
     
-    function get_value($column, $row) {
+    function get_value($key, $row) {
         
-        return isset($row[$this->map[$column]]) ? $row[$this->map[$column]] : '';
+        return isset($row[$this->map[$key]]) ? $row[$this->map[$key]] : '';
     }
     
     
     function get_data(){
         
         $gs = new GoogleSheet_API();
-        $range = 'categories';
+        $range = 'products';
         $this->rows = $gs->get_sheet_rows($range);
         
         // Setting mapping (index => $key)
@@ -66,7 +66,7 @@ class WCGS_Categories {
             
         }
         
-        wcgs_pa($parse_Rows);
+        wcgs_pa($this->rows);
         $this->rowRef = $rowRef;
         return $parse_Rows;
     }
@@ -81,22 +81,25 @@ class WCGS_Categories {
         return $data;
         
     }
-    
     // Sync all categories from GS to Site
     function sync() {
         
-        $categories = $this->get_data();
+        // Get Data from Google Sheet
+        $products = $this->get_data();
        
         $wcapi = new WCGS_WC_API();
-        $googleSheetRows = $wcapi->update_categories_batch($categories, $this->rowRef, $this->rows);
+        $googleSheetRows = $wcapi->update_products_batch($products, $this->rowRef, $this->rows);
+        
+        // Now getting the ID from newly created product and update Google Sheeet row
+        // foreach($googleSheetRows)
         
         $gs = new GoogleSheet_API();
         
         // If Client is authrized
         if ( ! $gs->auth_link ) {
             
-            $result = $gs->update_rows('categories', $googleSheetRows);
-            do_action('wcgs_after_categories_synced', $googleSheetRows, 'categories', $result);
+            $result = $gs->update_rows('products', $googleSheetRows);
+            do_action('wcgs_after_products_synced', $googleSheetRows, 'products', $result);
         }
     }
 }

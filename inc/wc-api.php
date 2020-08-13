@@ -27,47 +27,99 @@
          print_r($this->woocommerce->get(''));
      }
      
-     function add_categories($data, $rowRef) {
+     // Updating categories via WC API
+     // return Rows for Google Sheet
+     function update_categories_batch($data, $rowRef) {
          
         $response = $this->woocommerce->post('products/categories/batch', $data);
         
          // Getting Rows to update Google Sheet
          $googleSheetRow = array();
          if( isset($response->create) ) {
-             foreach($response->create as $cat){
+             foreach($response->create as $item){
                  
-                 if( isset($cat->error) ) continue;
-                 if( !isset($rowRef[$cat->name]) ) continue;
+                 if( isset($item->error) ) continue;
+                 if( !isset($rowRef[$item->name]) ) continue;
                  
-                 $rowNo = $rowRef[$cat->name];
-                 $googleSheetRow[$rowNo] = [$cat->name, $cat->description, $cat->id, $cat->parent, 1];
-                 do_action('wcgs_after_category_created', $cat, $data);
+                 $rowNo = $rowRef[$item->name];
+                 // $googleSheetRow[$rowNo] = [$item->name, $item->description, $item->id, $item->parent, 1];
+                 $googleSheetRow[$rowNo] = [$item->id, 1];
+                 do_action('wcgs_after_category_created', $item, $data);
              }
          }
          
          if( isset($response->update) ) {
-             foreach($response->update as $cat){
+             foreach($response->update as $item){
                  
-                 if( isset($cat->error) ) continue;
+                 if( isset($item->error) ) continue;
                  
-                 if( !isset($rowRef[$cat->id]) ) continue;
+                 if( !isset($rowRef[$item->id]) ) continue;
                  
-                 $rowNo = $rowRef[$cat->id];
-                 $googleSheetRow[$rowNo] = [$cat->name, $cat->description, $cat->id, $cat->parent, 1];
-                 do_action('wcgs_after_category_updated', $cat, $data);
+                 $rowNo = $rowRef[$item->id];
+                 // $googleSheetRow[$rowNo] = [$item->name, $item->description, $item->id, $item->parent, 1];
+                 $googleSheetRow[$rowNo] = [$item->id, 1];
+                 do_action('wcgs_after_category_updated', $item, $data);
              }
          }
          
          ksort($googleSheetRow);
          do_action('wcgs_after_categories_updated', $googleSheetRow, $data);
-        //  wcgs_pa($googleSheetRow);
+         wcgs_pa($googleSheetRow);
+         return $googleSheetRow;
+     }
+     
+     // Updating products via WC API
+     // return Rows for Google Sheet
+     function update_products_batch($data, $rowRef, $gs_rows) {
+         
+         $response = $this->woocommerce->post('products/batch', $data);
+         // wcgs_pa($response);
+        
+         // Getting Rows to update Google Sheet
+         $googleSheetRow = array();
+         if( isset($response->create) ) {
+             foreach($response->create as $item){
+                 
+                 if( isset($item->error) ) continue;
+                 if( !isset($rowRef[$item->name]) ) continue;
+                 
+                 $rowNo = $rowRef[$item->name];
+                 // Setting id
+                 $gs_rows[ $rowNo-1 ][0] = $item->id;
+                 // Setting sync
+                 $gs_rows[ $rowNo-1 ][1] = 1;
+                 // $googleSheetRow[$rowNo] = $gs_rows[ $rowNo-1 ];
+                 $googleSheetRow[$rowNo] = [$item->id, 1];
+                 do_action('wcgs_after_product_created', $item, $data);
+             }
+         }
+         
+         if( isset($response->update) ) {
+             foreach($response->update as $item){
+                 
+                 if( isset($item->error) ) continue;
+                 
+                 if( !isset($rowRef[$item->id]) ) continue;
+                 
+                 $rowNo = $rowRef[$item->id];
+                 // Setting sync
+                 $gs_rows[ $rowNo-1 ][1] = 1;
+                 // $googleSheetRow[$rowNo] = $gs_rows[ $rowNo-1 ];
+                 $googleSheetRow[$rowNo] = [$item->id, 1];
+                 do_action('wcgs_after_product_updated', $item, $data);
+             }
+         }
+         
+         ksort($googleSheetRow);
+         do_action('wcgs_after_products_updated', $googleSheetRow, $data);
+         wcgs_pa($googleSheetRow);
          return $googleSheetRow;
      }
      
      // get category for googlesheet row
      function get_category_for_gsheet($id){
          
-         $cat = $this->woocommerce->get('products/categories/'.$id);
-         return [$cat->name, $cat->description, $cat->id, $cat->parent, 1];
+         $item = $this->woocommerce->get('products/categories/'.$id);
+         return [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
      }
  }

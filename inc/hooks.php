@@ -18,9 +18,10 @@ function wcgs_update_termmeta($categories, $sheet_name, $synced_result) {
     $metakey = 'gs_range';
     
     foreach($categories as $key=>$value){
-        $range = "{$sheet_name}!A{$key}:E{$key}";
+        // $range = "{$sheet_name}!A{$key}:E{$key}";
+        $range = "{$sheet_name}!{$key}:{$key}";
         
-        $termid = $value[2];    // term id
+        $termid = $value[0];    // term id
         $metaval = $range;
         
         // Delete existing terms meta if any
@@ -43,6 +44,21 @@ function wcgs_update_termmeta($categories, $sheet_name, $synced_result) {
 }
 
 // When WC categories updated
+add_action( "created_product_cat", "wcgs_update_gsheet_create_cat", 99, 2);
+function wcgs_update_gsheet_create_cat($term_id, $tt_id){
+    
+    if ( !isset($_POST['action']) && $_POST['action'] != 'add-tag') return '';
+    
+   
+    $wcapi = new WCGS_WC_API();
+    $row = $wcapi->get_category_for_gsheet($term_id);
+    $gs = new GoogleSheet_API();
+    $sheet_name = "categories";
+    $range = $gs->add_row($sheet_name, $row);
+    update_term_meta($term_id, 'gs_range', $range);
+}
+
+// When WC categories updated
 add_action( "edited_product_cat", "wcgs_update_gsheet_edit_cat", 99, 2);
 function wcgs_update_gsheet_edit_cat($term_id, $tt_id){
     
@@ -62,11 +78,11 @@ function wcgs_update_gsheet_edit_cat($term_id, $tt_id){
 add_action( "pre_delete_term", "wcgs_update_gsheet_delete_cat", 99, 2);
 function wcgs_update_gsheet_delete_cat($term_id, $taxonomy){
     
-    // if ( !isset($_POST['action']) && $_POST['action'] != 'delete-tag') return '';
+    if ( !isset($_POST['action']) && $_POST['action'] != 'delete-tag') return '';
     
     $sheetId = wcgs_get_sheetid_by_title('categories');
     $range = get_term_meta($term_id, 'gs_range', true);
-    // if( !$range ) return;
+    if( !$range ) return;
     $rowNo = substr($range, -1);
     // var_dump($range); exit;
     

@@ -130,22 +130,22 @@ class GoogleSheet_API {
     }
     
     
-    function add_row($spreadsheetId) {
+    function add_row($sheet_name, $row) {
         
         $service = new Google_Service_Sheets($this->client);
         // Create the value range Object
         $valueRange= new Google_Service_Sheets_ValueRange();
         
         // You need to specify the values you insert
-        $valueRange->setValues(["values" => ["a", "b"]]); // Add two values
-        $range = "A1:F";
+        $valueRange->setValues(["values" => $row]); // Add two values
+        $range = "{$sheet_name}";
         
         // Then you need to add some configuration
         $conf = ["valueInputOption" => "RAW"];
         
         // Update the spreadsheet
-        $result = $service->spreadsheets_values->append($spreadsheetId, $range, $valueRange, $conf);
-        // var_dump($result->getUpdates()->getUpdatedRange());
+        $result = $service->spreadsheets_values->append($this->sheet_id, $range, $valueRange, $conf);
+        return $result->getUpdates()->getUpdatedRange();
         
     }
     
@@ -159,7 +159,7 @@ class GoogleSheet_API {
         $values = [];
         $data = [];
         foreach($Rows as $key=>$value){
-            $range = "{$sheet_name}!A{$key}:E{$key}";
+            $range = "{$sheet_name}!A{$key}:B{$key}";
             $values[] = $value;
             
             $data[] = new Google_Service_Sheets_ValueRange([
@@ -175,7 +175,7 @@ class GoogleSheet_API {
             'data' => $data
         ]);
         $result = $service->spreadsheets_values->batchUpdate($this->sheet_id, $body);
-        do_action('wcgs_after_categories_synced', $Rows, $sheet_name, $result);
+        return $result;
         // wcgs_pa($result);
     }
     

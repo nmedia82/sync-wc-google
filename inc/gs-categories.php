@@ -15,11 +15,22 @@ class WCGS_Categories {
     
     function set_mapping($header) {
         
+    //   $category_header = [
+    //                     'id','sync','name','slug','parent','description','display','image','menu_order'
+    //       ];
        foreach($header as $order => $key ) {
             $this->map[$key] = $order;
         }
         
+        update_option('wcgs_category_header', $this->map);
+        
         // wcgs_pa($this->map);
+    }
+    
+    function get_header() {
+        
+        $header = get_option('wcgs_category_header');
+        return $header;
     }
     
     function get_value($column, $row) {
@@ -66,7 +77,7 @@ class WCGS_Categories {
             
         }
         
-        wcgs_pa($parse_Rows);
+        // wcgs_pa($parse_Rows);
         $this->rowRef = $rowRef;
         return $parse_Rows;
     }
@@ -97,6 +108,9 @@ class WCGS_Categories {
             
             $result = $gs->update_rows('categories', $googleSheetRows);
             do_action('wcgs_after_categories_synced', $googleSheetRows, 'categories', $result);
+            return $result;
         }
+        
+        return null;
     }
 }

@@ -19,7 +19,14 @@ class WCGS_Products {
             $this->map[$key] = $order;
         }
         
+        update_option('wcgs_product_header', $this->map);
         // wcgs_pa($this->map);
+    }
+    
+    function get_header() {
+        
+        $header = get_option('wcgs_product_header');
+        return $header;
     }
     
     function get_value($key, $row) {
@@ -66,7 +73,7 @@ class WCGS_Products {
             
         }
         
-        wcgs_pa($this->rows);
+        // wcgs_pa($parse_Rows);
         $this->rowRef = $rowRef;
         return $parse_Rows;
     }
@@ -76,7 +83,7 @@ class WCGS_Products {
         $data = array();
         foreach($this->map as $key => $index) {
             
-            $data[ trim($key) ] = $row[$index];
+            $data[ trim($key) ] = apply_filters("wcgs_row_data_{$key}", $row[$index], $row);
         }
         return $data;
         
@@ -100,6 +107,9 @@ class WCGS_Products {
             
             $result = $gs->update_rows('products', $googleSheetRows);
             do_action('wcgs_after_products_synced', $googleSheetRows, 'products', $result);
+            return $result;
         }
+        
+        return null;
     }
 }

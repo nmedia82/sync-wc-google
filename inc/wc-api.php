@@ -64,7 +64,7 @@
          
          ksort($googleSheetRow);
          do_action('wcgs_after_categories_updated', $googleSheetRow, $data);
-         wcgs_pa($googleSheetRow);
+        //  wcgs_pa($googleSheetRow);
          return $googleSheetRow;
      }
      
@@ -112,7 +112,7 @@
          
          ksort($googleSheetRow);
          do_action('wcgs_after_products_updated', $googleSheetRow, $data);
-         wcgs_pa($googleSheetRow);
+        //  wcgs_pa($googleSheetRow);
          return $googleSheetRow;
      }
      
@@ -120,6 +120,42 @@
      function get_category_for_gsheet($id){
          
          $item = $this->woocommerce->get('products/categories/'.$id);
-         return [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
+         $category = new WCGS_Categories();
+         $header = $category->get_header();
+         
+         $category_row = array();
+         if( $header ) {
+             foreach($header as $key => $index) {
+                 
+                $value = $key == 'sync' ? 1 : $item->{ trim($key) };
+                $value = $value === NULL ? '' : $value;
+                $category_row[] = $value;
+             }
+         }
+        //  $category_row = [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
+        //  wcgs_pa($category_row); exit;
+        return apply_filters('wcgs_category_update_row', $category_row, $id);
+     }
+     
+     
+     // get product for googlesheet row
+     function get_product_for_gsheet($id){
+         
+         $item = $this->woocommerce->get('products/'.$id);
+         $product = new WCGS_Products();
+         $header = $product->get_header();
+         
+         $product_row = array();
+         if( $header ) {
+             foreach($header as $key => $index) {
+                 
+                $value = $key == 'sync' ? 1 : $item->{ trim($key) };
+                $value = $value === NULL ? '' : $value;
+                $product_row[] = $value;
+             }
+         }
+        //  $product_row = [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
+        //  wcgs_pa($item);
+        return apply_filters('wcgs_product_update_row', $product_row, $id);
      }
  }

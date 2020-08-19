@@ -12,7 +12,14 @@
   echo '<a class="button" href="'.esc_url($gs->auth_link).'">Authorize Account</a>';
  } else {
   
+  echo '<select id="sheet_name">';
+  echo '<option value="categories">Categories</option>';
+  echo '<option value="products">Products</option>';
+  echo '</select>';
+  
   echo '<a class="button button-primary" href="#" id="wcgs-sync-categories">Sync Categories</a>';
+  
+  echo '<pre id="wcgs_log_data"></pre>';
    // $gs->getSheetInfo();
    
    // wcgs_pa($googleSheetRows); exit;

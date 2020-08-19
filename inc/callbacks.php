@@ -9,13 +9,22 @@ function wcgs_sync_categories() {
     // if (defined('DOING_AJAX') && DOING_AJAX)
         // wp_send_json($_POST);
     
-    $category = new WCGS_Categories();
-    $category->sync();
+    $sheet_name = isset($_POST['sheet']) ? $_POST['sheet'] : '';
     
-    // $gs = new GoogleSheet_API();
-    // $gs->add_row();
+    $sync_result = null;
     
-    // $product = new WCGS_Products();
-    // $product->sync();
-    exit;
+    switch( $sheet_name ) {
+        case 'categories';
+            $category = new WCGS_Categories();
+            $sync_result = $category->sync();
+        break;
+        
+        case 'products';
+            $product = new WCGS_Products();
+            $sync_result = $product->sync();
+        break;
+        
+    }
+    
+    wp_send_json($sync_result);
 }

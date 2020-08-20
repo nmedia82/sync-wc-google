@@ -73,7 +73,7 @@ class WCGS_Products {
             
         }
         
-        // wcgs_pa($parse_Rows);
+        wcgs_pa($parse_Rows);
         $this->rowRef = $rowRef;
         return $parse_Rows;
     }
@@ -96,9 +96,9 @@ class WCGS_Products {
        
         $wcapi = new WCGS_WC_API();
         $googleSheetRows = $wcapi->update_products_batch($products, $this->rowRef, $this->rows);
+        // wcgs_pa($googleSheetRows);
         
         // Now getting the ID from newly created product and update Google Sheeet row
-        // foreach($googleSheetRows)
         
         $gs = new GoogleSheet_API();
         

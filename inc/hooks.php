@@ -95,6 +95,7 @@ function wcgs_update_gsheet_delete_cat($term_id, $taxonomy){
 /***
  * ============= Product Row Data Filter Sheet ==> WC API =================
  * **/
+// Categories
 add_filter('wcgs_row_data_categories', 'wcgs_product_category_data', 2, 99);
 function wcgs_product_category_data($categories, $row){
     
@@ -106,6 +107,29 @@ function wcgs_product_category_data($categories, $row){
     }, $make_array);
     // wcgs_pa($categories);
     return $categories;
+}
+// Attributes
+add_filter('wcgs_row_data_attributes', 'wcgs_product_attribute_data', 2, 99);
+function wcgs_product_attribute_data($attributes, $row){
+    
+    if( ! $attributes ) return $attributes;
+    $attributes = json_decode($attributes, true);
+    // $make_array = explode(';', $attributes);
+    // $attributes = array_map(function ($attribute) {
+    //     $breakup = explode('|', $attribute);
+    //     var_dump($breakup);
+    //     $attr_id = $breakup[0];
+    //     $attr_options = explode(",", $breakup[1]);
+        
+    //     $attr['id'] = $attr_id;
+    //     $attr['visible'] = true;
+    //     $attr['variation'] = true;
+    //     $attr['options'] = $attr_options;
+        
+    //     return $attr;
+    // }, $make_array);
+    // var_dump($attributes);
+    return $attributes;
 }
 
 
@@ -166,4 +190,3 @@ function wcgs_update_gsheet_edit_product($id, $product, $update){
         // $gs->update_single_row($range, $row);
     }
 }
-

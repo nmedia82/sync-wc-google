@@ -131,6 +131,19 @@ function wcgs_product_attribute_data($attributes, $row){
     // var_dump($attributes);
     return $attributes;
 }
+// Images
+add_filter('wcgs_row_data_images', 'wcgs_product_images_data', 2, 99);
+function wcgs_product_images_data($images, $row){
+    
+    if( ! $images ) return $images;
+    $make_array = explode(',', $images);
+    $images = array_map(function ($image) {
+        $img['src'] = $image;
+        return $img;
+    }, $make_array);
+    // wcgs_pa($images);
+    return $images;
+}
 
 
 /** ================ Product Update/Create Hooks ================ **/

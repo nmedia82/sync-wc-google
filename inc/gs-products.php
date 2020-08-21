@@ -73,7 +73,7 @@ class WCGS_Products {
             
         }
         
-        wcgs_pa($parse_Rows);
+        // wcgs_pa($parse_Rows);
         $this->rowRef = $rowRef;
         return $parse_Rows;
     }
@@ -83,6 +83,7 @@ class WCGS_Products {
         $data = array();
         foreach($this->map as $key => $index) {
             
+            if( ! isset($row[$index]) ) continue;
             $data[ trim($key) ] = apply_filters("wcgs_row_data_{$key}", $row[$index], $row);
         }
         return $data;
@@ -93,6 +94,8 @@ class WCGS_Products {
         
         // Get Data from Google Sheet
         $products = $this->get_data();
+        
+        if( ! $products ) return ['message'=>'No data to sync'];
        
         $wcapi = new WCGS_WC_API();
         $googleSheetRows = $wcapi->update_products_batch($products, $this->rowRef, $this->rows);

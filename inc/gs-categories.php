@@ -97,6 +97,8 @@ class WCGS_Categories {
     function sync() {
         
         $categories = $this->get_data();
+        
+        if( ! $categories ) return ['message'=>'No data to sync'];
        
         $wcapi = new WCGS_WC_API();
         $googleSheetRows = $wcapi->update_categories_batch($categories, $this->rowRef, $this->rows);

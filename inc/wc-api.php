@@ -19,6 +19,16 @@
                 'version' => 'wc/v3' // WooCommerce WP REST API version
             ]
         );
+        
+        // $this->woocommerce = new Client(
+        //     'https://nkbonline.com', // Your store URL
+        //     'ck_0c1571865748cc0db5da8e5e8b7b6ff92b855603', // Your consumer key
+        //     'cs_82520d88a76004cb7b25f296aa7c0042e7e8dd9a', // Your consumer secret
+        //     [
+        //         'wp_api' => true, // Enable the WP REST API integration
+        //         'version' => 'wc/v3' // WooCommerce WP REST API version
+        //     ]
+        // );
      }
      
      

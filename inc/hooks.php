@@ -166,6 +166,8 @@ function wcgs_update_product_meta($products, $sheet_name, $synced_result) {
         $postid = $value[0];    // post id
         $metaval = $range;
         
+        if( $postid === 'ERROR' ) continue;
+        
         // Delete existing posts meta if any
         $delqry .= "{$postid},";
         // post meta sql

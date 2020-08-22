@@ -90,16 +90,16 @@
          if( isset($response->create) ) {
              foreach($response->create as $item){
                  
-                 if( isset($item->error) ) continue;
-                 if( !isset($rowRef[$item->name]) ) continue;
-                 
+            
                  $rowNo = $rowRef[$item->name];
-                 // Setting id
-                 $gs_rows[ $rowNo-1 ][0] = $item->id;
-                 // Setting sync
-                 $gs_rows[ $rowNo-1 ][1] = 1;
-                 // $googleSheetRow[$rowNo] = $gs_rows[ $rowNo-1 ];
-                 $googleSheetRow[$rowNo] = [$item->id, 1];
+                 
+                 if( isset($item->error) ) {
+                    $googleSheetRow[$rowNo] = ["ERROR", $item->error->message];
+                 } else {
+                    if( !isset($rowRef[$item->name]) ) continue;
+                    $googleSheetRow[$rowNo] = [$item->id, 1];
+                 }
+                 
                  do_action('wcgs_after_product_created', $item, $data);
              }
          }
@@ -113,7 +113,7 @@
                  
                  $rowNo = $rowRef[$item->id];
                  // Setting sync
-                 $gs_rows[ $rowNo-1 ][1] = 1;
+                 // $gs_rows[ $rowNo-1 ][1] = 1;
                  // $googleSheetRow[$rowNo] = $gs_rows[ $rowNo-1 ];
                  $googleSheetRow[$rowNo] = [$item->id, 1];
                  do_action('wcgs_after_product_updated', $item, $data);

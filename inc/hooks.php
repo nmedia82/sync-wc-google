@@ -95,6 +95,15 @@ function wcgs_update_gsheet_delete_cat($term_id, $taxonomy){
 /***
  * ============= Product Row Data Filter Sheet ==> WC API =================
  * **/
+// short_descriptions esc_html
+add_filter('wcgs_row_data_short_description', 'wcgs_product_short_description_data', 2, 99);
+function wcgs_product_short_description_data($description, $row){
+    
+    if( ! $description ) return $description;
+    $description = esc_html($description);
+    return $description;
+    
+}
 // Categories
 add_filter('wcgs_row_data_categories', 'wcgs_product_category_data', 2, 99);
 function wcgs_product_category_data($categories, $row){
@@ -147,7 +156,8 @@ function wcgs_product_images_data($images, $row){
 
 
 /** ================ Product Update/Create Hooks ================ **/
-add_action('wcgs_after_products_synced', 'wcgs_update_product_meta', 99, 3);
+// add_action('wcgs_after_products_synced', 'wcgs_update_product_meta', 99, 3);
+// WE DDON'T NEED THIS HOOK WE ADDING META_DATA IN BATCH UPDATE WITH KEY: wcgs_row_id
 function wcgs_update_product_meta($products, $sheet_name, $synced_result) {
  
     if( count($products) <= 0 ) return;
@@ -196,12 +206,13 @@ function wcgs_update_gsheet_edit_product($id, $product, $update){
         $id = $parent_id;
     
     if( $update ) {
-        $range = get_post_meta($id, 'gs_range', true);
-        if( !$range ) return;
+        $row_id = get_post_meta($id, 'wcgs_row_id', true);
+        if( !$row_id ) return;
+        $range = "products!{$row_id}:{$row_id}";
         $wcapi = new WCGS_WC_API();
         $row = $wcapi->get_product_for_gsheet($id);
-        wcgs_pa($row); exit;
+        // wcgs_pa($range); exit;
         $gs = new GoogleSheet_API();
-        // $gs->update_single_row($range, $row);
+        $gs->update_single_row($range, $row);
     }
 }

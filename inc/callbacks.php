@@ -2,6 +2,7 @@
 /**
  * WP Callbacks
  * */
+use \AvangateClient\Client;
  
 add_action('wp_ajax_wcgs_sync_categories', 'wcgs_sync_categories');
 function wcgs_sync_categories() {

@@ -51,22 +51,22 @@ class WCGS_Products {
         foreach($this->rows as $row){
             
             $row = $this->build_row_for_wc_api($row);
-            $id   = $row['id'];
-            $name = $row['name'];
-            $sync = $row['sync'];
+            $id   = isset($row['id']) ? $row['id'] : '';
+            $name = isset($row['name']) ? $row['name'] : '';
+            $sync = isset($row['sync']) ? $row['sync'] : '';
+            
+            // Row Ref in meta
+            $row['meta_data'] = [['key'=>'wcgs_row_id', 'value'=>$rowIndex]];
             
             if( $sync == 1 ) {
                 $rowIndex++;
                 continue;
             }
             
-            $batch_data = array();
             if( $id != '' ) {
-                $parse_Rows['update'][] = $row;   
-                $rowRef[$id] = $rowIndex;
+                $parse_Rows['update'][$rowIndex] = $row;   
             }else{
-                $parse_Rows['create'][] = $row;
-                $rowRef[$name] = $rowIndex;
+                $parse_Rows['create'][$rowIndex] = $row;
             }
             
             $rowIndex++;
@@ -74,7 +74,6 @@ class WCGS_Products {
         }
         
         // wcgs_pa($parse_Rows);
-        $this->rowRef = $rowRef;
         return $parse_Rows;
     }
     
@@ -94,11 +93,12 @@ class WCGS_Products {
         
         // Get Data from Google Sheet
         $products = $this->get_data();
+        // wcgs_pa($products); exit;
         
         if( ! $products ) return ['message'=>'No data to sync'];
        
         $wcapi = new WCGS_WC_API();
-        $googleSheetRows = $wcapi->update_products_batch($products, $this->rowRef, $this->rows);
+        $googleSheetRows = $wcapi->update_products_batch($products, $this->rows);
         // wcgs_pa($googleSheetRows);
         
         // Now getting the ID from newly created product and update Google Sheeet row
@@ -106,13 +106,22 @@ class WCGS_Products {
         $gs = new GoogleSheet_API();
         
         // If Client is authrized
+        $sync_result = '';
         if ( ! $gs->auth_link ) {
             
-            $result = $gs->update_rows('products', $googleSheetRows);
-            do_action('wcgs_after_products_synced', $googleSheetRows, 'products', $result);
-            return $result;
+            $sync_result = $gs->update_rows('products', $googleSheetRows);
+            do_action('wcgs_after_products_synced', $googleSheetRows, 'products', $sync_result);
+            // return $result;
         }
         
-        return null;
+        $error_message = array();
+        if ( null !== ( $batch_update_error = get_transient( 'wcgs_batch_error' ) ) ) {
+            $error_message = array('Batch_Errors' => $batch_update_error);
+            delete_transient('wcgs_batch_error');
+        }
+        
+        $response = ['sync_result'=>$sync_result, 'batch_errors'=>$error_message];
+        
+        return $response;
     }
 }

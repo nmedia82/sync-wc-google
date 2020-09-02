@@ -55,10 +55,11 @@ class WCGS_Categories {
         foreach($this->rows as $row){
             
             $row = $this->build_row_for_wc_api($row);
-            $id   = $row['id'];
-            $name = $row['name'];
-            $sync = $row['sync'];
+            $id   = isset($row['id']) ? $row['id'] : '';
+            $name = isset($row['name']) ? sanitize_key($row['name']) : '';
+            $sync = isset($row['sync']) ? $row['sync'] : '';
             
+           
             if( $sync == 1 ) {
                 $rowIndex++;
                 continue;
@@ -106,13 +107,22 @@ class WCGS_Categories {
         $gs = new GoogleSheet_API();
         
         // If Client is authrized
+        $sync_result = '';
         if ( ! $gs->auth_link ) {
             
-            $result = $gs->update_rows('categories', $googleSheetRows);
-            do_action('wcgs_after_categories_synced', $googleSheetRows, 'categories', $result);
+            $sync_result = $gs->update_rows('categories', $googleSheetRows);
+            do_action('wcgs_after_categories_synced', $googleSheetRows, 'categories', $sync_result);
             return $result;
         }
         
-        return null;
+        $error_message = array();
+        if ( null !== ( $batch_update_error = get_transient( 'wcgs_batch_error' ) ) ) {
+            $error_message = array('Batch_Errors' => $batch_update_error);
+            delete_transient('wcgs_batch_error');
+        }
+        
+        $response = ['sync_result'=>$sync_result, 'batch_errors'=>$error_message];
+        
+        return $response;
     }
 }

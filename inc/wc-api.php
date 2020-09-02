@@ -16,7 +16,9 @@
             'cs_3d7d2f36bcea3ddd043fa643c5550e3a3f416672', // Your consumer secret
             [
                 'wp_api' => true, // Enable the WP REST API integration
-                'version' => 'wc/v3' // WooCommerce WP REST API version
+                'version' => 'wc/v3', // WooCommerce WP REST API version
+                'timeout' => 0,
+                'verify_ssl'=> false
             ]
         );
         
@@ -39,21 +41,26 @@
      
      // Updating categories via WC API
      // return Rows for Google Sheet
-     function update_categories_batch($data, $rowRef) {
+     function update_categories_batch($data, $rowRef, $gs_rows) {
          
         $response = $this->woocommerce->post('products/categories/batch', $data);
+        // wcgs_pa($response);
         
          // Getting Rows to update Google Sheet
          $googleSheetRow = array();
          if( isset($response->create) ) {
              foreach($response->create as $item){
-                 
-                 if( isset($item->error) ) continue;
-                 if( !isset($rowRef[$item->name]) ) continue;
-                 
-                 $rowNo = $rowRef[$item->name];
-                 // $googleSheetRow[$rowNo] = [$item->name, $item->description, $item->id, $item->parent, 1];
-                 $googleSheetRow[$rowNo] = [$item->id, 1];
+              
+                   if( isset($item->error) ) {
+                      $errors_found[] = $item;
+                   } else {
+                      $item_name = sanitize_key($item->name);
+                      if( !isset($rowRef[$item_name]) ) continue;
+                      $rowNo = $rowRef[$item_name];
+                      // if( !isset($rowRef[$item->name]) ) continue;
+                      $googleSheetRow[$rowNo] = [$item->id, 1];
+                   }
+            
                  do_action('wcgs_after_category_created', $item, $data);
              }
          }
@@ -61,42 +68,48 @@
          if( isset($response->update) ) {
              foreach($response->update as $item){
                  
-                 if( isset($item->error) ) continue;
+                if( isset($item->error) ) {
+                     $errors_found[] = $item;
+                  } else {
+                     $rowNo = $rowRef[$item->id];
+                     // $googleSheetRow[$rowNo] = [$item->name, $item->description, $item->id, $item->parent, 1];
+                     $googleSheetRow[$rowNo] = [$item->id, 1];
+                  }
                  
-                 if( !isset($rowRef[$item->id]) ) continue;
-                 
-                 $rowNo = $rowRef[$item->id];
-                 // $googleSheetRow[$rowNo] = [$item->name, $item->description, $item->id, $item->parent, 1];
-                 $googleSheetRow[$rowNo] = [$item->id, 1];
                  do_action('wcgs_after_category_updated', $item, $data);
              }
          }
          
+          if( count($errors_found) > 0 ) {
+            set_transient('wcgs_batch_error', $errors_found);
+         }
+         
          ksort($googleSheetRow);
          do_action('wcgs_after_categories_updated', $googleSheetRow, $data);
-        //  wcgs_pa($googleSheetRow);
+         // wcgs_pa($googleSheetRow);
          return $googleSheetRow;
      }
      
      // Updating products via WC API
      // return Rows for Google Sheet
-     function update_products_batch($data, $rowRef, $gs_rows) {
+     function update_products_batch($data, $gs_rows) {
          
+         // ini_set('default_socket_timeout', 500);
          $response = $this->woocommerce->post('products/batch', $data);
          // wcgs_pa($response);
         
          // Getting Rows to update Google Sheet
          $googleSheetRow = array();
+         $errors_found = array();
          if( isset($response->create) ) {
              foreach($response->create as $item){
                  
-            
-                 $rowNo = $rowRef[$item->name];
-                 
                  if( isset($item->error) ) {
-                    $googleSheetRow[$rowNo] = ["ERROR", $item->error->message];
+                    $errors_found[] = $item;
                  } else {
-                    if( !isset($rowRef[$item->name]) ) continue;
+                    if( !isset($item->meta_data[0]) && $item->meta_data[0]->key !== 'wcgs_row_id' ) continue;
+                    $rowNo = $item->meta_data[0]->value;
+                    // if( !isset($rowRef[$item->name]) ) continue;
                     $googleSheetRow[$rowNo] = [$item->id, 1];
                  }
                  
@@ -107,22 +120,27 @@
          if( isset($response->update) ) {
              foreach($response->update as $item){
                  
-                 if( isset($item->error) ) continue;
+                 if( isset($item->error) ) {
+                    $errors_found[] = $item;
+                 } else {
+                    if( !isset($item->meta_data[0]) && $item->meta_data[0]->key !== 'wcgs_row_id' ) continue;
+                    $rowNo = $item->meta_data[0]->value;
+                    // if( !isset($rowRef[$item->name]) ) continue;
+                    $googleSheetRow[$rowNo] = [$item->id, 1];
+                 }
                  
-                 if( !isset($rowRef[$item->id]) ) continue;
-                 
-                 $rowNo = $rowRef[$item->id];
-                 // Setting sync
-                 // $gs_rows[ $rowNo-1 ][1] = 1;
-                 // $googleSheetRow[$rowNo] = $gs_rows[ $rowNo-1 ];
-                 $googleSheetRow[$rowNo] = [$item->id, 1];
                  do_action('wcgs_after_product_updated', $item, $data);
              }
          }
          
+         
+         if( count($errors_found) > 0 ) {
+            set_transient('wcgs_batch_error', $errors_found);
+         }
+         
          ksort($googleSheetRow);
          do_action('wcgs_after_products_updated', $googleSheetRow, $data);
-        //  wcgs_pa($googleSheetRow);
+         // wcgs_pa($googleSheetRow);
          return $googleSheetRow;
      }
      
@@ -154,11 +172,15 @@
          $item = $this->woocommerce->get('products/'.$id);
          $product = new WCGS_Products();
          $header = $product->get_header();
+         // wcgs_pa($item);
          
          $product_row = array();
          if( $header ) {
              foreach($header as $key => $index) {
                  
+                // ignore last_sync for now
+                if( $key == 'last_sync' ) continue;
+                
                 $value = $key == 'sync' ? 1 : $item->{ trim($key) };
                 $value = $value === NULL ? '' : $value;
                 $product_row[] = $value;

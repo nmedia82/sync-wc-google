@@ -181,24 +181,27 @@ class GoogleSheet_API {
     }
     
     // Update Single Row
-    function update_single_row($range, $row) {
+    function update_single_row($ranges_value, $row) {
         
         $service = new Google_Service_Sheets($this->client);
         
+        foreach($ranges_value as $range => $value) {
+            
+            $data[] = new Google_Service_Sheets_ValueRange([
+                'range' => $range,
+                'values' => [$value],
+                // 'majorDimension' => 'COLUMNS',
+            ]);
+        }
         
-        $data[] = new Google_Service_Sheets_ValueRange([
-            'range' => $range,
-            'values' => [$row]
-        ]);
-        
-        // wcgs_pa($data);
+        // wcgs_pa($data); exit;
         // Additional ranges to update ...
         $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
             'valueInputOption' => "RAW",
             'data' => $data
         ]);
         $result = $service->spreadsheets_values->batchUpdate($this->sheet_id, $body);
-        do_action('wcgs_after_category_synced', $row, $range);
+        do_action('wcgs_after_category_synced', $value, $range);
         // wcgs_pa($result);
     }
     

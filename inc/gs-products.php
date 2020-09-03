@@ -16,6 +16,7 @@ class WCGS_Products {
     function set_mapping($header) {
         
        foreach($header as $order => $key ) {
+            $key = trim($key);
             $this->map[$key] = $order;
         }
         

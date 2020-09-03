@@ -19,7 +19,8 @@ function wcgs_update_termmeta($categories, $sheet_name, $synced_result) {
     
     foreach($categories as $key=>$value){
         // $range = "{$sheet_name}!A{$key}:E{$key}";
-        $range = "{$sheet_name}!{$key}:{$key}";
+        // $range = "{$sheet_name}!{$key}:{$key}";
+        $range = $key;
         
         $termid = $value[0];    // term id
         $metaval = $range;
@@ -64,13 +65,38 @@ function wcgs_update_gsheet_edit_cat($term_id, $tt_id){
     
     if ( !isset($_POST['action']) && $_POST['action'] != 'editedtag') return '';
     
-    $range = get_term_meta($term_id, 'gs_range', true);
-    if( !$range ) return;
+    $row_id = get_term_meta($term_id, 'gs_range', true);
+    if( !$row_id ) return;
+
     $wcapi = new WCGS_WC_API();
     $row = $wcapi->get_category_for_gsheet($term_id);
-    // var_dump($row);
+    
+    $updatable_data = array('name', 'slug', 'parent');
+    $updatable_data = apply_filters('wcgs_category_updatble_data', $updatable_data);
+    
+    $wcapi = new WCGS_WC_API();
+    
+    $header = get_option('wcgs_category_header');
+    // wcgs_pa($header);
+    
+    $ranges_value = array();
+    foreach($updatable_data as $value) {
+        
+        $index = isset($header[$value]) ? $header[$value] : null;
+        if( !$index ) continue;
+        
+        $column = wcgs_get_header_column_by_index($index);
+        
+        if( !isset($row[$index]) || !$column ) continue;
+        
+        $range = "categories!{$column}{$row_id}";
+        $value = [$row[$index]];
+        $ranges_value[$range] = $value; 
+    }
+    
+    // wcgs_pa($ranges_value); exit;
     $gs = new GoogleSheet_API();
-    $gs->update_single_row($range, $row);
+    $gs->update_single_row($ranges_value, $row);
     // exit;
 }
 
@@ -198,7 +224,7 @@ function wcgs_update_product_meta($products, $sheet_name, $synced_result) {
 }
 
 // On product save/update
-// add_action('save_post_product', 'wcgs_update_gsheet_edit_product', 99, 3);
+add_action('save_post_product', 'wcgs_update_gsheet_edit_product', 99, 3);
 function wcgs_update_gsheet_edit_product($id, $product, $update){
     
     // If this is a revision, get real post ID
@@ -208,11 +234,33 @@ function wcgs_update_gsheet_edit_product($id, $product, $update){
     if( $update ) {
         $row_id = get_post_meta($id, 'wcgs_row_id', true);
         if( !$row_id ) return;
-        $range = "products!{$row_id}:{$row_id}";
+        
+        $updatable_data = array('name', 'description', 'short_description', 'sku', 'regular_price', 'sale_price');
+        $updatable_data = apply_filters('wcgs_product_updatble_data', $updatable_data);
+        
         $wcapi = new WCGS_WC_API();
         $row = $wcapi->get_product_for_gsheet($id);
-        // wcgs_pa($range); exit;
+        
+        $header = get_option('wcgs_product_header');
+        // wcgs_pa($header);
+        
+        $ranges_value = array();
+        foreach($updatable_data as $value) {
+            
+            $index = isset($header[$value]) ? $header[$value] : null;
+            if( !$index ) continue;
+            
+            $column = wcgs_get_header_column_by_index($index);
+            
+            if( !isset($row[$index]) || !$column ) continue;
+            
+            $range = "products!{$column}{$row_id}";
+            $value = [$row[$index]];
+            $ranges_value[$range] = $value; 
+        }
+        
+        // wcgs_pa($ranges_value); exit;
         $gs = new GoogleSheet_API();
-        $gs->update_single_row($range, $row);
+        $gs->update_single_row($ranges_value, $row);
     }
 }

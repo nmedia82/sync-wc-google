@@ -17,6 +17,7 @@ define('WCGS_PATH', untrailingslashit(plugin_dir_path( __FILE__ )) );
 define('WCGS_URL', untrailingslashit(plugin_dir_url( __FILE__ )) );
 
 
+include_once WCGS_PATH . "/inc/const.php";
 include_once WCGS_PATH . "/inc/functions.php";
 // include_once wcgc_PATH . "/inc/arrays.php";
 include_once WCGS_PATH . "/inc/admin.php";

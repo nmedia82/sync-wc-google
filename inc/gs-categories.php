@@ -19,6 +19,7 @@ class WCGS_Categories {
     //                     'id','sync','name','slug','parent','description','display','image','menu_order'
     //       ];
        foreach($header as $order => $key ) {
+            $key = trim($key);
             $this->map[$key] = $order;
         }
         
@@ -112,7 +113,6 @@ class WCGS_Categories {
             
             $sync_result = $gs->update_rows('categories', $googleSheetRows);
             do_action('wcgs_after_categories_synced', $googleSheetRows, 'categories', $sync_result);
-            return $result;
         }
         
         $error_message = array();

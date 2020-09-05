@@ -35,7 +35,7 @@ class GoogleSheet_API {
         return $token;
     }
     
-    function getClient()
+    function getClient($authCode=null)
     {
         $client = new Google_Client();
         $client->setApplicationName('NKB Product');
@@ -63,9 +63,21 @@ class GoogleSheet_API {
                 $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
             } else {
                 // Request authorization from the user.
-                $authUrl = $client->createAuthUrl();
                 
-                $this->auth_link = $authUrl;
+                if( $authCode ) {
+                    $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
+                    $client->setAccessToken($accessToken);
+                    
+                    // Check to see if there was an error.
+                    if (array_key_exists('error', $accessToken)) {
+                        throw new Exception(join(', ', $accessToken));
+                    }
+                    
+                    $this->save_token( json_encode($accessToken) );
+                } else {
+                    $authUrl = $client->createAuthUrl();
+                    $this->auth_link = $authUrl;
+                }
             }
         }
         
@@ -75,7 +87,7 @@ class GoogleSheet_API {
     function setAuthCode($authCode) {
         
         $client = new Google_Client();
-        $client->setApplicationName('NKB Online');
+        $client->setApplicationName('NKB Product');
         $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
         $client->setAuthConfig(WCGS_PATH.'/gs-cred.json');
         $client->setAccessType('offline');

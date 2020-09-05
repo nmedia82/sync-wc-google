@@ -23,7 +23,7 @@ function wcgs_google_auth_code( $request ) {
     $authCode = $_GET['code'];
     $gs = new GoogleSheet_API();
     
-    $gs->setAuthCode($authCode);
+    $gs->getClient($authCode);
     
     $url = add_query_arg('wcgs_code', 'added', admin_url());
     wp_redirect($url);

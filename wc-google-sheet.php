@@ -41,7 +41,17 @@ class WC_GOOGLESHEET {
 	    
 	   // add_action ( 'wp_enqueue_scripts', array ($this, 'load_scripts'));
 	   //admin hooks
-	    add_action( 'wp_dashboard_setup', 'wcgs_admin_dashboard' );
+	    // add_action( 'wp_dashboard_setup', 'wcgs_admin_dashboard' );
+	    
+	   // Adding setting tab in WooCommerce
+    	add_filter( 'woocommerce_settings_tabs_array', 'wcgs_add_settings_tab', 50 );
+    	
+    	// Display settings
+    	add_action( 'woocommerce_settings_tabs_wcgs_settings', 'wcgs_settings_tab' );
+    	
+    	// Save settings
+    	add_action( 'woocommerce_update_options_wcgs_settings', 'wcgs_save_settings' );
+	    
 	    
 	    /* == rest api == */
 		add_action( 'rest_api_init', 'wcgs_rest_api_register'); // endpoint url

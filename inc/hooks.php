@@ -235,7 +235,7 @@ function wcgs_update_gsheet_edit_product($id, $product, $update){
         $row_id = get_post_meta($id, 'wcgs_row_id', true);
         if( !$row_id ) return;
         
-        $updatable_data = array('name', 'description', 'short_description', 'sku', 'regular_price', 'sale_price');
+        $updatable_data = array('name', 'description', 'short_description', 'sku', 'regular_price', 'sale_price', 'last_sync');
         $updatable_data = apply_filters('wcgs_product_updatble_data', $updatable_data);
         
         $wcapi = new WCGS_WC_API();
@@ -252,11 +252,11 @@ function wcgs_update_gsheet_edit_product($id, $product, $update){
             
             $column = wcgs_get_header_column_by_index($index);
             
-            if( !isset($row[$index]) || !$column ) continue;
+            if( !$column ) continue;
             
             $range = "products!{$column}{$row_id}";
-            $value = [$row[$index]];
-            $ranges_value[$range] = $value; 
+            $cell_value = $value == 'last_sync' ? [date('Y-m-d h:i:sa', time())] : [$row[$index]];
+            $ranges_value[$range] = $cell_value; 
         }
         
         // wcgs_pa($ranges_value); exit;

@@ -54,6 +54,18 @@ function wcgs_get_attribute_id_from_name( $name ){
     return reset($attribute_id);
 }
 
+function wcgs_get_option($key, $default_val=false) {
+	
+    $value = get_option($key);
+	if( ! $value ) {
+		
+		$value = $default_val;
+	}
+		
+	$value = sprintf(__("%s", 'wcgs') , $value );
+	return $value;
+}
+
 // ignore header keys
 // function wcgs_system_header_keys() {
 //     return ['sync', 'last_sync','last_sync_source'];

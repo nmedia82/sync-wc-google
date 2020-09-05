@@ -31,17 +31,18 @@ function wcgs_add_settings_tab($settings_tabs){
 }
 
 function wcgs_settings_tab(){
-    woocommerce_admin_fields(wcgs_array_settings());
     
     $wcgs_google_credential  = wcgs_get_option('wcgs_google_credential');
     $wcgs_google_id = wcgs_get_option('wcgs_google_id');
     $wcgs_imports_limit = wcgs_get_option('wcgs_imports_limit');
+    $wcgs_redirect_url = wcgs_get_option('wcgs_redirect_url');
     
-    if(!empty($wcgs_google_credential) && !empty($wcgs_google_id) && !empty($wcgs_imports_limit)){
+    if(!empty($wcgs_google_credential) && !empty($wcgs_google_id) && !empty($wcgs_imports_limit) && !empty($wcgs_redirect_url)){
         
         wcgs_admin_render_sync_widget();
     }
     
+    woocommerce_admin_fields(wcgs_array_settings());
 }
 
 function wcgs_save_settings(){
@@ -76,6 +77,15 @@ function wcgs_array_settings() {
             'desc'		=> __( 'Paste here the Google Sheet ID to import products/categories from', 'wcgs' ),
             'default'	=> __('', 'wcgs'),
             'id'		=> 'wcgs_google_id',
+            'css'   	=> 'min-width:300px;',
+			'desc_tip'	=> true,
+        ),
+        array(
+            'title'		=> __( 'Redirect URL:', 'wcgs' ),
+            'type'		=> 'text',
+            'desc'		=> __( '', 'wcgs' ),
+            'default'	=> __('', 'wcgs'),
+            'id'		=> 'wcgs_redirect_url',
             'css'   	=> 'min-width:300px;',
 			'desc_tip'	=> true,
         ),

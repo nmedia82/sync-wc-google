@@ -187,7 +187,8 @@ function wcgs_product_images_data($images, $row){
     if( ! $images ) return $images;
     $make_array = explode(',', $images);
     $images = array_map(function ($image) {
-        $img['src'] = $image;
+        // $img['src'] = $image;
+        $img['id'] = $image;
         return $img;
     }, $make_array);
     // wcgs_pa($images);

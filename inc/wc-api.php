@@ -10,10 +10,24 @@
      
      function __Construct() {
          
-         $this->woocommerce = new Client(
-            'https://nmdevteam.com/ppom', // Your store URL
-            'ck_8dc8e9e966ae812bb96d180e885e038d7c7d9848', // Your consumer key
-            'cs_3d7d2f36bcea3ddd043fa643c5550e3a3f416672', // Your consumer secret
+        //  PPOM DEV
+        //  $this->woocommerce = new Client(
+        //     'https://nmdevteam.com/ppom', // Your store URL
+        //     'ck_8dc8e9e966ae812bb96d180e885e038d7c7d9848', // Your consumer key
+        //     'cs_3d7d2f36bcea3ddd043fa643c5550e3a3f416672', // Your consumer secret
+        //     [
+        //         'wp_api' => true, // Enable the WP REST API integration
+        //         'version' => 'wc/v3', // WooCommerce WP REST API version
+        //         'timeout' => 0,
+        //         'verify_ssl'=> false
+        //     ]
+        // );
+        
+        // NKB Store
+        $this->woocommerce = new Client(
+            'https://nkbonline.com', // Your store URL
+            'ck_f70c9c9f1135af2cdf3910865e2f6811396e7b68', // Your consumer key
+            'cs_5de77a30f6d2df644a9c97d2b3b15bec4abf0f23', // Your consumer secret
             [
                 'wp_api' => true, // Enable the WP REST API integration
                 'version' => 'wc/v3', // WooCommerce WP REST API version
@@ -21,16 +35,6 @@
                 'verify_ssl'=> false
             ]
         );
-        
-        // $this->woocommerce = new Client(
-        //     'https://nkbonline.com', // Your store URL
-        //     'ck_0c1571865748cc0db5da8e5e8b7b6ff92b855603', // Your consumer key
-        //     'cs_82520d88a76004cb7b25f296aa7c0042e7e8dd9a', // Your consumer secret
-        //     [
-        //         'wp_api' => true, // Enable the WP REST API integration
-        //         'version' => 'wc/v3' // WooCommerce WP REST API version
-        //     ]
-        // );
      }
      
      
@@ -95,12 +99,17 @@
      function update_products_batch($data, $gs_rows) {
          
          // ini_set('default_socket_timeout', 500);
-         $response = $this->woocommerce->post('products/batch', $data);
-         // wcgs_pa($response);
+         
+         $errors_found = array();
+        //   wcgs_pa($data); exit;
+        try {
+            $response = $this->woocommerce->post('products/batch', $data);
+        } catch(HttpClientException $e) {
+            $errors_found[] = $e->getMessage();
+        }
         
          // Getting Rows to update Google Sheet
          $googleSheetRow = array();
-         $errors_found = array();
          if( isset($response->create) ) {
              foreach($response->create as $item){
                  

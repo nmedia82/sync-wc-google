@@ -122,7 +122,7 @@ function wcgs_update_gsheet_delete_cat($term_id, $taxonomy){
  * ============= Product Row Data Filter Sheet ==> WC API =================
  * **/
 // short_descriptions esc_html
-add_filter('wcgs_row_data_short_description', 'wcgs_product_short_description_data', 2, 99);
+// add_filter('wcgs_row_data_short_description', 'wcgs_product_short_description_data', 2, 99);
 function wcgs_product_short_description_data($description, $row){
     
     if( ! $description ) return $description;
@@ -142,6 +142,20 @@ function wcgs_product_category_data($categories, $row){
     }, $make_array);
     // wcgs_pa($categories);
     return $categories;
+}
+
+// Categories
+add_filter('wcgs_row_data_tags', 'wcgs_product_tags_data', 2, 99);
+function wcgs_product_tags_data($tags, $row){
+    
+    if( ! $tags ) return $tags;
+    $make_array = explode(',', $tags);
+    $tags = array_map(function ($category) {
+        $cat['id'] = $category;
+        return $cat;
+    }, $make_array);
+    // wcgs_pa($tags);
+    return $tags;
 }
 // Attributes
 add_filter('wcgs_row_data_attributes', 'wcgs_product_attribute_data', 2, 99);

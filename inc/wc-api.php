@@ -107,9 +107,9 @@
                  if( isset($item->error) ) {
                     $errors_found[] = $item;
                  } else {
-                    if( !isset($item->meta_data[0]) && $item->meta_data[0]->key !== 'wcgs_row_id' ) continue;
-                    $rowNo = $item->meta_data[0]->value;
-                    // if( !isset($rowRef[$item->name]) ) continue;
+                    $key_found = array_search('wcgs_row_id', array_column($item->meta_data, 'key'));
+                    if( $key_found === false ) continue;
+                    $rowNo = $item->meta_data[$key_found]->value;
                     $googleSheetRow[$rowNo] = [$item->id, 1];
                  }
                  
@@ -123,9 +123,9 @@
                  if( isset($item->error) ) {
                     $errors_found[] = $item;
                  } else {
-                    if( !isset($item->meta_data[0]) && $item->meta_data[0]->key !== 'wcgs_row_id' ) continue;
-                    $rowNo = $item->meta_data[0]->value;
-                    // if( !isset($rowRef[$item->name]) ) continue;
+                    $key_found = array_search('wcgs_row_id', array_column($item->meta_data, 'key'));
+                    if( $key_found === false ) continue;
+                    $rowNo = $item->meta_data[$key_found]->value;
                     $googleSheetRow[$rowNo] = [$item->id, 1];
                  }
                  

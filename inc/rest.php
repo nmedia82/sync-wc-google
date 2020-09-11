@@ -25,7 +25,7 @@ function wcgs_google_auth_code( $request ) {
     
     $gs->getClient($authCode);
     
-    $url = add_query_arg('wcgs_code', 'added', admin_url());
+    $url = add_query_arg('wcgs_code', 'added', WCGS_SETTING_URL);
     wp_redirect($url);
     exit;
 }

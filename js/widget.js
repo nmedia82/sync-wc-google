@@ -6,12 +6,14 @@ jQuery(function($) {
 
         e.preventDefault();
 
+        $("#wcgs_working").html('Please wait ...');
+
         const sheet_name = $("#sheet_name").val();
         const data = { 'action': 'wcgs_sync_categories', 'sheet': sheet_name };
         $.post(ajaxurl, data, function(response) {
 
             console.log(response);
-            document.getElementById("wcgs_log_data").textContent = JSON.stringify(response, undefined, 2);
+            document.getElementById("wcgs_working").textContent = JSON.stringify(response, undefined, 2);
         }, 'json')
 
     });

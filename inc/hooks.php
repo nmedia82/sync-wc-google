@@ -90,7 +90,7 @@ function wcgs_update_gsheet_edit_cat($term_id, $tt_id){
         if( !isset($row[$index]) || !$column ) continue;
         
         $range = "categories!{$column}{$row_id}";
-        $value = [$row[$index]];
+        $value = [ wp_specialchars_decode($row[$index]) ];
         $ranges_value[$range] = $value; 
     }
     
@@ -250,7 +250,7 @@ function wcgs_update_gsheet_edit_product($id, $product, $update){
         $row_id = get_post_meta($id, 'wcgs_row_id', true);
         if( !$row_id ) return;
         
-        $updatable_data = array('name', 'description', 'short_description', 'sku', 'regular_price', 'sale_price', 'last_sync');
+        $updatable_data = array('name', 'description', 'status', 'short_description', 'sku', 'regular_price', 'sale_price', 'last_sync');
         $updatable_data = apply_filters('wcgs_product_updatble_data', $updatable_data);
         
         $wcapi = new WCGS_WC_API();
@@ -270,7 +270,7 @@ function wcgs_update_gsheet_edit_product($id, $product, $update){
             if( !$column ) continue;
             
             $range = "products!{$column}{$row_id}";
-            $cell_value = $value == 'last_sync' ? [date('Y-m-d h:i:sa', time())] : [$row[$index]];
+            $cell_value = $value == 'last_sync' ? [date('Y-m-d h:i:sa', time())] : [ wp_specialchars_decode($row[$index]) ];
             $ranges_value[$range] = $cell_value; 
         }
         

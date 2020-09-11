@@ -23,7 +23,7 @@ function wcgs_admin_render_sync_widget() {
     wp_localize_script('wcgs-widget', 'wcgs_widget_vars', $wcgs_js_vars);
     
     wcgs_load_template_file('admin/google-sheet-widget.php');
- }
+}
 
 function wcgs_add_settings_tab($settings_tabs){
     $settings_tabs['wcgs_settings'] = __( 'Google Products', 'wcgs' );
@@ -33,11 +33,11 @@ function wcgs_add_settings_tab($settings_tabs){
 function wcgs_settings_tab(){
     
     $wcgs_google_credential  = wcgs_get_option('wcgs_google_credential');
-    $wcgs_google_id = wcgs_get_option('wcgs_google_id');
+    $wcgs_googlesheet_id = wcgs_get_option('wcgs_googlesheet_id');
     $wcgs_imports_limit = wcgs_get_option('wcgs_imports_limit');
-    $wcgs_redirect_url = wcgs_get_option('wcgs_redirect_url');
+    $wcgs_redirect_url = get_rest_url(null, 'nkb/v1/auth');
     
-    if(!empty($wcgs_google_credential) && !empty($wcgs_google_id) && !empty($wcgs_imports_limit) && !empty($wcgs_redirect_url)){
+    if(!empty($wcgs_google_credential) && !empty($wcgs_googlesheet_id) && !empty($wcgs_imports_limit) && !empty($wcgs_redirect_url)){
         
         wcgs_admin_render_sync_widget();
     }
@@ -56,10 +56,10 @@ function wcgs_array_settings() {
 	$wcgs_settings = array(
        
 		array(
-			'title' => '',
+			'title' => 'Google Credentials',
 			'type'  => 'title',
 			'desc'	=> __(''),
-			'id'    => 'wcgs_labels_settings',
+			'id'    => 'wcgs_google_creds',
 		),
 		
 		array(
@@ -76,17 +76,18 @@ function wcgs_array_settings() {
             'type'		=> 'text',
             'desc'		=> __( 'Paste here the Google Sheet ID to import products/categories from', 'wcgs' ),
             'default'	=> __('', 'wcgs'),
-            'id'		=> 'wcgs_google_id',
+            'id'		=> 'wcgs_googlesheet_id',
             'css'   	=> 'min-width:300px;',
 			'desc_tip'	=> true,
         ),
         array(
             'title'		=> __( 'Redirect URL:', 'wcgs' ),
             'type'		=> 'text',
-            'desc'		=> __( '', 'wcgs' ),
-            'default'	=> __('', 'wcgs'),
+            'desc'		=> __( 'Copy this redirect URL and paste into Google credentials as per guide.', 'wcgs' ),
+            'default'	=> get_rest_url(null, 'nkb/v1/auth'),
             'id'		=> 'wcgs_redirect_url',
             'css'   	=> 'min-width:300px;',
+            'custom_attributes' => array('readonly' => 'readonly'),
 			'desc_tip'	=> true,
         ),
         array(
@@ -105,11 +106,60 @@ function wcgs_array_settings() {
             
         array(
 			'type' => 'sectionend',
-			'id'   => 'wcgs_pro',
+			'id'   => 'wcgs_google_creds',
+		),
+		
+		array(
+			'title' => 'WooCommerce API Credentials',
+			'type'  => 'title',
+			'desc'	=> __(''),
+			'id'    => 'wcgs_woocommerce_creds',
+		),
+		
+		array(
+            'title'		=> __( 'WooCommerce Consumer Key:', 'wcgs' ),
+            'type'		=> 'text',
+            'desc'		=> __( 'WooCommerce Consumer Key generated from REST API', 'wcgs' ),
+            'default'	=> __('', 'wcgs'),
+            'id'		=> 'wcgs_wc_ck',
+            'css'   	=> 'min-width:300px;',
+			'desc_tip'	=> true,
+        ),
+        
+        array(
+            'title'		=> __( 'WooCommerce Secret Key:', 'wcgs' ),
+            'type'		=> 'text',
+            'desc'		=> __( 'WooCommerce Secret Key generated from REST API', 'wcgs' ),
+            'default'	=> __('', 'wcgs'),
+            'id'		=> 'wcgs_wc_sk',
+            'css'   	=> 'min-width:300px;',
+			'desc_tip'	=> true,
+        ),
+        
+        array(
+			'type' => 'sectionend',
+			'id'   => 'wcgs_woocommerce_creds',
 		),
     	);
         
         
 	return apply_filters('wcgs_settings_data', $wcgs_settings);
 		
+}
+
+// Show notices
+function wcgs_admin_show_notices() {
+    
+    if ( $resp_notices = get_transient( "wcgs_admin_notices" ) ) {
+		?>
+		<div id="message" class="<?php echo $resp_notices['class']; ?> updated notice is-dismissible">
+		    <p><?php echo $resp_notices['message']; ?></p>
+			<button type="button" class="notice-dismiss">
+				<span class="screen-reader-text"><?php _e( 'Dismiss this notice', 'ppom' ); ?></span>
+			</button>
+		</div>
+	<?php
+	
+	    delete_transient("wcgs_admin_notices");
+	}
 }

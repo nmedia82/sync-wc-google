@@ -15,6 +15,7 @@
 // CONSTANTS
 define('WCGS_PATH', untrailingslashit(plugin_dir_path( __FILE__ )) );
 define('WCGS_URL', untrailingslashit(plugin_dir_url( __FILE__ )) );
+define('WCGS_SETTING_URL', admin_url( 'admin.php?page=wc-settings&tab=wcgs_settings' ) );
 
 
 include_once WCGS_PATH . "/inc/const.php";
@@ -55,6 +56,23 @@ class WC_GOOGLESHEET {
 	    
 	    /* == rest api == */
 		add_action( 'rest_api_init', 'wcgs_rest_api_register'); // endpoint url
+		
+		$plugin = plugin_basename( __FILE__ );
+		add_filter( "plugin_action_links_$plugin", array($this, 'settings_plugin') );
+		
+		// Admin notices
+		add_action( 'admin_notices', 'wcgs_admin_show_notices' );
+	}
+	
+	
+	function settings_plugin( $links ) {
+		$setting_title  = __('Plugin Settings', 'twoco');
+	    $video_title    = __('Video Guide', 'twoco');
+	    $settings_link  = sprintf(__('<a href="%s">%s</a>','twoco'), WCGS_SETTING_URL, $setting_title);
+	    $video_url      = 'https://najeebmedia.com/';
+	    $video_guide  = sprintf(__('<a target="_blank" href="%s">%s</a>','twoco'), $video_url, $video_title);
+	  	array_push( $links, $settings_link, $video_guide );
+	  	return $links;
 	}
 	
 	public static function get_instance()

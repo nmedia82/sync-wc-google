@@ -19,7 +19,7 @@
   
   echo '<a class="button button-primary" href="#" id="wcgs-sync-categories">Sync Categories</a>';
   
-  echo '<pre id="wcgs_log_data"></pre>';
+  echo '<pre id="wcgs_working"></pre>';
    // $gs->getSheetInfo();
    
    // wcgs_pa($googleSheetRows); exit;

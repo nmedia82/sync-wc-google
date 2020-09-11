@@ -17,11 +17,11 @@ class GoogleSheet_API {
             delete_option('wcgs_token');
         }
         
-        
-        $this->token_path = WCGS_PATH.'/token.js';
+        $gs_sheet_id = wcgs_get_option('wcgs_googlesheet_id');
         $this->auth_link = '';
         $this->client = $this->getClient();
-        $this->sheet_id = '17uEHwuto1CfmXC9J0GMqPkZXtaCga7UCIaVxgAiZihs'; // NKB Products
+        $this->sheet_id = $gs_sheet_id;
+        // $this->sheet_id = '17uEHwuto1CfmXC9J0GMqPkZXtaCga7UCIaVxgAiZihs'; // NKB Products
         // $this->sheet_id = '1sA55ZG3uo8JLr8eKyDkim0B2QcC1OtVVr26zufW0Fwo'; // Example GS
         // $this->sheet_id = '17uEHwuto1CfmXC9J0GMqPkZXtaCga7UCIaVxgAiZihs'; // NKB Product
     }
@@ -41,10 +41,15 @@ class GoogleSheet_API {
         $client->setApplicationName('NKB Product');
         // FullAccess
         $client->setScopes(Google_Service_Sheets::SPREADSHEETS);
-        // $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
-        $client->setAuthConfig(WCGS_PATH.'/gs-cred.json');
-        $client->setAccessType('offline');
-        $client->setRedirectUri('https://nmdevteam.com/ppom/wp-json/nkb/v1/auth');
+        
+        $gs_credentials = wcgs_get_option('wcgs_google_credential');
+        $gs_credentials = json_decode($gs_credentials, true);
+        $gs_redirect_uri = wcgs_get_option('wcgs_redirect_url');
+        
+        $client->setAuthConfig( $gs_credentials );
+        $client->setAccessType ("offline");
+        $client->setApprovalPrompt ("force");
+        $client->setRedirectUri($gs_redirect_uri);
         // $client->setPrompt('select_account consent');
     
         // Load previously authorized token from a file, if it exists.
@@ -59,6 +64,7 @@ class GoogleSheet_API {
         // If there is no previous token or it's expired.
         if ($client->isAccessTokenExpired()) {
             // Refresh the token if possible, else fetch a new one.
+            // var_dump($client->getRefreshToken());
             if ($client->getRefreshToken()) {
                 $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
             } else {
@@ -84,7 +90,7 @@ class GoogleSheet_API {
         return $client;
     }
     
-    function setAuthCode($authCode) {
+    /*function setAuthCode($authCode) {
         
         $client = new Google_Client();
         $client->setApplicationName('NKB Product');
@@ -102,14 +108,10 @@ class GoogleSheet_API {
             throw new Exception(join(', ', $accessToken));
         }
         
-        // Save the token to a file.
-        // if (!file_exists(dirname($this->token_path))) {
-        //     mkdir(dirname($this->token_path), 0700, true);
-        // }
-        // file_put_contents($this->token_path, json_encode($client->getAccessToken()));
+        
         $this->save_token( json_encode($accessToken) ); 
         // $this->setSheetInfo();
-    }
+    }*/
     
     
     function setSheetInfo() {
@@ -135,112 +137,162 @@ class GoogleSheet_API {
     // Get sheet values
     function get_sheet_rows($range) {
         
-        $service = new Google_Service_Sheets($this->client);
-
-        $response = $service->spreadsheets_values->get($this->sheet_id, $range);
-        $values = $response->getValues();
-        return $values;
+        try{
+            
+            $service = new Google_Service_Sheets($this->client);
+    
+            $response = $service->spreadsheets_values->get($this->sheet_id, $range);
+            $values = $response->getValues();
+            return $values;
+        }
+        catch (\Exception $e)
+        {
+            // wcgs_pa($e);
+            set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
+        }
     }
     
     
     function add_row($sheet_name, $row) {
         
-        $service = new Google_Service_Sheets($this->client);
-        // Create the value range Object
-        $valueRange= new Google_Service_Sheets_ValueRange();
-        
-        // You need to specify the values you insert
-        $valueRange->setValues(["values" => $row]); // Add two values
-        $range = "{$sheet_name}";
-        
-        // Then you need to add some configuration
-        $conf = ["valueInputOption" => "RAW"];
-        
-        // Update the spreadsheet
-        $result = $service->spreadsheets_values->append($this->sheet_id, $range, $valueRange, $conf);
-        return $result->getUpdates()->getUpdatedRange();
+        try{
+            
+            $service = new Google_Service_Sheets($this->client);
+            // Create the value range Object
+            $valueRange= new Google_Service_Sheets_ValueRange();
+            
+            // You need to specify the values you insert
+            $valueRange->setValues(["values" => $row]); // Add two values
+            $range = "{$sheet_name}";
+            
+            // Then you need to add some configuration
+            $conf = ["valueInputOption" => "RAW"];
+            
+            // Update the spreadsheet
+            $result = $service->spreadsheets_values->append($this->sheet_id, $range, $valueRange, $conf);
+            return $result->getUpdates()->getUpdatedRange();
+        }
+        catch (\Exception $e)
+        {
+            // wcgs_pa($e);
+            set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
+        }
         
     }
     
     function update_rows($sheet_name, $Rows) {
         
-        $service = new Google_Service_Sheets($this->client);
-        
-        $end = count($Rows)+1;
-        global $wpdb;
-        
-        $values = [];
-        $data = [];
-        foreach($Rows as $key=>$value){
-            $range = "{$sheet_name}!A{$key}:B{$key}";
-            $values[] = $value;
+        try {
             
-            $data[] = new Google_Service_Sheets_ValueRange([
-                'range' => $range,
-                'values' => [$value]
+            $service = new Google_Service_Sheets($this->client);
+            
+            $end = count($Rows)+1;
+            global $wpdb;
+            
+            $values = [];
+            $data = [];
+            foreach($Rows as $key=>$value){
+                $range = "{$sheet_name}!A{$key}:B{$key}";
+                $values[] = $value;
+                
+                $data[] = new Google_Service_Sheets_ValueRange([
+                    'range' => $range,
+                    'values' => [$value]
+                ]);
+            }
+            
+            // wcgs_pa($data);
+            // Additional ranges to update ...
+            $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
+                'valueInputOption' => "RAW",
+                'data' => $data
             ]);
+            $result = $service->spreadsheets_values->batchUpdate($this->sheet_id, $body);
+            return $result;
+        }
+        catch (\Exception $e)
+        {
+            // wcgs_pa($e);
+            set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
         }
         
-        // wcgs_pa($data);
-        // Additional ranges to update ...
-        $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
-            'valueInputOption' => "RAW",
-            'data' => $data
-        ]);
-        $result = $service->spreadsheets_values->batchUpdate($this->sheet_id, $body);
-        return $result;
         // wcgs_pa($result);
     }
     
     // Update Single Row
     function update_single_row($ranges_value, $row) {
         
-        $service = new Google_Service_Sheets($this->client);
-        
-        foreach($ranges_value as $range => $value) {
+        try{
+            $service = new Google_Service_Sheets($this->client);
             
-            $data[] = new Google_Service_Sheets_ValueRange([
-                'range' => $range,
-                'values' => [$value],
-                // 'majorDimension' => 'COLUMNS',
+            foreach($ranges_value as $range => $value) {
+                
+                $data[] = new Google_Service_Sheets_ValueRange([
+                    'range' => $range,
+                    'values' => [$value],
+                    // 'majorDimension' => 'COLUMNS',
+                ]);
+            }
+            
+            // wcgs_pa($data); exit;
+            // Additional ranges to update ...
+            $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
+                'valueInputOption' => "RAW",
+                'data' => $data
             ]);
+            $result = $service->spreadsheets_values->batchUpdate($this->sheet_id, $body);
+            do_action('wcgs_after_category_synced', $value, $range);
         }
-        
-        // wcgs_pa($data); exit;
-        // Additional ranges to update ...
-        $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
-            'valueInputOption' => "RAW",
-            'data' => $data
-        ]);
-        $result = $service->spreadsheets_values->batchUpdate($this->sheet_id, $body);
-        do_action('wcgs_after_category_synced', $value, $range);
+        catch (\Exception $e)
+        {
+            // wcgs_pa($e);
+            set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
+        }
         // wcgs_pa($result);
     }
     
     // Delete Single Row
     function delete_row($sheetId, $rowNo) {
         
-        $service = new Google_Service_Sheets($this->client);
+        try {
         
-        $start = intval($rowNo)-1;
-        $end   = $start+1;
-        $deleteOperation = array(
-                            'range' => array(
-                                'sheetId'   => $sheetId, // <======= This mean the very first sheet on worksheet
-                                'dimension' => 'ROWS',
-                                'startIndex'=> $start, //Identify the starting point,
-                                'endIndex'  => ($end) //Identify where to stop when deleting
-                            )
-                        );
-        $deletable_row[] = new Google_Service_Sheets_Request(
-                                array('deleteDimension' =>  $deleteOperation)
+            $service = new Google_Service_Sheets($this->client);
+            
+            $start = intval($rowNo)-1;
+            $end   = $start+1;
+            $deleteOperation = array(
+                                'range' => array(
+                                    'sheetId'   => $sheetId, // <======= This mean the very first sheet on worksheet
+                                    'dimension' => 'ROWS',
+                                    'startIndex'=> $start, //Identify the starting point,
+                                    'endIndex'  => ($end) //Identify where to stop when deleting
+                                )
                             );
-                            
-        $body    = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest(array(
-                        'requests' => $deletable_row
-                    )
-                );
-        // wcgs_pa($body);
-        $result = $service->spreadsheets->batchUpdate($this->sheet_id, $body);
+            $deletable_row[] = new Google_Service_Sheets_Request(
+                                    array('deleteDimension' =>  $deleteOperation)
+                                );
+                                
+            $body    = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest(array(
+                            'requests' => $deletable_row
+                        )
+                    );
+            // wcgs_pa($body);
+            $result = $service->spreadsheets->batchUpdate($this->sheet_id, $body);
+        }
+        catch (\Exception $e)
+        {
+            // wcgs_pa($e);
+            set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
+        }
+    }
+    
+    
+    //parse the error message
+    function parse_message($e) {
+        
+        $object = json_decode($e->getMessage(), true);
+        $result['message'] = isset($object['error']['message']) ? "Google Sheet API Error: ".$object['error']['message'] : '';
+        $result['class'] = 'error';
+        return $result;
     }
 }

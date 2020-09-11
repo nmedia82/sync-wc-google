@@ -62,7 +62,7 @@ function wcgs_get_option($key, $default_val=false) {
 		$value = $default_val;
 	}
 		
-	$value = sprintf(__("%s", 'wcgs') , $value );
+	$value = sprintf(__("%s", 'wcgs') , trim($value) );
 	return $value;
 }
 

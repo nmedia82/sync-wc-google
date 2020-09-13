@@ -96,7 +96,7 @@ class WCGS_Products {
         $products = $this->get_data();
         // wcgs_pa($products); exit;
         
-        if( ! $products ) return ['message'=>'No data to sync'];
+        if( ! $products ) return ['no_sync'=>true];
        
         $wcapi = new WCGS_WC_API();
         $googleSheetRows = $wcapi->update_products_batch($products, $this->rows);

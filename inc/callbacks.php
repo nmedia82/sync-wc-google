@@ -27,5 +27,29 @@ function wcgs_sync_categories() {
         
     }
     
-    wp_send_json($sync_result);
+    $response = array();
+    $response['raw'] = $sync_result;
+    // parse erros
+    if( $sync_result['batch_errors']['Batch_Errors'] ){
+        foreach($sync_result['batch_errors']['Batch_Errors'] as $error){
+            $message = sprintf(__("%s - ID (%s) \r\n", 'wcgs'), $error->error->message, $error->id);
+        }
+        
+        $response['status'] = 'error';
+        $response['message'] = $message;
+    } else {
+        
+        $rows_updated = $sync_result['sync_result']['totalUpdatedRows'];
+        if( $rows_updated != null ) {
+            $message = sprintf(__("Total %d Rows updated", 'wcgs'), $rows_updated);
+        }elseif($sync_result['no_sync']){
+            $message = __("No data to sync", "wcgs");
+        }
+        
+        $response['status'] = 'success';
+        $response['message'] = $message;
+        
+    }
+    
+    wp_send_json($response);
 }

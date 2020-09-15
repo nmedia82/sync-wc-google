@@ -1,10 +1,10 @@
 <?php 
 /**
- * Plugin Name: WooCommerce Google Sheet Sync
- * Plugin URI: https://najeebmedia.com 
+ * Plugin Name: WooCommerce Google Sheet Sync - Sync Products
+ * Plugin URI: https://najeebmedia.com/googlesync
  * Description: Sync products by Google Sheets
  * Version: 1.0
- * Author: najeebmedia.com
+ * Author: N-Media
  * Author URI: http://najeebmedia.com
  * /
  * License: GPLv2 or later

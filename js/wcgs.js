@@ -11,7 +11,7 @@ jQuery(function($) {
         work_div.html('Please wait ...');
 
         const sheet_name = $("#sheet_name").val();
-        const data = { 'action': 'wcgs_sync_categories', 'sheet': sheet_name };
+        const data = { 'action': 'wcgs_sync_data', 'sheet': sheet_name };
         $.post(ajaxurl, data, function(response) {
 
             work_div.html('');

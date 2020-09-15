@@ -76,3 +76,101 @@ function wcgs_get_option($key, $default_val=false) {
 //     $header = ['sync' => 1, 'last_sync' => current_datetime(),'last_sync_source'=>get_bloginfo('name')];
 //     return isset($header[$key]) ? $header[$key] : false;
 // }
+
+// WCGS Settings Admin
+function wcgs_array_settings() {
+	
+
+	$wcgs_settings = array(
+       
+		array(
+			'title' => 'Google Credentials',
+			'type'  => 'title',
+			'desc'	=> __(''),
+			'id'    => 'wcgs_google_creds',
+		),
+		
+		array(
+            'title'		=> __( 'Google Credentials:', 'wcgs' ),
+            'type'		=> 'text',
+            'desc'		=> __( 'Copy/paste google credentials you downloaded from Google Console', 'wcgs' ),
+            'default'	=> __('', 'wcgs'),
+            'id'		=> 'wcgs_google_credential',
+            'css'   	=> 'min-width:300px;',
+			'desc_tip'	=> true,
+        ),
+        array(
+            'title'		=> __( 'Google Sheet ID:', 'wcgs' ),
+            'type'		=> 'text',
+            'desc'		=> __( 'Paste here the Google Sheet ID to import products/categories from', 'wcgs' ),
+            'default'	=> __('', 'wcgs'),
+            'id'		=> 'wcgs_googlesheet_id',
+            'css'   	=> 'min-width:300px;',
+			'desc_tip'	=> true,
+        ),
+        array(
+            'title'		=> __( 'Redirect URL:', 'wcgs' ),
+            'type'		=> 'text',
+            'desc'		=> __( 'Copy this redirect URL and paste into Google credentials as per guide.', 'wcgs' ),
+            'default'	=> get_rest_url(null, 'nkb/v1/auth'),
+            'id'		=> 'wcgs_redirect_url',
+            'css'   	=> 'min-width:300px;',
+            'custom_attributes' => array('readonly' => 'readonly'),
+			'desc_tip'	=> true,
+        ),
+        array(
+            'title'             => __( 'Imports Limit', 'wcgs' ),
+            'type'              => 'select',
+            'label'             => __( 'Button', 'wcgs' ),
+            'default'           => 'daily',
+            'options' => array( '20'=>__('20','wcgs'),
+                                '50'=> __('50','wcgs'),
+                              
+                            ),
+            'id'       => 'wcgs_imports_limit',
+            'desc'       => __( 'Set product import limit at a single sync.', 'wcgs' ),
+            'desc_tip'      => true,
+        ),
+            
+        array(
+			'type' => 'sectionend',
+			'id'   => 'wcgs_google_creds',
+		),
+		
+		array(
+			'title' => 'WooCommerce API Credentials',
+			'type'  => 'title',
+			'desc'	=> __(''),
+			'id'    => 'wcgs_woocommerce_creds',
+		),
+		
+		array(
+            'title'		=> __( 'WooCommerce Consumer Key:', 'wcgs' ),
+            'type'		=> 'text',
+            'desc'		=> __( 'WooCommerce Consumer Key generated from REST API', 'wcgs' ),
+            'default'	=> __('', 'wcgs'),
+            'id'		=> 'wcgs_wc_ck',
+            'css'   	=> 'min-width:300px;',
+			'desc_tip'	=> true,
+        ),
+        
+        array(
+            'title'		=> __( 'WooCommerce Secret Key:', 'wcgs' ),
+            'type'		=> 'text',
+            'desc'		=> __( 'WooCommerce Secret Key generated from REST API', 'wcgs' ),
+            'default'	=> __('', 'wcgs'),
+            'id'		=> 'wcgs_wc_sk',
+            'css'   	=> 'min-width:300px;',
+			'desc_tip'	=> true,
+        ),
+        
+        array(
+			'type' => 'sectionend',
+			'id'   => 'wcgs_woocommerce_creds',
+		),
+    	);
+        
+        
+	return apply_filters('wcgs_settings_data', $wcgs_settings);
+		
+}

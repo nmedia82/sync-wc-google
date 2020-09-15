@@ -4,8 +4,8 @@
  * */
 use \AvangateClient\Client;
  
-add_action('wp_ajax_wcgs_sync_categories', 'wcgs_sync_categories');
-function wcgs_sync_categories() {
+add_action('wp_ajax_wcgs_sync_data', 'wcgs_sync_data');
+function wcgs_sync_data() {
     
     // if (defined('DOING_AJAX') && DOING_AJAX)
         // wp_send_json($_POST);

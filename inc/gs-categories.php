@@ -100,7 +100,7 @@ class WCGS_Categories {
         
         $categories = $this->get_data();
         
-        if( ! $categories ) return ['message'=>'No data to sync'];
+        if( ! $categories ) return ['no_sync'=>true];
        
         $wcapi = new WCGS_WC_API();
         $googleSheetRows = $wcapi->update_categories_batch($categories, $this->rowRef, $this->rows);
@@ -121,7 +121,7 @@ class WCGS_Categories {
             delete_transient('wcgs_batch_error');
         }
         
-        $response = ['sync_result'=>$sync_result, 'batch_errors'=>$error_message];
+            $response = ['sync_result'=>$sync_result, 'batch_errors'=>$error_message];
         
         return $response;
     }

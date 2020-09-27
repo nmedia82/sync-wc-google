@@ -40,20 +40,6 @@ function wcgs_get_sheetid_by_title($title) {
     return $sheetId;
 }
 
-/**
- * Get the product attribute ID from the name.
- *
- * @since 3.0.0
- * @param string $name | The name (slug).
- */
-function wcgs_get_attribute_id_from_name( $name ){
-    global $wpdb;
-    $attribute_id = $wpdb->get_col("SELECT attribute_id
-    FROM {$wpdb->prefix}woocommerce_attribute_taxonomies
-    WHERE attribute_name LIKE '$name'");
-    return reset($attribute_id);
-}
-
 function wcgs_get_option($key, $default_val=false) {
 	
     $value = get_option($key);
@@ -80,13 +66,13 @@ function wcgs_get_option($key, $default_val=false) {
 // WCGS Settings Admin
 function wcgs_array_settings() {
 	
-
+    $wcgs_demo_sheet = 'https://docs.google.com/spreadsheets/d/1sA55ZG3uo8JLr8eKyDkim0B2QcC1OtVVr26zufW0Fwo/edit?usp=sharing';
 	$wcgs_settings = array(
        
 		array(
 			'title' => 'Google Credentials',
 			'type'  => 'title',
-			'desc'	=> __(''),
+			'desc'	=> sprintf(__('<a target="_blank" href="%s">Google Demo Sheet</a>', 'wcgs'), $wcgs_demo_sheet),
 			'id'    => 'wcgs_google_creds',
 		),
 		

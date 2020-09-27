@@ -6,6 +6,8 @@
  * */
  
 echo '<div class="wcgs-sync-wrapper woocommmerce">';
+
+// var_dump(get_transient("wcgs_client_error_notices"));
  
 if ( $google_client->auth_link ) {
   printf(__('<a class="button button-primary wcgs-sync-btn" href="%s">%s</a>','wcgs'), esc_url($google_client->auth_link), "Authorize Google Account");

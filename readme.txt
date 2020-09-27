@@ -18,8 +18,8 @@ Import/sync all of your products and categories from Google Sheet. Add your prod
 
 Just a single click reqruied to import all your products and categories in any store.
 
-= Demo =
-[youtube https://www.youtube.com/watch?v=n6Fr6vbIgVw]
+= How It Works? =
+[youtube https://www.youtube.com/watch?v=XISi_zL96Lw]
 
 = Features =
 * One Click Import
@@ -37,7 +37,7 @@ Just a single click reqruied to import all your products and categories in any s
 = Should I need to connect with my own Google Account? =
 Yes
 = How to setup this? =
-[Watch this Step by Step Guide](https://www.youtube.com/watch?v=n6Fr6vbIgVw)
+[Watch this Step by Step Guide](https://youtu.be/uw7xzgd54ME)
 
 == Screenshots ==
 1. Plugin Settings

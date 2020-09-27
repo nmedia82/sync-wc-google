@@ -18,8 +18,7 @@ function wcgs_update_termmeta($categories, $sheet_name, $synced_result) {
     $metakey = 'gs_range';
     
     foreach($categories as $key=>$value){
-        // $range = "{$sheet_name}!A{$key}:E{$key}";
-        // $range = "{$sheet_name}!{$key}:{$key}";
+        
         $range = $key;
         
         $termid = $value[0];    // term id

@@ -28,7 +28,7 @@ function wcgs_admin_render_sync_widget($gs) {
 }
 
 function wcgs_add_settings_tab($settings_tabs){
-    $settings_tabs['wcgs_settings'] = __( 'Google Products', 'wcgs' );
+    $settings_tabs['wcgs_settings'] = __( 'Google Sync', 'wcgs' );
     return $settings_tabs;
 }
 
@@ -46,9 +46,9 @@ function wcgs_settings_tab(){
     }
     
     // if not authorized, no settings
-    if( ! $gs->auth_link ) {
-        woocommerce_admin_fields(wcgs_array_settings());
-    }
+    woocommerce_admin_fields(wcgs_array_settings());
+    // if( ! $gs->auth_link ) {
+    // }
 }
 
 function wcgs_save_settings(){

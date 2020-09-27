@@ -15,11 +15,9 @@
         
         //  PPOM DEV
          $this->woocommerce = new Client(
-            'https://nmdevteam.com/ppom', // Your store URL
+            get_site_url(), // Your store URL
             $wcgs_ck,
             $wcgs_sk,
-            // 'ck_8dc8e9e966ae812bb96d180e885e038d7c7d9848', // Your consumer key
-            // 'cs_3d7d2f36bcea3ddd043fa643c5550e3a3f416672', // Your consumer secret
             [
                 'wp_api' => true, // Enable the WP REST API integration
                 'version' => 'wc/v3', // WooCommerce WP REST API version
@@ -27,19 +25,6 @@
                 'verify_ssl'=> false
             ]
         );
-        
-        // NKB Store
-        // $this->woocommerce = new Client(
-        //     'https://nkbonline.com', // Your store URL
-        //     'ck_f70c9c9f1135af2cdf3910865e2f6811396e7b68', // Your consumer key
-        //     'cs_5de77a30f6d2df644a9c97d2b3b15bec4abf0f23', // Your consumer secret
-        //     [
-        //         'wp_api' => true, // Enable the WP REST API integration
-        //         'version' => 'wc/v3', // WooCommerce WP REST API version
-        //         'timeout' => 0,
-        //         'verify_ssl'=> false
-        //     ]
-        // );
      }
      
      

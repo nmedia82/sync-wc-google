@@ -19,7 +19,14 @@ class GoogleSheet_API {
         
         $gs_sheet_id = wcgs_get_option('wcgs_googlesheet_id');
         $this->auth_link = '';
-        $this->client = $this->getClient();
+        $this->need_auth = false;
+        
+        if( $this->getClient() !== null ) {
+            $this->client = $this->getClient();
+        }else{
+            delete_option('wcgs_token');
+        }
+            
         $this->sheet_id = $gs_sheet_id;
         // $this->sheet_id = '17uEHwuto1CfmXC9J0GMqPkZXtaCga7UCIaVxgAiZihs'; // NKB Products
         // $this->sheet_id = '1sA55ZG3uo8JLr8eKyDkim0B2QcC1OtVVr26zufW0Fwo'; // Example GS
@@ -37,82 +44,66 @@ class GoogleSheet_API {
     
     function getClient($authCode=null)
     {
-        $client = new Google_Client();
-        $client->setApplicationName('NKB Product');
-        // FullAccess
-        $client->setScopes(Google_Service_Sheets::SPREADSHEETS);
+        try{
+            
+            $client = new Google_Client();
+            $client->setApplicationName('NKB Product');
+            // FullAccess
+            $client->setScopes(Google_Service_Sheets::SPREADSHEETS);
+            
+            $gs_credentials = wcgs_get_option('wcgs_google_credential');
+            $gs_credentials = json_decode($gs_credentials, true);
+            $gs_redirect_uri = wcgs_get_option('wcgs_redirect_url');
+            
+            $client->setAuthConfig( $gs_credentials );
+            $client->setAccessType ("offline");
+            $client->setApprovalPrompt ("force");
+            $client->setRedirectUri($gs_redirect_uri);
+            // $client->setPrompt('select_account consent');
         
-        $gs_credentials = wcgs_get_option('wcgs_google_credential');
-        $gs_credentials = json_decode($gs_credentials, true);
-        $gs_redirect_uri = wcgs_get_option('wcgs_redirect_url');
+            // Load previously authorized token from a file, if it exists.
+            // The file token.json stores the user's access and refresh tokens, and is
+            // created automatically when the authorization flow completes for the first
+            // time.
+            if ($token = $this->get_token()) {
+                $accessToken = json_decode($token, true);
+                $client->setAccessToken($accessToken);
+            }
         
-        $client->setAuthConfig( $gs_credentials );
-        $client->setAccessType ("offline");
-        $client->setApprovalPrompt ("force");
-        $client->setRedirectUri($gs_redirect_uri);
-        // $client->setPrompt('select_account consent');
-    
-        // Load previously authorized token from a file, if it exists.
-        // The file token.json stores the user's access and refresh tokens, and is
-        // created automatically when the authorization flow completes for the first
-        // time.
-        if ($token = $this->get_token()) {
-            $accessToken = json_decode($token, true);
-            $client->setAccessToken($accessToken);
-        }
-    
-        // If there is no previous token or it's expired.
-        if ($client->isAccessTokenExpired()) {
-            // Refresh the token if possible, else fetch a new one.
-            // var_dump($client->getRefreshToken());
-            if ($client->getRefreshToken()) {
-                $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-            } else {
-                // Request authorization from the user.
-                
-                if( $authCode ) {
-                    $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
-                    $client->setAccessToken($accessToken);
-                    
-                    // Check to see if there was an error.
-                    if (array_key_exists('error', $accessToken)) {
-                        throw new Exception(join(', ', $accessToken));
-                    }
-                    
-                    $this->save_token( json_encode($accessToken) );
+            // If there is no previous token or it's expired.
+            if ($client->isAccessTokenExpired()) {
+                // Refresh the token if possible, else fetch a new one.
+                // var_dump($client->getRefreshToken());
+                if ($client->getRefreshToken()) {
+                    $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
                 } else {
-                    $authUrl = $client->createAuthUrl();
-                    $this->auth_link = $authUrl;
+                    // Request authorization from the user.
+                    
+                    if( $authCode ) {
+                        $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
+                        $client->setAccessToken($accessToken);
+                        
+                        // Check to see if there was an error.
+                        if (array_key_exists('error', $accessToken)) {
+                            throw new Exception(join(', ', $accessToken));
+                        }
+                        
+                        $this->save_token( json_encode($accessToken) );
+                    } else {
+                        $authUrl = $client->createAuthUrl();
+                        $this->auth_link = $authUrl;
+                    }
                 }
             }
+            
+            delete_transient("wcgs_client_error_notices");
+            return $client;
+        }catch (\Exception $e)
+        {
+            wcgs_pa(json_decode($e->getMessage(), true));
+            set_transient("wcgs_client_error_notices", $this->parse_message($e), 30);
         }
-        
-        return $client;
     }
-    
-    /*function setAuthCode($authCode) {
-        
-        $client = new Google_Client();
-        $client->setApplicationName('NKB Product');
-        $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
-        $client->setAuthConfig(WCGS_PATH.'/gs-cred.json');
-        $client->setAccessType('offline');
-        $client->setRedirectUri('https://nmdevteam.com/ppom/wp-json/nkb/v1/auth');
-        // $client->setPrompt('select_account consent');
-        // Exchange authorization code for an access token.
-        $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
-        $client->setAccessToken($accessToken);
-
-        // Check to see if there was an error.
-        if (array_key_exists('error', $accessToken)) {
-            throw new Exception(join(', ', $accessToken));
-        }
-        
-        
-        $this->save_token( json_encode($accessToken) ); 
-        // $this->setSheetInfo();
-    }*/
-    
     
     function setSheetInfo() {
         

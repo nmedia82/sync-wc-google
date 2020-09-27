@@ -20,7 +20,6 @@ define('WCGS_SETTING_URL', admin_url( 'admin.php?page=wc-settings&tab=wcgs_setti
 
 include_once WCGS_PATH . "/inc/const.php";
 include_once WCGS_PATH . "/inc/functions.php";
-// include_once wcgc_PATH . "/inc/arrays.php";
 include_once WCGS_PATH . "/inc/admin.php";
 include_once WCGS_PATH . "/inc/wc-api.php";
 include_once WCGS_PATH . "/inc/gs-api.php";

@@ -10,7 +10,7 @@ function wcgs_sync_data() {
     // if (defined('DOING_AJAX') && DOING_AJAX)
         // wp_send_json($_POST);
     
-    $sheet_name = isset($_POST['sheet']) ? $_POST['sheet'] : '';
+    $sheet_name = isset($_POST['sheet']) ? sanitize_text_field($_POST['sheet']) : '';
     
     $sync_result = null;
     

@@ -15,10 +15,7 @@ class WCGS_Categories {
     
     function set_mapping($header) {
         
-    //   $category_header = [
-    //                     'id','sync','name','slug','parent','description','display','image','menu_order'
-    //       ];
-       foreach($header as $order => $key ) {
+        foreach($header as $order => $key ) {
             $key = trim($key);
             $this->map[$key] = $order;
         }

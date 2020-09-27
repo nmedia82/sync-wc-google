@@ -1,8 +1,8 @@
 <?php 
 /**
- * Plugin Name: WooCommerce Google Sheet Sync - Sync Products
+ * Plugin Name: WC Google Sync
  * Plugin URI: https://najeebmedia.com/googlesync
- * Description: Sync products by Google Sheets
+ * Description: Sync your products with Google Sheet into your WooCommerce Store
  * Version: 1.0
  * Author: N-Media
  * Author URI: http://najeebmedia.com

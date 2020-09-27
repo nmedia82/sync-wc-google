@@ -3,7 +3,7 @@ Contributors: nmedia
 Tags: woocommerce, woocommerce product sync, google product, google sync, woocommerce product import
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
-Tested up to: 5.4.2
+Tested up to: 5.5.1
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPL2

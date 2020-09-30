@@ -1,4 +1,4 @@
-=== WooCommerce Google Sheet Sync - Sync Products ===
+=== Sync WooCommerce with Google Sheets ===
 Contributors: nmedia
 Tags: woocommerce, woocommerce product sync, google product, google sync, woocommerce product import
 Donate link: http://www.najeebmedia.com/donate

@@ -52,7 +52,7 @@ function wcgs_update_gsheet_create_cat($term_id, $tt_id){
    
     $wcapi = new WCGS_WC_API();
     $row = $wcapi->get_category_for_gsheet($term_id);
-    $gs = new GoogleSheet_API();
+    $gs = new WCGS_APIConnect();
     $sheet_name = "categories";
     $range = $gs->add_row($sheet_name, $row);
     update_term_meta($term_id, 'gs_range', $range);
@@ -94,7 +94,7 @@ function wcgs_update_gsheet_edit_cat($term_id, $tt_id){
     }
     
     // wcgs_pa($ranges_value); exit;
-    $gs = new GoogleSheet_API();
+    $gs = new WCGS_APIConnect();
     $gs->update_single_row($ranges_value, $row);
     // exit;
 }
@@ -111,7 +111,7 @@ function wcgs_update_gsheet_delete_cat($term_id, $taxonomy){
     $rowNo = substr($range, -1);
     // var_dump($range); exit;
     
-    $gs = new GoogleSheet_API();
+    $gs = new WCGS_APIConnect();
     $gs->delete_row($sheetId, $rowNo);
     
     // exit;
@@ -274,7 +274,7 @@ function wcgs_update_gsheet_edit_product($id, $product, $update){
         }
         
         // wcgs_pa($ranges_value); exit;
-        $gs = new GoogleSheet_API();
+        $gs = new WCGS_APIConnect();
         $gs->update_single_row($ranges_value, $row);
     }
 }

@@ -39,7 +39,7 @@ class WCGS_Categories {
     
     function get_data(){
         
-        $gs = new GoogleSheet_API();
+        $gs = new WCGS_APIConnect();
         $range = 'categories';
         $this->rows = $gs->get_sheet_rows($range);
         
@@ -102,7 +102,7 @@ class WCGS_Categories {
         $wcapi = new WCGS_WC_API();
         $googleSheetRows = $wcapi->update_categories_batch($categories, $this->rowRef, $this->rows);
         
-        $gs = new GoogleSheet_API();
+        $gs = new WCGS_APIConnect();
         
         // If Client is authrized
         $sync_result = '';

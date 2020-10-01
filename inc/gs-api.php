@@ -5,7 +5,7 @@
 
 require WCGS_PATH . '/lib/vendor/autoload.php';
 
-class GoogleSheet_API {
+class WCGS_APIConnect {
     
     function __construct() {
         

@@ -38,7 +38,7 @@ class WCGS_Products {
     
     function get_data(){
         
-        $gs = new GoogleSheet_API();
+        $gs = new WCGS_APIConnect();
         $range = 'products';
         $this->rows = $gs->get_sheet_rows($range);
         
@@ -104,7 +104,7 @@ class WCGS_Products {
         
         // Now getting the ID from newly created product and update Google Sheeet row
         
-        $gs = new GoogleSheet_API();
+        $gs = new WCGS_APIConnect();
         
         // If Client is authrized
         $sync_result = '';

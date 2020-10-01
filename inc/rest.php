@@ -21,7 +21,7 @@ function wcgs_google_auth_code( $request ) {
     if( ! isset($_GET['code']) ) wp_die('Code Not Found', 'Google Code invalid');
     
     $authCode = sanitize_text_field($_GET['code']);
-    $gs = new GoogleSheet_API();
+    $gs = new WCGS_APIConnect();
     
     $gs->getClient($authCode);
     

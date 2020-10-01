@@ -1,17 +1,7 @@
 <?php
 /** Admin related functions
  * */
- 
-// function wcgs_admin_dashboard() {
- 
-//     if( ! current_user_can('administrator') ) return;
- 
-//         wp_add_dashboard_widget(
-//                 'wcgs_google_sync',         // Widget slug.
-//                 'Google Sheet Sync',         // Title.
-//                 'wcgs_admin_render_sync_widget' // Display function.
-//         );
-// }
+
 
 
 function wcgs_admin_render_sync_widget($gs) {
@@ -39,7 +29,7 @@ function wcgs_settings_tab(){
     $wcgs_imports_limit = wcgs_get_option('wcgs_imports_limit');
     $wcgs_redirect_url = get_rest_url(null, 'nkb/v1/auth');
     
-    $gs = new GoogleSheet_API();
+    $gs = new WCGS_APIConnect();
     if(!empty($wcgs_google_credential) && !empty($wcgs_googlesheet_id) && !empty($wcgs_imports_limit) && !empty($wcgs_redirect_url)){
         
         wcgs_admin_render_sync_widget($gs);

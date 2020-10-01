@@ -30,7 +30,7 @@ include_once WCGS_PATH . "/inc/hooks.php";
 include_once WCGS_PATH . "/inc/callbacks.php";
 
 
-class WC_GOOGLESHEET {
+class WCGS_INIT {
     
     /**
 	 * the static object instace
@@ -98,8 +98,8 @@ add_action('plugins_loaded', 'WCSH');
 
 function WCSH() {
     
-    return WC_GOOGLESHEET::get_instance();
+    return WCGS_INIT::get_instance();
 }
 
-register_activation_hook( __FILE__, array('WC_GOOGLESHEET', 'activate_plugin'));
+register_activation_hook( __FILE__, array('WCGS_INIT', 'activate_plugin'));
 

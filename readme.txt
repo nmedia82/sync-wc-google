@@ -12,11 +12,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 WooCommerce Google Sheet Sync is the plugin to sync products from Google Sheets.
 
 == Description ==
-WooCommerce Google Sheet Sync is the plugin to sync products from Google Sheets.
+Now import/sync your all WooCommerce Products with Google Sheet, Fill your Google Sheet with a provided template easily. Once it's ready you can use this plugin to
+import/sync these products into your WooCommerce Stores. We have created step-by-step video tutorial to get it started without any issue.
 
-Import/sync all of your products and categories from Google Sheet. Add your products in to Google Sheet to upload into your store.
-
-Just a single click reqruied to import all your products and categories in any store.
+Now your store is just a Single Click away to get populated with this Amazing plugin.
 
 = How It Works? =
 [youtube https://www.youtube.com/watch?v=XISi_zL96Lw]

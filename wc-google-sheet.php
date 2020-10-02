@@ -102,4 +102,3 @@ function WCSH() {
 }
 
 register_activation_hook( __FILE__, array('WCGS_INIT', 'activate_plugin'));
-

@@ -24,4 +24,3 @@ if ( $google_client->auth_link ) {
    
  }
  echo '</div>';
- ?>

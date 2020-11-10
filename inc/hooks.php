@@ -109,7 +109,8 @@ function wcgs_update_gsheet_delete_cat($term_id, $taxonomy){
     $range = get_term_meta($term_id, 'gs_range', true);
     if( !$range ) return;
     $rowNo = substr($range, -1);
-    // var_dump($range); exit;
+    // var_dump($rowNo, $sheetId); exit;
+    
     
     $gs = new WCGS_APIConnect();
     $gs->delete_row($sheetId, $rowNo);
@@ -277,4 +278,19 @@ function wcgs_update_gsheet_edit_product($id, $product, $update){
         $gs = new WCGS_APIConnect();
         $gs->update_single_row($ranges_value, $row);
     }
+}
+
+// Before deleting the product remove from Sheet
+add_action( 'before_delete_post', 'wcgs_delete_sheet_product' );
+function wcgs_delete_sheet_product($porduct_id){
+    
+    $row_id = get_post_meta($porduct_id, 'wcgs_row_id', true);
+        if( !$row_id ) return;
+        
+    $sheetId = wcgs_get_sheetid_by_title('products');
+    // var_dump($row_id, $sheetId); exit;
+    
+    $gs = new WCGS_APIConnect();
+    $result = $gs->delete_row($sheetId, $row_id);
+    // wcgs_pa($result); exit;
 }

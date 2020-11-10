@@ -269,6 +269,7 @@ class WCGS_APIConnect {
                     );
             // wcgs_pa($body);
             $result = $service->spreadsheets->batchUpdate($this->sheet_id, $body);
+            return $result;
         }
         catch (\Exception $e)
         {

@@ -25,6 +25,14 @@ function wcgs_load_template_file($file_name, $vars=null) {
 function wcgs_get_sheetid_by_title($title) {
     
     $gs_info = get_option('wcgs_sheets_info');
+    
+    // If sheet product/categories ids not saved then get it once.
+    if( !isset($gs_info['product']) || !isset($gs_info['categories']) ) {
+        $gs = new WCGS_APIConnect();
+        $gs->setSheetInfo();
+    }
+    
+    // wcgs_pa($gs_info);
     $sheetId = '';
     if($gs_info) {
         

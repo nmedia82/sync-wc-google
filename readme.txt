@@ -43,6 +43,9 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 1.1 - November 10, 2020 =
+* Bug fixed: Product delete sync-back not working, fixed now
+* 
 = 1.0.0 =
 Initial Release
 

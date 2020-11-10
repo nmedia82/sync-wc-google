@@ -61,12 +61,15 @@ class WCGS_Variations {
             $sync = isset($row['sync']) ? $row['sync'] : '';
             
             // Adding the meta key in new product to keep rowNo
-            // $row['meta_data'] = [['key'=>'wcgs_row_id', 'value'>$rowIndex]];
+            $row['meta_data'] = [['key'=>'wcgs_row_id', 'value'>$rowIndex]];
             
             if( $sync == 1 ) {
                 $rowIndex++;
                 continue;
             }
+            
+            unset($row['product_id']);
+            unset($row['id']);
             
             if( $id != '' ) {
                 $parse_Rows[$product_id]['update'][$rowIndex] = $row;   
@@ -88,23 +91,25 @@ class WCGS_Variations {
         foreach($this->map as $key => $index) {
             
             if( ! isset($row[$index]) ) continue;
+            
             $data[ trim($key) ] = apply_filters("wcgs_row_data_{$key}", $row[$index], $row);
         }
         return $data;
         
     }
+    
     // Sync all categories from GS to Site
     function sync() {
         
         // Get Data from Google Sheet
         $variations = $this->get_data();
-        wcgs_pa($variations); exit;
+        // wcgs_pa($variations); exit;
         
         if( ! $variations ) return ['no_sync'=>true];
        
         $wcapi = new WCGS_WC_API();
         $googleSheetRows = $wcapi->update_variations_batch($variations, $this->rows);
-        // wcgs_pa($googleSheetRows);
+        wcgs_pa($googleSheetRows);
         
         // Now getting the ID from newly created product and update Google Sheeet row
         

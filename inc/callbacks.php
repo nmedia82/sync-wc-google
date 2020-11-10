@@ -32,7 +32,7 @@ function wcgs_sync_data() {
     $response = array();
     $response['raw'] = $sync_result;
     // parse erros
-    if( $sync_result['batch_errors']['Batch_Errors'] ){
+    if( isset($sync_result['batch_errors']['Batch_Errors']) ){
         foreach($sync_result['batch_errors']['Batch_Errors'] as $error){
             $message = sprintf(__("%s - ID (%s) \r\n", 'wcgs'), $error->error->message, $error->id);
         }
@@ -41,7 +41,7 @@ function wcgs_sync_data() {
         $response['message'] = $message;
     } else {
         
-        $rows_updated = $sync_result['sync_result']['totalUpdatedRows'];
+        $rows_updated = isset($sync_result['sync_result']['totalUpdatedRows']) ? $sync_result['sync_result']['totalUpdatedRows'] : null;
         if( $rows_updated != null ) {
             $message = sprintf(__("Total %d Rows updated", 'wcgs'), $rows_updated);
         }elseif($sync_result['no_sync']){

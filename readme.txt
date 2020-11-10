@@ -26,6 +26,9 @@ Now your store is just a Single Click away to get populated with this Amazing pl
 * Sync All Your Categories
 * Sync from Store to Google Sheet
 
+= Getting Started Video? =
+[youtube https://youtu.be/uw7xzgd54ME]
+
 == Installation ==
 1. Download the plugin and activate it
 2. Go to WooCommerce > Settings > Google Products

@@ -4,7 +4,7 @@ jQuery(function($) {
 
     const work_div = $("#wcgs_working");
 
-    $("#wcgs-sync-categories").on('click', function(e) {
+    $("#wcgs-sync-btn").on('click', function(e) {
 
         e.preventDefault();
 

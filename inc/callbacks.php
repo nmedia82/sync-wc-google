@@ -2,7 +2,7 @@
 /**
  * WP Callbacks
  * */
-use \AvangateClient\Client;
+// use \AvangateClient\Client;
  
 add_action('wp_ajax_wcgs_sync_data', 'wcgs_sync_data');
 function wcgs_sync_data() {
@@ -15,17 +15,19 @@ function wcgs_sync_data() {
     $sync_result = null;
     
     switch( $sheet_name ) {
-        case 'categories';
+        case 'categories':
             $category = new WCGS_Categories();
             $sync_result = $category->sync();
         break;
         
-        case 'products';
+        case 'products':
             $product = new WCGS_Products();
             $sync_result = $product->sync();
         break;
         
     }
+    
+    if( $sync_result == null ) return '';
     
     $response = array();
     $response['raw'] = $sync_result;

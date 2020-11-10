@@ -56,7 +56,7 @@ class WCGS_Products {
             $name = isset($row['name']) ? $row['name'] : '';
             $sync = isset($row['sync']) ? $row['sync'] : '';
             
-            // Row Ref in meta
+            // Adding the meta key in new product to keep rowNo
             $row['meta_data'] = [['key'=>'wcgs_row_id', 'value'=>$rowIndex]];
             
             if( $sync == 1 ) {

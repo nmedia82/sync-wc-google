@@ -18,3 +18,10 @@ function wcgs_get_header_column_by_index($index) {
     // wcgs_pa($column_names[$index]);
     return isset($column_names[$index]) ? apply_filters('wcgs_product_header_column', $column_names[$index], $index) : null;
 }
+
+// Syncing Array
+function wcgs_sync_array(){
+    
+    $sync_array = ['products'=>__("Products","wcgs"), 'categories'=>__("Categories","wcgs")];
+    return apply_filters('wcgs_sync_array', $sync_array);
+}

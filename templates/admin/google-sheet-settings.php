@@ -14,11 +14,12 @@ if ( $google_client->auth_link ) {
 } else {
   
   echo '<select id="sheet_name" class="wcgs-inputs">';
-  echo '<option value="categories">'.__('Categories', 'wcgs').'</option>';
-  echo '<option value="products">'.__('Products', 'wcgs').'</option>';
+  foreach(wcgs_sync_array() as $key => $value ){
+    echo '<option value="'.$key.'">'.$value.'</option>';
+  }
   echo '</select>';
   
-  printf(__('<a class="button button-primary wcgs-sync-btn" href="#" id="wcgs-sync-categories">%s</a>', 'wcgs'), "Sync Data");
+  printf(__('<a class="button button-primary wcgs-sync-btn" href="#" id="wcgs-sync-btn">%s</a>', 'wcgs'), "Sync Data");
   
   echo '<pre id="wcgs_working"></pre>';
    

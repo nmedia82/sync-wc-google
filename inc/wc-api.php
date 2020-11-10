@@ -90,6 +90,9 @@
          
          // ini_set('default_socket_timeout', 500);
          
+        // product ids being created/udpated
+        $product_ids = [];
+         
          $errors_found = array();
         //   wcgs_pa($data); exit;
         try {
@@ -110,9 +113,10 @@
                     if( $key_found === false ) continue;
                     $rowNo = $item->meta_data[$key_found]->value;
                     $googleSheetRow[$rowNo] = [$item->id, 1];
+                    $product_ids['create'][$rowNo] = $item->id;
                  }
                  
-                 do_action('wcgs_after_product_created', $item, $data);
+                 do_action('wcgs_after_product_created', $item, $data, $rowNo);
              }
          }
          
@@ -126,9 +130,10 @@
                     if( $key_found === false ) continue;
                     $rowNo = $item->meta_data[$key_found]->value;
                     $googleSheetRow[$rowNo] = [$item->id, 1];
+                    $product_ids['update'][$rowNo] = $item->id;
                  }
                  
-                 do_action('wcgs_after_product_updated', $item, $data);
+                 do_action('wcgs_after_product_updated', $item, $data, $rowNo);
              }
          }
          
@@ -138,7 +143,7 @@
          }
          
          ksort($googleSheetRow);
-         do_action('wcgs_after_products_updated', $googleSheetRow, $data);
+         do_action('wcgs_after_products_updated', $googleSheetRow, $data, $product_ids);
          // wcgs_pa($googleSheetRow);
          return $googleSheetRow;
      }

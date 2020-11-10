@@ -180,6 +180,30 @@ function wcgs_product_attribute_data($attributes, $row){
     // var_dump($attributes);
     return $attributes;
 }
+
+// Variations
+add_filter('wcgs_row_data_variations', 'wcgs_product_variations_data', 2, 99);
+function wcgs_product_variations_data($variations, $row){
+    
+    if( ! $variations ) return $variations;
+    $variations = json_decode($variations, true);
+    // $make_array = explode(';', $variations);
+    // $variations = array_map(function ($attribute) {
+    //     $breakup = explode('|', $attribute);
+    //     var_dump($breakup);
+    //     $attr_id = $breakup[0];
+    //     $attr_options = explode(",", $breakup[1]);
+        
+    //     $attr['id'] = $attr_id;
+    //     $attr['visible'] = true;
+    //     $attr['variation'] = true;
+    //     $attr['options'] = $attr_options;
+        
+    //     return $attr;
+    // }, $make_array);
+    // var_dump($variations);
+    return $variations;
+}
 // Images
 add_filter('wcgs_row_data_images', 'wcgs_product_images_data', 2, 99);
 function wcgs_product_images_data($images, $row){

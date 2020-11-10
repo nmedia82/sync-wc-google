@@ -25,9 +25,11 @@ include_once WCGS_PATH . "/inc/wc-api.php";
 include_once WCGS_PATH . "/inc/gs-api.php";
 include_once WCGS_PATH . "/inc/gs-categories.php";
 include_once WCGS_PATH . "/inc/gs-products.php";
+include_once WCGS_PATH . "/inc/gs-variations.php";
 include_once WCGS_PATH . "/inc/rest.php";
 include_once WCGS_PATH . "/inc/hooks.php";
 include_once WCGS_PATH . "/inc/callbacks.php";
+include_once WCGS_PATH . "/inc/wcgs-pro.php";
 
 
 class WCGS_INIT {

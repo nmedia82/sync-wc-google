@@ -204,6 +204,13 @@ function wcgs_product_variations_data($variations, $row){
     // var_dump($variations);
     return $variations;
 }
+// Image (variations)
+add_filter('wcgs_row_data_image', 'wcgs_product_image_data', 2, 99);
+function wcgs_product_image_data($image, $row){
+    
+    return ['id'=>$image];
+}
+
 // Images
 add_filter('wcgs_row_data_images', 'wcgs_product_images_data', 2, 99);
 function wcgs_product_images_data($images, $row){

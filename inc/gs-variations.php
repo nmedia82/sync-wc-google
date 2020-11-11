@@ -61,19 +61,18 @@ class WCGS_Variations {
             $sync = isset($row['sync']) ? $row['sync'] : '';
             
             // Adding the meta key in new product to keep rowNo
-            $row['meta_data'] = [['key'=>'wcgs_row_id', 'value'>$rowIndex]];
+            $row['meta_data'] = [['key'=>'wcgs_row_id', 'value'=>$rowIndex]];
             
             if( $sync == 1 ) {
                 $rowIndex++;
                 continue;
             }
             
-            unset($row['product_id']);
-            unset($row['id']);
-            
             if( $id != '' ) {
                 $parse_Rows[$product_id]['update'][$rowIndex] = $row;   
             }else{
+                
+                unset($row['id']);
                 $parse_Rows[$product_id]['create'][$rowIndex] = $row;
             }
             
@@ -109,7 +108,7 @@ class WCGS_Variations {
        
         $wcapi = new WCGS_WC_API();
         $googleSheetRows = $wcapi->update_variations_batch($variations, $this->rows);
-        wcgs_pa($googleSheetRows);
+        // wcgs_pa($googleSheetRows);
         
         // Now getting the ID from newly created product and update Google Sheeet row
         
@@ -126,6 +125,7 @@ class WCGS_Variations {
         
         $error_message = array();
         if ( null !== ( $batch_update_error = get_transient( 'wcgs_batch_error' ) ) ) {
+            // wcgs_pa($batch_update_error);
             $error_message = array('Batch_Errors' => $batch_update_error);
             delete_transient('wcgs_batch_error');
         }

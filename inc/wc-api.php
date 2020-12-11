@@ -5,6 +5,7 @@
  
  require WCGS_PATH . '/lib/woocommerce/vendor/autoload.php';
  use Automattic\WooCommerce\Client;
+ use Automattic\WooCommerce\HttpClient\HttpClientException;
  
  class WCGS_WC_API {
      
@@ -37,7 +38,13 @@
      // return Rows for Google Sheet
      function update_categories_batch($data, $rowRef, $gs_rows) {
          
-        $response = $this->woocommerce->post('products/categories/batch', $data);
+        $errors_found = array();
+        //   wcgs_pa($data); exit;
+        try {
+            $response = $this->woocommerce->post('products/categories/batch', $data);
+        } catch(HttpClientException $e) {
+            set_transient('wcgs_rest_api_error', $e->getMessage());
+        }
         // wcgs_pa($response);
         
          // Getting Rows to update Google Sheet
@@ -93,12 +100,12 @@
         // product ids being created/udpated
         $product_ids = [];
          
-         $errors_found = array();
+        $errors_found = array();
         //   wcgs_pa($data); exit;
         try {
             $response = $this->woocommerce->post('products/batch', $data);
         } catch(HttpClientException $e) {
-            $errors_found[] = $e->getMessage();
+            set_transient('wcgs_rest_api_error', $e->getMessage());
         }
         
          // Getting Rows to update Google Sheet

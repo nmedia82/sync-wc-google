@@ -23,10 +23,17 @@ function wcgs_sync_data_categories() {
     $response = array();
     $response['raw'] = $sync_result;
     // parse erros
-    if( isset($sync_result['batch_errors']['Batch_Errors']) ){
+    if( isset($sync_result['batch_errors']['Batch_Errors']) && count($sync_result['batch_errors']['Batch_Errors']) > 0 ){
         foreach($sync_result['batch_errors']['Batch_Errors'] as $error){
             $message = sprintf(__("%s - ID (%s) \r\n", 'wcgs'), $error->error->message, $error->id);
         }
+        
+        $response['status'] = 'error';
+        $response['message'] = $message;
+    }else if( ! empty($sync_result['rest_error']) ){
+        
+        $link = 'https://clients.najeebmedia.com/forums/topic/error-while-using-google-sync/';
+        $message = sprintf(__("%s - <a href='%s' target='_blank'>See this</a>", 'wcgs'), $sync_result['rest_error'], $link);
         
         $response['status'] = 'error';
         $response['message'] = $message;
@@ -61,29 +68,33 @@ function wcgs_sync_data_products() {
     // wcgs_pa($sync_result);
     
     $response = array();
-    $message = '';
     $response['raw'] = $sync_result;
     // parse erros
-    if( isset($sync_result['batch_errors']['Batch_Errors']) && $sync_result['batch_errors']['Batch_Errors'] != '' ){
+    if( isset($sync_result['batch_errors']['Batch_Errors']) && count($sync_result['batch_errors']['Batch_Errors']) > 0 ){
         foreach($sync_result['batch_errors']['Batch_Errors'] as $error){
-            $message .= '<div class="error updated notice">';
-            $message .= sprintf(__("%s - ID (%s) \r\n", 'wcgs'), $error->error->message, $error->id);
-            $message .= '</div>';
+            $message = sprintf(__("%s - ID (%s) \r\n", 'wcgs'), $error->error->message, $error->id);
         }
         
-    } 
-    
-    if( isset($sync_result['sync_result']['totalUpdatedRows']) ) {
+        $response['status'] = 'error';
+        $response['message'] = $message;
+    }else if( ! empty($sync_result['rest_error']) ){
         
-        $rows_updated = $sync_result['sync_result']['totalUpdatedRows'];
+        $link = 'https://clients.najeebmedia.com/forums/topic/error-while-using-google-sync/';
+        $message = sprintf(__("%s - <a href='%s' target='_blank'>See this</a>", 'wcgs'), $sync_result['rest_error'], $link);
         
-        $message .= '<div class="info updated notice">';
+        $response['status'] = 'error';
+        $response['message'] = $message;
+    } else {
+        
+        $rows_updated = isset($sync_result['sync_result']['totalUpdatedRows']) ? $sync_result['sync_result']['totalUpdatedRows'] : null;
         if( $rows_updated != null ) {
-            $message .= sprintf(__("Total %d Rows updated", 'wcgs'), $rows_updated);
+            $message = sprintf(__("Total %d Rows updated", 'wcgs'), $rows_updated);
         }elseif($sync_result['no_sync']){
-            $message .= __("No data to sync", "wcgs");
+            $message = __("No data to sync", "wcgs");
         }
-        $message .= '</div>';
+        
+        $response['status'] = 'success';
+        $response['message'] = $message;
         
     }
     

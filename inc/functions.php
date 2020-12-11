@@ -111,21 +111,7 @@ function wcgs_array_settings() {
             'css'   	=> 'min-width:300px;',
             'custom_attributes' => array('readonly' => 'readonly'),
 			'desc_tip'	=> true,
-        ),
-        array(
-            'title'             => __( 'Imports Limit', 'wcgs' ),
-            'type'              => 'select',
-            'label'             => __( 'Button', 'wcgs' ),
-            'default'           => 'daily',
-            'options' => array( '20'=>__('20','wcgs'),
-                                '50'=> __('50','wcgs'),
-                              
-                            ),
-            'id'       => 'wcgs_imports_limit',
-            'desc'       => __( 'Set product import limit at a single sync.', 'wcgs' ),
-            'desc_tip'      => true,
-        ),
-            
+        ),  
         array(
 			'type' => 'sectionend',
 			'id'   => 'wcgs_google_creds',
@@ -162,6 +148,47 @@ function wcgs_array_settings() {
 			'type' => 'sectionend',
 			'id'   => 'wcgs_woocommerce_creds',
 		),
+		
+		array(
+			'title' => __('General Settings', 'wcgs'),
+			'type'  => 'title',
+			'desc'	=> __(''),
+			'id'    => 'wcgs_woocommerce_gs',
+		),
+		
+		array(
+            'title'             => __( 'Imports Limit', 'wcgs' ),
+            'type'              => 'select',
+            'label'             => __( 'Button', 'wcgs' ),
+            'default'           => 'daily',
+            'options' => array( '20'=>__('20','wcgs'),
+                                '50'=> __('50','wcgs'),
+                              
+                            ),
+            'id'       => 'wcgs_imports_limit',
+            'desc'       => __( 'Set product import limit at a single sync.', 'wcgs' ),
+            'desc_tip'      => true,
+        ),
+		
+		array(
+            'title'             => __( 'Images Import', 'wcgs' ),
+            'type'              => 'select',
+            'label'             => __( 'Button', 'wcgs' ),
+            'default'           => 'id',
+            'options' => array( 'id'=>__('Image ID','wcgs'),
+                                'src'=> __('Image URL','wcgs'),
+                              
+                            ),
+            'id'       => 'wcgs_image_import',
+            'desc'       => __( 'Set image import type using existing Id or external url', 'wcgs' ),
+            'desc_tip'      => true,
+        ),
+        
+		array(
+			'type' => 'sectionend',
+			'id'   => 'wcgs_woocommerce_gs',
+		),
+		
     	);
         
         

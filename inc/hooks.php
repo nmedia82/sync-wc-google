@@ -217,13 +217,14 @@ function wcgs_product_images_data($images, $row){
     
     if( ! $images ) return $images;
     $make_array = explode(',', $images);
-    $images = array_map(function ($image) {
-        // $img['src'] = $image;
-        $img['id'] = $image;
-        return $img;
-    }, $make_array);
+    
+    $image_from = get_option('wcgs_image_import');
+    $image_remake = [];
+    foreach($make_array as $img){
+        $image_remake[][$image_from] = $img;
+    }
     // wcgs_pa($images);
-    return $images;
+    return $image_remake;
 }
 
 

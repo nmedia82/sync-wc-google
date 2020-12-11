@@ -116,12 +116,18 @@ class WCGS_Products {
         }
         
         $error_message = array();
-        if ( null !== ( $batch_update_error = get_transient( 'wcgs_batch_error' ) ) ) {
+        if ( false !== ( $batch_update_error = get_transient( 'wcgs_batch_error' ) ) ) {
             $error_message = array('Batch_Errors' => $batch_update_error);
             delete_transient('wcgs_batch_error');
         }
         
-        $response = ['sync_result'=>$sync_result, 'batch_errors'=>$error_message];
+        $rest_error_message = '';
+        if ( false !== ( $rest_api_error = get_transient( 'wcgs_rest_api_error' ) ) ) {
+            $rest_error_message = $rest_api_error;
+            delete_transient('wcgs_rest_api_error');
+        }
+        
+        $response = ['sync_result'=>$sync_result, 'batch_errors'=>$error_message, 'rest_error'=>$rest_error_message];
         
         return $response;
     }

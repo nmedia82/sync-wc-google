@@ -46,6 +46,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 1.2 - December 11, 2020 =
+* Features: Now images can be added via URL
 = 1.1 - November 10, 2020 =
 * Bug fixed: Product delete sync-back not working, fixed now
 * 

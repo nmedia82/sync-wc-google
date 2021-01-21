@@ -71,7 +71,7 @@ function wcgs_update_gsheet_edit_cat($term_id, $tt_id){
     $row = $wcapi->get_category_for_gsheet($term_id);
     
     $updatable_data = array('name', 'slug', 'parent');
-    $updatable_data = apply_filters('wcgs_category_updatble_data', $updatable_data);
+    $updatable_data = apply_filters('wcgs_category_update_data', $updatable_data);
     
     $wcapi = new WCGS_WC_API();
     
@@ -208,7 +208,10 @@ function wcgs_product_variations_data($variations, $row){
 add_filter('wcgs_row_data_image', 'wcgs_product_image_data', 2, 99);
 function wcgs_product_image_data($image, $row){
     
-    return ['id'=>$image];
+    $image = !$image ? '' : $image;
+    
+    $image_from = get_option('wcgs_image_import');
+    return $value->{$image_from};
 }
 
 // Images
@@ -302,7 +305,7 @@ function wcgs_update_gsheet_edit_product($id, $product, $update){
             if( !$column ) continue;
             
             $range = "products!{$column}{$row_id}";
-            $cell_value = $value == 'last_sync' ? [date('Y-m-d h:i:sa', time())] : [ wp_specialchars_decode($row[$index]) ];
+            $cell_value = $value == 'last_sync' ? [wcgs_get_last_sync_date()] : [ wp_specialchars_decode($row[$index]) ];
             $ranges_value[$range] = $cell_value; 
         }
         

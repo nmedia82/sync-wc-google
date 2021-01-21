@@ -80,15 +80,17 @@ class WCGS_Variations {
             
         }
         
-        // wcgs_pa($parse_Rows);
+        // wcgs_pa($parse_Rows); exit;
         return $parse_Rows;
     }
     
     function build_row_for_wc_api($row) {
         
         $data = array();
+        // wcgs_pa($this->map); exit;
         foreach($this->map as $key => $index) {
             
+            // var_dump($key, $index, $row[$index]);
             if( ! isset($row[$index]) ) continue;
             
             $data[ trim($key) ] = apply_filters("wcgs_row_data_{$key}", $row[$index], $row);
@@ -110,15 +112,19 @@ class WCGS_Variations {
         $googleSheetRows = $wcapi->update_variations_batch($variations, $this->rows);
         // wcgs_pa($googleSheetRows);
         
-        // Now getting the ID from newly created product and update Google Sheeet row
+        // Get the Range Value for last_sync column
+        $header_values = $this->get_header();
+        $last_sync_index = $header_values['last_sync'];
+        $last_sync_cell = wcgs_get_header_column_by_index($last_sync_index);
         
+        // Now getting the ID from newly created product and update Google Sheeet row
         $gs = new WCGS_APIConnect();
         
         // If Client is authrized
         $sync_result = '';
         if ( ! $gs->auth_link ) {
             
-            $sync_result = $gs->update_rows('variations', $googleSheetRows);
+            $sync_result = $gs->update_rows('variations', $googleSheetRows, $last_sync_cell);
             do_action('wcgs_after_variations_synced', $googleSheetRows, 'variations', $sync_result);
             // return $result;
         }

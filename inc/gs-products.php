@@ -100,17 +100,22 @@ class WCGS_Products {
        
         $wcapi = new WCGS_WC_API();
         $googleSheetRows = $wcapi->update_products_batch($products, $this->rows);
-        // wcgs_pa($googleSheetRows);
+        // wcgs_pa($this->get_header());
+        // exit;
+        
+        // Get the Range Value for last_sync column
+        $header_values = $this->get_header();
+        $last_sync_index = $header_values['last_sync'];
+        $last_sync_cell = wcgs_get_header_column_by_index($last_sync_index);
         
         // Now getting the ID from newly created product and update Google Sheeet row
-        
         $gs = new WCGS_APIConnect();
         
         // If Client is authrized
         $sync_result = '';
         if ( ! $gs->auth_link ) {
             
-            $sync_result = $gs->update_rows('products', $googleSheetRows);
+            $sync_result = $gs->update_rows('products', $googleSheetRows, $last_sync_cell);
             do_action('wcgs_after_products_synced', $googleSheetRows, 'products', $sync_result);
             // return $result;
         }

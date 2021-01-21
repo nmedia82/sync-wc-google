@@ -160,7 +160,7 @@ function wcgs_array_settings() {
             'title'             => __( 'Imports Limit', 'wcgs' ),
             'type'              => 'select',
             'label'             => __( 'Button', 'wcgs' ),
-            'default'           => 'daily',
+            'default'           => '20',
             'options' => array( '20'=>__('20','wcgs'),
                                 '50'=> __('50','wcgs'),
                               
@@ -194,4 +194,10 @@ function wcgs_array_settings() {
         
 	return apply_filters('wcgs_settings_data', $wcgs_settings);
 		
+}
+
+// Get last_sync date
+function wcgs_get_last_sync_date() {
+    
+    return date('Y-m-d h:i:sa', time());
 }

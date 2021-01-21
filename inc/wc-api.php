@@ -278,4 +278,200 @@
         //  wcgs_pa($item);
         return apply_filters('wcgs_product_update_row', $product_row, $id);
      }
+     
+     // get categories for sync-back
+     function get_categories_for_syncback(){
+         
+         // Getting categories IDs not syncs
+         $args = array(
+            'hide_empty' => false,
+            'meta_query' => array(
+                array(
+                     'key' => 'gs_range',
+                     'compare' => 'NOT EXISTS'
+                  ),
+            ),
+            'taxonomy'  => 'product_cat',
+            );
+            
+        $categories_notsync = get_terms( $args );
+         
+        $include_categories = [];
+        foreach($categories_notsync as $c){
+             $include_categories[] = $c->term_id;
+        }
+         
+         $args = ['per_page'=>100, 'include'=>$include_categories];
+         $items = $this->woocommerce->get('products/categories', $args);
+         $categories = new WCGS_Categories();
+         $header = $categories->get_header();
+        //  wcgs_pa($header); exit;
+         
+         $categories = array();
+         foreach($items as $item) {
+             
+             $product_row = array();
+             if( $header ) {
+                 foreach($header as $key => $index) {
+                     
+                    switch($key){
+                        case 'sync':
+                            $value = 1;
+                            break;
+                        case 'last_sync':
+                            $value = date('Y-m-d h:i:sa', time());
+                            break;
+                        default:
+                            $value = is_array($item->{ trim($key) }) ? json_encode($item->{ trim($key) }) : $item->{ trim($key) };
+                            break;
+                    }
+                    
+                    $value = $value === NULL ? '' : $value;
+                    $value = apply_filters("wcgs_categories_syncback_value", $value, $key, $index);
+                    $product_row[] = apply_filters("wcgs_categories_syncback_value_{$key}", $value, $key, $index);
+                 }
+             }
+             
+             $categories[] = $product_row;
+         }
+        //  $product_row = [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
+        //  wcgs_pa($item);
+        return apply_filters('wcgs_categories_synback', $categories);
+     }
+     
+     
+     // get products for sync-back
+     function get_products_for_syncback(){
+         
+         // Getting Products IDs not syncs
+         $args = array(
+           'numberposts'   => -1,
+           'post_type'     => 'product',
+           'post_status'=>'publish',
+           'meta_query' => array(
+                          array(
+                             'key' => 'wcgs_row_id',
+                             'compare' => 'NOT EXISTS'
+                          ),
+           ));      
+        
+         $products_notsync = query_posts($args);
+         
+         $include_products = [];
+         foreach($products_notsync as $p){
+             $include_products[] = $p->ID;
+         }
+         
+         $args = ['per_page'=>100, 'include'=>$include_products];
+         $items = $this->woocommerce->get('products', $args);
+         $product = new WCGS_Products();
+         $header = $product->get_header();
+        
+        //  wcgs_pa($header); exit;
+         
+         $products = array();
+         foreach($items as $item) {
+             
+             $product_row = array();
+             if( $header ) {
+                 foreach($header as $key => $index) {
+                     
+                    // ignore last_sync for now
+                    // if( $key == 'last_sync' ) continue;
+                    
+                    switch($key){
+                        case 'sync':
+                            $value = 1;
+                            break;
+                        case 'last_sync':
+                            $value = date('Y-m-d h:i:sa', time());
+                            break;
+                        case 'dimensions':
+                            $value = json_encode($item->{ trim($key) });
+                            break;
+                        default:
+                            $value = is_array($item->{ trim($key) }) ? json_encode($item->{ trim($key) }) : $item->{ trim($key) };
+                            break;
+                    }
+                    
+                    $value = $value === NULL ? '' : $value;
+                    $value = apply_filters("wcgs_products_syncback_value", $value, $key, $index);
+                    $product_row[] = apply_filters("wcgs_products_syncback_value_{$key}", $value, $key, $index);
+                 }
+             }
+             
+             $products[] = $product_row;
+         }
+        //  $product_row = [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
+        //  wcgs_pa($item);
+        return apply_filters('wcgs_products_synback', $products);
+     }
+     
+     // get variations for sync-back
+     function get_variations_for_syncback(){
+         
+         // Getting variations IDs not syncs
+         $args = array(
+           'numberposts'   => -1,
+           'post_type'     => 'product',
+           'post_status'=>'publish',
+        );      
+        
+         $variations_notsync = query_posts($args);
+         
+         $include_variations = [];
+         foreach($variations_notsync as $p){
+             $product_id = $p->ID;
+             $_product = wc_get_product( $product_id );
+             if( ! $_product->is_type( 'variable' ) ) continue; 
+             $items = $this->woocommerce->get("products/$product_id/variations");
+             $include_variations[$product_id] = $items;
+         }
+         
+         $product = new WCGS_variations();
+         $header = $product->get_header();
+        //  wcgs_pa($include_variations); exit;
+         
+         $variations = array();
+         foreach($include_variations as $parent_id => $items) {
+             
+             foreach($items as $item) {
+                $product_row = array();
+                 if( $header ) {
+                     foreach($header as $key => $index) {
+                         
+                        // ignore last_sync for now
+                        // if( $key == 'last_sync' ) continue;
+                        
+                        switch($key){
+                            case 'sync':
+                                $value = 1;
+                                break;
+                            case 'last_sync':
+                                $value = date('Y-m-d h:i:sa', time());
+                                break;
+                            case 'dimensions':
+                                $value = json_encode($item->{ trim($key) });
+                                break;
+                            case 'product_id':
+                                $value = $parent_id;
+                                break;
+                            default:
+                                $value = is_array($item->{ trim($key) }) ? json_encode($item->{ trim($key) }) : $item->{ trim($key) };
+                                break;
+                        }
+                        
+                        $value = $value === NULL ? '' : $value;
+                        $value = apply_filters("wcgs_variations_syncback_value", $value, $key, $index);
+                        $product_row[] = apply_filters("wcgs_variations_syncback_value_{$key}", $value, $key, $index);
+                     }
+                 }
+             }
+             
+             $variations[] = $product_row;
+         }
+        //  $product_row = [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
+        //  wcgs_pa($item);
+        return apply_filters('wcgs_variations_synback', $variations);
+     }
  }

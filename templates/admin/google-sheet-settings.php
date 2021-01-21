@@ -5,6 +5,9 @@
  *
  * */
  
+ 
+do_action('wcgs_before_sync_wrapper', $google_client);
+
 echo '<div class="wcgs-sync-wrapper woocommmerce">';
 
 // var_dump(get_transient("wcgs_client_error_notices"));
@@ -20,6 +23,8 @@ if ( $google_client->auth_link ) {
   echo '</select>';
   
   printf(__('<a class="button button-primary wcgs-sync-btn" href="#" id="wcgs-sync-btn">%s</a>', 'wcgs'), "Sync Data");
+  
+  do_action('wcgs_after_sync_button', $google_client);
   
   echo '<pre id="wcgs_working"></pre>';
    

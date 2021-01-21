@@ -102,13 +102,18 @@ class WCGS_Categories {
         $wcapi = new WCGS_WC_API();
         $googleSheetRows = $wcapi->update_categories_batch($categories, $this->rowRef, $this->rows);
         
+        // Get the Range Value for last_sync column
+        $header_values = $this->get_header();
+        $last_sync_index = $header_values['last_sync'];
+        $last_sync_cell = wcgs_get_header_column_by_index($last_sync_index);
+        
         $gs = new WCGS_APIConnect();
         
         // If Client is authrized
         $sync_result = '';
         if ( ! $gs->auth_link ) {
             
-            $sync_result = $gs->update_rows('categories', $googleSheetRows);
+            $sync_result = $gs->update_rows('categories', $googleSheetRows, $last_sync_cell);
             do_action('wcgs_after_categories_synced', $googleSheetRows, 'categories', $sync_result);
         }
         

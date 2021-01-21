@@ -171,7 +171,7 @@ class WCGS_APIConnect {
         
     }
     
-    function update_rows($sheet_name, $Rows) {
+    function update_rows($sheet_name, $Rows, $last_sync=null) {
         
         try {
             
@@ -182,8 +182,8 @@ class WCGS_APIConnect {
             
             $values = [];
             $data = [];
-            foreach($Rows as $key=>$value){
-                $range = "{$sheet_name}!A{$key}:B{$key}";
+            foreach($Rows as $row_no=>$value){
+                $range = "{$sheet_name}!A{$row_no}:B{$row_no}";
                 $values[] = $value;
                 
                 $data[] = new Google_Service_Sheets_ValueRange([
@@ -192,7 +192,15 @@ class WCGS_APIConnect {
                 ]);
             }
             
-            // wcgs_pa($data);
+            // Last sync value
+            if( $last_sync ) {
+                $data[] = new Google_Service_Sheets_ValueRange([
+                    'range' => "{$sheet_name}!{$last_sync}{$row_no}",
+                    'values' => [ [wcgs_get_last_sync_date()] ]
+                ]);
+            }
+            
+            // wcgs_pa($data); exit;
             // Additional ranges to update ...
             $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
                 'valueInputOption' => "RAW",
@@ -276,6 +284,50 @@ class WCGS_APIConnect {
             // wcgs_pa($e);
             set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
         }
+    }
+    
+    // Add new rows/products (sync-back)
+    function add_new_rows($sheet_name, $Rows) {
+        
+        try {
+            
+            $service = new Google_Service_Sheets($this->client);
+            
+            $end = count($Rows)+1;
+            global $wpdb;
+            
+            $values = [];
+            $data = [];
+            $range = "{$sheet_name}!A1";
+            foreach($Rows as $key=>$value){
+                // $range = "{$sheet_name}!A{$key}:B{$key}";
+                
+                $values[] = $value;
+                
+            }
+            
+            $data = new Google_Service_Sheets_ValueRange([
+                    'range' => $range,
+                    'values' => $values,
+                    "majorDimension"=>"ROWS"
+                ]);
+            
+            // Then you need to add some configuration
+            $conf = ["valueInputOption" => "RAW"];
+            // wcgs_pa($data); exit;
+            
+            
+            // $result = $service->spreadsheets_values->batchUpdate($this->sheet_id, $body);
+            $result = $service->spreadsheets_values->append($this->sheet_id, $range, $data, $conf);
+            return $result;
+        }
+        catch (\Exception $e)
+        {
+            wcgs_pa($e);
+            set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
+        }
+        
+        wcgs_pa($result);
     }
     
     

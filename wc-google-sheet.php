@@ -3,7 +3,7 @@
  * Plugin Name: Sync WooCommerce with Google Sheets
  * Plugin URI: https://najeebmedia.com/googlesync
  * Description: Sync your products with Google Sheet into your WooCommerce Store
- * Version: 1.2
+ * Version: 1.3
  * Author: N-Media
  * Author URI: http://najeebmedia.com
  * /
@@ -29,7 +29,6 @@ include_once WCGS_PATH . "/inc/gs-variations.php";
 include_once WCGS_PATH . "/inc/rest.php";
 include_once WCGS_PATH . "/inc/hooks.php";
 include_once WCGS_PATH . "/inc/callbacks.php";
-include_once WCGS_PATH . "/inc/wcgs-pro.php";
 
 
 class WCGS_INIT {

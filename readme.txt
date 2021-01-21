@@ -46,6 +46,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 1.3 - xxxxx =
+* Features: Now existing product can be added to Google Sheet
 = 1.2 - December 11, 2020 =
 * Features: Now images can be added via URL
 = 1.1 - November 10, 2020 =

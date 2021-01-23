@@ -5,12 +5,9 @@
 // use \AvangateClient\Client;
  
 add_action('wp_ajax_wcgs_sync_data_categories', 'wcgs_sync_data_categories');
-function wcgs_sync_data_categories() {
+function wcgs_sync_data_categories($send_json) {
     
-    // if (defined('DOING_AJAX') && DOING_AJAX)
-        // wp_send_json($_POST);
-    
-    $sheet_name = isset($_POST['sheet']) ? sanitize_text_field($_POST['sheet']) : '';
+    $sheet_name = 'categories';
     
     $sync_result = null;
     $category = new WCGS_Categories();
@@ -51,13 +48,17 @@ function wcgs_sync_data_categories() {
         
     }
     
-    wp_send_json($response);
+    if( $send_json ) {
+        wp_send_json($response);
+    } else {
+        return $response;
+    }
 }
 
 add_action('wp_ajax_wcgs_sync_data_products', 'wcgs_sync_data_products');
-function wcgs_sync_data_products() {
+function wcgs_sync_data_products($send_json=true) {
     
-    $sheet_name = isset($_POST['sheet']) ? sanitize_text_field($_POST['sheet']) : '';
+    $sheet_name = 'products';
     
     $sync_result = null;
     
@@ -101,5 +102,9 @@ function wcgs_sync_data_products() {
     $response['status'] = 'message_response';
     $response['message'] = $message;
     
-    wp_send_json($response);
+    if( $send_json ) {
+        wp_send_json($response);
+    } else {
+        return $response;
+    }
 }

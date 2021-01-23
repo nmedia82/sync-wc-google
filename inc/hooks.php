@@ -329,3 +329,10 @@ function wcgs_delete_sheet_product($porduct_id){
     $result = $gs->delete_row($sheetId, $row_id);
     // wcgs_pa($result); exit;
 }
+
+// Sync Back Simple Products & Categories
+add_action('wcgs_after_sync_button', 'wcgs_sync_bank_free', 99, 1);
+function wcgs_sync_bank_free($google_client) {
+    
+    wcgs_load_template_file('admin/sync-back.php', ['google_client'=>$google_client]);
+}

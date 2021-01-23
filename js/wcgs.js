@@ -3,24 +3,10 @@ jQuery(function($) {
     // const { GoogleSpreadsheet } = require('google-spreadsheet');
 
     const work_div = $("#wcgs_working");
-
-    $("#wcgs-sync-btn-zz").on('click', function(e) {
-        
-        e.preventDefault();
-        
-        const sheet_name = $("#sheet_name").val();
-        const data = { 'action': `wcgs_sync_data_${sheet_name}`, 'sheet': sheet_name };
-        let params = new URLSearchParams(data).toString();
-        
-        var xhr = new XMLHttpRequest()
-        xhr.open("POST", ajaxurl, true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.onprogress = function () {
-          console.log("PROGRESS:", xhr.responseText)
-        }
-        xhr.send(params);
-    });
     
+    // Hide sync-back by default
+    $(".wcgs-sync-back-btn").hide();
+
     $("#wcgs-sync-btn").on('click', function(e) {
 
         e.preventDefault();
@@ -51,7 +37,8 @@ jQuery(function($) {
             }
 
             // document.getElementById("wcgs_working").textContent = JSON.stringify(raw, undefined, 2);
-        }, 'json')
+        }, 'json');
 
     });
+    
 });

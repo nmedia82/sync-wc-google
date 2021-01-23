@@ -26,6 +26,15 @@ Now your store is just a Single Click away to get populated with this Amazing pl
 * Sync All Your Categories
 * Sync from Store to Google Sheet
 
+= PRO Features =
+* Variable Products Supported
+* Auto Sync [hourly, twicedaily, daily]
+* Logging Auto Sync
+* Export Existing Products into Google Sheet
+* Export Existing Categories into Google Sheet
+* Export Existing Variations into Google Sheet
+* [Get WC Google Sync PRO](https://najeebmedia.com/google-sync)
+
 = Getting Started Video? =
 [youtube https://youtu.be/uw7xzgd54ME]
 

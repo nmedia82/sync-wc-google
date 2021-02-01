@@ -211,7 +211,7 @@ function wcgs_product_image_data($image, $row){
     $image = !$image ? '' : $image;
     
     $image_from = get_option('wcgs_image_import');
-    return $value->{$image_from};
+    return [$image_from=>$image];
 }
 
 // Images

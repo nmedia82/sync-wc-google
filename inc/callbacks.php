@@ -5,7 +5,11 @@
 // use \AvangateClient\Client;
  
 add_action('wp_ajax_wcgs_sync_data_categories', 'wcgs_sync_data_categories');
-function wcgs_sync_data_categories($send_json) {
+function wcgs_sync_data_categories($send_json=true) {
+    
+    if ( is_admin() && ( defined( 'DOING_AJAX' ) || DOING_AJAX ) ) {
+        $send_json = true;
+    }
     
     $sheet_name = 'categories';
     
@@ -55,8 +59,12 @@ function wcgs_sync_data_categories($send_json) {
     }
 }
 
-add_action('wp_ajax_wcgs_sync_data_products', 'wcgs_sync_data_products');
+add_action('wp_ajax_wcgs_sync_data_products', 'wcgs_sync_data_products', 99, 1);
 function wcgs_sync_data_products($send_json=true) {
+    
+    if ( is_admin() && ( defined( 'DOING_AJAX' ) || DOING_AJAX ) ) {
+        $send_json = true;
+    }
     
     $sheet_name = 'products';
     

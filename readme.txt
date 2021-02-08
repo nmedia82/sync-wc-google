@@ -55,7 +55,7 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
-= 1.4 - xxxx =
+= 1.4 - February 8, 2021 =
 * Features: Reponse message added for sync-back
 * Bug fixed: REST API endpoint warnin issue fixed
 * Bug fixed: PRO: Sync-back products/categories limits removed

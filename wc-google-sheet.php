@@ -54,10 +54,7 @@ class WCGS_INIT {
     	add_action( 'woocommerce_update_options_wcgs_settings', 'wcgs_save_settings' );
 	    
 	    
-	    /* == rest api == */
-		add_action( 'rest_api_init', 'wcgs_rest_api_register'); // endpoint url
-		
-		$plugin = plugin_basename( __FILE__ );
+	    $plugin = plugin_basename( __FILE__ );
 		add_filter( "plugin_action_links_$plugin", array($this, 'settings_plugin') );
 		
 		// Admin notices

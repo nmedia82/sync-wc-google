@@ -323,11 +323,11 @@ class WCGS_APIConnect {
         }
         catch (\Exception $e)
         {
-            wcgs_pa($e);
+            // wcgs_pa($e);
             set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
         }
         
-        wcgs_pa($result);
+        // return $result;
     }
     
     

@@ -6,12 +6,15 @@
 
 if( ! defined('ABSPATH') ) die('Not Allowed.');
 
+/* == rest api == */
+add_action( 'rest_api_init', 'wcgs_rest_api_register'); // endpoint url 
 function wcgs_rest_api_register() {
     
     
     register_rest_route('nkb/v1', '/auth/', array(
         'methods' => 'GET',
         'callback' => 'wcgs_google_auth_code',
+        'permission_callback' => '__return_true',
     ));
 }
 

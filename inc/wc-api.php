@@ -355,8 +355,7 @@
                           ),
            ));      
         
-         $products_notsync = query_posts($args);
-         
+         $products_notsync = get_posts($args);
          $include_products = [];
          foreach($products_notsync as $p){
              $include_products[] = $p->ID;
@@ -417,7 +416,7 @@
            'post_status'=>'publish',
         );      
         
-         $variations_notsync = query_posts($args);
+         $variations_notsync = get_posts($args);
          
          $include_variations = [];
          foreach($variations_notsync as $p){

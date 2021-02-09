@@ -52,16 +52,15 @@ class WCGS_Categories {
         $rowIndex = 2;
         foreach($this->rows as $row){
             
+            if( $row[WCGS_SYNC_COLUMN_INDEX] == 1 ) {
+                $rowIndex++;
+                continue;
+            }
+            
             $row = $this->build_row_for_wc_api($row);
             $id   = isset($row['id']) ? $row['id'] : '';
             $name = isset($row['name']) ? sanitize_key($row['name']) : '';
             $sync = isset($row['sync']) ? $row['sync'] : '';
-            
-           
-            if( $sync == 1 ) {
-                $rowIndex++;
-                continue;
-            }
             
             $batch_data = array();
             if( $id != '' ) {

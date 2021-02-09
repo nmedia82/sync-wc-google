@@ -51,6 +51,11 @@ class WCGS_Products {
         $rowIndex = 2;
         foreach($this->rows as $row){
             
+            if( $row[WCGS_SYNC_COLUMN_INDEX] == 1 ) {
+                $rowIndex++;
+                continue;
+            }
+            
             $row = $this->build_row_for_wc_api($row);
             $id   = isset($row['id']) ? $row['id'] : '';
             $name = isset($row['name']) ? $row['name'] : '';
@@ -58,11 +63,6 @@ class WCGS_Products {
             
             // Adding the meta key in new product to keep rowNo
             $row['meta_data'] = [['key'=>'wcgs_row_id', 'value'=>$rowIndex]];
-            
-            if( $sync == 1 ) {
-                $rowIndex++;
-                continue;
-            }
             
             if( $id != '' ) {
                 $parse_Rows['update'][$rowIndex] = $row;   
@@ -84,6 +84,8 @@ class WCGS_Products {
         foreach($this->map as $key => $index) {
             
             if( ! isset($row[$index]) ) continue;
+            
+            // var_dump($key, $row[$index]);
             $data[ trim($key) ] = apply_filters("wcgs_row_data_{$key}", $row[$index], $row);
         }
         return $data;

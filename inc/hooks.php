@@ -218,15 +218,15 @@ function wcgs_product_image_data($image, $row){
 add_filter('wcgs_row_data_images', 'wcgs_product_images_data', 2, 99);
 function wcgs_product_images_data($images, $row){
     
-    if( ! $images ) return $images;
+    if( $images == '' ) return $images;
     $make_array = explode(',', $images);
-    
+    // wcgs_pa($images);
     $image_from = get_option('wcgs_image_import');
     $image_remake = [];
     foreach($make_array as $img){
         $image_remake[][$image_from] = $img;
     }
-    // wcgs_pa($images);
+    
     return $image_remake;
 }
 

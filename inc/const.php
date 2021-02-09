@@ -4,6 +4,8 @@
  * 
  **/
  
+// Sync column index
+define('WCGS_SYNC_COLUMN_INDEX', 1);
 
 function wcgs_get_header_column_by_index($index) {
     

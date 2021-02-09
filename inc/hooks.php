@@ -208,7 +208,7 @@ function wcgs_product_variations_data($variations, $row){
 add_filter('wcgs_row_data_image', 'wcgs_product_image_data', 2, 99);
 function wcgs_product_image_data($image, $row){
     
-    $image = !$image ? '' : $image;
+    if( $image == '' ) return $image;
     
     $image_from = get_option('wcgs_image_import');
     return [$image_from=>$image];

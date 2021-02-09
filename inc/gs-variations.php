@@ -51,6 +51,11 @@ class WCGS_Variations {
         $rowIndex = 2;
         foreach($this->rows as $row){
             
+            if( $row[WCGS_SYNC_COLUMN_INDEX] == 1 ) {
+                $rowIndex++;
+                continue;
+            }
+            
             $row = $this->build_row_for_wc_api($row);
             
             // If no product attached, no use
@@ -63,10 +68,6 @@ class WCGS_Variations {
             // Adding the meta key in new product to keep rowNo
             $row['meta_data'] = [['key'=>'wcgs_row_id', 'value'=>$rowIndex]];
             
-            if( $sync == 1 ) {
-                $rowIndex++;
-                continue;
-            }
             
             if( $id != '' ) {
                 $parse_Rows[$product_id]['update'][$rowIndex] = $row;   
@@ -90,7 +91,6 @@ class WCGS_Variations {
         // wcgs_pa($this->map); exit;
         foreach($this->map as $key => $index) {
             
-            // var_dump($key, $index, $row[$index]);
             if( ! isset($row[$index]) ) continue;
             
             $data[ trim($key) ] = apply_filters("wcgs_row_data_{$key}", $row[$index], $row);

@@ -55,6 +55,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 1.5 - xxxx =
+* Bug fixed: PRO: Variations images issue fixed when import/sync
 = 1.4 - February 8, 2021 =
 * Features: Reponse message added for sync-back
 * Bug fixed: REST API endpoint warnin issue fixed

@@ -361,7 +361,7 @@
              $include_products[] = $p->ID;
          }
          
-         $args = ['per_page'=>100, 'include'=>$include_products];
+         $args = apply_filters('wcgs_export_products_args', ['per_page'=>100, 'include'=>$include_products]);
          $items = $this->woocommerce->get('products', $args);
          $product = new WCGS_Products();
          $header = $product->get_header();
@@ -416,14 +416,15 @@
            'post_status'=>'publish',
         );      
         
-         $variations_notsync = get_posts($args);
+        $variations_notsync = get_posts($args);
          
-         $include_variations = [];
-         foreach($variations_notsync as $p){
+        $include_variations = [];
+        $args = apply_filters('wcgs_export_variations_args', ['per_page'=>100]);
+        foreach($variations_notsync as $p){
              $product_id = $p->ID;
              $_product = wc_get_product( $product_id );
              if( ! $_product->is_type( 'variable' ) ) continue; 
-             $items = $this->woocommerce->get("products/$product_id/variations");
+             $items = $this->woocommerce->get("products/$product_id/variations", $args);
              $include_variations[$product_id] = $items;
          }
          
@@ -465,9 +466,11 @@
                         $product_row[] = apply_filters("wcgs_variations_syncback_value_{$key}", $value, $key, $index);
                      }
                  }
+                 
+                 $variations[] = $product_row;
              }
              
-             $variations[] = $product_row;
+             
          }
         //  $product_row = [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
         //  wcgs_pa($item);

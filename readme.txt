@@ -55,7 +55,7 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
-= 1.5 - xxxx =
+= 1.5 - February 10, 2021 =
 * Tweaks: Optimized the sync speed
 * Bug fixed: PRO: Variations images issue fixed when import/sync
 = 1.4 - February 8, 2021 =

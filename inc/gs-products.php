@@ -58,8 +58,8 @@ class WCGS_Products {
             
             $row = $this->build_row_for_wc_api($row);
             $id   = isset($row['id']) ? $row['id'] : '';
-            $name = isset($row['name']) ? $row['name'] : '';
-            $sync = isset($row['sync']) ? $row['sync'] : '';
+            // $name = isset($row['name']) ? $row['name'] : '';
+            // $sync = isset($row['sync']) ? $row['sync'] : '';
             
             // Adding the meta key in new product to keep rowNo
             $row['meta_data'] = [['key'=>'wcgs_row_id', 'value'=>$rowIndex]];
@@ -89,14 +89,15 @@ class WCGS_Products {
             $data[ trim($key) ] = apply_filters("wcgs_row_data_{$key}", $row[$index], $row);
         }
         return $data;
-        
     }
+    
+    
     // Sync all categories from GS to Site
     function sync() {
         
         // Get Data from Google Sheet
         $products = $this->get_data();
-        // wcgs_pa($products); exit;
+        wcgs_pa($products); exit;
         
         if( ! $products ) return ['no_sync'=>true];
        

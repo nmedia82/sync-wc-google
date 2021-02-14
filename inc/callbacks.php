@@ -59,19 +59,31 @@ function wcgs_sync_data_categories($send_json=true) {
     }
 }
 
-add_action('wp_ajax_wcgs_sync_data_products', 'wcgs_sync_data_products', 99, 1);
-function wcgs_sync_data_products($send_json=true) {
+add_action('wp_ajax_wcgs_sync_chunk_products', 'wcgs_sync_chunk_products', 99, 1);
+function wcgs_sync_chunk_products($send_json=true) {
     
     if ( is_admin() && ( defined( 'DOING_AJAX' ) || DOING_AJAX ) ) {
         $send_json = true;
     }
+    
+    $saved_chunked = get_transient('wcgs_product_chunk');
+    $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : '';
+    
+    if( !isset($saved_chunked[$chunk]) ) {
+        $response['status'] = 'error';
+        $response['message'] = __("No chunk found to sync","wcgs");
+        wp_send_json($response);
+    }
+    
+    // wp_send_json($saved_chunked[$chunk]);
+    $chunked_rows = $saved_chunked[$chunk];
     
     $sheet_name = 'products';
     
     $sync_result = null;
     
     $product = new WCGS_Products();
-    $sync_result = $product->sync();
+    $sync_result = $product->sync($chunked_rows);
     
     // if( $sync_result == null ) return '';
     // wcgs_pa($sync_result);
@@ -115,4 +127,31 @@ function wcgs_sync_data_products($send_json=true) {
     } else {
         return $response;
     }
+}
+
+add_action('wp_ajax_wcgs_sync_data_products', 'wcgs_chunk_products', 99, 1);
+function wcgs_chunk_products($send_json=true) {
+    
+    if ( is_admin() && ( defined( 'DOING_AJAX' ) || DOING_AJAX ) ) {
+        $send_json = true;
+    }
+    
+    $product = new WCGS_Products();
+    $chunks = $product->get_chunks();
+    
+    $response['status'] = 'success';
+    $response['message'] =  __("No data to sync", "wcgs");
+        
+    if( $chunks ) {
+        $response['status'] = 'chunked';
+        $response['chunks'] =  $chunks;
+        $response['message'] =  sprintf(__("Total %d Products found, chunked into %d", "wcgs"), $chunks['total_products'], $chunks['chunks']);
+    }
+    
+    if( $send_json ) {
+        wp_send_json($response);
+    } else {
+        return $response;
+    }
+    
 }

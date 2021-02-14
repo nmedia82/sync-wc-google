@@ -35,31 +35,49 @@ class WCGS_Products {
         return isset($row[$this->map[$key]]) ? $row[$this->map[$key]] : '';
     }
     
+    // Chunking the GS Rows
+    function get_chunks(){
+        
+        $wcgs_chunks = 5;
+        $gs = new WCGS_APIConnect();
+        $range = 'products';
+        $gs_rows = $gs->get_sheet_rows($range);
+        
+        // Setting mapping (index => $key)
+        $this->set_mapping($gs_rows[0]);
+        
+        unset($gs_rows[0]);    // Skip heading row
+        
+        $syncable_filter = array_filter($gs_rows, function($r){
+          return $r[WCGS_SYNC_COLUMN_INDEX] != 1;
+        });
+        
+        // wcgs_pa($filters);
+        if( !$syncable_filter ) return null;
+        $chunked_array = array_chunk($syncable_filter, $wcgs_chunks, true);
+        set_transient('wcgs_product_chunk', $chunked_array);
+        
+        $response = ['total_products'=>count($syncable_filter), 'chunks'=>count($chunked_array),'chunk_size'=>$wcgs_chunks];
+        
+        return $response;
+    }
     
-    function get_data(){
+    
+    function get_data($rows){
         
         $gs = new WCGS_APIConnect();
         $range = 'products';
-        $this->rows = $gs->get_sheet_rows($range);
         
-        // Setting mapping (index => $key)
-        $this->set_mapping($this->rows[0]);
-        
-        unset($this->rows[0]);    // Skip heading row
         $parse_Rows = array();
         $rowRef = array();
-        $rowIndex = 2;
-        foreach($this->rows as $row){
+        // $rowIndex = 2;
+        $wcgs_header = $this->get_header();
+        foreach($rows as $rowIndex => $row){
             
-            if( $row[WCGS_SYNC_COLUMN_INDEX] == 1 ) {
-                $rowIndex++;
-                continue;
-            }
+            $rowIndex++;
             
-            $row = $this->build_row_for_wc_api($row);
+            $row = $this->build_row_for_wc_api($row, $wcgs_header);
             $id   = isset($row['id']) ? $row['id'] : '';
-            // $name = isset($row['name']) ? $row['name'] : '';
-            // $sync = isset($row['sync']) ? $row['sync'] : '';
             
             // Adding the meta key in new product to keep rowNo
             $row['meta_data'] = [['key'=>'wcgs_row_id', 'value'=>$rowIndex]];
@@ -71,17 +89,16 @@ class WCGS_Products {
             }
             
             $rowIndex++;
-            
         }
         
         // wcgs_pa($parse_Rows);
         return $parse_Rows;
     }
     
-    function build_row_for_wc_api($row) {
+    function build_row_for_wc_api($row, $wcgs_header) {
         
         $data = array();
-        foreach($this->map as $key => $index) {
+        foreach($wcgs_header as $key => $index) {
             
             if( ! isset($row[$index]) ) continue;
             
@@ -93,18 +110,18 @@ class WCGS_Products {
     
     
     // Sync all categories from GS to Site
-    function sync() {
+    function sync($rows) {
         
         // Get Data from Google Sheet
-        $products = $this->get_data();
-        wcgs_pa($products); exit;
+        // wcgs_pa($rows); exit;
+        $products = $this->get_data($rows);
         
         if( ! $products ) return ['no_sync'=>true];
        
         $wcapi = new WCGS_WC_API();
-        $googleSheetRows = $wcapi->update_products_batch($products, $this->rows);
-        // wcgs_pa($this->get_header());
-        // exit;
+        $googleSheetRows = $wcapi->update_products_batch($products, $rows);
+        // wcgs_pa($googleSheetRows); exit;
+        
         
         // Get the Range Value for last_sync column
         $header_values = $this->get_header();

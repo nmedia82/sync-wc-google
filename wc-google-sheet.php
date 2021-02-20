@@ -79,7 +79,7 @@ class WCGS_INIT {
 		return self::$ins;
 	}
 	
-	public function activate_plugin()
+	public static function activate_plugin()
     {
         // Nothing TODO  
        

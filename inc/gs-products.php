@@ -125,6 +125,7 @@ class WCGS_Products {
         
         // Get the Range Value for last_sync column
         $header_values = $this->get_header();
+        // wcgs_pa($header_values); exit;
         $last_sync_index = $header_values['last_sync'];
         $last_sync_cell = wcgs_get_header_column_by_index($last_sync_index);
         

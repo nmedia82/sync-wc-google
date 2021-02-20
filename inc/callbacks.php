@@ -26,7 +26,7 @@ function wcgs_sync_data_categories($send_json=true) {
     // parse erros
     if( isset($sync_result['batch_errors']['Batch_Errors']) && count($sync_result['batch_errors']['Batch_Errors']) > 0 ){
         foreach($sync_result['batch_errors']['Batch_Errors'] as $error){
-            $message = sprintf(__("%s - ID (%s) \r\n", 'wcgs'), $error->error->message, $error->id);
+            $message = sprintf(__("%s - ID (%s) \r\n", 'wcgs'), $error['error']['message'], $error['id']);
         }
         
         $response['status'] = 'error';
@@ -93,7 +93,7 @@ function wcgs_sync_chunk_products($send_json=true) {
     // parse erros
     if( isset($sync_result['batch_errors']['Batch_Errors']) && count($sync_result['batch_errors']['Batch_Errors']) > 0 ){
         foreach($sync_result['batch_errors']['Batch_Errors'] as $error){
-            $message = sprintf(__("%s - ID (%s) \r\n", 'wcgs'), $error->error->message, $error->id);
+            $message = sprintf(__("%s - ID (%s) \r\n", 'wcgs'), $error['error']['message'], $error['id']);
         }
         
         $response['status'] = 'error';
@@ -154,4 +154,13 @@ function wcgs_chunk_products($send_json=true) {
         return $response;
     }
     
+}
+
+// add_action('wp_ajax_wcgs_sync_data_products', 'wcgs_sync_test_rest', 99, 1);
+function wcgs_sync_test_rest() {
+    
+    $request = new WP_REST_Request( 'GET', '/wc/v3/batch' );
+    $request->set_query_params( [ 'per_page' => 12 ] );
+    $response = rest_do_request( $request );
+    wp_send_json($response->get_headers());
 }

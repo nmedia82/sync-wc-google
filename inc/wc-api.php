@@ -39,55 +39,57 @@
      function update_categories_batch($data, $rowRef, $gs_rows) {
          
         $errors_found = array();
+        $googleSheetRow = array();
         //   wcgs_pa($data); exit;
-        try {
-            $response = $this->woocommerce->post('products/categories/batch', $data);
-        } catch(HttpClientException $e) {
-            set_transient('wcgs_rest_api_error', $e->getMessage());
-        }
-        // wcgs_pa($response);
         
-         // Getting Rows to update Google Sheet
-         $googleSheetRow = array();
-         if( isset($response->create) ) {
-             foreach($response->create as $item){
-              
-                   if( isset($item->error) ) {
-                      $errors_found[] = $item;
-                   } else {
-                      $item_name = sanitize_key($item->name);
-                      if( !isset($rowRef[$item_name]) ) continue;
-                      $rowNo = $rowRef[$item_name];
-                      // if( !isset($rowRef[$item->name]) ) continue;
-                      $googleSheetRow[$rowNo] = [$item->id, 1];
-                   }
-            
-                 do_action('wcgs_after_category_created', $item, $data);
+        $request = new WP_REST_Request( 'POST', '/wc/v3/products/categories/batch' );
+        $request->set_body_params( $data );
+        $response = rest_do_request( $request );
+        if ( $response->is_error() ) {
+            $error = $response->as_error();
+            set_transient('wcgs_rest_api_error', $error->get_error_message());
+        } else{
+            $response = $response->get_data();
+            // wcgs_pa($response); exit;
+             // Getting Rows to update Google Sheet
+             if( isset($response['create']) ) {
+                 foreach($response['create'] as $item){
+                     
+                     if( isset($item['error']) ) {
+                        $errors_found[] = $item;
+                     } else {
+                        $item_name = sanitize_key($item['name']);
+                        if( !isset($rowRef[$item_name]) ) continue;
+                        $rowNo = $rowRef[$item_name];
+                        $googleSheetRow[$rowNo] = [$item['id'], 1];
+                     }
+                     
+                     do_action('wcgs_after_category_created', $item, $data, $rowNo);
+                 }
              }
-         }
-         
-         if( isset($response->update) ) {
-             foreach($response->update as $item){
-                 
-                if( isset($item->error) ) {
-                     $errors_found[] = $item;
-                  } else {
-                     $rowNo = $rowRef[$item->id];
-                     // $googleSheetRow[$rowNo] = [$item->name, $item->description, $item->id, $item->parent, 1];
-                     $googleSheetRow[$rowNo] = [$item->id, 1];
-                  }
-                 
-                 do_action('wcgs_after_category_updated', $item, $data);
+             
+             if( isset($response['update']) ) {
+                 foreach($response['update'] as $item){
+                     
+                     if( isset($item['error']) ) {
+                        $errors_found[] = $item;
+                     } else {
+                        $rowNo = $rowRef[$item['id']];
+                        $googleSheetRow[$rowNo] = [$item['id'], 1];
+                     }
+                     
+                     do_action('wcgs_after_category_updated', $item, $data, $rowNo);
+                 }
              }
-         }
+        }
          
-          if( count($errors_found) > 0 ) {
+        if( count($errors_found) > 0 ) {
             set_transient('wcgs_batch_error', $errors_found);
-         }
+        }
          
          ksort($googleSheetRow);
          do_action('wcgs_after_categories_updated', $googleSheetRow, $data);
-         // wcgs_pa($googleSheetRow);
+        //   wcgs_pa($googleSheetRow);
          return $googleSheetRow;
      }
      
@@ -99,59 +101,67 @@
          
         // product ids being created/udpated
         $product_ids = [];
-         
+        $googleSheetRow = array();
         $errors_found = array();
-        //   wcgs_pa($data); exit;
-        try {
-            $response = $this->woocommerce->post('products/batch', $data);
-        } catch(HttpClientException $e) {
-            set_transient('wcgs_rest_api_error', $e->getMessage());
-        }
+        
+        $request = new WP_REST_Request( 'POST', '/wc/v3/products/batch' );
+        $request->set_body_params( $data );
+        // $request->set_query_params( [ 'per_page' => 12 ] );
+        $response = rest_do_request( $request );
+        if ( $response->is_error() ) {
+            $error = $response->as_error();
+            set_transient('wcgs_rest_api_error', $error->get_error_message());
+        } else{
+            $response = $response->get_data();
         
          // Getting Rows to update Google Sheet
-         $googleSheetRow = array();
-         if( isset($response->create) ) {
-             foreach($response->create as $item){
-                 
-                 if( isset($item->error) ) {
-                    $errors_found[] = $item;
-                 } else {
-                    $key_found = array_search('wcgs_row_id', array_column($item->meta_data, 'key'));
-                    if( $key_found === false ) continue;
-                    $rowNo = $item->meta_data[$key_found]->value;
-                    $googleSheetRow[$rowNo] = [$item->id, 1];
-                    $product_ids['create'][$rowNo] = $item->id;
+             if( isset($response['create']) ) {
+                 foreach($response['create'] as $item){
+                     
+                     if( isset($item['error']) ) {
+                        $errors_found[] = $item;
+                     } else {
+                        $rowNo = '';
+                        foreach($item['meta_data'] as $metadata){
+                            $rowNo = $metadata->key == 'wcgs_row_id' ? $metadata->value : '';
+                            if($rowNo) break;
+                        }
+                        $googleSheetRow[$rowNo] = [$item['id'], 1];
+                        $product_ids['update'][$rowNo] = $item['id'];
+                     }
+                     
+                     do_action('wcgs_after_product_created', $item, $data, $rowNo);
                  }
-                 
-                 do_action('wcgs_after_product_created', $item, $data, $rowNo);
              }
-         }
-         
-         if( isset($response->update) ) {
-             foreach($response->update as $item){
-                 
-                 if( isset($item->error) ) {
-                    $errors_found[] = $item;
-                 } else {
-                    $key_found = array_search('wcgs_row_id', array_column($item->meta_data, 'key'));
-                    if( $key_found === false ) continue;
-                    $rowNo = $item->meta_data[$key_found]->value;
-                    $googleSheetRow[$rowNo] = [$item->id, 1];
-                    $product_ids['update'][$rowNo] = $item->id;
+             
+             if( isset($response['update']) ) {
+                 foreach($response['update'] as $item){
+                     
+                     if( isset($item['error']) ) {
+                        $errors_found[] = $item;
+                     } else {
+                        $rowNo = '';
+                        foreach($item['meta_data'] as $metadata){
+                            $rowNo = $metadata->key == 'wcgs_row_id' ? $metadata->value : '';
+                            if($rowNo) break;
+                        }
+                        $googleSheetRow[$rowNo] = [$item['id'], 1];
+                        $product_ids['update'][$rowNo] = $item['id'];
+                     }
+                     
+                     do_action('wcgs_after_product_updated', $item, $data, $rowNo);
                  }
-                 
-                 do_action('wcgs_after_product_updated', $item, $data, $rowNo);
              }
-         }
+        }
          
          
-         if( count($errors_found) > 0 ) {
+        if( count($errors_found) > 0 ) {
             set_transient('wcgs_batch_error', $errors_found);
-         }
+        }
          
          ksort($googleSheetRow);
          do_action('wcgs_after_products_updated', $googleSheetRow, $data, $product_ids);
-         // wcgs_pa($googleSheetRow);
+        //   wcgs_pa($googleSheetRow); exit;
          return $googleSheetRow;
      }
      
@@ -174,53 +184,56 @@
             
             $response = new stdClass;
             
-            try {
+            $request = new WP_REST_Request( 'POST', "/wc/v3/products/{$product_id}/variations/batch" );
+            $request->set_body_params( $variation );
+            // $request->set_query_params( [ 'per_page' => 12 ] );
+            $response = rest_do_request( $request );
+            if ( $response->is_error() ) {
+                $error = $response->as_error();
+                set_transient('wcgs_rest_api_error', $product_id.':'.$error->get_error_message());
+            } else{
+                $response = $response->get_data();
                 
-                $response = $this->woocommerce->post("products/{$product_id}/variations/batch", $variation);
-            } catch(HttpClientException $e) {
-                $errors_found[$product_id] = $e->getMessage();
+                 // Getting Rows to update Google Sheet
+                 if( isset($response['create']) ) {
+                     foreach($response['create'] as $item){
+                         
+                         if( isset($item['error']) ) {
+                            $errors_found[] = $item;
+                         } else {
+                            $rowNo = '';
+                            foreach($item['meta_data'] as $metadata){
+                                $rowNo = $metadata->key == 'wcgs_row_id' ? $metadata->value : '';
+                                if($rowNo) break;
+                            }
+                            $googleSheetRow[$rowNo] = [$item['id'], 1];
+                            $product_ids['update'][$rowNo] = $item['id'];
+                         }
+                         
+                         do_action('wcgs_after_variation_created', $item, $data, $rowNo);
+                     }
+                 }
+                 
+                 if( isset($response['update']) ) {
+                     foreach($response['update'] as $item){
+                         
+                         if( isset($item['error']) ) {
+                            $errors_found[] = $item;
+                         } else {
+                            $rowNo = '';
+                            foreach($item['meta_data'] as $metadata){
+                                $rowNo = $metadata->key == 'wcgs_row_id' ? $metadata->value : '';
+                                if($rowNo) break;
+                            }
+                            $googleSheetRow[$rowNo] = [$item['id'], 1];
+                            $product_ids['update'][$rowNo] = $item['id'];
+                         }
+                         
+                         do_action('wcgs_after_variation_updated', $item, $data, $rowNo);
+                     }
+                 }
             }
-            
-            // wcgs_pa($response);
-             // Getting Rows to update Google Sheet
-            //  $googleSheetRow = array();
-             if( isset($response->create) ) {
-                 foreach($response->create as $item){
-                     
-                     if( isset($item->error) ) {
-                        $errors_found[$product_id] = $item;
-                     } else {
-                        $key_found = array_search('wcgs_row_id', array_column($item->meta_data, 'key'));
-                        if( $key_found === false ) continue;
-                        $rowNo = $item->meta_data[$key_found]->value;
-                        $googleSheetRow[$rowNo] = [$item->id, 1];
-                        $product_ids['create'][$rowNo] = $item->id;
-                     }
-                     
-                     do_action('wcgs_after_variation_created', $item, $variations, $rowNo);
-                 }
-             }
-             
-             if( isset($response->update) ) {
-                 foreach($response->update as $item){
-                     
-                     if( isset($item->error) ) {
-                        $errors_found[$product_id] = $item;
-                     } else {
-                        $key_found = array_search('wcgs_row_id', array_column($item->meta_data, 'key'));
-                        if( $key_found === false ) continue;
-                        $rowNo = $item->meta_data[$key_found]->value;
-                        $googleSheetRow[$rowNo] = [$item->id, 1];
-                        $variation_ids['update'][$rowNo] = $item->id;
-                     }
-                     
-                     do_action('wcgs_after_variation_updated', $item, $variations, $rowNo);
-                 }
-             }
         }
-        
-        
-        // wp_send_json($errors_found);
          
         if( count($errors_found) > 0 ) {
             set_transient('wcgs_batch_error', $errors_found);

@@ -70,7 +70,7 @@ function wcgs_update_gsheet_edit_cat($term_id, $tt_id){
     $wcapi = new WCGS_WC_API();
     $row = $wcapi->get_category_for_gsheet($term_id);
     
-    $updatable_data = array('name', 'slug', 'parent');
+    $updatable_data = array('id','name', 'slug', 'parent', 'last_sync');
     $updatable_data = apply_filters('wcgs_category_update_data', $updatable_data);
     
     $wcapi = new WCGS_WC_API();
@@ -82,7 +82,7 @@ function wcgs_update_gsheet_edit_cat($term_id, $tt_id){
     foreach($updatable_data as $value) {
         
         $index = isset($header[$value]) ? $header[$value] : null;
-        if( !$index ) continue;
+        if( $index === null ) continue;
         
         $column = wcgs_get_header_column_by_index($index);
         
@@ -285,7 +285,7 @@ function wcgs_update_gsheet_edit_product($id, $product, $update){
         $row_id = get_post_meta($id, 'wcgs_row_id', true);
         if( !$row_id ) return;
         
-        $updatable_data = array('name', 'description', 'status', 'short_description', 'sku', 'regular_price', 'sale_price', 'last_sync');
+        $updatable_data = array('id','name', 'description', 'status', 'short_description', 'sku', 'regular_price', 'sale_price', 'last_sync');
         $updatable_data = apply_filters('wcgs_product_updatble_data', $updatable_data);
         
         $wcapi = new WCGS_WC_API();
@@ -298,7 +298,7 @@ function wcgs_update_gsheet_edit_product($id, $product, $update){
         foreach($updatable_data as $value) {
             
             $index = isset($header[$value]) ? $header[$value] : null;
-            if( !$index ) continue;
+            if( $index === null ) continue;
             
             $column = wcgs_get_header_column_by_index($index);
             

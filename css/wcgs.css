@@ -23,3 +23,18 @@
     margin: 16px auto;
     font-size: 18px;
 }
+
+ #wcgs_progressbar {
+  background-color: black;
+  /*border-radius: 13px;*/ /* (height of inner div) / 2 + padding */
+  padding: 3px;
+  display:none;
+}
+
+#wcgs_progressbar > div.pb-run {
+   background-color: orange;
+   width: 100%; /* Adjust with JavaScript */
+   height: 20px;
+   /*border-radius: 10px;*/
+   color:#fff;
+}

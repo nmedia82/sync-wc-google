@@ -38,7 +38,7 @@ class WCGS_Products {
     // Chunking the GS Rows
     function get_chunks(){
         
-        $wcgs_chunks = 5;
+        $chunk_size = wcgs_get_chunk_size();
         $gs = new WCGS_APIConnect();
         $range = 'products';
         $gs_rows = $gs->get_sheet_rows($range);
@@ -54,10 +54,10 @@ class WCGS_Products {
         
         // wcgs_pa($filters);
         if( !$syncable_filter ) return null;
-        $chunked_array = array_chunk($syncable_filter, $wcgs_chunks, true);
+        $chunked_array = array_chunk($syncable_filter, $chunk_size, true);
         set_transient('wcgs_product_chunk', $chunked_array);
         
-        $response = ['total_products'=>count($syncable_filter), 'chunks'=>count($chunked_array),'chunk_size'=>$wcgs_chunks];
+        $response = ['total_products'=>count($syncable_filter), 'chunks'=>count($chunked_array),'chunk_size'=>$chunk_size];
         
         return $response;
     }

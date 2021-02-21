@@ -12,12 +12,14 @@ jQuery(function($) {
         e.preventDefault();
 
         work_div.html('Please wait ...');
+        
+        $("#wcgs_progressbar").hide();
 
         const sheet_name = $("#sheet_name").val();
         const data = { 'action': `wcgs_sync_data_${sheet_name}`, 'sheet': sheet_name };
         $.post(ajaxurl, data, function(response) {
 
-            // console.log(response);
+            console.log(response);
             work_div.html('');
             const { status, message, raw, chunks } = response;
             switch (status) {
@@ -35,11 +37,27 @@ jQuery(function($) {
                     
                 case 'chunked':
                     const message_4 = $("<div/>").html(message).appendTo(work_div);
+                    var chunk_count = 0;
+                    $("#wcgs_progressbar").show();
+                    $(`.pb-run`).css('width', '10%');
+                    // $(`.pb-run`).html('');
                     for(var c=0; c<chunks.chunks; c++){
                         
                         wcgs_sync_data_in_chunks(c, function(chunk, sync_result){
-                            console.log(sync_result);
-                            $("<div/>").html(`Chunk# ${chunk}: ${sync_result.message}`).appendTo(work_div);
+                            
+                            chunk_count++;
+                            const resp_msg = `Chunk# ${chunk_count}/${chunks.chunks}: ${sync_result.message}`;
+                            var run = (chunk_count/chunks.chunks) * 100;
+                            $(`.pb-run`).css('width', `${run}%`);
+                            
+                            $(`.pb-run`).html(resp_msg);
+                            
+                            if( chunk_count == chunks.chunks ) {
+                                $(`.pb-run`).html('SYNC OPERATION COMPLETED SUCCESSFULLY !!');
+                                $(`.pb-run`).css('background-color','#6ea820');
+                            }
+                            
+                            $("<div/>").html(resp_msg).appendTo(work_div);
                         });
                     }
                     break;

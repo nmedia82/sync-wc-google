@@ -247,21 +247,40 @@
      
      // get category for googlesheet row
      function get_category_for_gsheet($id){
+        
+        $request = new WP_REST_Request( 'GET', "/wc/v3/products/categories/{$id}" );
+        $response = rest_do_request( $request );
+        if ( $response->is_error() ) {
+            // Log here
+            return '';
+        }
+        
+        $item = $response->get_data();
+        $category = new WCGS_Categories();
+        $header = $category->get_header();
+        // wcgs_pa($header); exit;
          
-         $item = $this->woocommerce->get('products/categories/'.$id);
-         $category = new WCGS_Categories();
-         $header = $category->get_header();
-         
-         $category_row = array();
-         if( $header ) {
-             foreach($header as $key => $index) {
-                 
-                $value = $key == 'sync' ? 1 : $item->{ trim($key) };
+        $category_row = array();
+        if( $header ) {
+            foreach($header as $key => $index) {
+                
+                switch($key){
+                    case 'sync':
+                        $value = 1;
+                        break;
+                    case 'last_sync':
+                        $value = date('Y-m-d h:i:sa', time());
+                        break;
+                    default:
+                        $value = is_array($item[trim($key)]) ? json_encode($item[trim($key)]) : $item[trim($key)];
+                        break;
+                }
+                
                 $value = $value === NULL ? '' : $value;
                 $category_row[] = $value;
-             }
-         }
-        //  $category_row = [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
+            }
+        }
+        
         //  wcgs_pa($category_row); exit;
         return apply_filters('wcgs_category_update_row', $category_row, $id);
      }
@@ -270,25 +289,40 @@
      // get product for googlesheet row
      function get_product_for_gsheet($id){
          
-         $item = $this->woocommerce->get('products/'.$id);
-         $product = new WCGS_Products();
-         $header = $product->get_header();
+        $request = new WP_REST_Request( 'GET', "/wc/v3/products/{$id}" );
+        $response = rest_do_request( $request );
+        if ( $response->is_error() ) {
+            // Log here
+            return '';
+        }
+         
+        $item = $response->get_data();
+        $product = new WCGS_Products();
+        $header = $product->get_header();
          // wcgs_pa($item);
          
-         $product_row = array();
-         if( $header ) {
-             foreach($header as $key => $index) {
+        $product_row = array();
+        if( $header ) {
+            foreach($header as $key => $index) {
                  
-                // ignore last_sync for now
-                if( $key == 'last_sync' ) continue;
+                switch($key){
+                    case 'sync':
+                        $value = 1;
+                        break;
+                    case 'last_sync':
+                        $value = date('Y-m-d h:i:sa', time());
+                        break;
+                    default:
+                        $value = is_array($item[trim($key)]) ? json_encode($item[trim($key)]) : $item[trim($key)];
+                        break;
+                }
                 
-                $value = $key == 'sync' ? 1 : $item->{ trim($key) };
                 $value = $value === NULL ? '' : $value;
                 $product_row[] = $value;
-             }
-         }
+            }
+        }
         //  $product_row = [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
-        //  wcgs_pa($item);
+        //  wcgs_pa($item); exit;
         return apply_filters('wcgs_product_update_row', $product_row, $id);
      }
      
@@ -313,12 +347,31 @@
         foreach($categories_notsync as $c){
              $include_categories[] = $c->term_id;
         }
-         
-         $args = ['per_page'=>100, 'include'=>$include_categories];
-         $items = $this->woocommerce->get('products/categories', $args);
-         $categories = new WCGS_Categories();
-         $header = $categories->get_header();
-        //  wcgs_pa($header); exit;
+        
+        $chunk_size = wcgs_get_chunk_size();
+        
+        $chunks          = array_chunk($include_categories, $chunk_size);
+        $chunkedResponse = [];
+        // wcgs_pa($include_categories); exit;
+        foreach ($chunks as $chunk) {
+            
+            $args              = apply_filters('wcgs_export_categories_args',
+                                ['per_page' => $chunk_size, 'include' => $chunk]);
+                
+            $request = new WP_REST_Request( 'GET', '/wc/v3/categories' );
+            $request->set_query_params( $args );
+            $response = rest_do_request( $request );
+            if ( ! $response->is_error() ) {
+                $chunkedResponse[] = $response->get_data();
+            }
+        }
+        
+        $items = array_merge(...$chunkedResponse);
+        unset($chunkedResponse, $chunks, $chunk);
+        
+        $categories = new WCGS_Categories();
+        $header = $categories->get_header();
+        //  wcgs_pa($items); exit;
          
          $categories = array();
          foreach($items as $item) {
@@ -335,7 +388,7 @@
                             $value = date('Y-m-d h:i:sa', time());
                             break;
                         default:
-                            $value = is_array($item->{ trim($key) }) ? json_encode($item->{ trim($key) }) : $item->{ trim($key) };
+                            $value = is_array($item[trim($key)]) ? json_encode($item[trim($key)]) : $item[trim($key)];
                             break;
                     }
                     
@@ -347,39 +400,58 @@
              
              $categories[] = $product_row;
          }
-        //  $product_row = [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
-        //  wcgs_pa($item);
+        
+        // wcgs_pa($categories); exit;
         return apply_filters('wcgs_categories_synback', $categories);
      }
      
+        
      
      // get products for sync-back
      function get_products_for_syncback(){
          
          // Getting Products IDs not syncs
-         $args = array(
-           'numberposts'   => -1,
-           'post_type'     => 'product',
-           'post_status'=>'publish',
-           'meta_query' => array(
-                          array(
-                             'key' => 'wcgs_row_id',
-                             'compare' => 'NOT EXISTS'
-                          ),
-           ));      
-        
-         $products_notsync = get_posts($args);
-         $include_products = [];
-         foreach($products_notsync as $p){
-             $include_products[] = $p->ID;
-         }
+        $args = array(
+          'numberposts'   => -1,
+          'post_type'     => 'product',
+          'post_status'=>'publish',
+          'meta_query' => [['key' => 'wcgs_row_id',
+                         'compare' => 'NOT EXISTS']]
+            );      
+        $products_notsync = get_posts($args);
          
-         $args = apply_filters('wcgs_export_products_args', ['per_page'=>100, 'include'=>$include_products]);
-         $items = $this->woocommerce->get('products', $args);
-         $product = new WCGS_Products();
-         $header = $product->get_header();
+         
+        $products_notsync = get_posts($args);
+        $include_products = [];
+        foreach ($products_notsync as $p) {
+            $include_products[] = $p->ID;
+        }
         
-        //  wcgs_pa($header); exit;
+        $chunk_size = wcgs_get_chunk_size();
+        
+        $chunks          = array_chunk($include_products, $chunk_size);
+        $chunkedResponse = [];
+        // wcgs_pa($products_notsync); exit;
+        foreach ($chunks as $chunk) {
+            
+            $args              = apply_filters('wcgs_export_products_args',
+                                ['per_page' => $chunk_size, 'include' => $chunk]);
+                
+            $request = new WP_REST_Request( 'GET', '/wc/v3/products' );
+            $request->set_query_params( $args );
+            $response = rest_do_request( $request );
+            if ( ! $response->is_error() ) {
+                $chunkedResponse[] = $response->get_data();
+            }
+        }
+        
+        $items = array_merge(...$chunkedResponse);
+        unset($chunkedResponse, $chunks, $chunk);
+        
+        $product = new WCGS_Products();
+        $header  = $product->get_header();
+        
+        //  wcgs_pa($items); exit;
          
          $products = array();
          foreach($items as $item) {
@@ -388,9 +460,6 @@
              if( $header ) {
                  foreach($header as $key => $index) {
                      
-                    // ignore last_sync for now
-                    // if( $key == 'last_sync' ) continue;
-                    
                     switch($key){
                         case 'sync':
                             $value = 1;
@@ -398,11 +467,8 @@
                         case 'last_sync':
                             $value = date('Y-m-d h:i:sa', time());
                             break;
-                        case 'dimensions':
-                            $value = json_encode($item->{ trim($key) });
-                            break;
                         default:
-                            $value = is_array($item->{ trim($key) }) ? json_encode($item->{ trim($key) }) : $item->{ trim($key) };
+                            $value = is_array($item[trim($key)]) ? json_encode($item[trim($key)]) : $item[trim($key)];
                             break;
                     }
                     
@@ -415,7 +481,7 @@
              $products[] = $product_row;
          }
         //  $product_row = [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
-        //  wcgs_pa($item);
+        //  wcgs_pa($item); exit;
         return apply_filters('wcgs_products_synback', $products);
      }
      
@@ -427,23 +493,40 @@
            'numberposts'   => -1,
            'post_type'     => 'product',
            'post_status'=>'publish',
+           'meta_query' => [['key' => 'wcgs_row_id',
+                         'compare' => 'EXISTS']]
         );      
         
         $variations_notsync = get_posts($args);
          
         $include_variations = [];
         $args = apply_filters('wcgs_export_variations_args', ['per_page'=>100]);
-        foreach($variations_notsync as $p){
-             $product_id = $p->ID;
-             $_product = wc_get_product( $product_id );
-             if( ! $_product->is_type( 'variable' ) ) continue; 
-             $items = $this->woocommerce->get("products/$product_id/variations", $args);
-             $include_variations[$product_id] = $items;
-         }
+        
+        $chunk_size = wcgs_get_chunk_size();
+        
+        $chunks          = array_chunk($variations_notsync, $chunk_size);
+        $chunkedResponse = [];
+        // wcgs_pa($chunks); exit;
+        foreach ($chunks as $products) {
+            
+            foreach($products as $p){
+                 $product_id = $p->ID;
+                 $_product = wc_get_product( $product_id );
+                 if( ! $_product->is_type( 'variable' ) ) continue; 
+                 
+                    $request = new WP_REST_Request( 'GET', "/wc/v3/products/$product_id/variations" );
+                    $request->set_query_params( $args );
+                    $response = rest_do_request( $request );
+                    if ( ! $response->is_error() ) {
+                        $items = $response->get_data();
+                        $include_variations[$product_id] = $items;
+                    }
+             }
+        }
          
          $product = new WCGS_variations();
          $header = $product->get_header();
-        //  wcgs_pa($include_variations); exit;
+        //  wcgs_pa($header); exit;
          
          $variations = array();
          foreach($include_variations as $parent_id => $items) {
@@ -464,13 +547,20 @@
                                 $value = date('Y-m-d h:i:sa', time());
                                 break;
                             case 'dimensions':
-                                $value = json_encode($item->{ trim($key) });
+                                $value = json_encode($item[trim($key)]);
+                                break;
+                            case 'image':
+                                $value = $item[trim($key)];
+                                if($value){
+                                    $image_from = get_option('wcgs_image_import');
+                                    $value = $value[$image_from];
+                                }
                                 break;
                             case 'product_id':
                                 $value = $parent_id;
                                 break;
                             default:
-                                $value = is_array($item->{ trim($key) }) ? json_encode($item->{ trim($key) }) : $item->{ trim($key) };
+                                $value = is_array($item[trim($key)]) ? json_encode($item[trim($key)]) : $item[trim($key)];
                                 break;
                         }
                         
@@ -486,7 +576,8 @@
              
          }
         //  $product_row = [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
-        //  wcgs_pa($item);
+        //  wcgs_pa($variations); exit;
         return apply_filters('wcgs_variations_synback', $variations);
      }
+     
  }

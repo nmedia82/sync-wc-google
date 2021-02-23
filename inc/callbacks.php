@@ -60,19 +60,22 @@ function wcgs_sync_data_categories($send_json=true) {
 }
 
 add_action('wp_ajax_wcgs_sync_chunk_products', 'wcgs_sync_chunk_products', 99, 1);
-function wcgs_sync_chunk_products($send_json=true) {
+function wcgs_sync_chunk_products($send_json=true, $chunk=null) {
     
-    if ( is_admin() && ( defined( 'DOING_AJAX' ) || DOING_AJAX ) ) {
+    if ( is_admin() && ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
         $send_json = true;
     }
     
     $saved_chunked = get_transient('wcgs_product_chunk');
-    $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : '';
     
+    if( $chunk === null ) 
+        $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : '';
+        
+    $response = array();
     if( !isset($saved_chunked[$chunk]) ) {
         $response['status'] = 'error';
         $response['message'] = __("No chunk found to sync","wcgs");
-        wp_send_json($response);
+        return $send_json ? wp_send_json($response) : $response;
     }
     
     // wp_send_json($saved_chunked[$chunk]);
@@ -84,11 +87,11 @@ function wcgs_sync_chunk_products($send_json=true) {
     
     $product = new WCGS_Products();
     $sync_result = $product->sync($chunked_rows);
+    // wcgs_pa($saved_chunked);
     
     // if( $sync_result == null ) return '';
-    // wcgs_pa($sync_result);
+    // var_dump($sync_result);
     
-    $response = array();
     $response['raw'] = $sync_result;
     // parse erros
     if( isset($sync_result['batch_errors']['Batch_Errors']) && count($sync_result['batch_errors']['Batch_Errors']) > 0 ){
@@ -122,17 +125,13 @@ function wcgs_sync_chunk_products($send_json=true) {
     $response['status'] = 'message_response';
     $response['message'] = $message;
     
-    if( $send_json ) {
-        wp_send_json($response);
-    } else {
-        return $response;
-    }
+    return $send_json ? wp_send_json($response) : $response;
 }
 
 add_action('wp_ajax_wcgs_sync_data_products', 'wcgs_chunk_products', 99, 1);
 function wcgs_chunk_products($send_json=true) {
     
-    if ( is_admin() && ( defined( 'DOING_AJAX' ) || DOING_AJAX ) ) {
+    if ( is_admin() && ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
         $send_json = true;
     }
     

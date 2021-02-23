@@ -97,7 +97,7 @@
      // return Rows for Google Sheet
      function update_products_batch($data, $gs_rows) {
          
-         // ini_set('default_socket_timeout', 500);
+        //  wcgs_pa($data);
          
         // product ids being created/udpated
         $product_ids = [];
@@ -106,7 +106,6 @@
         
         $request = new WP_REST_Request( 'POST', '/wc/v3/products/batch' );
         $request->set_body_params( $data );
-        // $request->set_query_params( [ 'per_page' => 12 ] );
         $response = rest_do_request( $request );
         if ( $response->is_error() ) {
             $error = $response->as_error();
@@ -186,7 +185,6 @@
             
             $request = new WP_REST_Request( 'POST', "/wc/v3/products/{$product_id}/variations/batch" );
             $request->set_body_params( $variation );
-            // $request->set_query_params( [ 'per_page' => 12 ] );
             $response = rest_do_request( $request );
             if ( $response->is_error() ) {
                 $error = $response->as_error();

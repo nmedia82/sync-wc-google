@@ -55,6 +55,9 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 2.0 - February 23, 2021 =
+* Features: Chunked syncing - best approach for larger data sets
+* Features: Calling WC API internally, no need of WC apikey and secret key
 = 1.5 - February 10, 2021 =
 * Tweaks: Optimized the sync speed
 * Bug fixed: PRO: Variations images issue fixed when import/sync

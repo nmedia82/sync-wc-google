@@ -20,6 +20,10 @@ Now your store is just a Single Click away to get populated with this Amazing pl
 = How It Works? =
 [youtube https://www.youtube.com/watch?v=XISi_zL96Lw]
 
+= Version 2.0 =
+* Chunked syncing - more fast and reliable approach
+* No need of WooCommerce API Keys since version 2.0
+
 = Features =
 * One Click Import
 * Sync All Your Products

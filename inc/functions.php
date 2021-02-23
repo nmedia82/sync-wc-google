@@ -118,31 +118,31 @@ function wcgs_array_settings() {
 		),
 		
 		array(
-			'title' => 'WooCommerce API Credentials',
+			'title' => 'NOTE: No need of WooCommerce API Keys since version 2.0',
 			'type'  => 'title',
 			'desc'	=> __(''),
 			'id'    => 'wcgs_woocommerce_creds',
 		),
 		
-		array(
-            'title'		=> __( 'WooCommerce Consumer Key:', 'wcgs' ),
-            'type'		=> 'text',
-            'desc'		=> __( 'WooCommerce Consumer Key generated from REST API', 'wcgs' ),
-            'default'	=> __('', 'wcgs'),
-            'id'		=> 'wcgs_wc_ck',
-            'css'   	=> 'min-width:300px;',
-			'desc_tip'	=> true,
-        ),
+// 		array(
+//             'title'		=> __( 'WooCommerce Consumer Key:', 'wcgs' ),
+//             'type'		=> 'text',
+//             'desc'		=> __( 'WooCommerce Consumer Key generated from REST API', 'wcgs' ),
+//             'default'	=> __('', 'wcgs'),
+//             'id'		=> 'wcgs_wc_ck',
+//             'css'   	=> 'min-width:300px;',
+// 			'desc_tip'	=> true,
+//         ),
         
-        array(
-            'title'		=> __( 'WooCommerce Secret Key:', 'wcgs' ),
-            'type'		=> 'text',
-            'desc'		=> __( 'WooCommerce Secret Key generated from REST API', 'wcgs' ),
-            'default'	=> __('', 'wcgs'),
-            'id'		=> 'wcgs_wc_sk',
-            'css'   	=> 'min-width:300px;',
-			'desc_tip'	=> true,
-        ),
+//         array(
+//             'title'		=> __( 'WooCommerce Secret Key:', 'wcgs' ),
+//             'type'		=> 'text',
+//             'desc'		=> __( 'WooCommerce Secret Key generated from REST API', 'wcgs' ),
+//             'default'	=> __('', 'wcgs'),
+//             'id'		=> 'wcgs_wc_sk',
+//             'css'   	=> 'min-width:300px;',
+// 			'desc_tip'	=> true,
+//         ),
         
         array(
 			'type' => 'sectionend',

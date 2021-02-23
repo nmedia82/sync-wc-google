@@ -11,21 +11,21 @@
      
      function __Construct() {
          
-        $wcgs_ck = wcgs_get_option('wcgs_wc_ck');
-        $wcgs_sk = wcgs_get_option('wcgs_wc_sk');
+        // $wcgs_ck = wcgs_get_option('wcgs_wc_ck');
+        // $wcgs_sk = wcgs_get_option('wcgs_wc_sk');
         
-        //  PPOM DEV
-         $this->woocommerce = new Client(
-            get_site_url(), // Your store URL
-            $wcgs_ck,
-            $wcgs_sk,
-            [
-                'wp_api' => true, // Enable the WP REST API integration
-                'version' => 'wc/v3', // WooCommerce WP REST API version
-                'timeout' => 0,
-                'verify_ssl'=> false
-            ]
-        );
+        // //  PPOM DEV
+        //  $this->woocommerce = new Client(
+        //     get_site_url(), // Your store URL
+        //     $wcgs_ck,
+        //     $wcgs_sk,
+        //     [
+        //         'wp_api' => true, // Enable the WP REST API integration
+        //         'version' => 'wc/v3', // WooCommerce WP REST API version
+        //         'timeout' => 0,
+        //         'verify_ssl'=> false
+        //     ]
+        // );
      }
      
      

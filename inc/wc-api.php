@@ -406,50 +406,25 @@
         
      
      // get products for sync-back
-     function get_products_for_syncback(){
+     function get_products_for_syncback($included_products){
          
-         // Getting Products IDs not syncs
-        $args = array(
-          'numberposts'   => -1,
-          'post_type'     => 'product',
-          'post_status'=>'publish',
-          'meta_query' => [['key' => 'wcgs_row_id',
-                         'compare' => 'NOT EXISTS']]
-            );      
-        $products_notsync = get_posts($args);
-         
-         
-        $products_notsync = get_posts($args);
-        $include_products = [];
-        foreach ($products_notsync as $p) {
-            $include_products[] = $p->ID;
-        }
+        $chunk_size = wcgs_syncback_get_chunk_size();
+        $items = [];
         
-        $chunk_size = wcgs_get_chunk_size();
-        
-        $chunks          = array_chunk($include_products, $chunk_size);
-        $chunkedResponse = [];
-        // wcgs_pa($products_notsync); exit;
-        foreach ($chunks as $chunk) {
+        $args              = apply_filters('wcgs_export_products_args',
+                            ['per_page' => $chunk_size, 'include' => $included_products]);
             
-            $args              = apply_filters('wcgs_export_products_args',
-                                ['per_page' => $chunk_size, 'include' => $chunk]);
-                
-            $request = new WP_REST_Request( 'GET', '/wc/v3/products' );
-            $request->set_query_params( $args );
-            $response = rest_do_request( $request );
-            if ( ! $response->is_error() ) {
-                $chunkedResponse[] = $response->get_data();
-            }
+        $request = new WP_REST_Request( 'GET', '/wc/v3/products' );
+        $request->set_query_params( $args );
+        $response = rest_do_request( $request );
+        if ( ! $response->is_error() ) {
+            $items = $response->get_data();
         }
-        
-        $items = array_merge(...$chunkedResponse);
-        unset($chunkedResponse, $chunks, $chunk);
         
         $product = new WCGS_Products();
         $header  = $product->get_header();
         
-        //  wcgs_pa($items); exit;
+        //  wcgs_pa($included_products); exit;
          
          $products = array();
          foreach($items as $item) {
@@ -457,7 +432,8 @@
              $product_row = array();
              if( $header ) {
                  foreach($header as $key => $index) {
-                     
+             
+                    // ppom_pa($item);
                     switch($key){
                         case 'sync':
                             $value = 1;
@@ -476,11 +452,12 @@
                  }
              }
              
+            // wcgs_pa($product_row);
              $products[] = $product_row;
          }
         //  $product_row = [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
-        //  wcgs_pa($item); exit;
-        return apply_filters('wcgs_products_synback', $products);
+        //  wcgs_pa($products); exit;
+        return apply_filters('wcgs_products_synback', $products, $included_products);
      }
      
      // get variations for sync-back

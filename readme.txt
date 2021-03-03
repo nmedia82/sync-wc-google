@@ -59,6 +59,9 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 2.1 - March 3, 2021 =
+* Bug fixed: Variations syncing-back issue fixed
+* Tweaks: Warnings removed, permormance increased.
 = 2.0 - February 23, 2021 =
 * Features: Chunked syncing - best approach for larger data sets
 * Features: Calling WC API internally, no need of WC apikey and secret key

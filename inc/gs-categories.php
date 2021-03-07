@@ -85,7 +85,22 @@ class WCGS_Categories {
         $data = array();
         foreach($this->map as $key => $index) {
             
-            $data[ trim($key) ] = $row[$index];
+            if( empty($row[$index])  ) continue;
+            
+            $value = $row[$index];
+            
+            // getting the datatype
+            $data_type = wcgs_get_datatype_by_keys('categories', $key);
+            switch($data_type) {
+                
+                case 'object':
+                case 'array':
+                    $value = json_decode($value, true);
+                    break;
+            }
+            
+            // var_dump($key, $row[$index]);
+            $data[ trim($key) ] = apply_filters("wcgs_categories_data_{$key}", $value, $row);
         }
         return $data;
         

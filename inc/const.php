@@ -27,3 +27,21 @@ function wcgs_sync_array(){
     $sync_array = ['products'=>__("Products","wcgs"), 'categories'=>__("Categories","wcgs")];
     return apply_filters('wcgs_sync_array', $sync_array);
 }
+
+// All datatypes
+function wcgs_datatypes() {
+    
+    $datatypes = [  'products'  => ['meta_data'=>'array'],
+                    'orders'    => ['id'=>'int','sync'=>'string','billing'=>'object','shipping'=>'object','line_items'=>'array']
+                ];
+                
+    return apply_filters('wcgs_datatypes', $datatypes);
+}
+
+// Get the data types by keys
+function wcgs_get_datatype_by_keys($context, $key) {
+    $datatypes = wcgs_datatypes();
+    
+    return isset($datatypes[$context][$key]) ? $datatypes[$context][$key] : 'string';
+    
+}

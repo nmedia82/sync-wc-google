@@ -80,7 +80,7 @@ class WCGS_Products {
             $id   = isset($row['id']) ? $row['id'] : '';
             
             // Adding the meta key in new product to keep rowNo
-            $row['meta_data'] = [['key'=>'wcgs_row_id', 'value'=>$rowIndex]];
+            $row['meta_data'][] = ['key'=>'wcgs_row_id', 'value'=>$rowIndex];
             
             if( $id != '' ) {
                 $parse_Rows['update'][$rowIndex] = $row;   
@@ -100,10 +100,22 @@ class WCGS_Products {
         $data = array();
         foreach($wcgs_header as $key => $index) {
             
-            if( ! isset($row[$index]) ) continue;
+            if( empty($row[$index])  ) continue;
+            
+            $value = $row[$index];
+            
+            // getting the datatype
+            $data_type = wcgs_get_datatype_by_keys('products', $key);
+            switch($data_type) {
+                
+                case 'object':
+                case 'array':
+                    $value = json_decode($value, true);
+                    break;
+            }
             
             // var_dump($key, $row[$index]);
-            $data[ trim($key) ] = apply_filters("wcgs_row_data_{$key}", $row[$index], $row);
+            $data[ trim($key) ] = apply_filters("wcgs_products_data_{$key}", $value, $row);
         }
         return $data;
     }
@@ -113,8 +125,8 @@ class WCGS_Products {
     function sync($rows) {
         
         // Get Data from Google Sheet
-        // wcgs_pa($rows); exit;
         $products = $this->get_data($rows);
+        // wcgs_pa($products); exit;
         
         if( ! $products ) return ['no_sync'=>true];
        

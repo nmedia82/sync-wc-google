@@ -121,17 +121,8 @@ function wcgs_update_gsheet_delete_cat($term_id, $taxonomy){
 /***
  * ============= Product Row Data Filter Sheet ==> WC API =================
  * **/
-// short_descriptions esc_html
-// add_filter('wcgs_row_data_short_description', 'wcgs_product_short_description_data', 2, 99);
-function wcgs_product_short_description_data($description, $row){
-    
-    if( ! $description ) return $description;
-    $description = esc_html($description);
-    return $description;
-    
-}
 // Categories
-add_filter('wcgs_row_data_categories', 'wcgs_product_category_data', 2, 99);
+add_filter('wcgs_products_data_categories', 'wcgs_product_category_data', 2, 99);
 function wcgs_product_category_data($categories, $row){
     
     if( ! $categories ) return $categories;
@@ -145,7 +136,7 @@ function wcgs_product_category_data($categories, $row){
 }
 
 // Categories
-add_filter('wcgs_row_data_tags', 'wcgs_product_tags_data', 2, 99);
+add_filter('wcgs_products_data_tags', 'wcgs_product_tags_data', 2, 99);
 function wcgs_product_tags_data($tags, $row){
     
     if( ! $tags ) return $tags;
@@ -163,21 +154,6 @@ function wcgs_product_attribute_data($attributes, $row){
     
     if( ! $attributes ) return $attributes;
     $attributes = json_decode($attributes, true);
-    // $make_array = explode(';', $attributes);
-    // $attributes = array_map(function ($attribute) {
-    //     $breakup = explode('|', $attribute);
-    //     var_dump($breakup);
-    //     $attr_id = $breakup[0];
-    //     $attr_options = explode(",", $breakup[1]);
-        
-    //     $attr['id'] = $attr_id;
-    //     $attr['visible'] = true;
-    //     $attr['variation'] = true;
-    //     $attr['options'] = $attr_options;
-        
-    //     return $attr;
-    // }, $make_array);
-    // var_dump($attributes);
     return $attributes;
 }
 
@@ -187,25 +163,10 @@ function wcgs_product_variations_data($variations, $row){
     
     if( ! $variations ) return $variations;
     $variations = json_decode($variations, true);
-    // $make_array = explode(';', $variations);
-    // $variations = array_map(function ($attribute) {
-    //     $breakup = explode('|', $attribute);
-    //     var_dump($breakup);
-    //     $attr_id = $breakup[0];
-    //     $attr_options = explode(",", $breakup[1]);
-        
-    //     $attr['id'] = $attr_id;
-    //     $attr['visible'] = true;
-    //     $attr['variation'] = true;
-    //     $attr['options'] = $attr_options;
-        
-    //     return $attr;
-    // }, $make_array);
-    // var_dump($variations);
     return $variations;
 }
 // Image (variations)
-add_filter('wcgs_row_data_image', 'wcgs_product_image_data', 2, 99);
+add_filter('wcgs_variations_data_image', 'wcgs_product_image_data', 2, 99);
 function wcgs_product_image_data($image, $row){
     
     if( $image == '' ) return $image;
@@ -215,7 +176,7 @@ function wcgs_product_image_data($image, $row){
 }
 
 // Images
-add_filter('wcgs_row_data_images', 'wcgs_product_images_data', 2, 99);
+add_filter('wcgs_products_data_images', 'wcgs_product_images_data', 2, 99);
 function wcgs_product_images_data($images, $row){
     
     if( $images == '' ) return $images;
@@ -331,8 +292,8 @@ function wcgs_delete_sheet_product($porduct_id){
 }
 
 // Sync Back Simple Products & Categories
-add_action('wcgs_after_sync_button', 'wcgs_sync_bank_free', 99, 1);
-function wcgs_sync_bank_free($google_client) {
+add_action('wcgs_after_sync_button', 'wcgs_sync_back_free', 99, 1);
+function wcgs_sync_back_free($google_client) {
     
     wcgs_load_template_file('admin/sync-back.php', ['google_client'=>$google_client]);
 }

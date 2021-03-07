@@ -66,7 +66,7 @@ class WCGS_Variations {
             $sync = isset($row['sync']) ? $row['sync'] : '';
             
             // Adding the meta key in new product to keep rowNo
-            $row['meta_data'] = [['key'=>'wcgs_row_id', 'value'=>$rowIndex]];
+            $row['meta_data'][] = ['key'=>'wcgs_row_id', 'value'=>$rowIndex];
             
             
             if( $id != '' ) {
@@ -91,9 +91,22 @@ class WCGS_Variations {
         // wcgs_pa($this->map); exit;
         foreach($this->map as $key => $index) {
             
-            if( ! isset($row[$index]) ) continue;
+            if( empty($row[$index])  ) continue;
             
-            $data[ trim($key) ] = apply_filters("wcgs_row_data_{$key}", $row[$index], $row);
+            $value = $row[$index];
+            
+            // getting the datatype
+            $data_type = wcgs_get_datatype_by_keys('variations', $key);
+            switch($data_type) {
+                
+                case 'object':
+                case 'array':
+                    $value = json_decode($value, true);
+                    break;
+            }
+            
+            // var_dump($key, $row[$index]);
+            $data[ trim($key) ] = apply_filters("wcgs_variations_data_{$key}", $value, $row);
         }
         return $data;
         

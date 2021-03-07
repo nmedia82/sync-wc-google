@@ -59,6 +59,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 2.2 - xxx =
+* Bug fixed: Meta data syncing issue fixed
 = 2.1 - March 3, 2021 =
 * Bug fixed: Variations syncing-back issue fixed
 * Tweaks: Warnings removed, permormance increased.

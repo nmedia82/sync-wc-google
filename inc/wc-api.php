@@ -225,7 +225,7 @@
      }
      
      
-     // Updating products via WC API
+    // Updating products via WC API
     // return Rows for Google Sheet
     function update_orders_batch($data, $gs_rows) {
      
@@ -295,7 +295,79 @@
     //   wcgs_pa($googleSheetRow); exit;
      return $googleSheetRow;
     }
+    
+    
+    // Updating customers via WC API
+    // return Rows for Google Sheet
+    function update_customers_batch($data, $gs_rows) {
      
+    //  wcgs_pa($data);
+     
+    // product ids being created/udpated
+    $product_ids = [];
+    $googleSheetRow = array();
+    $errors_found = array();
+    
+    $request = new WP_REST_Request( 'POST', '/wc/v3/customers/batch' );
+    $request->set_body_params( $data );
+    $response = rest_do_request( $request );
+    if ( $response->is_error() ) {
+        $error = $response->as_error();
+        set_transient('wcgs_rest_api_error', $error->get_error_message());
+    } else{
+        $response = $response->get_data();
+    
+     // Getting Rows to update Google Sheet
+         if( isset($response['create']) ) {
+             foreach($response['create'] as $item){
+                 
+                 if( isset($item['error']) ) {
+                    $errors_found[] = $item;
+                 } else {
+                    $rowNo = '';
+                    foreach($item['meta_data'] as $metadata){
+                        $rowNo = $metadata->key == 'wcgs_row_id' ? $metadata->value : '';
+                        if($rowNo) break;
+                    }
+                    $googleSheetRow[$rowNo] = [$item['id'], 1];
+                    $product_ids['update'][$rowNo] = $item['id'];
+                 }
+                 
+                 do_action('wcgs_after_customer_created', $item, $data, $rowNo);
+             }
+         }
+         
+         if( isset($response['update']) ) {
+             foreach($response['update'] as $item){
+                 
+                 if( isset($item['error']) ) {
+                    $errors_found[] = $item;
+                 } else {
+                    $rowNo = '';
+                    foreach($item['meta_data'] as $metadata){
+                        $rowNo = $metadata->key == 'wcgs_row_id' ? $metadata->value : '';
+                        if($rowNo) break;
+                    }
+                    $googleSheetRow[$rowNo] = [$item['id'], 1];
+                    $customer_ids['update'][$rowNo] = $item['id'];
+                 }
+                 
+                 do_action('wcgs_after_customer_updated', $item, $data, $rowNo);
+             }
+         }
+    }
+     
+     
+    if( count($errors_found) > 0 ) {
+        set_transient('wcgs_batch_error', $errors_found);
+    }
+     
+     ksort($googleSheetRow);
+     do_action('wcgs_after_customers_updated', $googleSheetRow, $data, $customer_ids);
+    //   wcgs_pa($googleSheetRow); exit;
+     return $googleSheetRow;
+    }
+         
      // get category for googlesheet row
      function get_category_for_gsheet($id){
         
@@ -335,7 +407,6 @@
         //  wcgs_pa($category_row); exit;
         return apply_filters('wcgs_category_update_row', $category_row, $id);
      }
-     
      
      // get product for googlesheet row
      function get_product_for_gsheet($id){
@@ -455,8 +526,6 @@
         // wcgs_pa($categories); exit;
         return apply_filters('wcgs_categories_synback', $categories);
      }
-     
-        
      
      // get products for sync-back
      function get_products_for_syncback($included_products){

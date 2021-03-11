@@ -59,7 +59,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
-= 2.2 - xxx =
+= 2.2 - March 11, 2021 =
+* Feature: Now the Orders & Customers data can be synced with Add-on
 * Bug fixed: Meta data syncing issue fixed
 = 2.1 - March 3, 2021 =
 * Bug fixed: Variations syncing-back issue fixed

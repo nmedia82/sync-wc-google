@@ -546,7 +546,7 @@
         $product = new WCGS_Products();
         $header  = $product->get_header();
         
-        //  wcgs_pa($items); exit;
+        //  wcgs_pa($header); exit;
          
          $products = array();
          foreach($items as $item) {
@@ -554,6 +554,8 @@
              $product_row = array();
              if( $header ) {
                  foreach($header as $key => $index) {
+                     
+                    $value = $item[trim($key)];
              
                     switch($key){
                         case 'sync':
@@ -562,8 +564,14 @@
                         case 'last_sync':
                             $value = date('Y-m-d h:i:sa', time());
                             break;
+                        case 'featured':
+                            $value = $value ? 'TRUE' : 'FALSE';
+                            break;
+                        case 'description':
+                            $value = apply_filters('the_conent', $value);
+                            break;
                         default:
-                            $value = is_array($item[trim($key)]) ? json_encode($item[trim($key)]) : $item[trim($key)];
+                            $value = is_array($value) ? json_encode($value) : $value;
                             break;
                     }
                     
@@ -573,11 +581,10 @@
                  }
              }
              
-            // wcgs_pa($product_row);
              $products[] = $product_row;
          }
         //  $product_row = [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
-        //  wcgs_pa($products);
+        // wcgs_pa($products); exit;
         return apply_filters('wcgs_products_synback', $products, $included_products);
      }
      

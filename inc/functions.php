@@ -220,6 +220,6 @@ function wcgs_get_chunk_size(){
 
 // Chunk size Syncback
 function wcgs_syncback_get_chunk_size(){
-    $chunksize = get_option('wcgs_syncback_chunk_size', 100);
+    $chunksize = get_option('wcgs_wc_chunk_size', 50);
     return apply_filters('wcgs_syncback_chunk_size', intval($chunksize));
 }

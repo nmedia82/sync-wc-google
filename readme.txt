@@ -59,6 +59,9 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 2.3 - March 26, 2021 =
+* Tweaks: Unnessary files removed
+* Bug fixed: Sync Back chunk size not linked, it is linked now.
 = 2.2 - March 11, 2021 =
 * Feature: Now the Orders & Customers data can be synced with Add-on
 * Bug fixed: Meta data syncing issue fixed

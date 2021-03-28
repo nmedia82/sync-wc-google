@@ -75,12 +75,18 @@ function wcgs_get_option($key, $default_val=false) {
 function wcgs_array_settings() {
 	
     $wcgs_demo_sheet = 'https://docs.google.com/spreadsheets/d/1sA55ZG3uo8JLr8eKyDkim0B2QcC1OtVVr26zufW0Fwo/edit?usp=sharing';
+    $desc = sprintf(__('<a target="_blank" href="%s">Google Demo Sheet</a>', 'wcgs'), $wcgs_demo_sheet);
+    if( $sheet_id = get_option('wcgs_googlesheet_id') ) {
+        $wcgs_demo_sheet = "https://docs.google.com/spreadsheets/d/{$sheet_id}/edit?usp=sharing";    
+        $desc .= sprintf(__(' | <a target="_blank" href="%s">Connected Sheet</a>', 'wcgs'), $wcgs_demo_sheet);
+    }
+    
 	$wcgs_settings = array(
        
 		array(
 			'title' => 'Google Credentials',
 			'type'  => 'title',
-			'desc'	=> sprintf(__('<a target="_blank" href="%s">Google Demo Sheet</a>', 'wcgs'), $wcgs_demo_sheet),
+			'desc'	=> $desc,
 			'id'    => 'wcgs_google_creds',
 		),
 		

@@ -28,6 +28,7 @@ class WCGS_Categories {
     function get_header() {
         
         $header = get_option('wcgs_category_header');
+        // wcgs_log($header);
         return $header;
     }
     
@@ -75,7 +76,7 @@ class WCGS_Categories {
             
         }
         
-        // wcgs_pa($parse_Rows);
+        // wcgs_pa($parse_Rows); exit;
         $this->rowRef = $rowRef;
         return $parse_Rows;
     }
@@ -83,7 +84,7 @@ class WCGS_Categories {
     function build_row_for_wc_api($row) {
         
         $data = array();
-        foreach($this->map as $key => $index) {
+        foreach($this->get_header() as $key => $index) {
             
             if( empty($row[$index])  ) continue;
             
@@ -114,7 +115,7 @@ class WCGS_Categories {
         if( ! $categories ) return ['no_sync'=>true];
        
         $wcapi = new WCGS_WC_API();
-        $googleSheetRows = $wcapi->update_categories_batch($categories, $this->rowRef, $this->rows);
+        $googleSheetRows = $wcapi->update_categories_batch($categories, $this->rowRef);
         
         // Get the Range Value for last_sync column
         $header_values = $this->get_header();
@@ -147,4 +148,29 @@ class WCGS_Categories {
         
         return $response;
     }
+    
+    // Updating categories via WC API
+    // Return WC_API Response
+    function wc_update_category($data) {
+     
+        // Check if id exists
+        if( isset($data['id']) ) {
+            $request = new WP_REST_Request( 'PUT', '/wc/v3/products/categories/'.$data['id'] );    
+        } else {
+            $request = new WP_REST_Request( 'POST', '/wc/v3/products/categories' );
+        }
+        
+        $request->set_body_params( $data );
+        $response = rest_do_request( $request );
+        if ( $response->is_error() ) {
+            $error = $response->as_error();
+            return new WP_Error( 'wc_api_error', $error->get_error_message() );
+        } else{
+            $response = $response->get_data();
+        }
+         
+         do_action('wcgs_after_category_updated', $response, $data);
+        //   wcgs_pa($response);
+         return $response;
+    }   
 }

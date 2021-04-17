@@ -229,3 +229,61 @@ function wcgs_syncback_get_chunk_size(){
     $chunksize = get_option('wcgs_wc_chunk_size', 50);
     return apply_filters('wcgs_syncback_chunk_size', intval($chunksize));
 }
+
+
+function wcgs_log ( $log )  {
+    
+    if ( WCGS_LOG ) {
+        if ( is_array( $log ) || is_object( $log ) ) {
+              $resp = error_log( print_r( $log, true ), 3, WCGS_PATH.'/log/wcgs.txt' );
+        } else {
+              $resp = error_log( $log, 3, WCGS_PATH.'/log/wcgs.txt' );
+        }
+    }
+}
+
+// Set item meta with key: wcgs_row_id
+function wcgs_resource_update_meta($resource, $id, $row_no){
+    
+    switch($resource){
+        case 'categories':
+            update_term_meta($id, 'wcgs_row_id', $row_no);
+            break;
+    }
+}
+
+// Category: create category range to sync-back
+function wcgs_category_range_for_update($category_id){
+    
+    $row_id = (int) get_term_meta($category_id, 'wcgs_row_id', true);
+    if( !$row_id ) return null;
+
+    $wcapi = new WCGS_WC_API();
+    $sync_val = 'SYNCBACK';
+    $row = $wcapi->get_category_for_gsheet($category_id, $sync_val);
+    
+    $updatable_data = array('id','name', 'slug', 'parent', 'last_sync');
+    $updatable_data = apply_filters('wcgs_category_update_data', $updatable_data);
+    
+    $last_sync_index = wcgs_get_las_sync_index_by_sheet('categories');
+    $last_column = wcgs_get_header_column_by_index($last_sync_index);
+    
+    $range = "categories!A{$row_id}:{$last_column}{$row_id}";
+    // $ranges_value[$range] = $row;   
+    
+    return [$range => $row];
+}
+
+// Getting last_sync index by category
+function wcgs_get_las_sync_index_by_sheet($sheet){
+    
+    $header = [];
+    switch($sheet){
+        case 'categories':
+            $header = get_option('wcgs_category_header');
+            break;
+    }
+    
+    $index = isset($header['last_sync']) ? $header['last_sync'] : null;
+    return $index;
+}

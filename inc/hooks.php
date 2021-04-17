@@ -62,40 +62,15 @@ function wcgs_update_gsheet_create_cat($term_id, $tt_id){
 add_action( "edited_product_cat", "wcgs_update_gsheet_edit_cat", 99, 2);
 function wcgs_update_gsheet_edit_cat($term_id, $tt_id){
     
-    if ( !isset($_POST['action']) && $_POST['action'] != 'editedtag') return '';
+    if( ! array_key_exists ('action', $_POST) ) return '';
+    if ( $_POST['action'] != 'editedtag') return '';
     
-    $row_id = get_term_meta($term_id, 'gs_range', true);
-    if( !$row_id ) return;
-
-    $wcapi = new WCGS_WC_API();
-    $row = $wcapi->get_category_for_gsheet($term_id);
-    
-    $updatable_data = array('id','name', 'slug', 'parent', 'last_sync');
-    $updatable_data = apply_filters('wcgs_category_update_data', $updatable_data);
-    
-    $wcapi = new WCGS_WC_API();
-    
-    $header = get_option('wcgs_category_header');
-    // wcgs_pa($header);
-    
-    $ranges_value = array();
-    foreach($updatable_data as $value) {
-        
-        $index = isset($header[$value]) ? $header[$value] : null;
-        if( $index === null ) continue;
-        
-        $column = wcgs_get_header_column_by_index($index);
-        
-        if( !isset($row[$index]) || !$column ) continue;
-        
-        $range = "categories!{$column}{$row_id}";
-        $value = [ wp_specialchars_decode($row[$index]) ];
-        $ranges_value[$range] = $value; 
-    }
+    $ranges_value = wcgs_category_range_for_update($term_id);
+    if( !$ranges_value ) return;
     
     // wcgs_pa($ranges_value); exit;
     $gs = new WCGS_APIConnect();
-    $gs->update_single_row($ranges_value, $row);
+    $gs->update_rows_with_ranges($ranges_value);
     // exit;
 }
 
@@ -125,13 +100,13 @@ function wcgs_update_gsheet_delete_cat($term_id, $taxonomy){
 add_filter('wcgs_products_data_categories', 'wcgs_product_category_data', 2, 99);
 function wcgs_product_category_data($categories, $row){
     
+    // var_dump($categories);
     if( ! $categories ) return $categories;
     $make_array = explode(',', $categories);
     $categories = array_map(function ($category) {
         $cat['id'] = $category;
         return $cat;
     }, $make_array);
-    // wcgs_pa($categories);
     return $categories;
 }
 
@@ -189,6 +164,19 @@ function wcgs_product_images_data($images, $row){
     }
     
     return $image_remake;
+}
+
+// meta_data
+// meta_data has large set of json string and it create problem
+add_filter('wcgs_products_syncback_value_meta_data', 'wcgs_meta_data_value', 3, 22);
+function wcgs_meta_data_value($value, $key, $index) {
+    $export_meta_data = get_option('wcgs_export_meta_data');
+    
+    if( $export_meta_data != 'yes' ) {
+        $value = '[]';
+    }
+    
+    return $value;
 }
 
 
@@ -272,7 +260,7 @@ function wcgs_update_gsheet_edit_product($id, $product, $update){
         
         // wcgs_pa($ranges_value); exit;
         $gs = new WCGS_APIConnect();
-        $gs->update_single_row($ranges_value, $row);
+        $gs->update_rows_with_ranges($ranges_value, $row);
     }
 }
 
@@ -297,3 +285,59 @@ function wcgs_sync_back_free($google_client) {
     
     wcgs_load_template_file('admin/sync-back.php', ['google_client'=>$google_client]);
 }
+
+add_filter( 'manage_product_posts_columns', 'create_synced_product_column', 20);
+function create_synced_product_column($columns){
+    $columns['wcgs_column'] = __('Sync Row#' , 'wcgs_product');
+    return  $columns;
+    
+}
+
+add_filter( 'manage_product_posts_custom_column', 'create_synced_product_column_data', 20, 2 );
+//manage cpt custom column data callback
+function create_synced_product_column_data( $column, $post_id){
+
+    switch ($column) {
+        case 'wcgs_column':
+            $rowno = get_post_meta($post_id,'wcgs_row_id', true);
+            if($rowno){
+                echo $rowno;
+            }else{
+                _e("Not synced", 'wcgs');
+            }
+        break;
+    }
+}
+
+// add_filter( 'manage_products_posts_columns', 'create_synced_category_column', 20);
+// function create_synced_category_column($columns){
+//     $columns['wcgs_column'] = __('Sync Row#' , 'wcgs_category');
+//     return  $columns;
+    
+// }
+
+// // add_filter( 'manage_product&s_posts_custom_column', 'create_synced_category_column_data', 20, 2 );
+// //manage cpt custom column data callback
+// function create_synced_category_column_data( $column, $post_id){
+
+//     switch ($column) {
+//         case 'wcgs_column':
+//             $rowno = get_post_meta($post_id,'wcgs_row_id', true);
+//             if($rowno){
+//                 echo $rowno;
+//             }else{
+//                 _e("Not synced", 'wcgs');
+//             }
+//         break;
+//     }
+// }
+    
+
+
+
+
+
+
+
+
+        

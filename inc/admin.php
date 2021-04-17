@@ -30,6 +30,7 @@ function wcgs_settings_tab(){
     $wcgs_redirect_url = get_rest_url(null, 'nkb/v1/auth');
     
     $gs = new WCGS_APIConnect();
+    // if(!empty($wcgs_google_credential) && !empty($wcgs_googlesheet_id) && !empty($wcgs_imports_limit) && !empty($wcgs_redirect_url)){
     if(!empty($wcgs_google_credential) && !empty($wcgs_googlesheet_id) && !empty($wcgs_imports_limit) && !empty($wcgs_redirect_url)){
         
         wcgs_admin_render_sync_widget($gs);
@@ -60,4 +61,12 @@ function wcgs_admin_show_notices() {
 	
 	    delete_transient("wcgs_admin_notices");
 	}
+}
+
+function wcgs_admin_columns_css() {
+	?>
+	<style>
+	    /* Meta in column */
+		th.column-wcgs_column{ width: 10%!important;}
+	</style><?php
 }

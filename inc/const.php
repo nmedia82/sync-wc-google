@@ -41,7 +41,7 @@ function wcgs_datatypes() {
                                     'virtual'=>'boolean','button_text'=>'string','tax_status'=>'string','tax_class'=>'string','weight'=>'string',
                                     'external_url'=>'string','stock_status'=>'string','manage_stock'=>'boolean','grouped_products'=>'array',
                                     'backorders'=>'string','backorders_allowed'=>'boolean','backordered'=>'boolean','downloadable'=>'boolean',
-                                    'description'=>'string','categories'=>'array','shipping_required'=>'boolean','shipping_taxable'=>'boolean',
+                                    'description'=>'string','categories'=>'string','shipping_required'=>'boolean','shipping_taxable'=>'boolean',
                                     'dimensions'=>'object','shipping_class'=>'string','reviews_allowed'=>'boolean','average_rating'=>'string',
                                     'rating_count'=>'int','related_ids'=>'array','upsell_ids'=>'array','parent_id'=>'int','menu_order'=>'int',
                                     'purchase_note'=>'string','cross_sell_ids'=>'array','attributes'=>'array','default_attributes'=>'array',

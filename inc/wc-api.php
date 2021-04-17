@@ -17,7 +17,7 @@
      
      // Updating categories via WC API
      // return Rows for Google Sheet
-     function update_categories_batch($data, $rowRef, $gs_rows) {
+     function update_categories_batch($data, $rowRef) {
          
         $errors_found = array();
         $googleSheetRow = array();
@@ -42,7 +42,7 @@
                         $item_name = sanitize_key($item['name']);
                         if( !isset($rowRef[$item_name]) ) continue;
                         $rowNo = $rowRef[$item_name];
-                        $googleSheetRow[$rowNo] = [$item['id'], 1];
+                        $googleSheetRow[$rowNo] = [$item['id'], WCGS_SYNC_OK];
                      }
                      
                      do_action('wcgs_after_category_created', $item, $data, $rowNo);
@@ -56,7 +56,7 @@
                         $errors_found[] = $item;
                      } else {
                         $rowNo = $rowRef[$item['id']];
-                        $googleSheetRow[$rowNo] = [$item['id'], 1];
+                        $googleSheetRow[$rowNo] = [$item['id'], WCGS_SYNC_OK];
                      }
                      
                      do_action('wcgs_after_category_updated', $item, $data, $rowNo);
@@ -369,7 +369,7 @@
     }
          
      // get category for googlesheet row
-     function get_category_for_gsheet($id){
+     function get_category_for_gsheet($id, $sync='OK'){
         
         $request = new WP_REST_Request( 'GET', "/wc/v3/products/categories/{$id}" );
         $response = rest_do_request( $request );
@@ -387,9 +387,11 @@
         if( $header ) {
             foreach($header as $key => $index) {
                 
+                if( $key == 'auto_sync' ) continue;
+                
                 switch($key){
                     case 'sync':
-                        $value = 1;
+                        $value = $sync;
                         break;
                     case 'last_sync':
                         $value = date('Y-m-d h:i:sa', time());
@@ -456,7 +458,7 @@
             'hide_empty' => false,
             'meta_query' => array(
                 array(
-                     'key' => 'gs_range',
+                     'key' => 'wcgs_row_id',
                      'compare' => 'NOT EXISTS'
                   ),
             ),
@@ -502,9 +504,10 @@
              if( $header ) {
                  foreach($header as $key => $index) {
                      
+                    if( $key == 'auto_sync' ) continue;
                     switch($key){
                         case 'sync':
-                            $value = 1;
+                            $value = 'OK';
                             break;
                         case 'last_sync':
                             $value = date('Y-m-d h:i:sa', time());
@@ -527,6 +530,53 @@
         return apply_filters('wcgs_categories_synback', $categories);
      }
      
+     
+     // get categories for sync-back (already synced)
+     function get_synced_categories_for_syncback(){
+         
+         // Getting categories IDs not syncs
+         $args = array(
+            'hide_empty' => false,
+            'meta_query' => array(
+                array(
+                     'key' => 'wcgs_row_id',
+                     'compare' => 'EXISTS'
+                  ),
+            ),
+            'taxonomy'  => 'product_cat',
+            );
+            
+        $categories_synced = get_terms( $args );
+         
+        // $include_categories = [];
+        // foreach($categories_notsync as $c){
+        //      $include_categories[] = $c->term_id;
+        // }
+        
+        // $chunk_size = wcgs_get_chunk_size();
+        
+        // $chunks          = array_chunk($include_categories, $chunk_size);
+        // $chunkedResponse = [];
+        
+        // foreach ($chunks as $chunk) {
+            
+        //     $args              = apply_filters('wcgs_export_categories_args',
+        //                         ['per_page' => $chunk_size, 'include' => $chunk]);
+                
+        //     $request = new WP_REST_Request( 'GET', '/wc/v3/products/categories' );
+        //     $request->set_query_params( $args );
+        //     $response = rest_do_request( $request );
+        //     if ( ! $response->is_error() ) {
+        //         $chunkedResponse[] = $response->get_data();
+        //     }
+        // }
+        
+        // $items = array_merge(...$chunkedResponse);
+        // unset($chunkedResponse, $chunks, $chunk);
+        
+        return $categories_synced;
+     }
+     
      // get products for sync-back
      function get_products_for_syncback($included_products){
          
@@ -544,7 +594,11 @@
         }
         
         $product = new WCGS_Products();
+        
         $header  = $product->get_header();
+        if( !$header ) {
+            return new WP_Error( 'header_not_found', __( "Oops, you have to sync first.", "wcgs" ) );
+        }
         
         //  wcgs_pa($header); exit;
          
@@ -569,6 +623,10 @@
                             break;
                         case 'description':
                             $value = apply_filters('the_conent', $value);
+                            $char_count = strlen($value);
+                            if( $char_count >= 45000){
+                                $value = '';
+                            }
                             break;
                         default:
                             $value = is_array($value) ? json_encode($value) : $value;

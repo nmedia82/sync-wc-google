@@ -76,7 +76,7 @@ class WCGS_Products {
             
             $rowIndex++;
             
-            $row = $this->build_row_for_wc_api($row, $wcgs_header);
+            $row = $this->build_row_for_wc_api($row);
             $id   = isset($row['id']) ? $row['id'] : '';
             
             // Adding the meta key in new product to keep rowNo
@@ -95,10 +95,13 @@ class WCGS_Products {
         return $parse_Rows;
     }
     
-    function build_row_for_wc_api($row, $wcgs_header) {
+    function build_row_for_wc_api($row, $header=null) {
         
         $data = array();
-        foreach($wcgs_header as $key => $index) {
+        
+        $header = is_null($header) ? $this->get_header() : $header;
+        
+        foreach($header as $key => $index) {
             
             if( empty($row[$index])  ) continue;
             
@@ -169,4 +172,29 @@ class WCGS_Products {
         
         return $response;
     }
+    
+    // Updating categories via WC API
+    // Return WC_API Response
+    function wc_update_product($data) {
+     
+        // Check if id exists
+        if( isset($data['id']) ) {
+            $request = new WP_REST_Request( 'PUT', '/wc/v3/products/'.$data['id'] );    
+        } else {
+            $request = new WP_REST_Request( 'POST', '/wc/v3/products' );
+        }
+        
+        $request->set_body_params( $data );
+        $response = rest_do_request( $request );
+        if ( $response->is_error() ) {
+            $error = $response->as_error();
+            return new WP_Error( 'wc_api_error', $error->get_error_message() );
+        } else{
+            $response = $response->get_data();
+        }
+         
+         do_action('wcgs_after_product_updated', $response, $data);
+        //   wcgs_pa($response);
+         return $response;
+    }   
 }

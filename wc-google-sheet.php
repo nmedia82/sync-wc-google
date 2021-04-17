@@ -17,12 +17,15 @@ define('WCGS_PATH', untrailingslashit(plugin_dir_path( __FILE__ )) );
 define('WCGS_URL', untrailingslashit(plugin_dir_url( __FILE__ )) );
 define('WCGS_SETTING_URL', admin_url( 'admin.php?page=wc-settings&tab=wcgs_settings' ) );
 define('WCGS_VERSION', 2.3 );
+define('WCGS_LOG', true );
+define('WCGS_SYNC_OK', 'OK' );
 
 
 include_once WCGS_PATH . "/inc/const.php";
 include_once WCGS_PATH . "/inc/functions.php";
 include_once WCGS_PATH . "/inc/admin.php";
 include_once WCGS_PATH . "/inc/wc-api.php";
+include_once WCGS_PATH . "/inc/wc-api.live.php";
 include_once WCGS_PATH . "/inc/gs-api.php";
 include_once WCGS_PATH . "/inc/gs-categories.php";
 include_once WCGS_PATH . "/inc/gs-products.php";
@@ -30,6 +33,7 @@ include_once WCGS_PATH . "/inc/gs-variations.php";
 include_once WCGS_PATH . "/inc/rest.php";
 include_once WCGS_PATH . "/inc/hooks.php";
 include_once WCGS_PATH . "/inc/callbacks.php";
+include_once WCGS_PATH . "/inc/columns.php";
 
 
 class WCGS_INIT {
@@ -53,6 +57,9 @@ class WCGS_INIT {
     	
     	// Save settings
     	add_action( 'woocommerce_update_options_wcgs_settings', 'wcgs_save_settings' );
+    	
+    	// Adding css for sync column
+    	add_action('admin_head', 'wcgs_admin_columns_css');
 	    
 	    
 	    $plugin = plugin_basename( __FILE__ );
@@ -60,6 +67,9 @@ class WCGS_INIT {
 		
 		// Admin notices
 		add_action( 'admin_notices', 'wcgs_admin_show_notices' );
+		
+		// Column Manager
+		if( is_admin() ) WCGS_COLUMNS_INIT();
 	}
 	
 	

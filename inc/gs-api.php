@@ -218,8 +218,8 @@ class WCGS_APIConnect {
         // wcgs_pa($result);
     }
     
-    // Update Single Row
-    function update_single_row($ranges_value, $row) {
+    // Update Rows with defined ranges
+    function update_rows_with_ranges($ranges_value, $row=NULL) {
         
         try{
             $service = new Google_Service_Sheets($this->client);
@@ -233,21 +233,22 @@ class WCGS_APIConnect {
                 ]);
             }
             
-            // wcgs_pa($data); exit;
+            // wcgs_log($data);
             // Additional ranges to update ...
             $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
                 'valueInputOption' => "RAW",
                 'data' => $data
             ]);
             $result = $service->spreadsheets_values->batchUpdate($this->sheet_id, $body);
-            do_action('wcgs_after_category_synced', $value, $range);
+            do_action('wcgs_after_rows_updated', $result, $ranges_value);
         }
         catch (\Exception $e)
         {
-            // wcgs_pa($e);
+            wcgs_log($e);
             set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
         }
-        // wcgs_pa($result);
+        
+        return $result;
     }
     
     // Delete Single Row

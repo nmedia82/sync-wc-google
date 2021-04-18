@@ -59,6 +59,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 2.4 - April 18, 2021 =
+* Bug fixed: Images import issue fixed
 = 2.3 - March 26, 2021 =
 * Tweaks: Unnessary files removed
 * Bug fixed: Sync Back chunk size not linked, it is linked now.

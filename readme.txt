@@ -59,6 +59,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 2.5 - April 18, 2021 =
+* Bug fixed:Error occured in last version
 = 2.4 - April 18, 2021 =
 * Bug fixed: Images import issue fixed
 = 2.3 - March 26, 2021 =

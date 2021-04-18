@@ -1,0 +1,1091 @@
+Array
+(
+    [id] => 2785
+    [manage_stock] => 1
+)
+Array
+(
+    [id] => 2785
+    [manage_stock] => 1
+    [stock_quantity] => 4
+)
+Array
+(
+    [id] => 2785
+    [manage_stock] => 1
+)
+stdClass Object
+(
+    [id] => 0
+    [manage_stock] => 1
+    [stock_quantity] => 2
+)
+stdClass Object
+(
+    [id] => 0
+    [manage_stock] => 1
+    [stock_quantity] => 2
+)
+stdClass Object
+(
+    [id] => 0
+    [manage_stock] => 1
+    [stock_quantity] => 2
+)
+stdClass Object
+(
+    [id] => 0
+    [manage_stock] => 1
+    [stock_quantity] => 2
+)
+Array
+(
+    [id] => 2785
+    [name] => Laura Print
+    [slug] => laura-print
+    [permalink] => https://nmdevteam.com/ppom/product/laura-print/
+    [date_created] => 2021-03-18T14:59:41
+    [date_created_gmt] => 2021-03-18T14:59:41
+    [date_modified] => 2021-04-17T11:11:20
+    [date_modified_gmt] => 2021-04-17T11:11:20
+    [type] => simple
+    [status] => publish
+    [featured] => 
+    [catalog_visibility] => visible
+    [description] => 
+    [short_description] => 
+    [sku] => 
+    [price] => 2
+    [regular_price] => 2
+    [sale_price] => 
+    [date_on_sale_from] => 
+    [date_on_sale_from_gmt] => 
+    [date_on_sale_to] => 
+    [date_on_sale_to_gmt] => 
+    [on_sale] => 
+    [purchasable] => 1
+    [total_sales] => 1600
+    [virtual] => 
+    [downloadable] => 
+    [downloads] => Array
+        (
+        )
+
+    [download_limit] => -1
+    [download_expiry] => -1
+    [external_url] => 
+    [button_text] => 
+    [tax_status] => taxable
+    [tax_class] => 
+    [manage_stock] => 1
+    [stock_quantity] => 5
+    [backorders] => no
+    [backorders_allowed] => 
+    [backordered] => 
+    [sold_individually] => 
+    [weight] => 
+    [dimensions] => Array
+        (
+            [length] => 
+            [width] => 
+            [height] => 
+        )
+
+    [shipping_required] => 1
+    [shipping_taxable] => 1
+    [shipping_class] => 
+    [shipping_class_id] => 0
+    [reviews_allowed] => 1
+    [average_rating] => 0
+    [rating_count] => 0
+    [upsell_ids] => Array
+        (
+        )
+
+    [cross_sell_ids] => Array
+        (
+        )
+
+    [parent_id] => 0
+    [purchase_note] => 
+    [categories] => Array
+        (
+            [0] => Array
+                (
+                    [id] => 15
+                    [name] => Uncategorized
+                    [slug] => uncategorized
+                )
+
+        )
+
+    [tags] => Array
+        (
+        )
+
+    [images] => Array
+        (
+        )
+
+    [attributes] => Array
+        (
+        )
+
+    [default_attributes] => Array
+        (
+        )
+
+    [variations] => Array
+        (
+        )
+
+    [grouped_products] => Array
+        (
+        )
+
+    [menu_order] => 0
+    [price_html] => <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>0.50</bdi></span> &ndash; <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>80.00</bdi></span>
+    [related_ids] => Array
+        (
+            [0] => 75
+            [1] => 30
+            [2] => 21
+            [3] => 130
+            [4] => 114
+        )
+
+    [meta_data] => Array
+        (
+            [0] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 38527
+                            [key] => _product_meta_id
+                            [value] => Array
+                                (
+                                    [0] => 150
+                                )
+
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 38527
+                            [key] => _product_meta_id
+                            [value] => Array
+                                (
+                                    [0] => 150
+                                )
+
+                        )
+
+                )
+
+            [1] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 38528
+                            [key] => wc_productdata_options
+                            [value] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [_bubble_new] => 
+                                            [_bubble_text] => 
+                                            [_custom_tab_title] => 
+                                            [_custom_tab] => 
+                                            [_product_video] => 
+                                            [_product_video_size] => 
+                                            [_product_video_placement] => 
+                                            [_top_content] => 
+                                            [_bottom_content] => 
+                                        )
+
+                                )
+
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 38528
+                            [key] => wc_productdata_options
+                            [value] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [_bubble_new] => 
+                                            [_bubble_text] => 
+                                            [_custom_tab_title] => 
+                                            [_custom_tab] => 
+                                            [_product_video] => 
+                                            [_product_video_size] => 
+                                            [_product_video_placement] => 
+                                            [_top_content] => 
+                                            [_bottom_content] => 
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [2] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 38544
+                            [key] => wholesale_customer_wholesale_price
+                            [value] => 
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 38544
+                            [key] => wholesale_customer_wholesale_price
+                            [value] => 
+                        )
+
+                )
+
+            [3] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 39017
+                            [key] => ppom_popup_enable
+                            [value] => 
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 39017
+                            [key] => ppom_popup_enable
+                            [value] => 
+                        )
+
+                )
+
+            [4] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 39018
+                            [key] => ppom_popup_disable
+                            [value] => 
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 39018
+                            [key] => ppom_popup_disable
+                            [value] => 
+                        )
+
+                )
+
+            [5] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 39019
+                            [key] => ppom_popup_label
+                            [value] => 
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 39019
+                            [key] => ppom_popup_label
+                            [value] => 
+                        )
+
+                )
+
+            [6] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 39020
+                            [key] => wpex_overlay_header_style
+                            [value] => white
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 39020
+                            [key] => wpex_overlay_header_style
+                            [value] => white
+                        )
+
+                )
+
+            [7] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 39021
+                            [key] => wpex_overlay_header_dropdown_style
+                            [value] => black
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 39021
+                            [key] => wpex_overlay_header_dropdown_style
+                            [value] => black
+                        )
+
+                )
+
+            [8] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 39023
+                            [key] => ppom_enf_enable
+                            [value] => 
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 39023
+                            [key] => ppom_enf_enable
+                            [value] => 
+                        )
+
+                )
+
+        )
+
+    [stock_status] => instock
+)
+Array
+(
+    [id] => 2785
+    [name] => Laura Print
+    [slug] => laura-print
+    [permalink] => https://nmdevteam.com/ppom/product/laura-print/
+    [date_created] => 2021-03-18T14:59:41
+    [date_created_gmt] => 2021-03-18T14:59:41
+    [date_modified] => 2021-04-17T11:11:57
+    [date_modified_gmt] => 2021-04-17T11:11:57
+    [type] => simple
+    [status] => publish
+    [featured] => 
+    [catalog_visibility] => visible
+    [description] => 
+    [short_description] => 
+    [sku] => 
+    [price] => 2
+    [regular_price] => 2
+    [sale_price] => 
+    [date_on_sale_from] => 
+    [date_on_sale_from_gmt] => 
+    [date_on_sale_to] => 
+    [date_on_sale_to_gmt] => 
+    [on_sale] => 
+    [purchasable] => 1
+    [total_sales] => 1600
+    [virtual] => 
+    [downloadable] => 
+    [downloads] => Array
+        (
+        )
+
+    [download_limit] => -1
+    [download_expiry] => -1
+    [external_url] => 
+    [button_text] => 
+    [tax_status] => taxable
+    [tax_class] => 
+    [manage_stock] => 1
+    [stock_quantity] => 5
+    [backorders] => no
+    [backorders_allowed] => 
+    [backordered] => 
+    [sold_individually] => 
+    [weight] => 
+    [dimensions] => Array
+        (
+            [length] => 
+            [width] => 
+            [height] => 
+        )
+
+    [shipping_required] => 1
+    [shipping_taxable] => 1
+    [shipping_class] => 
+    [shipping_class_id] => 0
+    [reviews_allowed] => 1
+    [average_rating] => 0
+    [rating_count] => 0
+    [upsell_ids] => Array
+        (
+        )
+
+    [cross_sell_ids] => Array
+        (
+        )
+
+    [parent_id] => 0
+    [purchase_note] => 
+    [categories] => Array
+        (
+            [0] => Array
+                (
+                    [id] => 15
+                    [name] => Uncategorized
+                    [slug] => uncategorized
+                )
+
+        )
+
+    [tags] => Array
+        (
+        )
+
+    [images] => Array
+        (
+        )
+
+    [attributes] => Array
+        (
+        )
+
+    [default_attributes] => Array
+        (
+        )
+
+    [variations] => Array
+        (
+        )
+
+    [grouped_products] => Array
+        (
+        )
+
+    [menu_order] => 0
+    [price_html] => <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>0.50</bdi></span> &ndash; <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>80.00</bdi></span>
+    [related_ids] => Array
+        (
+            [0] => 25
+            [1] => 33
+            [2] => 58
+            [3] => 19
+            [4] => 114
+        )
+
+    [meta_data] => Array
+        (
+            [0] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 38527
+                            [key] => _product_meta_id
+                            [value] => Array
+                                (
+                                    [0] => 150
+                                )
+
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 38527
+                            [key] => _product_meta_id
+                            [value] => Array
+                                (
+                                    [0] => 150
+                                )
+
+                        )
+
+                )
+
+            [1] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 38528
+                            [key] => wc_productdata_options
+                            [value] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [_bubble_new] => 
+                                            [_bubble_text] => 
+                                            [_custom_tab_title] => 
+                                            [_custom_tab] => 
+                                            [_product_video] => 
+                                            [_product_video_size] => 
+                                            [_product_video_placement] => 
+                                            [_top_content] => 
+                                            [_bottom_content] => 
+                                        )
+
+                                )
+
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 38528
+                            [key] => wc_productdata_options
+                            [value] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [_bubble_new] => 
+                                            [_bubble_text] => 
+                                            [_custom_tab_title] => 
+                                            [_custom_tab] => 
+                                            [_product_video] => 
+                                            [_product_video_size] => 
+                                            [_product_video_placement] => 
+                                            [_top_content] => 
+                                            [_bottom_content] => 
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [2] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 38544
+                            [key] => wholesale_customer_wholesale_price
+                            [value] => 
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 38544
+                            [key] => wholesale_customer_wholesale_price
+                            [value] => 
+                        )
+
+                )
+
+            [3] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 39017
+                            [key] => ppom_popup_enable
+                            [value] => 
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 39017
+                            [key] => ppom_popup_enable
+                            [value] => 
+                        )
+
+                )
+
+            [4] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 39018
+                            [key] => ppom_popup_disable
+                            [value] => 
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 39018
+                            [key] => ppom_popup_disable
+                            [value] => 
+                        )
+
+                )
+
+            [5] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 39019
+                            [key] => ppom_popup_label
+                            [value] => 
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 39019
+                            [key] => ppom_popup_label
+                            [value] => 
+                        )
+
+                )
+
+            [6] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 39020
+                            [key] => wpex_overlay_header_style
+                            [value] => white
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 39020
+                            [key] => wpex_overlay_header_style
+                            [value] => white
+                        )
+
+                )
+
+            [7] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 39021
+                            [key] => wpex_overlay_header_dropdown_style
+                            [value] => black
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 39021
+                            [key] => wpex_overlay_header_dropdown_style
+                            [value] => black
+                        )
+
+                )
+
+            [8] => WC_Meta_Data Object
+                (
+                    [current_data:protected] => Array
+                        (
+                            [id] => 39023
+                            [key] => ppom_enf_enable
+                            [value] => 
+                        )
+
+                    [data:protected] => Array
+                        (
+                            [id] => 39023
+                            [key] => ppom_enf_enable
+                            [value] => 
+                        )
+
+                )
+
+        )
+
+    [stock_status] => instock
+)
+Array
+(
+    [status] => 1
+    [message] => Sync completed successfully
+)
+Array
+(
+    [!A2] => Array
+        (
+            [0] => 2785
+        )
+
+    [products!D2] => Array
+        (
+            [0] => OK
+        )
+
+)
+Google_Service_Sheets_BatchUpdateValuesResponse Object
+(
+    [collection_key:protected] => responses
+    [responsesType:protected] => Google_Service_Sheets_UpdateValuesResponse
+    [responsesDataType:protected] => array
+    [spreadsheetId] => 1_yutlyv0YtHI3bWEaU235-uvCNjeqn4LVXVb5s1VSsg
+    [totalUpdatedCells] => 2
+    [totalUpdatedColumns] => 2
+    [totalUpdatedRows] => 1
+    [totalUpdatedSheets] => 1
+    [internal_gapi_mappings:protected] => Array
+        (
+        )
+
+    [modelData:protected] => Array
+        (
+        )
+
+    [processed:protected] => Array
+        (
+        )
+
+    [responses] => Array
+        (
+            [0] => Google_Service_Sheets_UpdateValuesResponse Object
+                (
+                    [spreadsheetId] => 1_yutlyv0YtHI3bWEaU235-uvCNjeqn4LVXVb5s1VSsg
+                    [updatedCells] => 1
+                    [updatedColumns] => 1
+                    [updatedDataType:protected] => Google_Service_Sheets_ValueRange
+                    [updatedDataDataType:protected] => 
+                    [updatedRange] => stock_manager!A2
+                    [updatedRows] => 1
+                    [internal_gapi_mappings:protected] => Array
+                        (
+                        )
+
+                    [modelData:protected] => Array
+                        (
+                        )
+
+                    [processed:protected] => Array
+                        (
+                        )
+
+                )
+
+            [1] => Google_Service_Sheets_UpdateValuesResponse Object
+                (
+                    [spreadsheetId] => 1_yutlyv0YtHI3bWEaU235-uvCNjeqn4LVXVb5s1VSsg
+                    [updatedCells] => 1
+                    [updatedColumns] => 1
+                    [updatedDataType:protected] => Google_Service_Sheets_ValueRange
+                    [updatedDataDataType:protected] => 
+                    [updatedRange] => stock_manager!D2
+                    [updatedRows] => 1
+                    [internal_gapi_mappings:protected] => Array
+                        (
+                        )
+
+                    [modelData:protected] => Array
+                        (
+                        )
+
+                    [processed:protected] => Array
+                        (
+                        )
+
+                )
+
+        )
+
+)
+Array
+(
+    [stock_manager!A2] => Array
+        (
+            [0] => 2785
+        )
+
+    [stock_manager!D2] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A2] => Array
+        (
+            [0] => 2785
+        )
+
+    [stock_manager!D2] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A2] => Array
+        (
+            [0] => 2785
+        )
+
+    [stock_manager!D2] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A2] => Array
+        (
+            [0] => 2785
+        )
+
+    [stock_manager!D2] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A2] => Array
+        (
+            [0] => 2785
+        )
+
+    [stock_manager!D2] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A3] => Array
+        (
+            [0] => 2763
+        )
+
+    [stock_manager!D3] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A3] => Array
+        (
+            [0] => 2763
+        )
+
+    [stock_manager!D3] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A3] => Array
+        (
+            [0] => 2763
+        )
+
+    [stock_manager!D3] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A3] => Array
+        (
+            [0] => 2763
+        )
+
+    [stock_manager!D3] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A3] => Array
+        (
+            [0] => 2763
+        )
+
+    [stock_manager!D3] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A3] => Array
+        (
+            [0] => 2763
+        )
+
+    [stock_manager!D3] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A3] => Array
+        (
+            [0] => 2763
+        )
+
+    [stock_manager!D3] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A3] => Array
+        (
+            [0] => 2763
+        )
+
+    [stock_manager!D3] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A3] => Array
+        (
+            [0] => 2763
+        )
+
+    [stock_manager!D3] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A2] => Array
+        (
+            [0] => 2785
+        )
+
+    [stock_manager!D2] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A2] => Array
+        (
+            [0] => 2785
+        )
+
+    [stock_manager!D2] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A3] => Array
+        (
+            [0] => 2763
+        )
+
+    [stock_manager!D3] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A2] => Array
+        (
+            [0] => 2785
+        )
+
+    [stock_manager!D2] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A3] => Array
+        (
+            [0] => 2763
+        )
+
+    [stock_manager!D3] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A3] => Array
+        (
+            [0] => 2763
+        )
+
+    [stock_manager!D3] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A2] => Array
+        (
+            [0] => 2785
+        )
+
+    [stock_manager!D2] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A2] => Array
+        (
+            [0] => 2816
+        )
+
+    [stock_manager!B2] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A2] => Array
+        (
+            [0] => 2817
+        )
+
+    [stock_manager!B2] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [stock_manager!A2] => Array
+        (
+            [0] => 2818
+        )
+
+    [stock_manager!B2] => Array
+        (
+            [0] => OK
+        )
+
+)

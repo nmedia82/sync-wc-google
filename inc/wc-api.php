@@ -602,31 +602,7 @@
             return new WP_Error( 'header_not_found', __( "Oops, you have to sync first.", "wcgs" ) );
         }
         
-        $tmpItems = $items;
-        // Variations
-        foreach($tmpItems as $index => $item){
-            $variations = [];
-            if($item['type'] == 'variable') {
-                foreach($item['variations'] as $index2 => $variation_id){
-                    $request = new WP_REST_Request( 'GET', '/wc/v3/products/'.$item['id'].'/variations/'.$variation_id );
-                        $request->set_query_params( $args );
-                        $response = rest_do_request( $request );
-                        if ( ! $response->is_error() ) {
-                            $variations = $response->get_data();
-                            
-                            // adding parent_id
-                            $variations['parent_id'] = $item['id'];
-                            
-                            $index += $index2;
-                            $items =  array_slice($items, 0, $index+1, true) +
-                            [$index+1 => $variations] +
-                            array_slice($items, $index, count($items)-$index, true);
-                        }
-                }
-                
-                
-            }
-        }
+        $items = apply_filters('wcgs_products_list_before_syncback', $items);
         
         //  wcgs_log($header);
          

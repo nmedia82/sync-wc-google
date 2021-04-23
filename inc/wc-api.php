@@ -580,6 +580,8 @@
      // get products for sync-back
      function get_products_for_syncback($included_products){
          
+        //  $included_products = [1604];
+         
         $chunk_size = wcgs_syncback_get_chunk_size();
         $items = [];
         
@@ -600,7 +602,33 @@
             return new WP_Error( 'header_not_found', __( "Oops, you have to sync first.", "wcgs" ) );
         }
         
-        //  wcgs_log($items);
+        $tmpItems = $items;
+        // Variations
+        foreach($tmpItems as $index => $item){
+            $variations = [];
+            if($item['type'] == 'variable') {
+                foreach($item['variations'] as $index2 => $variation_id){
+                    $request = new WP_REST_Request( 'GET', '/wc/v3/products/'.$item['id'].'/variations/'.$variation_id );
+                        $request->set_query_params( $args );
+                        $response = rest_do_request( $request );
+                        if ( ! $response->is_error() ) {
+                            $variations = $response->get_data();
+                            
+                            // adding parent_id
+                            $variations['parent_id'] = $item['id'];
+                            
+                            $index += $index2;
+                            $items =  array_slice($items, 0, $index+1, true) +
+                            [$index+1 => $variations] +
+                            array_slice($items, $index, count($items)-$index, true);
+                        }
+                }
+                
+                
+            }
+        }
+        
+        //  wcgs_log($header);
          
          $products = array();
          foreach($items as $item) {
@@ -610,10 +638,23 @@
                  foreach($header as $key => $index) {
                      
                     $value = $item[trim($key)];
+                    
+                    // if type is not set then it is a variation
+                    $is_variation = !isset($item['type']) ? true : false;
              
                     switch($key){
+                        case 'id':
+                            if( $is_variation ){
+                                $value = $item['parent_id'];
+                            }
+                            break;
+                        case 'variation_id':
+                            if( $is_variation ){
+                                $value = $item['id'];
+                            }
+                            break;
                         case 'sync':
-                            $value = 1;
+                            $value = '';
                             break;
                         case 'last_sync':
                             $value = date('Y-m-d h:i:sa', time());
@@ -628,6 +669,7 @@
                                 $value = '';
                             }
                             break;
+                        
                         default:
                             $value = is_array($value) ? json_encode($value) : $value;
                             break;

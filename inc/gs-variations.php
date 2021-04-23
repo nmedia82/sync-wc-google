@@ -85,13 +85,16 @@ class WCGS_Variations {
         return $parse_Rows;
     }
     
-    function build_row_for_wc_api($row) {
+    function build_row_for_wc_api($row, $header=null) {
         
         $data = array();
+        
+        $header = is_null($header) ? $this->get_header() : $header;
+        
         // wcgs_pa($this->map); exit;
-        foreach($this->map as $key => $index) {
+        foreach($header as $key => $index) {
             
-            if( empty($row[$index])  ) continue;
+            // if( empty($row[$index])  ) continue;
             
             $value = $row[$index];
             
@@ -159,4 +162,29 @@ class WCGS_Variations {
         
         return $response;
     }
+    
+    // Updating categories via WC API
+    // Return WC_API Response
+    function wc_update_product($data) {
+     
+        // Check if id exists
+        if( isset($data['id']) ) {
+            $request = new WP_REST_Request( 'PUT', '/wc/v3/products/'.$data['product_id'].'/variations/'.$data['id'] );    
+        } else {
+            $request = new WP_REST_Request( 'POST', '/wc/v3/products/'.$data['product_id'].'/variations' );    
+        }
+        
+        $request->set_body_params( $data );
+        $response = rest_do_request( $request );
+        if ( $response->is_error() ) {
+            $error = $response->as_error();
+            return new WP_Error( 'wc_api_error', $error->get_error_message() );
+        } else{
+            $response = $response->get_data();
+        }
+         
+         do_action('wcgs_after_variation_updated', $response, $data);
+        //   wcgs_pa($response);
+         return $response;
+    }   
 }

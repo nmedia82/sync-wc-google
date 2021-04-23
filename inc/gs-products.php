@@ -103,7 +103,8 @@ class WCGS_Products {
         
         foreach($header as $key => $index) {
             
-            if( empty($row[$index])  ) continue;
+            // wcgs_log($key." => ".$row[$index]);
+            // if( empty($row[$index])  ) continue;
             
             $value = $row[$index];
             
@@ -117,7 +118,7 @@ class WCGS_Products {
                     break;
             }
             
-            // var_dump($key, $row[$index]);
+            
             $data[ trim($key) ] = apply_filters("wcgs_products_data_{$key}", $value, $row);
         }
         return $data;

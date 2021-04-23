@@ -595,12 +595,12 @@
         
         $product = new WCGS_Products();
         
-        $header  = $product->get_header();
+        $header  = apply_filters('wcgs_page_header_data', $product->get_header());
         if( !$header ) {
             return new WP_Error( 'header_not_found', __( "Oops, you have to sync first.", "wcgs" ) );
         }
         
-        //  wcgs_pa($header); exit;
+        //  wcgs_log($items);
          
          $products = array();
          foreach($items as $item) {

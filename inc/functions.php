@@ -245,9 +245,14 @@ function wcgs_log ( $log )  {
 // Set item meta with key: wcgs_row_id
 function wcgs_resource_update_meta($resource, $id, $row_no){
     
+    $id = intval($id);
+    $row_no = intval($row_no);
     switch($resource){
         case 'categories':
             update_term_meta($id, 'wcgs_row_id', $row_no);
+            break;
+        case 'products':
+            update_post_meta($id, 'wcgs_row_id', $row_no);
             break;
     }
 }

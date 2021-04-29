@@ -169,9 +169,9 @@ class WCGS_Variations {
      
         // Check if id exists
         if( isset($data['id']) ) {
-            $request = new WP_REST_Request( 'PUT', '/wc/v3/products/'.$data['product_id'].'/variations/'.$data['id'] );    
+            $request = new WP_REST_Request( 'PUT', '/wc/v3/products/'.$data['parent_id'].'/variations/'.$data['id'] );    
         } else {
-            $request = new WP_REST_Request( 'POST', '/wc/v3/products/'.$data['product_id'].'/variations' );    
+            $request = new WP_REST_Request( 'POST', '/wc/v3/products/'.$data['parent_id'].'/variations' );    
         }
         
         $request->set_body_params( $data );

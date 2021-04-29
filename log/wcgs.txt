@@ -1,504 +1,63 @@
-Google_Service_Sheets_AppendValuesResponse Object
+Array
 (
-    [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-    [tableRange] => stock_manager!A1:G5
-    [updatesType:protected] => Google_Service_Sheets_UpdateValuesResponse
-    [updatesDataType:protected] => 
-    [internal_gapi_mappings:protected] => Array
-        (
-        )
-
-    [modelData:protected] => Array
-        (
-        )
-
-    [processed:protected] => Array
-        (
-        )
-
-    [updates] => Google_Service_Sheets_UpdateValuesResponse Object
-        (
-            [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-            [updatedCells] => 60
-            [updatedColumns] => 6
-            [updatedDataType:protected] => Google_Service_Sheets_ValueRange
-            [updatedDataDataType:protected] => 
-            [updatedRange] => stock_manager!A6:F15
-            [updatedRows] => 10
-            [internal_gapi_mappings:protected] => Array
-                (
-                )
-
-            [modelData:protected] => Array
-                (
-                )
-
-            [processed:protected] => Array
-                (
-                )
-
-        )
-
+    [0] => a
+    [1] => b
+    [2] => c
+    [3] => d
 )
-Google_Service_Sheets_AppendValuesResponse Object
+Array
 (
-    [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-    [tableRange] => stock_manager!A1:G15
-    [updatesType:protected] => Google_Service_Sheets_UpdateValuesResponse
-    [updatesDataType:protected] => 
-    [internal_gapi_mappings:protected] => Array
-        (
-        )
-
-    [modelData:protected] => Array
-        (
-        )
-
-    [processed:protected] => Array
-        (
-        )
-
-    [updates] => Google_Service_Sheets_UpdateValuesResponse Object
-        (
-            [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-            [updatedCells] => 60
-            [updatedColumns] => 6
-            [updatedDataType:protected] => Google_Service_Sheets_ValueRange
-            [updatedDataDataType:protected] => 
-            [updatedRange] => stock_manager!A16:F25
-            [updatedRows] => 10
-            [internal_gapi_mappings:protected] => Array
-                (
-                )
-
-            [modelData:protected] => Array
-                (
-                )
-
-            [processed:protected] => Array
-                (
-                )
-
-        )
-
+    [0] => a
+    [1] => b
+    [2] => c
+    [3] => d
+    [4] => e
 )
-Google_Service_Sheets_AppendValuesResponse Object
+Array
 (
-    [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-    [tableRange] => stock_manager!A1:G25
-    [updatesType:protected] => Google_Service_Sheets_UpdateValuesResponse
-    [updatesDataType:protected] => 
-    [internal_gapi_mappings:protected] => Array
-        (
-        )
-
-    [modelData:protected] => Array
-        (
-        )
-
-    [processed:protected] => Array
-        (
-        )
-
-    [updates] => Google_Service_Sheets_UpdateValuesResponse Object
-        (
-            [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-            [updatedCells] => 78
-            [updatedColumns] => 6
-            [updatedDataType:protected] => Google_Service_Sheets_ValueRange
-            [updatedDataDataType:protected] => 
-            [updatedRange] => stock_manager!A26:F38
-            [updatedRows] => 13
-            [internal_gapi_mappings:protected] => Array
-                (
-                )
-
-            [modelData:protected] => Array
-                (
-                )
-
-            [processed:protected] => Array
-                (
-                )
-
-        )
-
+    [0] => a
+    [1] => b
+    [2] => e
+    [3] => c
+    [4] => d
 )
-Google_Service_Sheets_AppendValuesResponse Object
+Array
 (
-    [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-    [tableRange] => stock_manager!A1:G38
-    [updatesType:protected] => Google_Service_Sheets_UpdateValuesResponse
-    [updatesDataType:protected] => 
-    [internal_gapi_mappings:protected] => Array
+    [0] => a
+    [b] => Array
         (
+            [0] => b1
+            [1] => b2
         )
 
-    [modelData:protected] => Array
-        (
-        )
-
-    [processed:protected] => Array
-        (
-        )
-
-    [updates] => Google_Service_Sheets_UpdateValuesResponse Object
-        (
-            [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-            [updatedCells] => 60
-            [updatedColumns] => 6
-            [updatedDataType:protected] => Google_Service_Sheets_ValueRange
-            [updatedDataDataType:protected] => 
-            [updatedRange] => stock_manager!A39:F48
-            [updatedRows] => 10
-            [internal_gapi_mappings:protected] => Array
-                (
-                )
-
-            [modelData:protected] => Array
-                (
-                )
-
-            [processed:protected] => Array
-                (
-                )
-
-        )
-
+    [1] => e
+    [2] => c
+    [3] => d
 )
-Google_Service_Sheets_AppendValuesResponse Object
+Array
 (
-    [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-    [tableRange] => stock_manager!A1:G48
-    [updatesType:protected] => Google_Service_Sheets_UpdateValuesResponse
-    [updatesDataType:protected] => 
-    [internal_gapi_mappings:protected] => Array
+    [0] => a
+    [b] => Array
         (
+            [0] => b1
+            [1] => b2
         )
 
-    [modelData:protected] => Array
-        (
-        )
-
-    [processed:protected] => Array
-        (
-        )
-
-    [updates] => Google_Service_Sheets_UpdateValuesResponse Object
-        (
-            [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-            [updatedCells] => 78
-            [updatedColumns] => 6
-            [updatedDataType:protected] => Google_Service_Sheets_ValueRange
-            [updatedDataDataType:protected] => 
-            [updatedRange] => stock_manager!A49:F61
-            [updatedRows] => 13
-            [internal_gapi_mappings:protected] => Array
-                (
-                )
-
-            [modelData:protected] => Array
-                (
-                )
-
-            [processed:protected] => Array
-                (
-                )
-
-        )
-
+    [1] => b1
+    [2] => b2
+    [3] => d
 )
-Google_Service_Sheets_AppendValuesResponse Object
+Array
 (
-    [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-    [tableRange] => stock_manager!A1:G61
-    [updatesType:protected] => Google_Service_Sheets_UpdateValuesResponse
-    [updatesDataType:protected] => 
-    [internal_gapi_mappings:protected] => Array
+    [0] => a
+    [b] => Array
         (
+            [0] => b1
+            [1] => b2
         )
 
-    [modelData:protected] => Array
-        (
-        )
-
-    [processed:protected] => Array
-        (
-        )
-
-    [updates] => Google_Service_Sheets_UpdateValuesResponse Object
-        (
-            [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-            [updatedCells] => 42
-            [updatedColumns] => 6
-            [updatedDataType:protected] => Google_Service_Sheets_ValueRange
-            [updatedDataDataType:protected] => 
-            [updatedRange] => stock_manager!A62:F68
-            [updatedRows] => 7
-            [internal_gapi_mappings:protected] => Array
-                (
-                )
-
-            [modelData:protected] => Array
-                (
-                )
-
-            [processed:protected] => Array
-                (
-                )
-
-        )
-
-)
-Google_Service_Sheets_AppendValuesResponse Object
-(
-    [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-    [tableRange] => stock_manager!A1:G1
-    [updatesType:protected] => Google_Service_Sheets_UpdateValuesResponse
-    [updatesDataType:protected] => 
-    [internal_gapi_mappings:protected] => Array
-        (
-        )
-
-    [modelData:protected] => Array
-        (
-        )
-
-    [processed:protected] => Array
-        (
-        )
-
-    [updates] => Google_Service_Sheets_UpdateValuesResponse Object
-        (
-            [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-            [updatedCells] => 60
-            [updatedColumns] => 6
-            [updatedDataType:protected] => Google_Service_Sheets_ValueRange
-            [updatedDataDataType:protected] => 
-            [updatedRange] => stock_manager!A2:F11
-            [updatedRows] => 10
-            [internal_gapi_mappings:protected] => Array
-                (
-                )
-
-            [modelData:protected] => Array
-                (
-                )
-
-            [processed:protected] => Array
-                (
-                )
-
-        )
-
-)
-Google_Service_Sheets_AppendValuesResponse Object
-(
-    [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-    [tableRange] => stock_manager!A1:G11
-    [updatesType:protected] => Google_Service_Sheets_UpdateValuesResponse
-    [updatesDataType:protected] => 
-    [internal_gapi_mappings:protected] => Array
-        (
-        )
-
-    [modelData:protected] => Array
-        (
-        )
-
-    [processed:protected] => Array
-        (
-        )
-
-    [updates] => Google_Service_Sheets_UpdateValuesResponse Object
-        (
-            [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-            [updatedCells] => 60
-            [updatedColumns] => 6
-            [updatedDataType:protected] => Google_Service_Sheets_ValueRange
-            [updatedDataDataType:protected] => 
-            [updatedRange] => stock_manager!A12:F21
-            [updatedRows] => 10
-            [internal_gapi_mappings:protected] => Array
-                (
-                )
-
-            [modelData:protected] => Array
-                (
-                )
-
-            [processed:protected] => Array
-                (
-                )
-
-        )
-
-)
-Google_Service_Sheets_AppendValuesResponse Object
-(
-    [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-    [tableRange] => stock_manager!A1:G21
-    [updatesType:protected] => Google_Service_Sheets_UpdateValuesResponse
-    [updatesDataType:protected] => 
-    [internal_gapi_mappings:protected] => Array
-        (
-        )
-
-    [modelData:protected] => Array
-        (
-        )
-
-    [processed:protected] => Array
-        (
-        )
-
-    [updates] => Google_Service_Sheets_UpdateValuesResponse Object
-        (
-            [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-            [updatedCells] => 78
-            [updatedColumns] => 6
-            [updatedDataType:protected] => Google_Service_Sheets_ValueRange
-            [updatedDataDataType:protected] => 
-            [updatedRange] => stock_manager!A22:F34
-            [updatedRows] => 13
-            [internal_gapi_mappings:protected] => Array
-                (
-                )
-
-            [modelData:protected] => Array
-                (
-                )
-
-            [processed:protected] => Array
-                (
-                )
-
-        )
-
-)
-Google_Service_Sheets_AppendValuesResponse Object
-(
-    [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-    [tableRange] => stock_manager!A1:G34
-    [updatesType:protected] => Google_Service_Sheets_UpdateValuesResponse
-    [updatesDataType:protected] => 
-    [internal_gapi_mappings:protected] => Array
-        (
-        )
-
-    [modelData:protected] => Array
-        (
-        )
-
-    [processed:protected] => Array
-        (
-        )
-
-    [updates] => Google_Service_Sheets_UpdateValuesResponse Object
-        (
-            [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-            [updatedCells] => 60
-            [updatedColumns] => 6
-            [updatedDataType:protected] => Google_Service_Sheets_ValueRange
-            [updatedDataDataType:protected] => 
-            [updatedRange] => stock_manager!A35:F44
-            [updatedRows] => 10
-            [internal_gapi_mappings:protected] => Array
-                (
-                )
-
-            [modelData:protected] => Array
-                (
-                )
-
-            [processed:protected] => Array
-                (
-                )
-
-        )
-
-)
-Google_Service_Sheets_AppendValuesResponse Object
-(
-    [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-    [tableRange] => stock_manager!A1:G44
-    [updatesType:protected] => Google_Service_Sheets_UpdateValuesResponse
-    [updatesDataType:protected] => 
-    [internal_gapi_mappings:protected] => Array
-        (
-        )
-
-    [modelData:protected] => Array
-        (
-        )
-
-    [processed:protected] => Array
-        (
-        )
-
-    [updates] => Google_Service_Sheets_UpdateValuesResponse Object
-        (
-            [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-            [updatedCells] => 78
-            [updatedColumns] => 6
-            [updatedDataType:protected] => Google_Service_Sheets_ValueRange
-            [updatedDataDataType:protected] => 
-            [updatedRange] => stock_manager!A45:F57
-            [updatedRows] => 13
-            [internal_gapi_mappings:protected] => Array
-                (
-                )
-
-            [modelData:protected] => Array
-                (
-                )
-
-            [processed:protected] => Array
-                (
-                )
-
-        )
-
-)
-Google_Service_Sheets_AppendValuesResponse Object
-(
-    [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-    [tableRange] => stock_manager!A1:G57
-    [updatesType:protected] => Google_Service_Sheets_UpdateValuesResponse
-    [updatesDataType:protected] => 
-    [internal_gapi_mappings:protected] => Array
-        (
-        )
-
-    [modelData:protected] => Array
-        (
-        )
-
-    [processed:protected] => Array
-        (
-        )
-
-    [updates] => Google_Service_Sheets_UpdateValuesResponse Object
-        (
-            [spreadsheetId] => 1HSW1PTuTC_cpgIX12PW-ustEisSvndfDY1RRjuIVNoA
-            [updatedCells] => 42
-            [updatedColumns] => 6
-            [updatedDataType:protected] => Google_Service_Sheets_ValueRange
-            [updatedDataDataType:protected] => 
-            [updatedRange] => stock_manager!A58:F64
-            [updatedRows] => 7
-            [internal_gapi_mappings:protected] => Array
-                (
-                )
-
-            [modelData:protected] => Array
-                (
-                )
-
-            [processed:protected] => Array
-                (
-                )
-
-        )
-
+    [1] => b1
+    [2] => b2
+    [3] => c
+    [4] => d
 )

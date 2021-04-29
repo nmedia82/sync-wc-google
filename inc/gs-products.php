@@ -104,7 +104,7 @@ class WCGS_Products {
         foreach($header as $key => $index) {
             
             // wcgs_log($key." => ".$row[$index]);
-            // if( empty($row[$index])  ) continue;
+            if( empty($row[$index])  ) continue;
             
             $value = $row[$index];
             

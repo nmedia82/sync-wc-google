@@ -17,17 +17,24 @@ function wcgs_rest_api_register() {
         'permission_callback' => '__return_true',
     ));
     
-    // Google App Script API
-    register_rest_route('wcgs/v1', '/googlesync/', array(
-        'methods' => 'POST',
-        'callback' => 'wcgs_sync_row',
-         'permission_callback' => '__return_true'
-    ));
+    // // Google App Script API
+    // register_rest_route('wcgs/v1', '/googlesync/', array(
+    //     'methods' => 'POST',
+    //     'callback' => 'wcgs_sync_row',
+    //      'permission_callback' => '__return_true'
+    // ));
     
     // Google App Script API
     register_rest_route('wcgs/v1', '/googlesync/update-meta', array(
         'methods' => 'POST',
         'callback' => 'wcgs_update_meta',
+         'permission_callback' => '__return_true'
+    ));
+    
+    // Google App Script API BULK Meta Update
+    register_rest_route('wcgs/v1', '/googlesync/update-meta-bulk', array(
+        'methods' => 'POST',
+        'callback' => 'wcgs_update_meta_bulk',
          'permission_callback' => '__return_true'
     ));
 }
@@ -53,7 +60,7 @@ function wcgs_sync_row($request){
     $params = $request->get_params();
     $sheet_name = $params['sheet_name'];
     
-    // wcgs_log($params); return;
+    wcgs_log($params); return;
     
     $response = [];
     
@@ -76,9 +83,26 @@ function wcgs_update_meta($request){
     
     $params = $request->get_params();
     // wcgs_log('==== Updating meta ===');
-    // wcgs_log($params); return;
+    // wcgs_log($params);
     
     wcgs_resource_update_meta($params['sheet_name'], $params['item_id'], $params['row_no']);
+}
+
+// Update Mete Bulk
+function wcgs_update_meta_bulk($request){
+    
+    $params = $request->get_params();
+    // wcgs_log('==== Updating meta ===');
+    $updatable_rows = json_decode($params['product_rows'], true);
+    // wcgs_log($updatable_rows); exit;
+    
+    if($updatable_rows){
+        foreach($updatable_rows as $data){
+            wcgs_resource_update_meta($params['sheet_name'], $data['id'], $data['rowno']);
+        }
+    }
+    
+    wp_send_json_success();
 }
 
 // Live syncing categories

@@ -619,16 +619,6 @@
                     $is_variation = !isset($item['type']) ? true : false;
              
                     switch($key){
-                        case 'id':
-                            if( $is_variation ){
-                                $value = $item['parent_id'];
-                            }
-                            break;
-                        case 'variation_id':
-                            if( $is_variation ){
-                                $value = $item['id'];
-                            }
-                            break;
                         case 'sync':
                             $value = '';
                             break;

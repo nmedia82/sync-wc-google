@@ -1,6 +1,22 @@
 jQuery(function($) {
 
     // const { GoogleSpreadsheet } = require('google-spreadsheet');
+    $("#google-rest").on('click', function(e) {
+       e.preventDefault();
+       
+    //   const range = 'a2:o97';
+    //   const url = `https://script.google.com/macros/s/AKfycbxaTmmKvLLKcTYpNmzbXX8NNKoy2mqJVYtKAGY-6L1pqZ4PDc2tuNzE29m1qabEm09C/exec?q=priceList/${range}`;
+    
+        const action='fetch-categories';
+        const args = JSON.stringify({'ids':[136], 'columns':['slug']});
+        var url = `https://script.google.com/macros/s/AKfycbyBRWyzzmG46ppy6P9ks-ONIwAmnblqZHMOyBfZ0LEvmGl_NgsZ1dPvODm302pA_laF/exec?`;
+        url += `action=${action}&args=${args}`;
+        var data = {};
+        $.get(url, data, function(response) {
+          
+            console.log(response); 
+        });
+    });
 
     const work_div = $("#wcgs_working");
 

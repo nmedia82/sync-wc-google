@@ -32,10 +32,52 @@ function wcgs_rest_api_register() {
     ));
     
     // Google App Script API BULK Meta Update
-    register_rest_route('wcgs/v1', '/googlesync/update-meta-bulk', array(
+    register_rest_route('wcgs/v1', '/update-meta-bulk', array(
         'methods' => 'POST',
         'callback' => 'wcgs_update_meta_bulk',
          'permission_callback' => '__return_true'
+    ));
+    
+    // Google App Script: Connect sheet
+    register_rest_route('wcgs/v1', '/update-sheet', array(
+        'methods' => 'POST',
+        'callback' => 'wcgs_update_sheet',
+        'permission_callback' => '__return_true'
+    ));
+    
+    // Google App Script: Sync Data from Sheet
+    register_rest_route('wcgs/v1', '/sync-sheet-data', array(
+        'methods' => 'POST',
+        'callback' => 'wcgs_sync_sheet',
+        'permission_callback' => '__return_true'
+    ));
+    
+    // PRO: Fetch products
+    register_rest_route('wcgs/v1', '/fetch-products', array(
+        'methods' => 'POST',
+        'callback' => 'wcgs_fetch_products',
+        'permission_callback' => '__return_true'
+    ));
+    
+    // PRO: Fetch categories
+    register_rest_route('wcgs/v1', '/fetch-categories', array(
+        'methods' => 'POST',
+        'callback' => 'wcgs_fetch_categories',
+        'permission_callback' => '__return_true'
+    ));
+    
+    // PRO: Developer mode
+    register_rest_route('wcgs/v1', '/unlink-rows', array(
+        'methods' => 'POST',
+        'callback' => 'wcgs_unlink_rows',
+        'permission_callback' => '__return_true'
+    ));
+    
+    // PRO: Chunker
+    register_rest_route('wcgs/v1', '/do-chunks', array(
+        'methods' => 'POST',
+        'callback' => 'wcgs_create_chunks',
+        'permission_callback' => '__return_true'
     ));
 }
 
@@ -91,15 +133,24 @@ function wcgs_update_meta($request){
 // Update Mete Bulk
 function wcgs_update_meta_bulk($request){
     
-    $params = $request->get_params();
-    // wcgs_log('==== Updating meta ===');
-    $updatable_rows = json_decode($params['product_rows'], true);
-    // wcgs_log($updatable_rows); exit;
+    $data = $request->get_params();
+    $updatable_rows = json_decode($data['product_rows'], true);
+    $sync_col = $data['sync_col'];
+    $sheet_name = $data['sheet_name'];
+    // wcgs_log($data); exit;
     
+    $ranges = [];
     if($updatable_rows){
-        foreach($updatable_rows as $data){
-            wcgs_resource_update_meta($params['sheet_name'], $data['id'], $data['rowno']);
+        foreach($updatable_rows as $row){
+            wcgs_resource_update_meta($sheet_name, $row['id'], $row['rowno']);
+            $ranges["{$sheet_name}!{$sync_col}{$row['rowno']}"] = ['OK'];
         }
+    }
+    // wcgs_log($ranges); exit;
+    
+    if( count($ranges) > 0 ) {
+        $gs = new WCGS_APIConnect();
+        $resp = $gs->update_rows_with_ranges($ranges);
     }
     
     wp_send_json_success();
@@ -168,4 +219,130 @@ function wcgs_live_sync_products($params){
     
     return $response;
     
+}
+
+function wcgs_update_sheet($request) {
+    
+    $header = json_decode($request->get_param('header_data'), true);
+    $header = reset($header);
+    $data   = $request->get_params();
+    $data['header_data'] = $header;
+    
+    // wcgs_log($data); exit;
+    $wcgs_sheet = new WCGS_Sheet();
+    $wcgs_sheet->update($data);
+}
+
+function wcgs_sync_sheet($request) {
+    
+    // wcgs_log($request->get_params()); return 
+    $header = json_decode($request->get_param('header_data'), true);
+    $header = reset($header);
+    
+    $sheet_data = json_decode($request->get_param('sheet_data'), true);
+    
+    $data = $request->get_params();
+    $data['header_data'] = $header;
+    $data['sheet_data']  = $sheet_data;
+            
+    // wcgs_log($data); exit;
+    
+    $wcgs_sheet = new WCGS_Sheet();
+    
+    switch( $data['sheet_name'] ) {
+        case 'products':
+            $result = $wcgs_sheet->sync_data_products($data);
+        break;
+        
+        case 'categories':
+            $result = $wcgs_sheet->sync_data_categories($data);
+        break;
+    }
+    
+    // wcgs_log($result);
+    
+    if( is_wp_error($result) ) {
+        wp_send_json_error($result->get_error_message());
+    }else{
+        wp_send_json_success($result);
+    }
+}
+
+// Fetch products from store
+function wcgs_fetch_products($request) {
+    
+    $header = json_decode($request->get_param('header_data'), true);
+    $header = reset($header);
+    $data   = $request->get_params();
+    $data['header_data'] = $header;
+    // wcgs_log($data);
+    
+    $wcapi = new WCGS_WC_API_V3();
+    $result = $wcapi->get_products_for_syncback($data);
+    // wcgs_log($result);
+    
+    if( is_wp_error($result) ) {
+        wp_send_json_error($result->get_error_message());
+    }else{
+        // wcgs_log($result); exit;
+        wp_send_json_success($result);
+    }
+}
+
+// Fetch categories from store
+function wcgs_fetch_categories($request) {
+    
+    $header = json_decode($request->get_param('header_data'), true);
+    $header = reset($header);
+    $data   = $request->get_params();
+    $data['header_data'] = $header;
+    $data['request_args'] = isset($data['request_args']) ? json_decode($data['request_args'], true) : null;
+    // wcgs_log($data); exit;
+    
+    $wcapi = new WCGS_WC_API_V3();
+    $result = $wcapi->get_categories_for_syncback($data);
+    // wcgs_log($result); exit;
+    
+    if( is_wp_error($result) ) {
+        wp_send_json_error($result->get_error_message());
+    }else{
+        // wcgs_log($result); exit;
+        wp_send_json_success($result);
+    }
+}
+
+// Remove all meta link from products & categories
+function wcgs_unlink_rows($request) {
+    
+    $data   = $request->get_params();
+    // wcgs_log($data); exit;
+    global $wpdb;
+    $val = 'wcgs_row_id';
+    
+    switch( $data['sheet_name'] ) {
+        case 'products':
+            $table = "{$wpdb->prefix}postmeta";
+            $wpdb->delete( $table, array( 'meta_key' => $val ) );
+        break;
+        
+        case 'categories':
+            $table = "{$wpdb->prefix}termmeta";
+            $wpdb->delete( $table, array( 'meta_key' => $val ) );
+        break;
+    }
+    
+    
+    wp_send_json_success(['message'=>'All keys removed']);
+    
+}
+
+function wcgs_create_chunks($request) {
+    
+    $data = $request->get_params();
+    // wcgs_log($data);
+    
+    $wcapi = new WCGS_WC_API_V3();
+    $result = $wcapi->create_product_chunks($data);
+    
+    wp_send_json_success($result);
 }

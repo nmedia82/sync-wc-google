@@ -380,34 +380,20 @@
         
         $item = $response->get_data();
         $category = new WCGS_Categories();
+        
+        // Legacy
         $header = $category->get_header();
-        // wcgs_pa($header); exit;
-         
-        $category_row = array();
-        if( $header ) {
-            foreach($header as $key => $index) {
-                
-                if( $key == 'auto_sync' ) continue;
-                
-                switch($key){
-                    case 'sync':
-                        $value = $sync;
-                        break;
-                    case 'last_sync':
-                        $value = date('Y-m-d h:i:sa', time());
-                        break;
-                    default:
-                        $value = is_array($item[trim($key)]) ? json_encode($item[trim($key)]) : $item[trim($key)];
-                        break;
-                }
-                
-                $value = $value === NULL ? '' : $value;
-                $category_row[] = $value;
-            }
+        
+        $header = wcgs_get_sheet_info('categories', 'header_data');
+        if($header){
+            $header = array_fill_keys($header, '');
         }
         
-        //  wcgs_pa($category_row); exit;
-        return apply_filters('wcgs_category_update_row', $category_row, $id);
+        $combined_cat = array_replace($header, array_intersect_key($item, $header));
+        $combined_cat['sync'] = 'OK';
+        
+        // wcgs_pa($combined_cat); exit;
+        return apply_filters('wcgs_category_update_row', array_values($combined_cat), $id);
      }
      
      // get product for googlesheet row
@@ -423,31 +409,20 @@
         $item = $response->get_data();
         $product = new WCGS_Products();
         $header = $product->get_header();
-         // wcgs_pa($item);
-         
-        $product_row = array();
-        if( $header ) {
-            foreach($header as $key => $index) {
-                 
-                switch($key){
-                    case 'sync':
-                        $value = 1;
-                        break;
-                    case 'last_sync':
-                        $value = date('Y-m-d h:i:sa', time());
-                        break;
-                    default:
-                        $value = is_array($item[trim($key)]) ? json_encode($item[trim($key)]) : $item[trim($key)];
-                        break;
-                }
-                
-                $value = $value === NULL ? '' : $value;
-                $product_row[] = $value;
-            }
+        
+        $header = array_fill_keys($header, '');
+        $combined_product = array_replace($header, array_intersect_key($item, $header));
+        $combined_product['sync'] = 'OK';
+        
+        foreach(wcgs_fields_format_required() as $key => $type){
+            
+            if( !isset($combined_product[$key]) ) continue;
+            
+            $combined_product[$key] = apply_filters("wcgs_products_syncback_value_{$key}", $combined_product[$key], $key);
         }
-        //  $product_row = [$item->id, 1, $item->name, $item->slug, $item->parent, $item->description, $item->display, '', $item->menu_order];
-        //  wcgs_pa($item); exit;
-        return apply_filters('wcgs_product_update_row', $product_row, $id);
+        
+        // wcgs_pa($combined_product); exit;
+        return apply_filters('wcgs_product_update_row', $combined_product, $id);
      }
      
      // get categories for sync-back

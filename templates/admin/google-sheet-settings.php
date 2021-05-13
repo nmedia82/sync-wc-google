@@ -31,6 +31,8 @@ if ( $google_client->auth_link ) {
   echo '</div>';
   
   echo '<pre id="wcgs_working"></pre>';
+  
+  echo '<button id="google-rest">Google App Script</button>';
    
  }
  echo '</div>';

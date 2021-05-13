@@ -267,13 +267,14 @@ function wcgs_category_range_for_update($category_id){
     $sync_val = 'SYNCBACK';
     $row = $wcapi->get_category_for_gsheet($category_id, $sync_val);
     
+    // ppom_pa($row); exit;
+    
     $updatable_data = array('id','name', 'slug', 'parent', 'last_sync');
     $updatable_data = apply_filters('wcgs_category_update_data', $updatable_data);
     
-    $last_sync_index = wcgs_get_las_sync_index_by_sheet('categories');
-    $last_column = wcgs_get_header_column_by_index($last_sync_index);
+    $sync_col = wcgs_get_sheet_info('categories', 'sync_col');
     
-    $range = "categories!A{$row_id}:{$last_column}{$row_id}";
+    $range = "categories!A{$row_id}:{$sync_col}{$row_id}";
     // $ranges_value[$range] = $row;   
     
     return [$range => $row];
@@ -291,4 +292,15 @@ function wcgs_get_las_sync_index_by_sheet($sheet){
     
     $index = isset($header['last_sync']) ? $header['last_sync'] : null;
     return $index;
+}
+
+// Getting sheet info
+function wcgs_get_sheet_info($sheet, $key) {
+    
+    $value = '';
+    $options = get_option("wcgs_{$sheet}_info", true);
+    if($options){
+        $value =  $options[$key];
+    }
+    return  $value;
 }

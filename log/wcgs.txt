@@ -1,63 +1,94 @@
 Array
 (
-    [0] => a
-    [1] => b
-    [2] => c
-    [3] => d
-)
-Array
-(
-    [0] => a
-    [1] => b
-    [2] => c
-    [3] => d
-    [4] => e
-)
-Array
-(
-    [0] => a
-    [1] => b
-    [2] => e
-    [3] => c
-    [4] => d
-)
-Array
-(
-    [0] => a
-    [b] => Array
+    [0] => Array
         (
-            [0] => b1
-            [1] => b2
+            [id] => 136
+            [name] => Gun 2
+            [slug] => gun
+            [parent] => 0
+            [description] => 
+            [sync] => OK
         )
 
-    [1] => e
-    [2] => c
-    [3] => d
 )
 Array
 (
-    [0] => a
-    [b] => Array
+    [header_data] => Array
         (
-            [0] => b1
-            [1] => b2
+            [0] => id
+            [1] => name
+            [2] => slug
+            [3] => parent
+            [4] => description
+            [5] => sync
         )
 
-    [1] => b1
-    [2] => b2
-    [3] => d
+    [sync_col] => F
+    [debug_mode] => false
+    [request_args] => {columsn=[Ljava.lang.Object;@1d4c55a, ids=[Ljava.lang.Object;@2c927fcf}
+    [sheet_name] => categories
 )
 Array
 (
-    [0] => a
-    [b] => Array
+    [header_data] => Array
         (
-            [0] => b1
-            [1] => b2
+            [0] => id
+            [1] => name
+            [2] => slug
+            [3] => parent
+            [4] => description
+            [5] => sync
         )
 
-    [1] => b1
-    [2] => b2
-    [3] => c
-    [4] => d
+    [debug_mode] => false
+    [sync_col] => F
+    [request_args] => {columsn=[Ljava.lang.Object;@6a049bfe, ids=[Ljava.lang.Object;@62eb6f38}
+    [sheet_name] => categories
+)
+Array
+(
+    [header_data] => Array
+        (
+            [0] => id
+            [1] => name
+            [2] => slug
+            [3] => parent
+            [4] => description
+            [5] => sync
+        )
+
+    [debug_mode] => false
+    [sync_col] => F
+    [request_args] => {"ids":[136],"columsn":["slug"]}
+    [sheet_name] => categories
+)
+Array
+(
+    [header_data] => Array
+        (
+            [0] => id
+            [1] => name
+            [2] => slug
+            [3] => parent
+            [4] => description
+            [5] => sync
+        )
+
+    [sync_col] => F
+    [debug_mode] => false
+    [request_args] => stdClass Object
+        (
+            [ids] => Array
+                (
+                    [0] => 136
+                )
+
+            [columsn] => Array
+                (
+                    [0] => slug
+                )
+
+        )
+
+    [sheet_name] => categories
 )

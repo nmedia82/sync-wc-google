@@ -161,6 +161,7 @@ class WCGS_APIConnect {
             
             // Update the spreadsheet
             $result = $service->spreadsheets_values->append($this->sheet_id, $range, $valueRange, $conf);
+            // wcgs_log($result);
             return $result->getUpdates()->getUpdatedRange();
         }
         catch (\Exception $e)
@@ -222,6 +223,7 @@ class WCGS_APIConnect {
     function update_rows_with_ranges($ranges_value, $row=NULL) {
         
         try{
+            var_dump($this->client);
             $service = new Google_Service_Sheets($this->client);
             
             foreach($ranges_value as $range => $value) {

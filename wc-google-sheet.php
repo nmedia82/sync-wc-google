@@ -1,9 +1,9 @@
 <?php 
 /**
- * Plugin Name: Sync WooCommerce with Google Sheets
+ * Plugin Name: Sync WooCommerce with Google Sheets V3
  * Plugin URI: https://najeebmedia.com/googlesync
  * Description: Sync your products with Google Sheet into your WooCommerce Store
- * Version: 2.5
+ * Version: 3.0
  * Author: N-Media
  * Author URI: http://najeebmedia.com
  * /
@@ -25,7 +25,7 @@ include_once WCGS_PATH . "/inc/const.php";
 include_once WCGS_PATH . "/inc/functions.php";
 include_once WCGS_PATH . "/inc/admin.php";
 include_once WCGS_PATH . "/inc/wc-api.php";
-include_once WCGS_PATH . "/inc/wc-api.live.php";
+include_once WCGS_PATH . "/inc/wc-api.v3.php";
 include_once WCGS_PATH . "/inc/gs-api.php";
 include_once WCGS_PATH . "/inc/gs-categories.php";
 include_once WCGS_PATH . "/inc/gs-products.php";
@@ -34,6 +34,8 @@ include_once WCGS_PATH . "/inc/rest.php";
 include_once WCGS_PATH . "/inc/hooks.php";
 include_once WCGS_PATH . "/inc/callbacks.php";
 include_once WCGS_PATH . "/inc/columns.php";
+include_once WCGS_PATH . "/inc/class.sheet.php";
+include_once WCGS_PATH . "/inc/class.formats.php";
 
 
 class WCGS_INIT {
@@ -70,6 +72,8 @@ class WCGS_INIT {
 		
 		// Column Manager
 		if( is_admin() ) WCGS_COLUMNS_INIT();
+		
+		add_filter('woocommerce_rest_check_permissions', '__return_true');
 	}
 	
 	

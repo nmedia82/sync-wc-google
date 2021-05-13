@@ -59,6 +59,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 2.6 - May 13, 2021 =
+* Bug fixed: [Critical error fixed when google client is not set](https://wordpress.org/support/topic/critical-error-in-plugin-setting-page/)
 = 2.5 - April 18, 2021 =
 * Bug fixed:Error occured in last version
 = 2.4 - April 18, 2021 =

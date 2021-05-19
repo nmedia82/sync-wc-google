@@ -8,8 +8,8 @@ jQuery(function($) {
     //   const url = `https://script.google.com/macros/s/AKfycbxaTmmKvLLKcTYpNmzbXX8NNKoy2mqJVYtKAGY-6L1pqZ4PDc2tuNzE29m1qabEm09C/exec?q=priceList/${range}`;
     
         const action='fetch-categories';
-        const args = JSON.stringify({'ids':[136], 'columns':['slug']});
-        var url = `https://script.google.com/macros/s/AKfycbyBRWyzzmG46ppy6P9ks-ONIwAmnblqZHMOyBfZ0LEvmGl_NgsZ1dPvODm302pA_laF/exec?`;
+        const args = JSON.stringify({'ids':[136], 'columns':['id','description']});
+        var url = `https://script.google.com/macros/s/AKfycbxA_1-nFgTpbcYejpC_8A1hztZLypW9x-luKgWAIQIPCWjnxW_zgd3L37ojwwOJpBbf/exec?`;
         url += `action=${action}&args=${args}`;
         var data = {};
         $.get(url, data, function(response) {

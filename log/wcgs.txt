@@ -1,94 +1,74 @@
 Array
 (
-    [0] => Array
+    [action] => editedtag
+    [tag_ID] => 178
+    [taxonomy] => product_cat
+    [_wp_original_http_referer] => https://nmdevteam.com/ppom/wp-admin/term.php?taxonomy=product_cat&tag_ID=178&post_type=product&wp_http_referer=https%3A%2F%2Fnmdevteam.com%2Fppom%2Fwp-admin%2Fedit-tags.php%3Ftaxonomy%3Dproduct_cat%26post_type%3Dproduct
+    [_wpnonce] => a5eaf990d6
+    [_wp_http_referer] => /ppom/wp-admin/term.php?taxonomy=product_cat&tag_ID=178&post_type=product&wp_http_referer=https%3A%2F%2Fnmdevteam.com%2Fppom%2Fwp-admin%2Fedit-tags.php%3Ftaxonomy%3Dproduct_cat%26post_type%3Dproduct&message=3
+    [name] => From sheet 3
+    [slug] => from-sheet
+    [parent] => -1
+    [description] => 
+    [term_meta] => Array
         (
-            [id] => 136
-            [name] => Gun 2
-            [slug] => gun
-            [parent] => 0
-            [description] => 
-            [sync] => OK
+            [cat_header] => 
+            [cat_footer] => 
         )
 
+    [display_type] => 
+    [product_cat_thumbnail_id] => 0
+)
+{"status":"success","action":"fetch-categories","args":{"ids":[178]}}Array
+(
+    [name] => From sheet quick
+    [slug] => from-sheet
+    [_inline_edit] => 08489849f2
+    [taxonomy] => product_cat
+    [post_type] => product
+    [action] => inline-save-tax
+    [tax_type] => tag
+    [tax_ID] => 178
+    [description] => 
 )
 Array
 (
-    [header_data] => Array
-        (
-            [0] => id
-            [1] => name
-            [2] => slug
-            [3] => parent
-            [4] => description
-            [5] => sync
-        )
-
-    [sync_col] => F
-    [debug_mode] => false
-    [request_args] => {columsn=[Ljava.lang.Object;@1d4c55a, ids=[Ljava.lang.Object;@2c927fcf}
-    [sheet_name] => categories
+    [name] => From sheet 5
+    [slug] => from-sheet
+    [_inline_edit] => 08489849f2
+    [taxonomy] => product_cat
+    [post_type] => product
+    [action] => inline-save-tax
+    [tax_type] => tag
+    [tax_ID] => 178
+    [description] => 
 )
-Array
+{"status":"success","action":"fetch-categories","args":{"ids":[178]}}Array
 (
-    [header_data] => Array
+    [action] => editedtag
+    [tag_ID] => 178
+    [taxonomy] => product_cat
+    [_wp_original_http_referer] => https://nmdevteam.com/ppom/wp-admin/edit-tags.php?taxonomy=product_cat&post_type=product
+    [_wpnonce] => a5eaf990d6
+    [_wp_http_referer] => /ppom/wp-admin/term.php?taxonomy=product_cat&tag_ID=178&post_type=product&wp_http_referer=https%3A%2F%2Fnmdevteam.com%2Fppom%2Fwp-admin%2Fedit-tags.php%3Ftaxonomy%3Dproduct_cat%26post_type%3Dproduct
+    [name] => From sheet 2
+    [slug] => from-sheet
+    [parent] => -1
+    [description] => 
+    [term_meta] => Array
         (
-            [0] => id
-            [1] => name
-            [2] => slug
-            [3] => parent
-            [4] => description
-            [5] => sync
+            [cat_header] => 
+            [cat_footer] => 
         )
 
-    [debug_mode] => false
-    [sync_col] => F
-    [request_args] => {columsn=[Ljava.lang.Object;@6a049bfe, ids=[Ljava.lang.Object;@62eb6f38}
-    [sheet_name] => categories
+    [display_type] => 
+    [product_cat_thumbnail_id] => 0
 )
-Array
-(
-    [header_data] => Array
-        (
-            [0] => id
-            [1] => name
-            [2] => slug
-            [3] => parent
-            [4] => description
-            [5] => sync
-        )
-
-    [debug_mode] => false
-    [sync_col] => F
-    [request_args] => {"ids":[136],"columsn":["slug"]}
-    [sheet_name] => categories
-)
-Array
-(
-    [header_data] => Array
-        (
-            [0] => id
-            [1] => name
-            [2] => slug
-            [3] => parent
-            [4] => description
-            [5] => sync
-        )
-
-    [sync_col] => F
-    [debug_mode] => false
-    [request_args] => stdClass Object
-        (
-            [ids] => Array
-                (
-                    [0] => 136
-                )
-
-            [columsn] => Array
-                (
-                    [0] => slug
-                )
-
-        )
-
-    [sheet_name] => categories
-)
+{"status":"success","action":"fetch-categories","args":{"ids":[178]}}{"status":"success","action":"fetch-products","args":{"ids":[1667]}}{"status":"success","action":"fetch-products","args":{"ids":[1667]}}<!DOCTYPE html><html><head><link rel="shortcut icon" href="//ssl.gstatic.com/docs/script/images/favicon.ico"><title>Error</title><style type="text/css" nonce="hFwg8ERLiPCcfzfGTYD7Lw">body {background-color: #fff; margin: 0; padding: 0;}.errorMessage {font-family: Arial,sans-serif; font-size: 12pt; font-weight: bold; line-height: 150%; padding-top: 25px;}</style></head><body style="margin:20px"><div><img alt="Google Apps Script" src="//ssl.gstatic.com/docs/script/images/logo.png"></div><div style="text-align:center;font-family:monospace;margin:50px auto 0;max-width:600px">Exception: Request failed for https://nmdevteam.com returned code 500. Truncated server response:  &lt;br /&gt;
+&lt;b&gt;Fatal error&lt;/b&gt;:  Uncaught Error: Call to a member function get_id() on null in /var/www/devteam.com/ppom/wp-content/plugins/insert-php-... (use muteHttpExceptions option to examine full response). (line 139, file &quot;Code&quot;)</div></body></html><!DOCTYPE html><html><head><link rel="shortcut icon" href="//ssl.gstatic.com/docs/script/images/favicon.ico"><title>Error</title><style type="text/css" nonce="KZKGw4Z4+2ZkGI2+Lwmx1g">body {background-color: #fff; margin: 0; padding: 0;}.errorMessage {font-family: Arial,sans-serif; font-size: 12pt; font-weight: bold; line-height: 150%; padding-top: 25px;}</style></head><body style="margin:20px"><div><img alt="Google Apps Script" src="//ssl.gstatic.com/docs/script/images/logo.png"></div><div style="text-align:center;font-family:monospace;margin:50px auto 0;max-width:600px">Exception: Request failed for https://nmdevteam.com returned code 500. Truncated server response:  &lt;br /&gt;
+&lt;b&gt;Fatal error&lt;/b&gt;:  Uncaught Error: Call to a member function get_id() on null in /var/www/devteam.com/ppom/wp-content/plugins/insert-php-... (use muteHttpExceptions option to examine full response). (line 139, file &quot;Code&quot;)</div></body></html><!DOCTYPE html><html><head><link rel="shortcut icon" href="//ssl.gstatic.com/docs/script/images/favicon.ico"><title>Error</title><style type="text/css" nonce="5/QU1F1AQZijHN4rEDZWrg">body {background-color: #fff; margin: 0; padding: 0;}.errorMessage {font-family: Arial,sans-serif; font-size: 12pt; font-weight: bold; line-height: 150%; padding-top: 25px;}</style></head><body style="margin:20px"><div><img alt="Google Apps Script" src="//ssl.gstatic.com/docs/script/images/logo.png"></div><div style="text-align:center;font-family:monospace;margin:50px auto 0;max-width:600px">Exception: Request failed for https://nmdevteam.com returned code 500. Truncated server response:  &lt;br /&gt;
+&lt;b&gt;Fatal error&lt;/b&gt;:  Uncaught Error: Call to a member function get_id() on null in /var/www/devteam.com/ppom/wp-content/plugins/insert-php-... (use muteHttpExceptions option to examine full response). (line 139, file &quot;Code&quot;)</div></body></html><!DOCTYPE html><html><head><link rel="shortcut icon" href="//ssl.gstatic.com/docs/script/images/favicon.ico"><title>Error</title><style type="text/css" nonce="okcz6n+0O3lpLBkCbeLcYg">body {background-color: #fff; margin: 0; padding: 0;}.errorMessage {font-family: Arial,sans-serif; font-size: 12pt; font-weight: bold; line-height: 150%; padding-top: 25px;}</style></head><body style="margin:20px"><div><img alt="Google Apps Script" src="//ssl.gstatic.com/docs/script/images/logo.png"></div><div style="text-align:center;font-family:monospace;margin:50px auto 0;max-width:600px">Exception: Request failed for https://nmdevteam.com returned code 500. Truncated server response:  &lt;br /&gt;
+&lt;b&gt;Fatal error&lt;/b&gt;:  Uncaught Error: Call to a member function get_id() on null in /var/www/devteam.com/ppom/wp-content/plugins/insert-php-... (use muteHttpExceptions option to examine full response). (line 139, file &quot;Code&quot;)</div></body></html><!DOCTYPE html><html><head><link rel="shortcut icon" href="//ssl.gstatic.com/docs/script/images/favicon.ico"><title>Error</title><style type="text/css" nonce="a1+HF5HSbOw3j5pjoTsRgQ">body {background-color: #fff; margin: 0; padding: 0;}.errorMessage {font-family: Arial,sans-serif; font-size: 12pt; font-weight: bold; line-height: 150%; padding-top: 25px;}</style></head><body style="margin:20px"><div><img alt="Google Apps Script" src="//ssl.gstatic.com/docs/script/images/logo.png"></div><div style="text-align:center;font-family:monospace;margin:50px auto 0;max-width:600px">Exception: Request failed for https://nmdevteam.com returned code 500. Truncated server response:  &lt;br /&gt;
+&lt;b&gt;Fatal error&lt;/b&gt;:  Uncaught Error: Call to a member function get_id() on null in /var/www/devteam.com/ppom/wp-content/plugins/insert-php-... (use muteHttpExceptions option to examine full response). (line 139, file &quot;Code&quot;)</div></body></html><!DOCTYPE html><html><head><link rel="shortcut icon" href="//ssl.gstatic.com/docs/script/images/favicon.ico"><title>Error</title><style type="text/css" nonce="ACxGhS1BcikUFKhFbSb6sw">body {background-color: #fff; margin: 0; padding: 0;}.errorMessage {font-family: Arial,sans-serif; font-size: 12pt; font-weight: bold; line-height: 150%; padding-top: 25px;}</style></head><body style="margin:20px"><div><img alt="Google Apps Script" src="//ssl.gstatic.com/docs/script/images/logo.png"></div><div style="text-align:center;font-family:monospace;margin:50px auto 0;max-width:600px">Exception: Request failed for https://nmdevteam.com returned code 500. Truncated server response:  &lt;br /&gt;
+&lt;b&gt;Fatal error&lt;/b&gt;:  Uncaught Error: Call to a member function get_id() on null in /var/www/devteam.com/ppom/wp-content/plugins/insert-php-... (use muteHttpExceptions option to examine full response). (line 139, file &quot;Code&quot;)</div></body></html>{"status":"success","action":"fetch-products","args":{"ids":[3131]}}{"status":"success","action":"fetch-products","args":{"ids":[3133]}}{"status":"success","action":"fetch-products","args":{"ids":[3133]}}{"status":"success","action":"fetch-products","args":{"ids":[3133]}}{"status":"success","action":"fetch-products","args":{"ids":[3133]}}{"status":"success","action":"fetch-products","args":{"ids":[3131]}}{"status":"success","action":"fetch-products","args":{"ids":[3119]}}{"status":"success","action":"fetch-products","args":{"ids":[3111]}}{"status":"success","action":"fetch-products","args":{"ids":[3107]}}{"status":"success","action":"fetch-products","args":{"ids":[3133]}}{"status":"success","action":"fetch-products","args":{"ids":[3131]}}{"status":"success","action":"fetch-products","args":{"ids":[3131]}}{"status":"success","action":"fetch-products","args":{"ids":[3131]}}{"status":"success","action":"fetch-products","args":{"ids":[3131]}}{"status":"success","action":"fetch-products","args":{"ids":[3136]}}{"status":"success","action":"fetch-products","args":{"ids":[3137]}}{"status":"success","action":"fetch-products","args":{"ids":[3138]}}{"status":"success","action":"fetch-products","args":{"ids":[3139]}}{"status":"success","action":"fetch-products","args":{"ids":[3140]}}{"status":"success","action":"fetch-products","args":{"ids":[3137]}}{"status":"success","action":"fetch-products","args":{"ids":[3137]}}{"status":"success","action":"fetch-products","args":{"ids":[3143]}}{"status":"success","action":"fetch-products","args":{"ids":[3145]}}<!DOCTYPE html><html><head><link rel="shortcut icon" href="//ssl.gstatic.com/docs/script/images/favicon.ico"><title>Error</title><style type="text/css" nonce="S383Wv5QqtDkX8TnUjQvKA">body {background-color: #fff; margin: 0; padding: 0;}.errorMessage {font-family: Arial,sans-serif; font-size: 12pt; font-weight: bold; line-height: 150%; padding-top: 25px;}</style></head><body style="margin:20px"><div><img alt="Google Apps Script" src="//ssl.gstatic.com/docs/script/images/logo.png"></div><div style="text-align:center;font-family:monospace;margin:50px auto 0;max-width:600px">Exception: Request failed for https://nmdevteam.com returned code 500. Truncated server response:  &lt;br /&gt;
+&lt;b&gt;Fatal error&lt;/b&gt;:  Uncaught Error: Call to undefined function wcgs_get_non_linked_products_ids() in /var/www/devteam.com/ppom/wp-content/... (use muteHttpExceptions option to examine full response). (line 139, file &quot;Code&quot;)</div></body></html>{"status":"success","action":"fetch-products","args":{"ids":[3149]}}{"status":"success","action":"fetch-products","args":{"ids":[162]}}{"status":"success","action":"fetch-products","args":{"ids":[162]}}{"status":"success","action":"fetch-products","args":{"ids":[3149]}}{"status":"success","action":"fetch-products","args":{"ids":[3149]}}{"status":"success","action":"fetch-products","args":{"ids":[3149]}}{"status":"success","action":"fetch-products","args":{"ids":[3131]}}{"status":"success","action":"fetch-products","args":{"ids":[3131]}}{"status":"success","action":"fetch-products","args":{"ids":[3131]}}{"status":"success","action":"fetch-products","args":{"ids":[3136]}}{"status":"success","action":"fetch-products","args":{"ids":[3138]}}{"status":"success","action":"fetch-products","args":{"ids":[3139]}}{"status":"success","action":"fetch-products","args":{"ids":[3140]}}{"status":"success","action":"fetch-products","args":{"ids":[3143]}}{"status":"success","action":"fetch-products","args":{"ids":[3143]}}{"status":"success","action":"fetch-products","args":{"ids":[3143]}}{"status":"success","action":"fetch-products","args":{"ids":[3145]}}{"status":"success","action":"fetch-products","args":{"ids":[3145]}}{"status":"success","action":"fetch-products","args":{"ids":[3140]}}{"status":"success","action":"fetch-products","args":{"ids":[3140]}}{"status":"success","action":"fetch-products","args":{"ids":[2937]}}

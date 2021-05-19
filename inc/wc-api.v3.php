@@ -110,7 +110,7 @@ class WCGS_WC_API_V3 {
         // wcgs_log($result);
         $results = array_merge($result1, $result2);
         //This action is used to update category meta for wcgs_row_id
-        do_action('wcgs_after_categories_updated_v3', $results);
+        do_action('wcgs_after_categories_synced_v3', $results);
         return $results;
     }
   }
@@ -186,24 +186,45 @@ class WCGS_WC_API_V3 {
     $header     = $sheet_info['header_data'];
     $chunk_size = $sheet_info['chunk_size'];
     $sheet_name = $sheet_info['sheet_name'];
-    $chunk      = intval($sheet_info['chunk']);
     
-    $saved_chunked = get_transient("wcgs_{$sheet_name}_syncback_chunk");
+    $chunk = 0;
+    $include_products = [];
+    if( isset($sheet_info['request_args']['chunk']) ) {
+        $chunk      = intval($sheet_info['request_args']['chunk']);
+        $saved_chunked = get_transient("wcgs_{$sheet_name}_syncback_chunk");
     
-    $response = array();
-    if( !isset($saved_chunked[$chunk]) ) {
-        $response['status'] = 'error';
-        $response['message'] = __("No chunk found to sync","wcgs");
-        return $response;
+        $response = array();
+        if( !isset($saved_chunked[$chunk]) ) {
+            $response['status'] = 'error';
+            $response['message'] = __("No chunk found to sync","wcgs");
+            return $response;
+        }
+        
+        $include_products = $saved_chunked[$chunk];
+    }else if( isset($sheet_info['request_args']['ids']) ) {
+        $include_products = $sheet_info['request_args']['ids'];
+    }else if( isset($sheet_info['request_args']['new_only']) ) {
+        $include_products = wcgs_get_non_linked_products_ids();
     }
-    
-    $include_products = $saved_chunked[$chunk]; 
+     
     // wcgs_log($include_products); exit;
     
     $items = [];
     
     $args              = apply_filters('wcgs_export_products_args',
                         ['per_page' => $chunk_size, 'include' => $include_products]);
+                        
+    // if request_args has ids then only select those ids
+    if( isset($sheet_info['request_args']['ids']) ) {
+      $args['include'] = $sheet_info['request_args']['ids'];
+    }
+    
+    // if request_args has new_only then include only unlinked data
+    if( isset($sheet_info['request_args']['new_only']) ) {
+      $args['include'] = wcgs_get_non_linked_categories_ids();
+      // if new catesgory are synced then sync should be null to LINK
+      $sync_data = '';
+    }
         
     $request = new WP_REST_Request( 'GET', '/wc/v3/products' );
     $request->set_query_params( $args );
@@ -247,8 +268,10 @@ class WCGS_WC_API_V3 {
    
     $header     = $sheet_info['header_data'];
     $sheet_name = $sheet_info['sheet_name'];
+    $sync_data  = 'OK';
+    
     // $chunk_size = $sheet_info['chunk_size'];
-    // $chunk      = intval($sheet_info['chunk']);
+    // $chunk      = intval($sheet_info['request_args']['chunk']);
     $chunk_size = 100;
     
     $items = [];
@@ -259,7 +282,15 @@ class WCGS_WC_API_V3 {
     if( isset($sheet_info['request_args']['ids']) ) {
       $args['include'] = $sheet_info['request_args']['ids'];
     }
-        
+    
+    // if request_args has new_only then include only unlinked data
+    if( isset($sheet_info['request_args']['new_only']) ) {
+      $args['include'] = wcgs_get_non_linked_categories_ids();
+      // if new catesgory are synced then sync should be null to LINK
+      $sync_data = '';
+    }
+    
+    
     $request = new WP_REST_Request( 'GET', '/wc/v3/products/categories' );
     $request->set_query_params( $args );
     $response = rest_do_request( $request );
@@ -270,24 +301,19 @@ class WCGS_WC_API_V3 {
     
     $items = $response->get_data();
     
-    // $items = apply_filters('wcgs_categories_list_before_syncback', $items);
+    $items = apply_filters('wcgs_categories_list_before_syncback', $items);
     
     $sortby_id = array_column($items, 'id');
     array_multisort($sortby_id, SORT_ASC, $items);
     
+    // wcgs_log($header);
     $header = array_fill_keys($header, '');
+    $header['sync'] = $sync_data;
     
      $categories = array();
      foreach($items as $item) {
-         
-         $product_row = array();
-         if( $header ) {
-           
-          // My Hero :)
-          $header['sync'] = 'OK';
-          $categories[] = array_replace($header, array_intersect_key($item, $header));    // replace only the wanted keys
-         }
-         
+       // My Hero :)
+        $categories[] = array_replace($header, array_intersect_key($item, $header));    // replace only the wanted keys
      }
      
     // wcgs_log($categories); exit;

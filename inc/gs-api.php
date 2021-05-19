@@ -46,7 +46,7 @@ class WCGS_APIConnect {
     {
         try{
             
-            $client = new Google_Client();
+            $client = $this->get_google_client();
             $client->setApplicationName('NKB Product');
             // FullAccess
             $client->setScopes(Google_Service_Sheets::SPREADSHEETS);
@@ -100,28 +100,36 @@ class WCGS_APIConnect {
             return $client;
         }catch (\Exception $e)
         {
-            wcgs_pa(json_decode($e->getMessage(), true));
             set_transient("wcgs_client_error_notices", $this->parse_message($e), 30);
         }
     }
     
     function setSheetInfo() {
         
-        $service = new Google_Service_Sheets($this->client);
+        try{
+            
+            $service = $this->get_google_service();
 
-        // Prints the names and majors of students in a sample spreadsheet:
-        // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-        // $spreadsheetId = '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms';
-        $spreadsheet_info = $service->spreadsheets->get($this->sheet_id);
-        
-        $gs_info = array();
-        foreach ($spreadsheet_info as $item) {
-            $sheet_id = $item['properties']['sheetId'];
-            $sheet_title = $item['properties']['title'];
-            $gs_info[$sheet_id] = $sheet_title;
-        }
+            // Prints the names and majors of students in a sample spreadsheet:
+            // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+            // $spreadsheetId = '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms';
+            $spreadsheet_info = $service->spreadsheets->get($this->sheet_id);
+            
+            $gs_info = array();
+            foreach ($spreadsheet_info as $item) {
+                $sheet_id = $item['properties']['sheetId'];
+                $sheet_title = $item['properties']['title'];
+                $gs_info[$sheet_id] = $sheet_title;
+            }
         
         update_option('wcgs_sheets_info', $gs_info);
+            
+        }catch (\Exception $e)
+        {
+            // wcgs_pa($e);
+            set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
+        }
+        
     }
     
     
@@ -130,7 +138,7 @@ class WCGS_APIConnect {
         
         try{
             
-            $service = new Google_Service_Sheets($this->client);
+            $service = $this->get_google_service();
     
             $response = $service->spreadsheets_values->get($this->sheet_id, $range);
             $values = $response->getValues();
@@ -148,7 +156,7 @@ class WCGS_APIConnect {
         
         try{
             
-            $service = new Google_Service_Sheets($this->client);
+            $service = $this->get_google_service();
             // Create the value range Object
             $valueRange= new Google_Service_Sheets_ValueRange();
             
@@ -161,7 +169,6 @@ class WCGS_APIConnect {
             
             // Update the spreadsheet
             $result = $service->spreadsheets_values->append($this->sheet_id, $range, $valueRange, $conf);
-            // wcgs_log($result);
             return $result->getUpdates()->getUpdatedRange();
         }
         catch (\Exception $e)
@@ -176,7 +183,7 @@ class WCGS_APIConnect {
         
         try {
             
-            $service = new Google_Service_Sheets($this->client);
+            $service = $this->get_google_service();
             
             $end = count($Rows)+1;
             global $wpdb;
@@ -223,8 +230,8 @@ class WCGS_APIConnect {
     function update_rows_with_ranges($ranges_value, $row=NULL) {
         
         try{
-            var_dump($this->client);
-            $service = new Google_Service_Sheets($this->client);
+            
+            $service = $this->get_google_service();
             
             foreach($ranges_value as $range => $value) {
                 
@@ -246,7 +253,6 @@ class WCGS_APIConnect {
         }
         catch (\Exception $e)
         {
-            wcgs_log($e);
             set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
         }
         
@@ -258,7 +264,7 @@ class WCGS_APIConnect {
         
         try {
         
-            $service = new Google_Service_Sheets($this->client);
+            $service = $this->get_google_service();
             
             $start = intval($rowNo)-1;
             $end   = $start+1;
@@ -294,7 +300,7 @@ class WCGS_APIConnect {
         
         try {
             
-            $service = new Google_Service_Sheets($this->client);
+            $service = $this->get_google_service();
             
             $end = count($Rows)+1;
             global $wpdb;
@@ -330,6 +336,25 @@ class WCGS_APIConnect {
         }
         
         return $result;
+    }
+    
+    function get_google_client(){
+        
+        
+        if( ! class_exists('Google_Client') ) {
+            $err['error']['message'] = __('Google Library not found, please re-install plugin or disable any other plugin using Google Services.', 'wcgs');
+            throw new Exception(json_encode($err));
+        }
+        return new Google_Client();
+    }
+    
+    function get_google_service(){
+        
+        if( ! $this->client ) {
+            $err['error']['message'] = __('You need to connect your Google Account.', 'wcgs');
+            throw new Exception(json_encode($err));
+        }
+        return new Google_Service_Sheets($this->client);
     }
     
     

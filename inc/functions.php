@@ -304,3 +304,46 @@ function wcgs_get_sheet_info($sheet, $key) {
     }
     return  $value;
 }
+
+// Admin notices array
+function wcgs_admin_notice_error($msg){
+    return ['message'=>$msg, 'class'=>'error'];
+}
+
+function wcgs_admin_notice_success($msg){
+    return ['message'=>$msg, 'class'=>'success'];
+}
+
+// get categories linked
+function wcgs_get_linked_categories_ids() {
+    
+    global $wpdb;
+    $qry = "SELECT DISTINCT term_id FROM {$wpdb->prefix}term_taxonomy WHERE";
+    $qry .= " taxonomy = 'product_cat'";
+    $syncback_setting = get_option('wcgs_syncback_settings');
+    $qry .= " AND EXISTS (SELECT * from {$wpdb->prefix}termmeta where {$wpdb->prefix}termmeta.term_id = {$wpdb->prefix}term_taxonomy.term_id AND {$wpdb->prefix}termmeta.meta_key = 'wcgs_row_id');";
+    
+    $result = $wpdb->get_results($qry, ARRAY_N);
+    $result = array_map(function($c){
+        return $c[0];
+    }, $result);
+    
+    return apply_filters('wcgs_non_linked_categories_ids', $result);
+}
+
+// get categories not linked
+function wcgs_get_non_linked_categories_ids() {
+    
+    global $wpdb;
+    $qry = "SELECT DISTINCT term_id FROM {$wpdb->prefix}term_taxonomy WHERE";
+    $qry .= " taxonomy = 'product_cat'";
+    $syncback_setting = get_option('wcgs_syncback_settings');
+    $qry .= " AND NOT EXISTS (SELECT * from {$wpdb->prefix}termmeta where {$wpdb->prefix}termmeta.term_id = {$wpdb->prefix}term_taxonomy.term_id AND {$wpdb->prefix}termmeta.meta_key = 'wcgs_row_id');";
+    
+    $result = $wpdb->get_results($qry, ARRAY_N);
+    $result = array_map(function($c){
+        return $c[0];
+    }, $result);
+    
+    return apply_filters('wcgs_non_linked_categories_ids', $result);
+}

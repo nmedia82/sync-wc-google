@@ -205,6 +205,10 @@ class WCGS_Format {
         $categories_refined = [];
         foreach($categories as $cat) {
             
+            if( isset($cat['image']) ) {
+                $cat['image'] = apply_filters("wcgs_categories_syncback_value_image", $cat['image'], 'image');
+            }
+            
             // Check if sync column meta exists
             $wcgs_row_id = get_term_meta($cat['id'], 'wcgs_row_id', true);
             $wcgs_row_id = intval($wcgs_row_id);
@@ -215,7 +219,7 @@ class WCGS_Format {
             }
         }
         
-        // wcgs_log($categories_refined); exit;
+        // wcgs_log($categories_refined);
         return $categories_refined;
     }
 

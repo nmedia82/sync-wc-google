@@ -32,9 +32,9 @@ function wcgs_rest_api_register() {
     ));
     
     // Google App Script API BULK Meta Update
-    register_rest_route('wcgs/v1', '/update-meta-bulk', array(
+    register_rest_route('wcgs/v1', '/link-data', array(
         'methods' => 'POST',
-        'callback' => 'wcgs_update_meta_bulk',
+        'callback' => 'wcgs_link_data',
          'permission_callback' => '__return_true'
     ));
     
@@ -131,13 +131,13 @@ function wcgs_update_meta($request){
 }
 
 // Update Mete Bulk
-function wcgs_update_meta_bulk($request){
+function wcgs_link_data($request){
     
     $data = $request->get_params();
     $updatable_rows = json_decode($data['product_rows'], true);
     $sync_col = $data['sync_col'];
     $sheet_name = $data['sheet_name'];
-    // wcgs_log($data); exit;
+    // wcgs_log($data);
     
     $ranges = [];
     if($updatable_rows){
@@ -275,6 +275,7 @@ function wcgs_fetch_products($request) {
     $header = reset($header);
     $data   = $request->get_params();
     $data['header_data'] = $header;
+    $data['request_args'] = isset($data['request_args']) ? json_decode($data['request_args'], true) : null;
     // wcgs_log($data);
     
     $wcapi = new WCGS_WC_API_V3();
@@ -297,11 +298,11 @@ function wcgs_fetch_categories($request) {
     $data   = $request->get_params();
     $data['header_data'] = $header;
     $data['request_args'] = isset($data['request_args']) ? json_decode($data['request_args'], true) : null;
+    
     // wcgs_log($data); exit;
     
     $wcapi = new WCGS_WC_API_V3();
     $result = $wcapi->get_categories_for_syncback($data);
-    // wcgs_log($result); exit;
     
     if( is_wp_error($result) ) {
         wp_send_json_error($result->get_error_message());
@@ -345,4 +346,22 @@ function wcgs_create_chunks($request) {
     $result = $wcapi->create_product_chunks($data);
     
     wp_send_json_success($result);
+}
+
+// =========== REMOT POST/GET ==============
+function wcgs_send_fetch_request($action, $args){
+    
+    $url = 'https://script.google.com/macros/s/AKfycbzxa3Ip4WyBVL66jE_ciCWXlPTWup3-W-oReFkAwd-d8nMMWt_UHW5pnCQZaH3nlVmo/exec?';
+    $url .= "action={$action}&args=".json_encode($args);
+    
+    $response = wp_remote_get($url);
+    $responseBody = wp_remote_retrieve_body( $response );
+    wcgs_log($responseBody);
+    $result = json_decode( $responseBody, true );
+    
+    if(isset($result['status']) && $result['status'] == 'success'){
+        set_transient("wcgs_admin_notices", wcgs_admin_notice_success('Category updated to sheet'), 30);
+    }else{
+        set_transient("wcgs_admin_notices", wcgs_admin_notice_error('Error while updating Googl Sheet'), 30);
+    }
 }

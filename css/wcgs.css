@@ -38,3 +38,12 @@
    /*border-radius: 10px;*/
    color:#fff;
 }
+
+.wcgs-connected{
+    font-size: 20px;
+    color: green;
+}
+
+.wcgs-connected-desc{
+    font-size:16px;
+}

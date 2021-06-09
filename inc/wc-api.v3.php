@@ -16,7 +16,8 @@ class WCGS_WC_API_V3 {
     
     $request = new WP_REST_Request( 'POST', '/wc/v3/products/batch' );
     $request->set_body_params( $data );
-    $response = rest_do_request( $request );
+    $response = @rest_do_request( $request );
+    
     if ( $response->is_error() ) {
         $error = $response->as_error();
         return new WP_Error( 'wcapi_batch_product_error', $error->get_error_message() );
@@ -36,7 +37,8 @@ class WCGS_WC_API_V3 {
                   
                   $row_id_meta = reset($row_id_meta);
                   $row_id = $row_id_meta->value;
-                  return ['row'=>$row_id, 'id'=>$item['id']];
+                  $images_ids = array_column($item['images'],'id');
+                  return ['row'=>$row_id, 'id'=>$item['id'], 'images'=>implode(',',$images_ids)];
                     
              }, $response['update']);
              
@@ -55,7 +57,8 @@ class WCGS_WC_API_V3 {
                   
                   $row_id_meta = reset($row_id_meta);
                   $row_id = $row_id_meta->value;
-                  return ['row'=>$row_id, 'id'=>$item['id']];
+                  $images_ids = array_column($item['images'],'id');
+                  return ['row'=>$row_id, 'id'=>$item['id'], 'images'=>implode(',',$images_ids)];
                     
              }, $response['create']);
              
@@ -71,7 +74,8 @@ class WCGS_WC_API_V3 {
     
     $request = new WP_REST_Request( 'POST', '/wc/v3/products/categories/batch' );
     $request->set_body_params( $data );
-    $response = rest_do_request( $request );
+    $response = @rest_do_request( $request );
+
     if ( $response->is_error() ) {
         $error = $response->as_error();
         return new WP_Error( 'wcapi_batch_categories_error', $error->get_error_message() );
@@ -86,7 +90,8 @@ class WCGS_WC_API_V3 {
                     return ['row'=>'ERROR','id'=>$item['id'], 'message'=>$item['error']['message']];
                 
                   $row_id = $rowRef[$item['id']];
-                  return ['row'=>$row_id, 'id'=>$item['id']];
+                  $image_id = isset($item['image']['id']) ? $item['image']['id'] : null; 
+                  return ['row'=>$row_id, 'id'=>$item['id'], 'image'=>$image_id];
                     
              }, $response['update']);
              
@@ -101,7 +106,8 @@ class WCGS_WC_API_V3 {
                 
                   $item_name = sanitize_key($item['name']);
                   $row_id = isset($rowRef[$item_name]) ? $rowRef[$item_name] : '';
-                  return ['row'=>$row_id, 'id'=>$item['id']];
+                  $image_id = isset($item['image']['id']) ? $item['image']['id'] : null; 
+                  return ['row'=>$row_id, 'id'=>$item['id'], 'image'=>$image_id];
                     
              }, $response['create']);
              
@@ -207,24 +213,14 @@ class WCGS_WC_API_V3 {
         $include_products = wcgs_get_non_linked_products_ids();
     }
      
-    // wcgs_log($include_products); exit;
+    // wcgs_log($include_products);
     
     $items = [];
     
     $args              = apply_filters('wcgs_export_products_args',
                         ['per_page' => $chunk_size, 'include' => $include_products]);
                         
-    // if request_args has ids then only select those ids
-    if( isset($sheet_info['request_args']['ids']) ) {
-      $args['include'] = $sheet_info['request_args']['ids'];
-    }
-    
-    // if request_args has new_only then include only unlinked data
-    if( isset($sheet_info['request_args']['new_only']) ) {
-      $args['include'] = wcgs_get_non_linked_categories_ids();
-      // if new catesgory are synced then sync should be null to LINK
-      $sync_data = '';
-    }
+    wcgs_log($args);
         
     $request = new WP_REST_Request( 'GET', '/wc/v3/products' );
     $request->set_query_params( $args );
@@ -232,6 +228,8 @@ class WCGS_WC_API_V3 {
     if ( ! $response->is_error() ) {
         $items = $response->get_data();
     }
+    
+    wcgs_log($items);
     
     $header  = apply_filters('wcgs_page_header_data', $header);
     if( !$header ) {

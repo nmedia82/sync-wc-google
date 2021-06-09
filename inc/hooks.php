@@ -92,7 +92,7 @@ function wcgs_update_gsheet_create_cat($term_id, $tt_id){
     
     $action = 'fetch-categories';
     $args = ['new_only'=>true];
-    wcgs_send_fetch_request($action, $args);
+    wcgs_send_google_rest_request($action, $args);
 }
 
 // When WC categories updated
@@ -108,7 +108,7 @@ function wcgs_update_gsheet_edit_cat($term_id, $tt_id){
     
     $action = 'fetch-categories';
     $args = ['ids'=>[$term_id]];
-    wcgs_send_fetch_request($action, $args);
+    wcgs_send_google_rest_request($action, $args);
 }
 
 // When WC categories deleted
@@ -123,7 +123,7 @@ function wcgs_update_gsheet_delete_cat($term_id, $taxonomy){
     
     $action = 'delete-row';
     $args = ['row'=>$row_id, 'sheet_name'=>'categories'];
-    wcgs_send_fetch_request($action, $args);
+    wcgs_send_google_rest_request($action, $args);
 }
 
 
@@ -133,23 +133,26 @@ function wcgs_update_gsheet_delete_cat($term_id, $taxonomy){
 add_action('woocommerce_new_product', 'wcgs_create_product_gsheet', 99, 2);
 function wcgs_create_product_gsheet($id, $product){
     
+    if( isset($_POST['request_type']) && $_POST['request_type'] == 'sync-sheet-data')
+        return;
+    
     $action = 'fetch-products';
     $args = ['new_only'=>true];
-    wcgs_send_fetch_request($action, $args);
-    return;
+    wcgs_send_google_rest_request($action, $args);
 }
 
 // On product save/update
 add_action('woocommerce_update_product', 'wcgs_updat_product_gsheet', 99, 2);
 function wcgs_updat_product_gsheet($id, $product){
     
+    if( isset($_POST['request_type']) && $_POST['request_type'] == 'sync-sheet-data')
+        return;
+        
     $action = 'fetch-products';
     $args = ['ids'=>[$id]];
-    wcgs_send_fetch_request($action, $args);
+    wcgs_send_google_rest_request($action, $args);
     return;
 }
-
-
 
 // Before deleting the product remove from Sheet
 add_action( 'before_delete_post', 'wcgs_delete_sheet_product' );
@@ -158,12 +161,10 @@ function wcgs_delete_sheet_product($porduct_id){
     $row_id = get_post_meta($porduct_id, 'wcgs_row_id', true);
         if( !$row_id ) return;
         
-    $sheetId = wcgs_get_sheetid_by_title('products');
-    // var_dump($row_id, $sheetId); exit;
-    
-    $gs = new WCGS_APIConnect();
-    $result = $gs->delete_row($sheetId, $row_id);
-    // wcgs_pa($result); exit;
+    $action = 'delete-row';
+    $args = ['row'=>$row_id, 'sheet_name'=>'products'];
+    wcgs_send_google_rest_request($action, $args);
+    return;
 }
 
 // Sync Back Simple Products & Categories

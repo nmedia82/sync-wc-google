@@ -25,9 +25,9 @@ function wcgs_rest_api_register() {
     // ));
     
     // Google App Script API
-    register_rest_route('wcgs/v1', '/googlesync/update-meta', array(
+    register_rest_route('wcgs/v1', '/connect-store', array(
         'methods' => 'POST',
-        'callback' => 'wcgs_update_meta',
+        'callback' => 'wcgs_connect_store',
          'permission_callback' => '__return_true'
     ));
     
@@ -38,12 +38,6 @@ function wcgs_rest_api_register() {
          'permission_callback' => '__return_true'
     ));
     
-    // Google App Script: Connect sheet
-    register_rest_route('wcgs/v1', '/update-sheet', array(
-        'methods' => 'POST',
-        'callback' => 'wcgs_update_sheet',
-        'permission_callback' => '__return_true'
-    ));
     
     // Google App Script: Sync Data from Sheet
     register_rest_route('wcgs/v1', '/sync-sheet-data', array(
@@ -120,15 +114,6 @@ function wcgs_sync_row($request){
     wp_send_json($response);
 }
 
-// Update Mete
-function wcgs_update_meta($request){
-    
-    $params = $request->get_params();
-    // wcgs_log('==== Updating meta ===');
-    // wcgs_log($params);
-    
-    wcgs_resource_update_meta($params['sheet_name'], $params['item_id'], $params['row_no']);
-}
 
 // Update Mete Bulk
 function wcgs_link_data($request){
@@ -221,19 +206,30 @@ function wcgs_live_sync_products($params){
     
 }
 
-function wcgs_update_sheet($request) {
+function wcgs_connect_store($request) {
+    wp_send_json($_POST);
     
+    $data   = $request->get_params();
     $header = json_decode($request->get_param('header_data'), true);
     $header = reset($header);
-    $data   = $request->get_params();
     $data['header_data'] = $header;
+    
+    if( !wcgs_verfiy_connected($data['authcode']) ){
+        wp_send_json_error(__("Sorry, but your AuthCode is not valid", 'wcgs'));
+    }
     
     // wcgs_log($data); exit;
     $wcgs_sheet = new WCGS_Sheet();
     $wcgs_sheet->update($data);
+    
+    wp_send_json_success(__("Good Job! Sheet is connected", 'wcgs'));
 }
 
 function wcgs_sync_sheet($request) {
+    
+    if( ! wcgs_is_connected() ){
+        wp_send_json_error(__("Sorry, but your AuthCode is not valid", 'wcgs'));
+    }
     
     // wcgs_log($request->get_params()); return 
     $header = json_decode($request->get_param('header_data'), true);
@@ -349,19 +345,24 @@ function wcgs_create_chunks($request) {
 }
 
 // =========== REMOT POST/GET ==============
-function wcgs_send_fetch_request($action, $args){
+function wcgs_send_google_rest_request($action, $args){
     
-    $url = 'https://script.google.com/macros/s/AKfycbzxa3Ip4WyBVL66jE_ciCWXlPTWup3-W-oReFkAwd-d8nMMWt_UHW5pnCQZaH3nlVmo/exec?';
-    $url .= "action={$action}&args=".json_encode($args);
+    $url = wcgs_get_option('wcgs_appurl');
+    if( ! $url ) {
+        set_transient("wcgs_admin_notices", wcgs_admin_notice_error('Google WebApp URL not defined','wcgs'), 30);
+        return;
+    }
+    
+    $url .= "?action={$action}&args=".json_encode($args);
     
     $response = wp_remote_get($url);
     $responseBody = wp_remote_retrieve_body( $response );
-    wcgs_log($responseBody);
     $result = json_decode( $responseBody, true );
+    // wcgs_log($result);
     
     if(isset($result['status']) && $result['status'] == 'success'){
-        set_transient("wcgs_admin_notices", wcgs_admin_notice_success('Category updated to sheet'), 30);
+        set_transient("wcgs_admin_notices", wcgs_admin_notice_success(__('Sheet is also updated successfully'), 'wcgs'), 30);
     }else{
-        set_transient("wcgs_admin_notices", wcgs_admin_notice_error('Error while updating Googl Sheet'), 30);
+        set_transient("wcgs_admin_notices", wcgs_admin_notice_error(__('Error while updating Googl Sheet'), 'wcgs'), 30);
     }
 }

@@ -21,7 +21,8 @@ class WCGS_Format {
         add_filter('wcgs_categories_synback', array($this, 'syncback_data_categories'), 11, 2);
         
         // Categories
-        // add_filter('wcgs_sync_data_categories_before_processing', array($this, 'format_data_categories'), 11, 2);
+        add_filter('wcgs_sync_data_categories_before_processing', array($this, 'format_data_categories'), 11, 2);
+        add_filter('wcgs_categories_data_image', array($this, 'categories_image'), 99, 2);
     
     }
     
@@ -62,12 +63,6 @@ class WCGS_Format {
                 $item[$key] = apply_filters("wcgs_{$sheet_name}_data_{$key}", $item[$key], $item);
             }
             
-            // If row_meta column is not set then create one
-            // and set row_id_meta, then remove row_id_meta
-            if( !isset($item['meta_data']) ){
-                $item['meta_data'] = $item['row_id_meta'];
-            }
-            unset($item['row_id_meta']);
             
             return $item;
             
@@ -144,10 +139,26 @@ class WCGS_Format {
         if( $images == '' ) return $images;
         $make_array = explode(',', $images);
         // wcgs_pa($images);
-        $image_from = get_option('wcgs_image_import');
         $image_remake = [];
         foreach($make_array as $img){
-            $image_remake[][$image_from] = $img;
+            $key = (filter_var($img, FILTER_VALIDATE_URL) === FALSE) ? 'id' : 'src';
+            $image_remake[][$key] = $img;
+        }
+        
+        return $image_remake;
+    }
+    
+    // Category Image
+    function categories_image($images, $row){
+        
+        if( $images == '' ) return $images;
+        $make_array = explode(',', $images);
+        // wcgs_pa($images);
+        $image_remake = [];
+        foreach($make_array as $img){
+            
+            $key = (filter_var($img, FILTER_VALIDATE_URL) === FALSE) ? 'id' : 'src';
+            $image_remake[$key] = $img;
         }
         
         return $image_remake;

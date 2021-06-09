@@ -154,20 +154,7 @@ class WCGS_Sheet {
             update_option('wcgs_stock_quantity_column', $sheet_info['stock_col']);
         }
         
-        $option = get_option("wcgs_{$sheet_name}_info");
-        if( ! $option ) {
-            update_option("wcgs_{$sheet_name}_info", $sheet_info);
-        }else{
-            //Check if header changes found
-            if( $sheet_info['header_data'] !== $option['header_data'] && !$debug_mode ) {
-                wp_send_json_success(['message'=>__('Header columns are changed, it may cause issue while syncing')]);
-            }else{
-                update_option("wcgs_{$sheet_name}_info", $sheet_info);
-                wp_send_json_success(['message'=>__('Sheet connected successfully')]);
-            }
-            // wcgs_log($sheet_info['header_data']);
-        }
-        
+        update_option("wcgs_{$sheet_name}_info", $sheet_info);
     }
     
 }

@@ -207,7 +207,7 @@ function wcgs_live_sync_products($params){
 }
 
 function wcgs_connect_store($request) {
-    wp_send_json($_POST);
+    // wp_send_json($_POST);
     
     $data   = $request->get_params();
     $header = json_decode($request->get_param('header_data'), true);

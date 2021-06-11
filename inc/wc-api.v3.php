@@ -220,7 +220,7 @@ class WCGS_WC_API_V3 {
     $args              = apply_filters('wcgs_export_products_args',
                         ['per_page' => $chunk_size, 'include' => $include_products]);
                         
-    wcgs_log($args);
+    // wcgs_log($args);
         
     $request = new WP_REST_Request( 'GET', '/wc/v3/products' );
     $request->set_query_params( $args );
@@ -229,7 +229,7 @@ class WCGS_WC_API_V3 {
         $items = $response->get_data();
     }
     
-    wcgs_log($items);
+    // wcgs_log($items);
     
     $header  = apply_filters('wcgs_page_header_data', $header);
     if( !$header ) {
@@ -362,9 +362,9 @@ class WCGS_WC_API_V3 {
       $qry .= " post_type = 'product'";
       $qry .= " AND post_status = 'publish'";
       $syncback_setting = get_option('wcgs_syncback_settings');
-      if( $syncback_setting == 'not_imported' ){
+      if( $syncback_setting == 'not_linked' ){
           
-          $qry .= " AND EXISTS (SELECT * from {$wpdb->prefix}postmeta where {$wpdb->prefix}postmeta.post_id = {$wpdb->prefix}posts.ID AND {$wpdb->prefix}postmeta.meta_key = 'wcgs_row_id');";
+          $qry .= " AND NOT EXISTS (SELECT * from {$wpdb->prefix}postmeta where {$wpdb->prefix}postmeta.post_id = {$wpdb->prefix}posts.ID AND {$wpdb->prefix}postmeta.meta_key = 'wcgs_row_id');";
       }
       
       $products_notsync = $wpdb->get_results($qry, ARRAY_N);

@@ -252,10 +252,12 @@ class WCGS_APIConnect {
             do_action('wcgs_after_rows_updated', $result, $ranges_value);
         }
         catch (\Exception $e)
-        {
+        {   
+            // wcgs_log($this->parse_message($e));
             set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
         }
         
+        // wcgs_log($result);
         return $result;
     }
     

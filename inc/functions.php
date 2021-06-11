@@ -363,6 +363,24 @@ function wcgs_get_non_linked_categories_ids() {
 }
 
 // get products not linked
+function wcgs_get_linked_products_ids() {
+    
+    global $wpdb;
+    
+    $qry = "SELECT DISTINCT ID FROM {$wpdb->prefix}posts WHERE";
+    $qry .= " post_type = 'product'";
+    $qry .= " AND post_status = 'publish'";
+    $qry .= " AND EXISTS (SELECT * from {$wpdb->prefix}postmeta where {$wpdb->prefix}postmeta.post_id = {$wpdb->prefix}posts.ID AND {$wpdb->prefix}postmeta.meta_key = 'wcgs_row_id');";
+    
+    $result = $wpdb->get_results($qry, ARRAY_N);
+    $result = array_map(function($c){
+        return $c[0];
+    }, $result);
+    
+    return apply_filters('wcgs_non_linked_products_ids', $result);
+}
+
+// get products not linked
 function wcgs_get_non_linked_products_ids() {
     
     global $wpdb;

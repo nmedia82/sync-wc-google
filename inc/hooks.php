@@ -15,7 +15,7 @@ function wcgs_update_termmeta($categories, $sheet_name, $synced_result) {
     
     $wpsql = "INSERT INTO {$termmeta_table} (term_id,meta_key,meta_value) VALUES ";
     $delqry = "DELETE FROM {$termmeta_table} WHERE term_id IN (";
-    $metakey = 'gs_range';
+    $metakey = 'wcgs_row_id';
     
     foreach($categories as $key=>$value){
         
@@ -43,170 +43,29 @@ function wcgs_update_termmeta($categories, $sheet_name, $synced_result) {
     $wpdb->query($wpsql);
 }
 
-// When WC categories created
-add_action( "created_product_cat", "wcgs_update_gsheet_create_cat", 99, 2);
-function wcgs_update_gsheet_create_cat($term_id, $tt_id){
-    
-    if ( !isset($_POST['action']) && $_POST['action'] != 'add-tag') return '';
-    
-   
-    $wcapi = new WCGS_WC_API();
-    $row = $wcapi->get_category_for_gsheet($term_id);
-    $gs = new WCGS_APIConnect();
-    $sheet_name = "categories";
-    $range = $gs->add_row($sheet_name, $row);
-    update_term_meta($term_id, 'gs_range', $range);
-}
-
-// When WC categories updated
-add_action( "edited_product_cat", "wcgs_update_gsheet_edit_cat", 99, 2);
-function wcgs_update_gsheet_edit_cat($term_id, $tt_id){
-    
-    if( ! array_key_exists ('action', $_POST) ) return '';
-    if ( $_POST['action'] != 'editedtag') return '';
-    
-    $ranges_value = wcgs_category_range_for_update($term_id);
-    if( !$ranges_value ) return;
-    
-    // wcgs_pa($ranges_value); exit;
-    $gs = new WCGS_APIConnect();
-    $gs->update_rows_with_ranges($ranges_value);
-    // exit;
-}
-
-// When WC categories deleted
-add_action( "pre_delete_term", "wcgs_update_gsheet_delete_cat", 99, 2);
-function wcgs_update_gsheet_delete_cat($term_id, $taxonomy){
-    
-    if ( !isset($_POST['action']) && $_POST['action'] != 'delete-tag') return '';
-    
-    $sheetId = wcgs_get_sheetid_by_title('categories');
-    $range = get_term_meta($term_id, 'gs_range', true);
-    if( !$range ) return;
-    $rowNo = substr($range, -1);
-    // var_dump($rowNo, $sheetId); exit;
-    
-    
-    $gs = new WCGS_APIConnect();
-    $gs->delete_row($sheetId, $rowNo);
-    
-    // exit;
-}
-
-/***
- * ============= Product Row Data Filter Sheet ==> WC API =================
- * **/
-// Categories
-add_filter('wcgs_products_data_categories', 'wcgs_product_category_data', 2, 99);
-function wcgs_product_category_data($categories, $row){
-    
-    // var_dump($categories);
-    if( ! $categories ) return $categories;
-    $make_array = explode(',', $categories);
-    $categories = array_map(function ($category) {
-        $cat['id'] = $category;
-        return $cat;
-    }, $make_array);
-    return $categories;
-}
-
-// Categories
-add_filter('wcgs_products_data_tags', 'wcgs_product_tags_data', 2, 99);
-function wcgs_product_tags_data($tags, $row){
-    
-    if( ! $tags ) return $tags;
-    $make_array = explode(',', $tags);
-    $tags = array_map(function ($category) {
-        $cat['id'] = $category;
-        return $cat;
-    }, $make_array);
-    // wcgs_pa($tags);
-    return $tags;
-}
-// Attributes
-add_filter('wcgs_row_data_attributes', 'wcgs_product_attribute_data', 2, 99);
-function wcgs_product_attribute_data($attributes, $row){
-    
-    if( ! $attributes ) return $attributes;
-    $attributes = json_decode($attributes, true);
-    return $attributes;
-}
-
-// Variations
-add_filter('wcgs_row_data_variations', 'wcgs_product_variations_data', 2, 99);
-function wcgs_product_variations_data($variations, $row){
-    
-    if( ! $variations ) return $variations;
-    $variations = json_decode($variations, true);
-    return $variations;
-}
-// Image (variations)
-add_filter('wcgs_variations_data_image', 'wcgs_product_image_data', 2, 99);
-function wcgs_product_image_data($image, $row){
-    
-    if( $image == '' ) return $image;
-    
-    $image_from = get_option('wcgs_image_import');
-    return [$image_from=>$image];
-}
-
-// Images
-add_filter('wcgs_products_data_images', 'wcgs_product_images_data', 2, 99);
-function wcgs_product_images_data($images, $row){
-    
-    if( $images == '' ) return $images;
-    $make_array = explode(',', $images);
-    // wcgs_pa($images);
-    $image_from = get_option('wcgs_image_import');
-    $image_remake = [];
-    foreach($make_array as $img){
-        $image_remake[][$image_from] = $img;
-    }
-    
-    return $image_remake;
-}
-
-// meta_data
-// meta_data has large set of json string and it create problem
-add_filter('wcgs_products_syncback_value_meta_data', 'wcgs_meta_data_value', 3, 22);
-function wcgs_meta_data_value($value, $key, $index) {
-    $export_meta_data = get_option('wcgs_export_meta_data');
-    
-    if( $export_meta_data != 'yes' ) {
-        $value = '[]';
-    }
-    
-    return $value;
-}
-
-
-/** ================ Product Update/Create Hooks ================ **/
-// add_action('wcgs_after_products_synced', 'wcgs_update_product_meta', 99, 3);
-// WE DDON'T NEED THIS HOOK WE ADDING META_DATA IN BATCH UPDATE WITH KEY: wcgs_row_id
-function wcgs_update_product_meta($products, $sheet_name, $synced_result) {
+add_action('wcgs_after_categories_synced_v3', 'wcgs_categories_row_update');
+function wcgs_categories_row_update($rowRef) {
  
-    if( count($products) <= 0 ) return;
+    if( count($rowRef) <= 0 ) return;
     
     global $wpdb;
-    $postmeta_table = $wpdb->prefix.'postmeta';
+    $termmeta_table = $wpdb->prefix.'termmeta';
     
-    $wpsql = "INSERT INTO {$postmeta_table} (post_id,meta_key,meta_value) VALUES ";
-    $delqry = "DELETE FROM {$postmeta_table} WHERE post_id IN (";
-    $metakey = 'gs_range';
+    $wpsql = "INSERT INTO {$termmeta_table} (term_id,meta_key,meta_value) VALUES ";
+    $delqry = "DELETE FROM {$termmeta_table} WHERE term_id IN (";
+    $metakey = 'wcgs_row_id';
     
-    foreach($products as $key=>$value){
-        // $range = "{$sheet_name}!A{$key}:E{$key}";
-        $range = "{$sheet_name}!{$key}:{$key}";
+    foreach($rowRef as $ref){
         
-        $postid = $value[0];    // post id
-        $metaval = $range;
+        if( $ref['row'] == 'ERROR' ) continue;
         
-        if( $postid === 'ERROR' ) continue;
+        $termid = $ref['id'];    // term id
+        $metaval = $ref['row'];
         
-        // Delete existing posts meta if any
-        $delqry .= "{$postid},";
-        // post meta sql
-        $wpsql .= "({$postid}, '{$metakey}', '{$metaval}'),";
+        // Delete existing terms meta if any
+        $delqry .= "{$termid},";
+        // Term meta sql
+        $wpsql .= "({$termid}, '{$metakey}', '{$metaval}'),";
     
     }
     
@@ -219,49 +78,80 @@ function wcgs_update_product_meta($products, $sheet_name, $synced_result) {
     
     //insert query
     $wpsql = rtrim($wpsql, ',');
+    
     $wpdb->query($wpsql);
 }
 
+// When WC categories created
+add_action( "created_product_cat", "wcgs_update_gsheet_create_cat", 99, 2);
+function wcgs_update_gsheet_create_cat($term_id, $tt_id){
+    
+    
+    if( ! array_key_exists ('action', $_POST) ) return '';
+    if ( $_POST['action'] != 'add-tag') return '';
+    
+    $action = 'fetch-categories';
+    $args = ['new_only'=>true];
+    wcgs_send_google_rest_request($action, $args);
+}
+
+// When WC categories updated
+add_action( "edited_product_cat", "wcgs_update_gsheet_edit_cat", 99, 2);
+function wcgs_update_gsheet_edit_cat($term_id, $tt_id){
+    
+    wcgs_log($_POST);
+    if( ! array_key_exists ('action', $_POST) ) return '';
+    if ( $_POST['action'] != 'editedtag' && $_POST['action'] != 'inline-save-tax') return '';
+    
+    $row_id = (int) get_term_meta($term_id, 'wcgs_row_id', true);
+    if( !$row_id ) return '';
+    
+    $action = 'fetch-categories';
+    $args = ['ids'=>[$term_id]];
+    wcgs_send_google_rest_request($action, $args);
+}
+
+// When WC categories deleted
+add_action( "pre_delete_term", "wcgs_update_gsheet_delete_cat", 99, 2);
+function wcgs_update_gsheet_delete_cat($term_id, $taxonomy){
+    
+    if( ! array_key_exists ('action', $_POST) ) return '';
+    if ( $_POST['action'] != 'delete-tag') return '';
+    
+    $row_id = get_term_meta($term_id, 'wcgs_row_id', true);
+    if( !$row_id ) return;
+    
+    $action = 'delete-row';
+    $args = ['row'=>$row_id, 'sheet_name'=>'categories'];
+    wcgs_send_google_rest_request($action, $args);
+}
+
+
+/** ================ Product Update/Create Hooks ================ **/
+
+// When product creatd
+add_action('woocommerce_new_product', 'wcgs_create_product_gsheet', 99, 2);
+function wcgs_create_product_gsheet($id, $product){
+    
+    if( isset($_POST['request_type']) && $_POST['request_type'] == 'sync-sheet-data')
+        return;
+    
+    $action = 'fetch-products';
+    $args = ['new_only'=>true];
+    wcgs_send_google_rest_request($action, $args);
+}
+
 // On product save/update
-add_action('save_post_product', 'wcgs_update_gsheet_edit_product', 99, 3);
-function wcgs_update_gsheet_edit_product($id, $product, $update){
+add_action('woocommerce_update_product', 'wcgs_updat_product_gsheet', 99, 2);
+function wcgs_updat_product_gsheet($id, $product){
     
-    // If this is a revision, get real post ID
-    if ( $parent_id = wp_is_post_revision( $id ) ) 
-        $id = $parent_id;
-    
-    if( $update ) {
-        $row_id = get_post_meta($id, 'wcgs_row_id', true);
-        if( !$row_id ) return;
+    if( isset($_POST['request_type']) && $_POST['request_type'] == 'sync-sheet-data')
+        return;
         
-        $updatable_data = array('id','name', 'description', 'status', 'short_description', 'sku', 'regular_price', 'sale_price', 'last_sync');
-        $updatable_data = apply_filters('wcgs_product_updatble_data', $updatable_data);
-        
-        $wcapi = new WCGS_WC_API();
-        $row = $wcapi->get_product_for_gsheet($id);
-        
-        $header = get_option('wcgs_product_header');
-        // wcgs_pa($header);
-        
-        $ranges_value = array();
-        foreach($updatable_data as $value) {
-            
-            $index = isset($header[$value]) ? $header[$value] : null;
-            if( $index === null ) continue;
-            
-            $column = wcgs_get_header_column_by_index($index);
-            
-            if( !$column ) continue;
-            
-            $range = "products!{$column}{$row_id}";
-            $cell_value = $value == 'last_sync' ? [wcgs_get_last_sync_date()] : [ wp_specialchars_decode($row[$index]) ];
-            $ranges_value[$range] = $cell_value; 
-        }
-        
-        // wcgs_pa($ranges_value); exit;
-        $gs = new WCGS_APIConnect();
-        $gs->update_rows_with_ranges($ranges_value, $row);
-    }
+    $action = 'fetch-products';
+    $args = ['ids'=>[$id]];
+    wcgs_send_google_rest_request($action, $args);
+    return;
 }
 
 // Before deleting the product remove from Sheet
@@ -271,12 +161,10 @@ function wcgs_delete_sheet_product($porduct_id){
     $row_id = get_post_meta($porduct_id, 'wcgs_row_id', true);
         if( !$row_id ) return;
         
-    $sheetId = wcgs_get_sheetid_by_title('products');
-    // var_dump($row_id, $sheetId); exit;
-    
-    $gs = new WCGS_APIConnect();
-    $result = $gs->delete_row($sheetId, $row_id);
-    // wcgs_pa($result); exit;
+    $action = 'delete-row';
+    $args = ['row'=>$row_id, 'sheet_name'=>'products'];
+    wcgs_send_google_rest_request($action, $args);
+    return;
 }
 
 // Sync Back Simple Products & Categories

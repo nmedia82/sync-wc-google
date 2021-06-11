@@ -25,6 +25,7 @@
         $columns['wcgs_row_id'] = 'Sync';
         return $columns;
      }
+     
      function categories_column_content($content,$column_name,$term_id){
         switch ($column_name) {
             case 'wcgs_row_id':

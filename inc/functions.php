@@ -74,19 +74,12 @@ function wcgs_get_option($key, $default_val=false) {
 // WCGS Settings Admin
 function wcgs_array_settings() {
 	
-    $wcgs_demo_sheet = 'https://docs.google.com/spreadsheets/d/1sA55ZG3uo8JLr8eKyDkim0B2QcC1OtVVr26zufW0Fwo/edit?usp=sharing';
-    $desc = sprintf(__('<a target="_blank" href="%s">Google Demo Sheet</a>', 'wcgs'), $wcgs_demo_sheet);
-    if( $sheet_id = get_option('wcgs_googlesheet_id') ) {
-        $wcgs_demo_sheet = "https://docs.google.com/spreadsheets/d/{$sheet_id}/edit?usp=sharing";    
-        $desc .= sprintf(__(' | <a target="_blank" href="%s">Connected Sheet</a>', 'wcgs'), $wcgs_demo_sheet);
-    }
-    
-	$wcgs_settings = array(
+    $wcgs_settings = array(
        
 		array(
 			'title' => 'Google Credentials',
 			'type'  => 'title',
-			'desc'	=> $desc,
+			'desc'	=> '',
 			'id'    => 'wcgs_google_creds',
 		),
 		
@@ -118,6 +111,27 @@ function wcgs_array_settings() {
             'custom_attributes' => array('readonly' => 'readonly'),
 			'desc_tip'	=> true,
         ),  
+        
+        array(
+            'title'		=> __( 'GoogleSync AuthCode:', 'wcgs' ),
+            'type'		=> 'text',
+            'desc'		=> __( 'Paste your AuthCode from Goole Sheet Settings', 'wcgs' ),
+            'default'	=> '',
+            'id'		=> 'wcgs_authcode',
+            'css'   	=> 'min-width:300px;',
+			'desc_tip'	=> true,
+        ),
+        
+        array(
+            'title'		=> __( 'GoogleSync WebApp URL:', 'wcgs' ),
+            'type'		=> 'text',
+            'desc'		=> __( 'Paste your Google WebApp URL after Deploy', 'wcgs' ),
+            'default'	=> '',
+            'id'		=> 'wcgs_appurl',
+            'css'   	=> 'min-width:300px;',
+			'desc_tip'	=> true,
+        ),
+        
         array(
 			'type' => 'sectionend',
 			'id'   => 'wcgs_google_creds',
@@ -267,13 +281,14 @@ function wcgs_category_range_for_update($category_id){
     $sync_val = 'SYNCBACK';
     $row = $wcapi->get_category_for_gsheet($category_id, $sync_val);
     
+    // ppom_pa($row); exit;
+    
     $updatable_data = array('id','name', 'slug', 'parent', 'last_sync');
     $updatable_data = apply_filters('wcgs_category_update_data', $updatable_data);
     
-    $last_sync_index = wcgs_get_las_sync_index_by_sheet('categories');
-    $last_column = wcgs_get_header_column_by_index($last_sync_index);
+    $sync_col = wcgs_get_sheet_info('categories', 'sync_col');
     
-    $range = "categories!A{$row_id}:{$last_column}{$row_id}";
+    $range = "categories!A{$row_id}:{$sync_col}{$row_id}";
     // $ranges_value[$range] = $row;   
     
     return [$range => $row];
@@ -291,4 +306,117 @@ function wcgs_get_las_sync_index_by_sheet($sheet){
     
     $index = isset($header['last_sync']) ? $header['last_sync'] : null;
     return $index;
+}
+
+// Getting sheet info
+function wcgs_get_sheet_info($sheet, $key) {
+    
+    $value = '';
+    $options = get_option("wcgs_{$sheet}_info", true);
+    if($options){
+        $value =  $options[$key];
+    }
+    return  $value;
+}
+
+// Admin notices array
+function wcgs_admin_notice_error($msg){
+    return ['message'=>$msg, 'class'=>'error'];
+}
+
+function wcgs_admin_notice_success($msg){
+    return ['message'=>$msg, 'class'=>'success'];
+}
+
+// get categories linked
+function wcgs_get_linked_categories_ids() {
+    
+    global $wpdb;
+    $qry = "SELECT DISTINCT term_id FROM {$wpdb->prefix}term_taxonomy WHERE";
+    $qry .= " taxonomy = 'product_cat'";
+    $syncback_setting = get_option('wcgs_syncback_settings');
+    $qry .= " AND EXISTS (SELECT * from {$wpdb->prefix}termmeta where {$wpdb->prefix}termmeta.term_id = {$wpdb->prefix}term_taxonomy.term_id AND {$wpdb->prefix}termmeta.meta_key = 'wcgs_row_id');";
+    
+    $result = $wpdb->get_results($qry, ARRAY_N);
+    $result = array_map(function($c){
+        return $c[0];
+    }, $result);
+    
+    return apply_filters('wcgs_non_linked_categories_ids', $result);
+}
+
+// get categories not linked
+function wcgs_get_non_linked_categories_ids() {
+    
+    global $wpdb;
+    $qry = "SELECT DISTINCT term_id FROM {$wpdb->prefix}term_taxonomy WHERE";
+    $qry .= " taxonomy = 'product_cat'";
+    $syncback_setting = get_option('wcgs_syncback_settings');
+    $qry .= " AND NOT EXISTS (SELECT * from {$wpdb->prefix}termmeta where {$wpdb->prefix}termmeta.term_id = {$wpdb->prefix}term_taxonomy.term_id AND {$wpdb->prefix}termmeta.meta_key = 'wcgs_row_id');";
+    
+    $result = $wpdb->get_results($qry, ARRAY_N);
+    $result = array_map(function($c){
+        return $c[0];
+    }, $result);
+    
+    return apply_filters('wcgs_non_linked_categories_ids', $result);
+}
+
+// get products not linked
+function wcgs_get_linked_products_ids() {
+    
+    global $wpdb;
+    
+    $qry = "SELECT DISTINCT ID FROM {$wpdb->prefix}posts WHERE";
+    $qry .= " post_type = 'product'";
+    $qry .= " AND post_status = 'publish'";
+    $qry .= " AND EXISTS (SELECT * from {$wpdb->prefix}postmeta where {$wpdb->prefix}postmeta.post_id = {$wpdb->prefix}posts.ID AND {$wpdb->prefix}postmeta.meta_key = 'wcgs_row_id');";
+    
+    $result = $wpdb->get_results($qry, ARRAY_N);
+    $result = array_map(function($c){
+        return $c[0];
+    }, $result);
+    
+    return apply_filters('wcgs_non_linked_products_ids', $result);
+}
+
+// get products not linked
+function wcgs_get_non_linked_products_ids() {
+    
+    global $wpdb;
+    
+    $qry = "SELECT DISTINCT ID FROM {$wpdb->prefix}posts WHERE";
+    $qry .= " post_type = 'product'";
+    $qry .= " AND post_status = 'publish'";
+    $qry .= " AND NOT EXISTS (SELECT * from {$wpdb->prefix}postmeta where {$wpdb->prefix}postmeta.post_id = {$wpdb->prefix}posts.ID AND {$wpdb->prefix}postmeta.meta_key = 'wcgs_row_id');";
+    
+    $result = $wpdb->get_results($qry, ARRAY_N);
+    $result = array_map(function($c){
+        return $c[0];
+    }, $result);
+    
+    return apply_filters('wcgs_non_linked_products_ids', $result);
+}
+
+// Check if store is connected with valid authcode
+function wcgs_verfiy_connected($sheet_authcode){
+    $return = false;
+    $authcode = wcgs_get_option('wcgs_authcode');
+    if( intval($sheet_authcode) == $authcode ) {
+        update_option('wcgs_wcgs_connected', true);
+        $return = true;
+    }else{
+        delete_option('wcgs_wcgs_connected');
+    }
+    
+    return $return;
+}
+
+function wcgs_is_connected(){
+    $return = false;
+    $result = get_option('wcgs_wcgs_connected');
+    if( $result ){
+        $return = true;
+    }
+    return $return;
 }

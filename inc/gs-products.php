@@ -26,7 +26,12 @@ class WCGS_Products {
     
     function get_header() {
         
-        $header = get_option('wcgs_product_header');
+        $header = wcgs_get_sheet_info('products', 'header_data');
+        
+        if( !$header ){
+            $header = get_option('wcgs_product_header');
+        }
+        
         return $header;
     }
     

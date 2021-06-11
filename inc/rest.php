@@ -25,17 +25,53 @@ function wcgs_rest_api_register() {
     // ));
     
     // Google App Script API
-    register_rest_route('wcgs/v1', '/googlesync/update-meta', array(
+    register_rest_route('wcgs/v1', '/connect-store', array(
         'methods' => 'POST',
-        'callback' => 'wcgs_update_meta',
+        'callback' => 'wcgs_connect_store',
          'permission_callback' => '__return_true'
     ));
     
     // Google App Script API BULK Meta Update
-    register_rest_route('wcgs/v1', '/googlesync/update-meta-bulk', array(
+    register_rest_route('wcgs/v1', '/link-data', array(
         'methods' => 'POST',
-        'callback' => 'wcgs_update_meta_bulk',
+        'callback' => 'wcgs_link_data',
          'permission_callback' => '__return_true'
+    ));
+    
+    
+    // Google App Script: Sync Data from Sheet
+    register_rest_route('wcgs/v1', '/sync-sheet-data', array(
+        'methods' => 'POST',
+        'callback' => 'wcgs_sync_sheet',
+        'permission_callback' => '__return_true'
+    ));
+    
+    // PRO: Fetch products
+    register_rest_route('wcgs/v1', '/fetch-products', array(
+        'methods' => 'POST',
+        'callback' => 'wcgs_fetch_products',
+        'permission_callback' => '__return_true'
+    ));
+    
+    // PRO: Fetch categories
+    register_rest_route('wcgs/v1', '/fetch-categories', array(
+        'methods' => 'POST',
+        'callback' => 'wcgs_fetch_categories',
+        'permission_callback' => '__return_true'
+    ));
+    
+    // PRO: Developer mode
+    register_rest_route('wcgs/v1', '/unlink-rows', array(
+        'methods' => 'POST',
+        'callback' => 'wcgs_unlink_rows',
+        'permission_callback' => '__return_true'
+    ));
+    
+    // PRO: Chunker
+    register_rest_route('wcgs/v1', '/do-chunks', array(
+        'methods' => 'POST',
+        'callback' => 'wcgs_create_chunks',
+        'permission_callback' => '__return_true'
     ));
 }
 
@@ -78,28 +114,28 @@ function wcgs_sync_row($request){
     wp_send_json($response);
 }
 
-// Update Mete
-function wcgs_update_meta($request){
-    
-    $params = $request->get_params();
-    // wcgs_log('==== Updating meta ===');
-    // wcgs_log($params);
-    
-    wcgs_resource_update_meta($params['sheet_name'], $params['item_id'], $params['row_no']);
-}
 
 // Update Mete Bulk
-function wcgs_update_meta_bulk($request){
+function wcgs_link_data($request){
     
-    $params = $request->get_params();
-    // wcgs_log('==== Updating meta ===');
-    $updatable_rows = json_decode($params['product_rows'], true);
-    // wcgs_log($updatable_rows); exit;
+    $data = $request->get_params();
+    $updatable_rows = json_decode($data['product_rows'], true);
+    $sync_col = $data['sync_col'];
+    $sheet_name = $data['sheet_name'];
+    // wcgs_log($data);
     
+    $ranges = [];
     if($updatable_rows){
-        foreach($updatable_rows as $data){
-            wcgs_resource_update_meta($params['sheet_name'], $data['id'], $data['rowno']);
+        foreach($updatable_rows as $row){
+            wcgs_resource_update_meta($sheet_name, $row['id'], $row['rowno']);
+            $ranges["{$sheet_name}!{$sync_col}{$row['rowno']}"] = ['OK'];
         }
+    }
+    // wcgs_log($ranges); exit;
+    
+    if( count($ranges) > 0 ) {
+        $gs = new WCGS_APIConnect();
+        $resp = $gs->update_rows_with_ranges($ranges);
     }
     
     wp_send_json_success();
@@ -168,4 +204,165 @@ function wcgs_live_sync_products($params){
     
     return $response;
     
+}
+
+function wcgs_connect_store($request) {
+    // wp_send_json($_POST);
+    
+    $data   = $request->get_params();
+    $header = json_decode($request->get_param('header_data'), true);
+    $header = reset($header);
+    $data['header_data'] = $header;
+    
+    if( !wcgs_verfiy_connected($data['authcode']) ){
+        wp_send_json_error(__("Sorry, but your AuthCode is not valid", 'wcgs'));
+    }
+    
+    // wcgs_log($data); exit;
+    $wcgs_sheet = new WCGS_Sheet();
+    $wcgs_sheet->update($data);
+    
+    wp_send_json_success(__("Good Job! Sheet is connected", 'wcgs'));
+}
+
+function wcgs_sync_sheet($request) {
+    
+    if( ! wcgs_is_connected() ){
+        wp_send_json_error(__("Sorry, but your AuthCode is not valid", 'wcgs'));
+    }
+    
+    // wcgs_log($request->get_params()); return 
+    $header = json_decode($request->get_param('header_data'), true);
+    $header = reset($header);
+    
+    $sheet_data = json_decode($request->get_param('sheet_data'), true);
+    
+    $data = $request->get_params();
+    $data['header_data'] = $header;
+    $data['sheet_data']  = $sheet_data;
+            
+    // wcgs_log($data); exit;
+    
+    $wcgs_sheet = new WCGS_Sheet();
+    
+    switch( $data['sheet_name'] ) {
+        case 'products':
+            $result = $wcgs_sheet->sync_data_products($data);
+        break;
+        
+        case 'categories':
+            $result = $wcgs_sheet->sync_data_categories($data);
+        break;
+    }
+    
+    // wcgs_log($result);
+    
+    if( is_wp_error($result) ) {
+        wp_send_json_error($result->get_error_message());
+    }else{
+        wp_send_json_success($result);
+    }
+}
+
+// Fetch products from store
+function wcgs_fetch_products($request) {
+    
+    $header = json_decode($request->get_param('header_data'), true);
+    $header = reset($header);
+    $data   = $request->get_params();
+    $data['header_data'] = $header;
+    $data['request_args'] = isset($data['request_args']) ? json_decode($data['request_args'], true) : null;
+    // wcgs_log($data);
+    
+    $wcapi = new WCGS_WC_API_V3();
+    $result = $wcapi->get_products_for_syncback($data);
+    // wcgs_log($result);
+    
+    if( is_wp_error($result) ) {
+        wp_send_json_error($result->get_error_message());
+    }else{
+        // wcgs_log($result); exit;
+        wp_send_json_success($result);
+    }
+}
+
+// Fetch categories from store
+function wcgs_fetch_categories($request) {
+    
+    $header = json_decode($request->get_param('header_data'), true);
+    $header = reset($header);
+    $data   = $request->get_params();
+    $data['header_data'] = $header;
+    $data['request_args'] = isset($data['request_args']) ? json_decode($data['request_args'], true) : null;
+    
+    // wcgs_log($data); exit;
+    
+    $wcapi = new WCGS_WC_API_V3();
+    $result = $wcapi->get_categories_for_syncback($data);
+    
+    if( is_wp_error($result) ) {
+        wp_send_json_error($result->get_error_message());
+    }else{
+        // wcgs_log($result); exit;
+        wp_send_json_success($result);
+    }
+}
+
+// Remove all meta link from products & categories
+function wcgs_unlink_rows($request) {
+    
+    $data   = $request->get_params();
+    // wcgs_log($data); exit;
+    global $wpdb;
+    $val = 'wcgs_row_id';
+    
+    switch( $data['sheet_name'] ) {
+        case 'products':
+            $table = "{$wpdb->prefix}postmeta";
+            $wpdb->delete( $table, array( 'meta_key' => $val ) );
+        break;
+        
+        case 'categories':
+            $table = "{$wpdb->prefix}termmeta";
+            $wpdb->delete( $table, array( 'meta_key' => $val ) );
+        break;
+    }
+    
+    
+    wp_send_json_success(['message'=>'All keys removed']);
+    
+}
+
+function wcgs_create_chunks($request) {
+    
+    $data = $request->get_params();
+    // wcgs_log($data);
+    
+    $wcapi = new WCGS_WC_API_V3();
+    $result = $wcapi->create_product_chunks($data);
+    
+    wp_send_json_success($result);
+}
+
+// =========== REMOT POST/GET ==============
+function wcgs_send_google_rest_request($action, $args){
+    
+    $url = wcgs_get_option('wcgs_appurl');
+    if( ! $url ) {
+        set_transient("wcgs_admin_notices", wcgs_admin_notice_error('Google WebApp URL not defined','wcgs'), 30);
+        return;
+    }
+    
+    $url .= "?action={$action}&args=".json_encode($args);
+    
+    $response = wp_remote_get($url);
+    $responseBody = wp_remote_retrieve_body( $response );
+    $result = json_decode( $responseBody, true );
+    // wcgs_log($result);
+    
+    if(isset($result['status']) && $result['status'] == 'success'){
+        set_transient("wcgs_admin_notices", wcgs_admin_notice_success(__('Sheet is also updated successfully'), 'wcgs'), 30);
+    }else{
+        set_transient("wcgs_admin_notices", wcgs_admin_notice_error(__('Error while updating Googl Sheet'), 'wcgs'), 30);
+    }
 }

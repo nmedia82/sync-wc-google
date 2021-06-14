@@ -16,8 +16,8 @@
 define('WCGS_PATH', untrailingslashit(plugin_dir_path( __FILE__ )) );
 define('WCGS_URL', untrailingslashit(plugin_dir_url( __FILE__ )) );
 define('WCGS_SETTING_URL', admin_url( 'admin.php?page=wc-settings&tab=wcgs_settings' ) );
-define('WCGS_VERSION', 2.6 );
-define('WCGS_LOG', true );
+define('WCGS_VERSION', 3.0 );
+define('WCGS_LOG', false );
 define('WCGS_SYNC_OK', 'OK' );
 
 

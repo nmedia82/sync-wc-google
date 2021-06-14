@@ -18,11 +18,10 @@ import/sync these products into your WooCommerce Stores. We have created step-by
 Now your store is just a Single Click away to get populated with this Amazing plugin.
 
 = How It Works? =
-[youtube https://www.youtube.com/watch?v=XISi_zL96Lw]
+[youtube https://youtu.be/3blqpP2Zvqg]
 
-= Version 2.0 =
-* Chunked syncing - more fast and reliable approach
-* No need of WooCommerce API Keys since version 2.0
+= Version 3.0 =
+* This is the Major version, please watch getting started video
 
 = Features =
 * One Click Import
@@ -40,7 +39,7 @@ Now your store is just a Single Click away to get populated with this Amazing pl
 * [Get WC Google Sync PRO](https://najeebmedia.com/google-sync)
 
 = Getting Started Video? =
-[youtube https://youtu.be/uw7xzgd54ME]
+[youtube https://youtu.be/3blqpP2Zvqg]
 
 == Installation ==
 1. Download the plugin and activate it
@@ -59,6 +58,9 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 3.0 - June 14, 2021 =
+* Features: Major update to manage sync from Google Sheet menu
+* Features: Google App script used to send products from Google Sheet
 = 2.6 - May 13, 2021 =
 * Bug fixed: [Critical error fixed when google client is not set](https://wordpress.org/support/topic/critical-error-in-plugin-setting-page/)
 = 2.5 - April 18, 2021 =

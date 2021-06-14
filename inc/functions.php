@@ -21,6 +21,16 @@ function wcgs_load_template_file($file_name, $vars=null) {
    	die('File not found'.$file_path);
 }
 
+// check if PPOM PRO is installed
+function wcgs_pro_is_installed() {
+	
+	$return = false;
+	    
+    if( class_exists('WCGS_PRO_INIT') ) 
+        $return = true;
+    return $return;
+}
+
 // Get sheet ID by title saved in option meta: wcgs_sheets_info
 function wcgs_get_sheetid_by_title($title) {
     

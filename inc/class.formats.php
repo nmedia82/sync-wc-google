@@ -16,13 +16,14 @@ class WCGS_Format {
         add_filter('wcgs_products_data_images', array($this, 'product_images'), 99, 2);
         add_filter('wcgs_products_data_meta_data', array($this, 'product_meta_data'), 99, 2);
         
-        // PRO
-        add_filter('wcgs_products_synback', array($this, 'syncback_data_products'), 11, 2);
-        add_filter('wcgs_categories_synback', array($this, 'syncback_data_categories'), 11, 2);
-        
-        // Categories
-        add_filter('wcgs_sync_data_categories_before_processing', array($this, 'format_data_categories'), 11, 2);
-        add_filter('wcgs_categories_data_image', array($this, 'categories_image'), 99, 2);
+        if( wcgs_pro_is_installed() ) {
+            add_filter('wcgs_products_synback', array($this, 'syncback_data_products'), 11, 2);
+            add_filter('wcgs_categories_synback', array($this, 'syncback_data_categories'), 11, 2);
+            
+            // Categories
+            add_filter('wcgs_sync_data_categories_before_processing', array($this, 'format_data_categories'), 11, 2);
+            add_filter('wcgs_categories_data_image', array($this, 'categories_image'), 99, 2);
+        }
     
     }
     
@@ -137,29 +138,23 @@ class WCGS_Format {
     function product_images($images, $row){
         
         if( $images == '' ) return $images;
-        $make_array = explode(',', $images);
-        // wcgs_pa($images);
+        $make_array = explode('|', $images);
         $image_remake = [];
         foreach($make_array as $img){
+            $img = trim($img);
             $key = (filter_var($img, FILTER_VALIDATE_URL) === FALSE) ? 'id' : 'src';
             $image_remake[][$key] = $img;
         }
-        
         return $image_remake;
     }
     
     // Category Image
-    function categories_image($images, $row){
+    function categories_image($image, $row){
         
-        if( $images == '' ) return $images;
-        $make_array = explode(',', $images);
-        // wcgs_pa($images);
-        $image_remake = [];
-        foreach($make_array as $img){
-            
-            $key = (filter_var($img, FILTER_VALIDATE_URL) === FALSE) ? 'id' : 'src';
-            $image_remake[$key] = $img;
-        }
+        if( $image == '' ) return $image;
+        $image = trim($image);
+        $key = (filter_var($image, FILTER_VALIDATE_URL) === FALSE) ? 'id' : 'src';
+        $image_remake[$key] = $image;
         
         return $image_remake;
     }
@@ -230,7 +225,7 @@ class WCGS_Format {
             }
         }
         
-        // wcgs_log($categories_refined);
+        // wcgs_log($categories_refined); exit;
         return $categories_refined;
     }
 

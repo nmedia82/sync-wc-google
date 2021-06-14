@@ -1,169 +1,335 @@
-Exception Object
+Array
 (
-    [message:protected] => You need to connect your Google Account.
-    [string:Exception:private] => 
-    [code:protected] => 0
-    [file:protected] => /var/www/devteam.com/ppom/wp-content/plugins/sync-wc-google/inc/gs-api.php
-    [line:protected] => 339
-    [trace:Exception:private] => Array
+    [create] => Array
         (
             [0] => Array
                 (
-                    [file] => /var/www/devteam.com/ppom/wp-content/plugins/sync-wc-google/inc/gs-api.php
-                    [line] => 226
-                    [function] => get_google_service
-                    [class] => WCGS_APIConnect
-                    [type] => ->
-                    [args] => Array
-                        (
-                        )
-
+                    [0] => 15
+                    [1] => Uncategorized
+                    [2] => uncategorized
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
                 )
 
             [1] => Array
                 (
-                    [file] => /var/www/devteam.com/ppom/wp-content/plugins/sync-wc-google/inc/hooks.php
-                    [line] => 73
-                    [function] => update_rows_with_ranges
-                    [class] => WCGS_APIConnect
-                    [type] => ->
-                    [args] => Array
-                        (
-                            [0] => Array
-                                (
-                                    [categories!A12:J12] => Array
-                                        (
-                                            [0] => 142
-                                            [1] => SYNCBACK
-                                            [2] => New category
-                                            [3] => new-cate
-                                            [4] => 0
-                                            [5] => 
-                                            [6] => default
-                                            [7] => 
-                                            [8] => 0
-                                            [9] => 2021-05-13 03:33:40pm
-                                        )
-
-                                )
-
-                        )
-
+                    [0] => 220
+                    [1] => Brand
+                    [2] => brand
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
                 )
 
             [2] => Array
                 (
-                    [file] => /var/www/devteam.com/ppom/wp-includes/class-wp-hook.php
-                    [line] => 287
-                    [function] => wcgs_update_gsheet_edit_cat
-                    [args] => Array
-                        (
-                            [0] => 142
-                            [1] => 142
-                        )
-
+                    [0] => 221
+                    [1] => Winter Collection
+                    [2] => winter-collection
+                    [3] => 0
+                    [4] => 
+                    [5] => 3596
+                    [6] => OK
                 )
 
             [3] => Array
                 (
-                    [file] => /var/www/devteam.com/ppom/wp-includes/class-wp-hook.php
-                    [line] => 311
-                    [function] => apply_filters
-                    [class] => WP_Hook
-                    [type] => ->
-                    [args] => Array
-                        (
-                            [0] => 
-                            [1] => Array
-                                (
-                                    [0] => 142
-                                    [1] => 142
-                                )
-
-                        )
-
+                    [0] => 222
+                    [1] => Year 2020
+                    [2] => year-2020
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
                 )
 
             [4] => Array
                 (
-                    [file] => /var/www/devteam.com/ppom/wp-includes/plugin.php
-                    [line] => 484
-                    [function] => do_action
-                    [class] => WP_Hook
-                    [type] => ->
-                    [args] => Array
-                        (
-                            [0] => Array
-                                (
-                                    [0] => 142
-                                    [1] => 142
-                                )
-
-                        )
-
+                    [0] => 223
+                    [1] => Baby Balloon
+                    [2] => baby-balloons-1
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
                 )
 
             [5] => Array
                 (
-                    [file] => /var/www/devteam.com/ppom/wp-includes/taxonomy.php
-                    [line] => 3200
-                    [function] => do_action
-                    [args] => Array
-                        (
-                            [0] => edited_product_cat
-                            [1] => 142
-                            [2] => 142
-                        )
-
+                    [0] => 224
+                    [1] => Toys
+                    [2] => toys
+                    [3] => 0
+                    [4] => 
+                    [5] => 3580
+                    [6] => OK
                 )
 
             [6] => Array
                 (
-                    [file] => /var/www/devteam.com/ppom/wp-admin/edit-tags.php
-                    [line] => 183
-                    [function] => wp_update_term
-                    [args] => Array
-                        (
-                            [0] => 142
-                            [1] => product_cat
-                            [2] => Array
-                                (
-                                    [alias_of] => 
-                                    [description] => 
-                                    [parent] => 0
-                                    [slug] => new-cate
-                                    [term_id] => 142
-                                    [name] => New category
-                                    [term_group] => 0
-                                    [term_taxonomy_id] => 142
-                                    [taxonomy] => product_cat
-                                    [count] => 1
-                                    [filter] => db
-                                    [action] => editedtag
-                                    [tag_ID] => 142
-                                    [_wp_original_http_referer] => https://nmdevteam.com/ppom/wp-admin/term.php?taxonomy=product_cat&tag_ID=142&post_type=product&wp_http_referer=%2Fppom%2Fwp-admin%2Fedit-tags.php%3Ftaxonomy%3Dproduct_cat%26post_type%3Dproduct
-                                    [_wpnonce] => 6e73688de8
-                                    [_wp_http_referer] => /ppom/wp-admin/term.php?taxonomy=product_cat&tag_ID=142&post_type=product&wp_http_referer=%2Fppom%2Fwp-admin%2Fedit-tags.php%3Ftaxonomy%3Dproduct_cat%26post_type%3Dproduct&message=3
-                                    [term_meta] => Array
-                                        (
-                                            [cat_header] => 
-                                            [cat_footer] => 
-                                        )
+                    [0] => 225
+                    [1] => Sports
+                    [2] => sports
+                    [3] => 0
+                    [4] => just make it new
+                    [5] => 
+                    [6] => OK
+                )
 
-                                    [display_type] => 
-                                    [product_cat_thumbnail_id] => 0
-                                )
+            [7] => Array
+                (
+                    [0] => 226
+                    [1] => Ballon Testing
+                    [2] => balloons-testing
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
 
-                        )
+            [8] => Array
+                (
+                    [0] => 227
+                    [1] => New Cate
+                    [2] => new-cate
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
 
+            [9] => Array
+                (
+                    [0] => 229
+                    [1] => Chall Tu
+                    [2] => chall-tu
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
+
+            [10] => Array
+                (
+                    [0] => 230
+                    [1] => Super Main
+                    [2] => super-main
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
+
+            [11] => Array
+                (
+                    [0] => 231
+                    [1] => Make done
+                    [2] => make-it-done
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
+
+            [12] => Array
+                (
+                    [0] => 232
+                    [1] => Helo
+                    [2] => helo-3
+                    [3] => 0
+                    [4] => ok man
+                    [5] => 
+                    [6] => OK
+                )
+
+            [13] => Array
+                (
+                    [0] => 233
+                    [1] => Helo 2
+                    [2] => helo2
+                    [3] => 0
+                    [4] => ok man
+                    [5] => 
+                    [6] => OK
+                )
+
+            [14] => Array
+                (
+                    [0] => 235
+                    [1] => From Sheet
+                    [2] => from-sheet
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
+
+            [15] => Array
+                (
+                    [0] => 236
+                    [1] => PPOM divider
+                    [2] => ppom-divider
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
+
+            [16] => Array
+                (
+                    [0] => 237
+                    [1] => Toys 2
+                    [2] => toys-2
+                    [3] => 0
+                    [4] => dd
+                    [5] => 
+                    [6] => OK
+                )
+
+            [17] => Array
+                (
+                    [0] => 238
+                    [1] => Bags
+                    [2] => bags
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
+
+            [18] => Array
+                (
+                    [0] => 239
+                    [1] => Fashion
+                    [2] => fashion
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
+
+            [19] => Array
+                (
+                    [0] => 240
+                    [1] => Gun
+                    [2] => gun
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
+
+            [20] => Array
+                (
+                    [0] => 241
+                    [1] => Non GS
+                    [2] => non-gs
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
+
+            [21] => Array
+                (
+                    [0] => 242
+                    [1] => Oh mna
+                    [2] => oh-mna
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
+
+            [22] => Array
+                (
+                    [0] => 243
+                    [1] => style age
+                    [2] => style-age
+                    [3] => 0
+                    [4] => New age
+                    [5] => 
+                    [6] => OK
+                )
+
+            [23] => Array
+                (
+                    [0] => 244
+                    [1] => Svgs
+                    [2] => svgs
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
+
+            [24] => Array
+                (
+                    [0] => 245
+                    [1] => Test 33
+                    [2] => test-33
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
+
+            [25] => Array
+                (
+                    [0] => 246
+                    [1] => Dum cat
+                    [2] => dum-cat1
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
+
+            [26] => Array
+                (
+                    [0] => 247
+                    [1] => Round about
+                    [2] => round-about
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
+
+            [27] => Array
+                (
+                    [0] => 248
+                    [1] => so think
+                    [2] => so-think
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
+                )
+
+            [28] => Array
+                (
+                    [0] => 249
+                    [1] => why
+                    [2] => why
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => OK
                 )
 
         )
 
-    [previous:Exception:private] => 
 )
-You need to connect your Google Account.3{"error":{"message":"You need to connect your Google Account."}}Array
+Array
 (
-    [message] => Google Sheet API Error: You need to connect your Google Account.
-    [class] => error
+    [header_data] => [[\"id\",\"name\",\"slug\",\"parent\",\"description\",\"image\",\"sync\"]]
+    [sync_col] => G
+    [debug_mode] => false
+    [request_type] => sync-sheet-data
+    [sheet_data] => [[223,\"Baby Balloon\",\"baby-balloons-1\",0,\"\",\"https://www.personalised-baby.co.uk/media/catalog/product/e/l/elephant-baby-blanket-folded.jpg\",\"\",6]]
+    [sheet_name] => categories
 )

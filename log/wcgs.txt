@@ -1,335 +1,542 @@
 Array
 (
-    [create] => Array
+    [update] => Array
         (
-            [0] => Array
-                (
-                    [0] => 15
-                    [1] => Uncategorized
-                    [2] => uncategorized
-                    [3] => 0
-                    [4] => 
-                    [5] => 
-                    [6] => OK
-                )
-
-            [1] => Array
-                (
-                    [0] => 220
-                    [1] => Brand
-                    [2] => brand
-                    [3] => 0
-                    [4] => 
-                    [5] => 
-                    [6] => OK
-                )
-
             [2] => Array
                 (
-                    [0] => 221
-                    [1] => Winter Collection
-                    [2] => winter-collection
+                    [0] => 10
+                    [1] => PPOM Simple Fields
+                    [2] => simple
                     [3] => 0
                     [4] => 
-                    [5] => 3596
-                    [6] => OK
+                    [5] => 
+                    [6] => 10
+                    [7] => 
+                    [8] => 3651
+                    [9] => OK
                 )
 
             [3] => Array
                 (
-                    [0] => 222
-                    [1] => Year 2020
-                    [2] => year-2020
+                    [0] => 13
+                    [1] => Bulk Quantity Add-on
+                    [2] => simple
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 10
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [4] => Array
                 (
-                    [0] => 223
-                    [1] => Baby Balloon
-                    [2] => baby-balloons-1
+                    [0] => 19
+                    [1] => Autocomplete Demo
+                    [2] => simple
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 1
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [5] => Array
                 (
-                    [0] => 224
-                    [1] => Toys
-                    [2] => toys
+                    [0] => 21
+                    [1] => T-Shirt Variations
+                    [2] => simple
                     [3] => 0
                     [4] => 
-                    [5] => 3580
-                    [6] => OK
+                    [5] => 
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [6] => Array
                 (
-                    [0] => 225
-                    [1] => Sports
-                    [2] => sports
+                    [0] => 25
+                    [1] => Shipment Postis
+                    [2] => simple
                     [3] => 0
-                    [4] => just make it new
+                    [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [7] => Array
                 (
-                    [0] => 226
-                    [1] => Ballon Testing
-                    [2] => balloons-testing
+                    [0] => 30
+                    [1] => T-Shirt Design
+                    [2] => simple
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [8] => Array
                 (
-                    [0] => 227
-                    [1] => New Cate
-                    [2] => new-cate
+                    [0] => 33
+                    [1] => Aquila Cropper Scale down
+                    [2] => simple
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [9] => Array
                 (
-                    [0] => 229
-                    [1] => Chall Tu
-                    [2] => chall-tu
+                    [0] => 36
+                    [1] => Measure Input
+                    [2] => simple
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 1
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [10] => Array
                 (
-                    [0] => 230
-                    [1] => Super Main
-                    [2] => super-main
+                    [0] => 38
+                    [1] => Raphael Items
+                    [2] => simple
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [11] => Array
                 (
-                    [0] => 231
-                    [1] => Make done
-                    [2] => make-it-done
+                    [0] => 58
+                    [1] => Google Font Picker
+                    [2] => simple
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [12] => Array
                 (
-                    [0] => 232
-                    [1] => Helo
-                    [2] => helo-3
+                    [0] => 75
+                    [1] => test
+                    [2] => simple
                     [3] => 0
-                    [4] => ok man
+                    [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 10
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [13] => Array
                 (
-                    [0] => 233
-                    [1] => Helo 2
-                    [2] => helo2
+                    [0] => 77
+                    [1] => Dapsy Date Customized
+                    [2] => simple
                     [3] => 0
-                    [4] => ok man
+                    [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [14] => Array
                 (
-                    [0] => 235
-                    [1] => From Sheet
-                    [2] => from-sheet
+                    [0] => 78
+                    [1] => Word/Character Counter
+                    [2] => simple
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [15] => Array
                 (
-                    [0] => 236
-                    [1] => PPOM divider
-                    [2] => ppom-divider
+                    [0] => 114
+                    [1] => PPOM Conditional Meta
+                    [2] => simple
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [16] => Array
                 (
-                    [0] => 237
-                    [1] => Toys 2
-                    [2] => toys-2
+                    [0] => 122
+                    [1] => PPOM Energy Plugin Test
+                    [2] => simple
                     [3] => 0
-                    [4] => dd
+                    [4] => <p>Get</p>
+
                     [5] => 
-                    [6] => OK
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [17] => Array
                 (
-                    [0] => 238
-                    [1] => Bags
-                    [2] => bags
+                    [0] => 123
+                    [1] => Testing Product 2
+                    [2] => simple
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [18] => Array
                 (
-                    [0] => 239
-                    [1] => Fashion
-                    [2] => fashion
+                    [0] => 125
+                    [1] => Rasmus Product
+                    [2] => simple
                     [3] => 0
-                    [4] => 
+                    [4] => <p>Hi I am Content</p>
+
                     [5] => 
-                    [6] => OK
+                    [6] => 10
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [19] => Array
                 (
-                    [0] => 240
-                    [1] => Gun
-                    [2] => gun
+                    [0] => 130
+                    [1] => PPOM Images
+                    [2] => variable
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [20] => Array
                 (
-                    [0] => 241
-                    [1] => Non GS
-                    [2] => non-gs
-                    [3] => 0
+                    [0] => 135
+                    [1] => PPOM Images
+                    [2] => variation
+                    [3] => 130
                     [4] => 
                     [5] => 
-                    [6] => OK
-                )
-
-            [21] => Array
-                (
-                    [0] => 242
-                    [1] => Oh mna
-                    [2] => oh-mna
-                    [3] => 0
-                    [4] => 
-                    [5] => 
-                    [6] => OK
-                )
-
-            [22] => Array
-                (
-                    [0] => 243
-                    [1] => style age
-                    [2] => style-age
-                    [3] => 0
-                    [4] => New age
-                    [5] => 
-                    [6] => OK
-                )
-
-            [23] => Array
-                (
-                    [0] => 244
-                    [1] => Svgs
-                    [2] => svgs
-                    [3] => 0
-                    [4] => 
-                    [5] => 
-                    [6] => OK
+                    [6] => 4
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [24] => Array
                 (
-                    [0] => 245
-                    [1] => Test 33
-                    [2] => test-33
+                    [0] => 140
+                    [1] => PPOM Condtions V2
+                    [2] => simple
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [25] => Array
                 (
-                    [0] => 246
-                    [1] => Dum cat
-                    [2] => dum-cat1
+                    [0] => 143
+                    [1] => Image DropDown Demo
+                    [2] => simple
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 5
+                    [7] => 
+                    [8] => 2738
+                    [9] => OK
                 )
 
             [26] => Array
                 (
-                    [0] => 247
-                    [1] => Round about
-                    [2] => round-about
+                    [0] => 144
+                    [1] => DateRange Demo
+                    [2] => simple
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
+                )
+
+            [21] => Array
+                (
+                    [0] => 149
+                    [1] => PPOM Images - 2
+                    [2] => variation
+                    [3] => 130
+                    [4] => 
+                    [5] => 
+                    [6] => 3
+                    [7] => 
+                    [8] => 
+                    [9] => OK
+                )
+
+            [22] => Array
+                (
+                    [0] => 150
+                    [1] => PPOM Images - 3
+                    [2] => variation
+                    [3] => 130
+                    [4] => 
+                    [5] => 
+                    [6] => 2
+                    [7] => 
+                    [8] => 
+                    [9] => OK
+                )
+
+            [23] => Array
+                (
+                    [0] => 151
+                    [1] => PPOM Images - 4
+                    [2] => variation
+                    [3] => 130
+                    [4] => 
+                    [5] => 
+                    [6] => 
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [27] => Array
                 (
-                    [0] => 248
-                    [1] => so think
-                    [2] => so-think
+                    [0] => 162
+                    [1] => WC Variation Quantity
+                    [2] => variable
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
             [28] => Array
                 (
-                    [0] => 249
-                    [1] => why
-                    [2] => why
+                    [0] => 163
+                    [1] => WC Variation Quantity
+                    [2] => variation
+                    [3] => 162
+                    [4] => 
+                    [5] => 
+                    [6] => 3
+                    [7] => 
+                    [8] => 
+                    [9] => OK
+                )
+
+            [29] => Array
+                (
+                    [0] => 164
+                    [1] => WC Variation Quantity
+                    [2] => variation
+                    [3] => 162
+                    [4] => 
+                    [5] => 
+                    [6] => 4
+                    [7] => 
+                    [8] => 
+                    [9] => OK
+                )
+
+            [30] => Array
+                (
+                    [0] => 165
+                    [1] => WC Variation Quantity
+                    [2] => variation
+                    [3] => 162
+                    [4] => 
+                    [5] => 
+                    [6] => 6
+                    [7] => 
+                    [8] => 
+                    [9] => OK
+                )
+
+            [31] => Array
+                (
+                    [0] => 174
+                    [1] => Variation Quantity Matrix
+                    [2] => simple
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => OK
+                    [6] => 10
+                    [7] => 
+                    [8] => 
+                    [9] => OK
+                )
+
+            [32] => Array
+                (
+                    [0] => 186
+                    [1] => Option Quantity
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => 0
+                    [7] => 
+                    [8] => 
+                    [9] => OK
+                )
+
+            [34] => Array
+                (
+                    [0] => 208
+                    [1] => Balloon Images
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
+                )
+
+            [35] => Array
+                (
+                    [0] => 242
+                    [1] => Text Counter
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
+                )
+
+            [36] => Array
+                (
+                    [0] => 248
+                    [1] => Towels
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => 100
+                    [7] => 
+                    [8] => 
+                    [9] => OK
+                )
+
+            [37] => Array
+                (
+                    [0] => 253
+                    [1] => Cyrus Product
+                    [2] => simple
+                    [3] => 0
+                    [4] => <p>Sample Product Page Description</p>
+
+                    [5] => 
+                    [6] => 10
+                    [7] => 
+                    [8] => 
+                    [9] => OK
+                )
+
+            [38] => Array
+                (
+                    [0] => 370
+                    [1] => Hide Shipping Method
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
+                )
+
+            [39] => Array
+                (
+                    [0] => 374
+                    [1] => Ice Cream Flavors Pack
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => 5
+                    [7] => 
+                    [8] => 
+                    [9] => OK
+                )
+
+            [33] => Array
+                (
+                    [0] => 1445
+                    [1] => WC Variation Quantity
+                    [2] => variation
+                    [3] => 162
+                    [4] => 
+                    [5] => 
+                    [6] => 25
+                    [7] => 
+                    [8] => 
+                    [9] => OK
                 )
 
         )
 
-)
-Array
-(
-    [header_data] => [[\"id\",\"name\",\"slug\",\"parent\",\"description\",\"image\",\"sync\"]]
-    [sync_col] => G
-    [debug_mode] => false
-    [request_type] => sync-sheet-data
-    [sheet_data] => [[223,\"Baby Balloon\",\"baby-balloons-1\",0,\"\",\"https://www.personalised-baby.co.uk/media/catalog/product/e/l/elephant-baby-blanket-folded.jpg\",\"\",6]]
-    [sheet_name] => categories
 )

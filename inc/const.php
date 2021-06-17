@@ -21,6 +21,20 @@ function wcgs_get_header_column_by_index($index) {
     return isset($column_names[$index]) ? apply_filters('wcgs_product_header_column', $column_names[$index], $index) : null;
 }
 
+function wcgs_header_letter_to_index($letter) {
+    
+    $column_names = array('', 'A', 'B', 'C',
+                          'D', 'E', 'F',
+                          'G', 'H', 'I', 'J',
+                          'K', 'L','M','N','O','P',
+                          'Q','R','S','T','U','V','W',
+                          'X','Y','Z','AA','AB','AC','AD','AE',
+                          'AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS');
+                    
+    $key = array_search($letter, $column_names);
+    return $key !== false ? apply_filters('wcgs_header_letter_to_index', $key, $letter) : '';
+}
+
 // Syncing Array
 function wcgs_sync_array(){
     

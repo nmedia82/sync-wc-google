@@ -48,16 +48,22 @@ class WCGS_Products {
         $range = 'products';
         $gs_rows = $gs->get_sheet_rows($range);
         
+        $sync_col = wcgs_get_sheet_info('products','sync_col');
+        if( ! $sync_col ) {
+            return new WP_Error( 'gs_connection_error', __('Make you connect your sheet from Google Sync Menu','wcgs') );
+        }
+        
         // Setting mapping (index => $key)
-        $this->set_mapping($gs_rows[0]);
+        // $this->set_mapping($gs_rows[0]);
         
         unset($gs_rows[0]);    // Skip heading row
         
-        $syncable_filter = array_filter($gs_rows, function($r){
-          return $r[WCGS_SYNC_COLUMN_INDEX] != 1;
+        $sync_col_index = wcgs_header_letter_to_index($sync_col);
+        
+        $syncable_filter = array_filter($gs_rows, function($r) use($sync_col_index){
+          return $r[$sync_col_index] != WCGS_SYNC_OK;
         });
         
-        // wcgs_pa($filters);
         if( !$syncable_filter ) return null;
         $chunked_array = array_chunk($syncable_filter, $chunk_size, true);
         set_transient('wcgs_product_chunk', $chunked_array);

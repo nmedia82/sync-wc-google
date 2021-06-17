@@ -1,22 +1,6 @@
 jQuery(function($) {
 
     // const { GoogleSpreadsheet } = require('google-spreadsheet');
-    $("#google-rest").on('click', function(e) {
-       e.preventDefault();
-       
-    //   const range = 'a2:o97';
-    //   const url = `https://script.google.com/macros/s/AKfycbxaTmmKvLLKcTYpNmzbXX8NNKoy2mqJVYtKAGY-6L1pqZ4PDc2tuNzE29m1qabEm09C/exec?q=priceList/${range}`;
-    
-        const action='fetch-categories';
-        const args = JSON.stringify({'ids':[136], 'columns':['id','description']});
-        var url = `https://script.google.com/macros/s/AKfycbxA_1-nFgTpbcYejpC_8A1hztZLypW9x-luKgWAIQIPCWjnxW_zgd3L37ojwwOJpBbf/exec?`;
-        url += `action=${action}&args=${args}`;
-        var data = {};
-        $.get(url, data, function(response) {
-          
-            console.log(response); 
-        });
-    });
 
     const work_div = $("#wcgs_working");
 

@@ -69,13 +69,21 @@ function wcgs_chunk_products($send_json=true) {
     $product = new WCGS_Products();
     $chunks = $product->get_chunks();
     
-    $response['status'] = 'success';
-    $response['message'] =  __("No data to sync", "wcgs");
-        
-    if( $chunks ) {
-        $response['status'] = 'chunked';
-        $response['chunks'] =  $chunks;
-        $response['message'] =  sprintf(__("Total %d Products found, chunked into %d", "wcgs"), $chunks['total_products'], $chunks['chunks']);
+    $response = [];
+    
+    if( is_wp_error($chunks) ) {
+        $response['status'] = 'error';
+        $response['message'] =  $chunks->get_error_message();
+    } else {
+    
+        $response['status'] = 'success';
+        $response['message'] =  __("No data to sync", "wcgs");
+            
+        if( $chunks ) {
+            $response['status'] = 'chunked';
+            $response['chunks'] =  $chunks;
+            $response['message'] =  sprintf(__("Total %d Products found, chunked into %d", "wcgs"), $chunks['total_products'], $chunks['chunks']);
+        }
     }
     
     if( $send_json ) {
@@ -106,8 +114,15 @@ function wcgs_sync_chunk_products($send_json=true, $chunk=null) {
         return $send_json ? wp_send_json($response) : $response;
     }
     
-    // wp_send_json($saved_chunked[$chunk]);
-    $chunked_rows = $saved_chunked[$chunk];
+    // @TODO: send via ajax
+    $sync_col = wcgs_get_sheet_info('products','sync_col');
+    $sync_col_index = wcgs_header_letter_to_index($sync_col);
+    
+    $chunked_rows = array_map(function($row) use($sync_col_index){
+        return array_pad($row, $sync_col_index, "");
+    }, $saved_chunked[$chunk]);
+    
+    // wp_send_json($chunked_rows);
     
     $sheet_name = 'products';
     

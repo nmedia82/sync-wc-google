@@ -200,7 +200,7 @@ class WCGS_Format {
             }
         }
         
-        // wcgs_log($products_refined);
+        // wcgs_log($products_refined); exit;
         return $products_refined;
     }
     

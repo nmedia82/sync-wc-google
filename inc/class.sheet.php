@@ -92,8 +92,7 @@ class WCGS_Sheet {
         // wcgs_log($result1);
         // wcgs_log($result2);
         // wcgs_log($both_res);
-        
-        wp_send_json_success($both_res);
+        return $both_res;
     }
     
     // Categories sync

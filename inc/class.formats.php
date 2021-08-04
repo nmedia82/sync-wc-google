@@ -77,7 +77,7 @@ class WCGS_Format {
         
         // var_dump($categories);
         if( ! $categories ) return $categories;
-        $make_array = explode(',', $categories);
+        $make_array = explode('|', $categories);
         $categories = array_map(function ($category) {
             $cat['id'] = $category;
             return $cat;
@@ -89,7 +89,7 @@ class WCGS_Format {
     function product_tags($tags, $row){
         
         if( ! $tags ) return $tags;
-        $make_array = explode(',', $tags);
+        $make_array = explode('|', $tags);
         $tags = array_map(function ($category) {
             $cat['id'] = $category;
             return $cat;

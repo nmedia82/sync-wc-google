@@ -2,9 +2,42 @@ Array
 (
     [0] => Array
         (
-            [row] => 5
-            [id] => 3853
-            [images] => 
+            [id] => 3838
+            [name] => PPOM Audio/Video Enable Multiple Selection
+            [type] => simple
+            [parent_id] => 0
+            [description] => 
+            [short_description] => <p>PPOM Basic Audio/Video demo to choose a favorite Audio/Video and add to cart.</p>
+<p><a class="button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/05/ppom-meta-1620456953.csv">Download PPOM Meta</a></p>
+
+            [regular_price] => 15
+            [sale_price] => 
+            [images] => Array
+                (
+                    [0] => Array
+                        (
+                            [id] => 3839
+                        )
+
+                    [1] => Array
+                        (
+                            [id] => 3839
+                        )
+
+                )
+
+            [tags] => 273
+            [sync] => 
+            [meta_data] => Array
+                (
+                    [0] => Array
+                        (
+                            [key] => wcgs_row_id
+                            [value] => 2
+                        )
+
+                )
+
         )
 
 )
@@ -12,9 +45,131 @@ Array
 (
     [0] => Array
         (
-            [row] => 5
-            [id] => 3853
-            [images] => 
+            [id] => 3838
+            [name] => PPOM Audio/Video Enable Multiple Selection
+            [type] => simple
+            [parent_id] => 0
+            [description] => 
+            [short_description] => <p>PPOM Basic Audio/Video demo to choose a favorite Audio/Video and add to cart.</p>
+<p><a class="button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/05/ppom-meta-1620456953.csv">Download PPOM Meta</a></p>
+
+            [regular_price] => 15
+            [sale_price] => 
+            [images] => Array
+                (
+                    [0] => Array
+                        (
+                            [id] => 3839
+                        )
+
+                    [1] => Array
+                        (
+                            [id] => 3839
+                        )
+
+                )
+
+            [tags] => Array
+                (
+                    [0] => Array
+                        (
+                            [id] => 273
+                        )
+
+                )
+
+            [sync] => 
+            [meta_data] => Array
+                (
+                    [0] => Array
+                        (
+                            [key] => wcgs_row_id
+                            [value] => 2
+                        )
+
+                )
+
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [id] => 3838
+            [name] => PPOM Audio/Video Enable Multiple Selection
+            [type] => simple
+            [parent_id] => 0
+            [description] => 
+            [short_description] => <p>PPOM Basic Audio/Video demo to choose a favorite Audio/Video and add to cart.</p>
+<p><a class="button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/05/ppom-meta-1620456953.csv">Download PPOM Meta</a></p>
+
+            [regular_price] => 15
+            [sale_price] => 
+            [images] => Array
+                (
+                    [0] => Array
+                        (
+                            [id] => 3839
+                        )
+
+                    [1] => Array
+                        (
+                            [id] => 3839
+                        )
+
+                )
+
+            [tags] => Array
+                (
+                    [0] => Array
+                        (
+                            [id] => 273274
+                        )
+
+                )
+
+            [sync] => 
+            [meta_data] => Array
+                (
+                    [0] => Array
+                        (
+                            [key] => wcgs_row_id
+                            [value] => 2
+                        )
+
+                )
+
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [id] => 3838
+            [name] => PPOM Audio/Video Enable Multiple Selection
+            [type] => simple
+            [parent_id] => 0
+            [description] => 
+            [short_description] => <p>PPOM Basic Audio/Video demo to choose a favorite Audio/Video and add to cart.</p>
+<p><a class="button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/05/ppom-meta-1620456953.csv">Download PPOM Meta</a></p>
+
+            [regular_price] => 15
+            [sale_price] => 
+            [images] => 3839|3839
+            [tags] => 273274
+            [sync] => 
+            [row_id_meta] => Array
+                (
+                    [0] => Array
+                        (
+                            [key] => wcgs_row_id
+                            [value] => 2
+                        )
+
+                )
+
         )
 
 )
@@ -31,32 +186,36 @@ Array
             [6] => regular_price
             [7] => sale_price
             [8] => images
-            [9] => sync
+            [9] => tags
+            [10] => sync
         )
 
-    [sync_col] => J
+    [sync_col] => K
     [debug_mode] => false
     [request_type] => sync-sheet-data
     [sheet_data] => Array
         (
             [0] => Array
                 (
-                    [0] => 3853
-                    [1] => Google sync p2
+                    [0] => 3838
+                    [1] => PPOM Audio/Video Enable Multiple Selection
                     [2] => simple
-                    [3] => 
+                    [3] => 0
                     [4] => 
-                    [5] => 
-                    [6] => 9
+                    [5] => <p>PPOM Basic Audio/Video demo to choose a favorite Audio/Video and add to cart.</p>
+<p><a class="button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/05/ppom-meta-1620456953.csv">Download PPOM Meta</a></p>
+
+                    [6] => 15
                     [7] => 
-                    [8] => 
-                    [9] => 
-                    [10] => Array
+                    [8] => 3839|3839
+                    [9] => 273274
+                    [10] => 
+                    [11] => Array
                         (
                             [0] => Array
                                 (
                                     [key] => wcgs_row_id
-                                    [value] => 5
+                                    [value] => 2
                                 )
 
                         )

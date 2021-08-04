@@ -58,6 +58,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 3.1 - August 4, 2021 =
+* Bug fixed: [Tags were not adding from sheet to store, it is fixed](https://www.youtube.com/channel/UCEA9i5lXJMIo1u5aYbf2qgw)
 = 3.0 - June 14, 2021 =
 * Features: Major update to manage sync from Google Sheet menu
 * Features: Google App script used to send products from Google Sheet

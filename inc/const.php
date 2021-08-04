@@ -106,5 +106,5 @@ function wcgs_get_datatype_by_keys($context, $key) {
 function wcgs_fields_format_required() {
     
     return apply_filters('wcgs_fields_format_required', 
-                        ['categories'=>'array','images'=>'array', 'attributes'=>'array','image'=>'array','meta_data'=>'array']);
+                        ['categories'=>'array','tags'=>'array','images'=>'array', 'attributes'=>'array','image'=>'array','meta_data'=>'array']);
 }

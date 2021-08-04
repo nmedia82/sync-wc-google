@@ -219,13 +219,3 @@ function create_synced_product_column_data( $column, $post_id){
 //         break;
 //     }
 // }
-    
-
-
-
-
-
-
-
-
-        

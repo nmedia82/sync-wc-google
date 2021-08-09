@@ -229,6 +229,8 @@ class WCGS_APIConnect {
     // Update Rows with defined ranges
     function update_rows_with_ranges($ranges_value, $row=NULL) {
         
+        $result = [];
+        
         try{
             
             $service = $this->get_google_service();

@@ -88,11 +88,46 @@ class WCGS_Sheet {
         }
         
         $both_res = array_merge($result1, $result2);
+        wcgs_log($both_res);
         
-        // wcgs_log($result1);
-        // wcgs_log($result2);
-        // wcgs_log($both_res);
-        return $both_res;
+        // FILTER ERRORS
+        $errors = array_filter($both_res, function($a){
+            return $a['row'] == 'ERROR';
+        });
+        
+        // FILTER NON-ERRORS
+        $rows_ok = array_filter($both_res, function($a){
+            return $a['row'] != 'ERROR';
+        });
+        
+        // building error msg string
+        $err_msg = '';
+        foreach($errors as $err){
+            $err_msg .= '<p style="color:red">FAILED: '.$err['message'].' (Resource ID: '.$err['id'].')</p><hr>';
+        }
+        
+        
+        // Since version 3.2, updating google sheet back via PHP API
+        $sheet_name = $sheet_info['sheet_name'];
+        $sync_col = $sheet_info['sync_col'];
+        $updatable_range = [];
+        foreach($rows_ok as $row){
+            $updatable_range["{$sheet_name}!{$sync_col}{$row['row']}"] = ['OK'];
+        }
+        
+        // wcgs_log($updatable_range);
+        
+        if( count($updatable_range) > 0 ) {
+            $gs = new WCGS_APIConnect();
+            $resp = $gs->update_rows_with_ranges($updatable_range);
+        }
+        
+        $resp = ['success_rows' => count($rows_ok),
+                    'error_rows'    => count($errors),
+                    'error_msg' => $err_msg
+                    ];
+        
+        return $resp;
     }
     
     // Categories sync

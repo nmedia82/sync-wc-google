@@ -241,7 +241,7 @@ function wcgs_sync_sheet($request) {
     $data['header_data'] = $header;
     $data['sheet_data']  = $sheet_data;
             
-    // wcgs_log($data); exit;
+    // wcgs_log($data);
     
     $wcgs_sheet = new WCGS_Sheet();
     

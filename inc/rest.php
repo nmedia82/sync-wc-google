@@ -276,7 +276,7 @@ function wcgs_fetch_products($request) {
     
     $wcapi = new WCGS_WC_API_V3();
     $result = $wcapi->get_products_for_syncback($data);
-    // wcgs_log($result);
+    wcgs_log($result);
     
     if( is_wp_error($result) ) {
         wp_send_json_error($result->get_error_message());

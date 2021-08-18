@@ -430,3 +430,19 @@ function wcgs_is_connected(){
     }
     return $return;
 }
+
+
+function wcgs_get_product_meta_col_value($product, $col_key){
+    
+    $meta_cols = array_filter($product['meta_data'], function($m) use($col_key){
+      return $m->key == $col_key;
+    });
+    
+    $value_found = '';
+    if(isset($meta_cols[0])){
+        $value_found = is_array($meta_cols[0]->value) ? json_encode($meta_cols[0]->value) : $meta_cols[0]->value;
+        // $value_found = $meta_cols[0]->value;
+    }
+    
+    return $value_found;
+}

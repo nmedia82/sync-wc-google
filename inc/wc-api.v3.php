@@ -8,7 +8,8 @@ class WCGS_WC_API_V3 {
   function __construct() {
     
     // Adding variations into products lists
-    add_filter('wcgs_products_list_before_syncback', array($this, 'add_variations'));
+    add_filter('wcgs_products_list_before_syncback', array($this, 'add_variations'), 11, 2);
+    add_filter('wcgs_products_list_before_syncback', array($this, 'add_meta_columns'), 21, 2);
       
   }
   
@@ -229,14 +230,14 @@ class WCGS_WC_API_V3 {
         $items = $response->get_data();
     }
     
-    // wcgs_log($items);
     
     $header  = apply_filters('wcgs_page_header_data', $header);
     if( !$header ) {
         return new WP_Error( 'header_not_found', __( "Oops, you have to sync first.", "wcgs" ) );
     }
     
-    $items = apply_filters('wcgs_products_list_before_syncback', $items);
+    $items = apply_filters('wcgs_products_list_before_syncback', $items, $sheet_info);
+    // wcgs_log($items); exit;
     
     $sortby_id = array_column($items, 'id');
     array_multisort($sortby_id, SORT_ASC, $items);
@@ -319,7 +320,7 @@ class WCGS_WC_API_V3 {
   }
   
   // Add variation before syncback via hook
-  function add_variations($products){
+  function add_variations($products, $sheet_info){
         
       $variable_products = array_filter($products, function($product){
                     return $product['type'] == 'variable';
@@ -350,6 +351,40 @@ class WCGS_WC_API_V3 {
       $combined_arr = array_merge($products, $variations);
       // wcgs_log($variations); exit;
       return $combined_arr;
+  }
+  
+  // Adding meta columns if found
+  function add_meta_columns($products, $sheet_info){
+    
+    $meta_keys = get_option('wcgs_metadata_keys');
+    if( !$meta_keys ) return $products;
+    
+    $header_data = $sheet_info['header_data'];
+    // getting the allowed meta keys and converting to array
+    $meta_array = explode(',', $meta_keys);
+    $meta_array = array_map('trim', $meta_array);
+    // extract only meta data columns
+    $meta_column_found = array_intersect($meta_array, $header_data);
+    if( $meta_column_found ) {
+      
+        $products = array_map(function($p) use ($meta_column_found){
+        
+        $p_meta = $p['meta_data'];
+        $meta_cols = [];
+        foreach($meta_column_found as $meta_col){
+          
+          $p[$meta_col] = wcgs_get_product_meta_col_value($p, $meta_col);
+          
+        }
+        return $p;
+        
+      }, $products);
+    }
+    
+    // wcgs_log($products);
+    // exit;
+    return $products;
+    
   }
   
   function create_product_chunks($sheet_info) {

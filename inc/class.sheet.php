@@ -27,7 +27,12 @@ class WCGS_Sheet {
                                     }, 
                                     $sheet_info['sheet_data']);
                                     
-        // Third party integration
+        /**
+         * Defined: class.formats.php
+         * 1. formatting each column data with wcgs_{$sheet_name}_data_{$key}
+         * 2. Setting meta_data key for the product
+         * 3. product meta columns handling
+         **/
         $combined_arr = apply_filters('wcgs_sync_data_products_before_processing', $combined_arr, $sheet_info);
         
         $variations = array_filter($combined_arr, function($row){

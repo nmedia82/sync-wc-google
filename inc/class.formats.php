@@ -46,6 +46,27 @@ class WCGS_Format {
             }
             unset($item['row_id_meta']);
             
+            // Adding meta column if found
+            $meta_keys = get_option('wcgs_metadata_keys');
+            if($meta_keys){
+                
+                // getting the allowed meta keys and converting to array
+                $meta_array = explode(',', $meta_keys);
+                $meta_array = array_map('trim', $meta_array);
+                // flipping: to intersect with item main data
+                $meta_array = array_flip($meta_array);
+                // extract only meta data columns
+                $meta_column_found = array_intersect_key($item, $meta_array);
+                
+                // Now exclude the meta columns from main data
+                $item = array_diff_key($item, $meta_array);
+                
+                // Adding the meta cound in meta_data
+                foreach($meta_column_found as $key => $val ){
+                    $item['meta_data'][] = ['key' => $key, 'value' => $val];
+                }
+            }
+            
             return $item;
             
         }, $sheet_data);

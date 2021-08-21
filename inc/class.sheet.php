@@ -43,7 +43,7 @@ class WCGS_Sheet {
             return $row['type'] != 'variation';
         });
         
-        // wcgs_log($combined_arr); exit;
+        wcgs_log($combined_arr);
                                     
         // Preparing data for WC API
         $wcapi_data = [];
@@ -93,7 +93,7 @@ class WCGS_Sheet {
         }
         
         $both_res = array_merge($result1, $result2);
-        wcgs_log($both_res);
+        // wcgs_log($both_res);
         
         // FILTER ERRORS
         $errors = array_filter($both_res, function($a){
@@ -114,10 +114,17 @@ class WCGS_Sheet {
         
         // Since version 3.2, updating google sheet back via PHP API
         $sheet_name = $sheet_info['sheet_name'];
+        $id_col = 'A';
         $sync_col = $sheet_info['sync_col'];
+        $images_col = isset($sheet_info['images_col']) ? $sheet_info['images_col'] : null;
+        
         $updatable_range = [];
         foreach($rows_ok as $row){
+            $updatable_range["{$sheet_name}!{$id_col}{$row['row']}"] = [$row['id']];
             $updatable_range["{$sheet_name}!{$sync_col}{$row['row']}"] = ['OK'];
+            if( $images_col ){
+                $updatable_range["{$sheet_name}!{$images_col}{$row['row']}"] = [$row['images']];
+            }
         }
         
         // wcgs_log($updatable_range);

@@ -20,8 +20,8 @@ Now your store is just a Single Click away to get populated with this Amazing pl
 = How It Works? =
 [youtube https://youtu.be/3blqpP2Zvqg]
 
-= Version 3.0 =
-* This is the Major version, please watch getting started video
+= Version 4.0 =
+[Make Sure You Watch This Video](https://youtu.be/897tHE1PD7I)
 
 = Features =
 * One Click Import
@@ -58,6 +58,9 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 4.0, August 22, 2021 =
+* Features: Now product meta can be added as a separate column
+* Features: Sync operation is optimized to handle more products in less time.
 = 3.1 - August 4, 2021 =
 * Bug fixed: [Tags were not adding from sheet to store, it is fixed](https://www.youtube.com/channel/UCEA9i5lXJMIo1u5aYbf2qgw)
 = 3.0 - June 14, 2021 =

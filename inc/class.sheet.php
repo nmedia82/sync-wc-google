@@ -43,7 +43,7 @@ class WCGS_Sheet {
             return $row['type'] != 'variation';
         });
         
-        wcgs_log($combined_arr);
+        // wcgs_log($combined_arr);
                                     
         // Preparing data for WC API
         $wcapi_data = [];

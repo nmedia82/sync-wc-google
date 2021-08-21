@@ -241,7 +241,7 @@ function wcgs_sync_sheet($request) {
     $data['header_data'] = $header;
     $data['sheet_data']  = $sheet_data;
             
-    wcgs_log($data);
+    // wcgs_log($data);
     
     $wcgs_sheet = new WCGS_Sheet();
     
@@ -255,7 +255,7 @@ function wcgs_sync_sheet($request) {
         break;
     }
     
-    wcgs_log($result);
+    // wcgs_log($result);
     
     if( is_wp_error($result) ) {
         wp_send_json_error($result->get_error_message());

@@ -241,7 +241,7 @@ function wcgs_sync_sheet($request) {
     $data['header_data'] = $header;
     $data['sheet_data']  = $sheet_data;
             
-    // wcgs_log($data);
+    wcgs_log($data);
     
     $wcgs_sheet = new WCGS_Sheet();
     
@@ -356,6 +356,7 @@ function wcgs_send_google_rest_request($action, $args){
     $url .= "?action={$action}&args=".json_encode($args);
     
     $response = wp_remote_get($url);
+    // wcgs_log($response);
     $responseBody = wp_remote_retrieve_body( $response );
     $result = json_decode( $responseBody, true );
     // wcgs_log($result);

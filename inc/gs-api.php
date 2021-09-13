@@ -3,7 +3,7 @@
 ** Google Sheet API Class
 **/
 
-require WCGS_PATH . '/lib/vendor/autoload.php';
+require WCGS_PATH . '/lib/googleclient/vendor/autoload.php';
 
 class WCGS_APIConnect {
     
@@ -65,6 +65,7 @@ class WCGS_APIConnect {
             // The file token.json stores the user's access and refresh tokens, and is
             // created automatically when the authorization flow completes for the first
             // time.
+            // var_dump($this->get_token());
             if ($token = $this->get_token()) {
                 $accessToken = json_decode($token, true);
                 $client->setAccessToken($accessToken);
@@ -370,4 +371,5 @@ class WCGS_APIConnect {
         $result['class'] = 'error';
         return $result;
     }
+    
 }

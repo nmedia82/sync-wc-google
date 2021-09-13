@@ -446,3 +446,16 @@ function wcgs_get_product_meta_col_value($product, $col_key){
     
     return $value_found;
 }
+
+function wcgs_is_quick_connect() {
+    
+    return true;
+}
+
+
+function wcgs_quick_connect_url() {
+    
+    $args = ['request_from' => get_bloginfo('url'), 'redirect_url'=>get_rest_url(null, 'wcgs/v1/quickconnect')];
+    $url = add_query_arg($args, WCGS_QCONN_URL);
+    return $url;
+}

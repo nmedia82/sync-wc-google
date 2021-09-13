@@ -73,6 +73,12 @@ function wcgs_rest_api_register() {
         'callback' => 'wcgs_create_chunks',
         'permission_callback' => '__return_true'
     ));
+    
+    register_rest_route('wcgs/v1', '/quickconnect', array(
+        'methods' => 'GET',
+        'callback' => 'wcgs_quick_connect',
+        'permission_callback' => '__return_true'
+    ));
 }
 
 
@@ -342,6 +348,41 @@ function wcgs_create_chunks($request) {
     $result = $wcapi->create_product_chunks($data);
     
     wp_send_json_success($result);
+}
+
+
+function wcgs_quick_connect($request) {
+    
+    $authCode = $request->get_param('gcode');
+    // wcgs_log($data);
+    
+    try{
+        
+        $client = new Google_Client();
+        $client->setApplicationName('GoogleSync Connect');
+        // // FullAccess
+        $client->setScopes(Google_Service_Sheets::SPREADSHEETS);
+        
+        $gs_credentials = WCGS_PATH.'/quickconnect/creds.json';
+        $client->setAuthConfig( $gs_credentials );
+        if( $authCode ) {
+            $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
+            // var_dump($accessToken);
+            update_option('wcgs_token', json_encode($accessToken));
+            $client->setAccessToken($accessToken);
+        }
+        
+        // wcgs_log($accessToken);
+        $url = add_query_arg('wcgs_code', 'added', WCGS_SETTING_URL);
+        wp_redirect($url);
+        exit;
+        
+    }catch (\Exception $e)
+    {
+        // wcgs_pa($e);
+        $object = json_decode($e->getMessage(), true);
+        wp_die("Oops, you cannot connected right try again or contact plugin developer: ".$object['error']['message']);
+    }
 }
 
 // =========== REMOT POST/GET ==============

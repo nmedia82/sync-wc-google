@@ -11,7 +11,12 @@ do_action('wcgs_before_sync_wrapper', $google_client);
 // var_dump($google_client->auth_link);
  
 if ( $google_client->auth_link ) {
-  printf(__('<a class="button button-primary wcgs-sync-btn" href="%s">%s</a>','wcgs'), esc_url($google_client->auth_link), "Authorize Google Account");
+  
+  if( wcgs_is_quick_connect() ) {
+    printf(__('<a class="button button-primary wcgs-sync-btn" href="%s">%s</a>','wcgs'), esc_url(wcgs_quick_connect_url()), "Authorize Google Account");
+  } else {
+    printf(__('<a class="button button-primary wcgs-sync-btn" href="%s">%s</a>','wcgs'), esc_url($google_client->auth_link), "Authorize Google Account");
+  }
 } else {
   
   printf(__('<p class="wcgs-connected">%s</p>', 'wcgs'), "Your Store Connected with Google Sheet");

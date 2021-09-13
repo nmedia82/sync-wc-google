@@ -1,58 +1,20 @@
 Array
 (
-    [header_data] => Array
-        (
-            [0] => id
-            [1] => name
-            [2] => type
-            [3] => parent_id
-            [4] => description
-            [5] => short_description
-            [6] => regular_price
-            [7] => sale_price
-            [8] => images
-            [9] => tags
-            [10] => categories
-            [11] => wholesale_customer_wholesale_price
-            [12] => sync
-        )
-
-    [debug_mode] => false
-    [sync_col] => M
-    [request_type] => sync-sheet-data
-    [images_col] => I
-    [sheet_data] => Array
-        (
-            [0] => Array
-                (
-                    [0] => 4391
-                    [1] => Auto Synce
-                    [2] => simple
-                    [3] => 0
-                    [4] => 
-                    [5] => 
-                    [6] => 20
-                    [7] => 
-                    [8] => 
-                    [9] => 
-                    [10] => 
-                    [11] => 
-                    [12] => 
-                    [13] => Array
-                        (
-                            [0] => Array
-                                (
-                                    [key] => wcgs_row_id
-                                    [value] => 3
-                                )
-
-                        )
-
-                )
-
-        )
-
-    [sheet_name] => products
+    [access_token] => ya29.a0ARrdaM_jDqWypnywU4i6jBxk9ShLX2X4isU6qDv9at0aJFnIY73LEBz8GoQQzh23Ipimt5qoRp85_rdeu6O7te9nKS_9AogLJTJfe9VPG9gv_Wo4EGD3tNWftwRJDw3I1IPsttNsgbM_qYHy4cJZ0diFinrV
+    [expires_in] => 3599
+    [refresh_token] => 1//0gYe-e4YMcAIECgYIARAAGBASNwF-L9IrHsHLW90nN7Xy9zirZ_gjXyecPX0ry-6duv2LmNQm4nGOg3LNmG7U3DFSRrNCBIZKIBQ
+    [scope] => https://www.googleapis.com/auth/spreadsheets
+    [token_type] => Bearer
+    [created] => 1631362036
+)
+Array
+(
+    [access_token] => ya29.a0ARrdaM_-ZemsJGRiISZLoZofV-GywbjV4FKgghSuS8l-4rMUG8CKb_hOZlPC449mKRKh-5sxrFUh8fJMq8Cbh0uSZsZwwUBE2bDZkuyGLcY7zmJ_EYdG5g9IVuZjFCwnhYf747_8bVCLfDJDLSy9sSudz8VR
+    [expires_in] => 3599
+    [refresh_token] => 1//0gQxwci8kcFJ3CgYIARAAGBASNwF-L9IrNdjKPuwA2zlkqYZcStNWHk8U3YdYC-7vc9PpOdJQbyt-HaBmdQwRN5U2J87Z0CB1sig
+    [scope] => https://www.googleapis.com/auth/spreadsheets
+    [token_type] => Bearer
+    [created] => 1631362178
 )
 Array
 (
@@ -76,21 +38,22 @@ Array
     [sync_col] => M
     [debug_mode] => false
     [request_type] => sync-sheet-data
+    [images_col] => I
     [sheet_data] => Array
         (
             [0] => Array
                 (
-                    [0] => 4391
-                    [1] => Auto Synce
+                    [0] => 4446
+                    [1] => Samsung Note 20
                     [2] => simple
                     [3] => 0
                     [4] => 
                     [5] => 
-                    [6] => 15
+                    [6] => 120
                     [7] => 
                     [8] => 
                     [9] => 
-                    [10] => 
+                    [10] => 15
                     [11] => 
                     [12] => 
                     [13] => Array
@@ -98,7 +61,7 @@ Array
                             [0] => Array
                                 (
                                     [key] => wcgs_row_id
-                                    [value] => 3
+                                    [value] => 87
                                 )
 
                         )
@@ -107,6 +70,97 @@ Array
 
         )
 
-    [images_col] => I
     [sheet_name] => products
+)
+Array
+(
+    [access_token] => ya29.a0ARrdaM-M3RSYKHXF8SIeMzlXKIlUkVddxfx3ft8KOPEEhW8AdTR8zBnD2cl63YriWC0jH9kHRzxecJlDRGhBbgWM2M4pPbM7mGBiOsofDxYajesCDqf8jEF46EhMdFKYDEx-nZUkMKqbjLDsCnSOkcoa9IxN
+    [expires_in] => 3599
+    [refresh_token] => 1//0g1nDE5jOF2jxCgYIARAAGBASNwF-L9IrUsI00PuUMFPn74TF7eryzuhd7wnSrnaVh3vLl8AxQdBC5HPdWiq-HdqKDPipGEEAna4
+    [scope] => https://www.googleapis.com/auth/spreadsheets
+    [token_type] => Bearer
+    [created] => 1631363690
+)
+Array
+(
+    [header_data] => Array
+        (
+            [0] => id
+            [1] => name
+            [2] => type
+            [3] => parent_id
+            [4] => description
+            [5] => short_description
+            [6] => regular_price
+            [7] => sale_price
+            [8] => images
+            [9] => tags
+            [10] => categories
+            [11] => wholesale_customer_wholesale_price
+            [12] => sync
+        )
+
+    [sync_col] => M
+    [debug_mode] => false
+    [request_type] => sync-sheet-data
+    [images_col] => I
+    [sheet_data] => Array
+        (
+            [0] => Array
+                (
+                    [0] => 4446
+                    [1] => Samsung Note 20
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => 22
+                    [7] => 
+                    [8] => 
+                    [9] => 
+                    [10] => 279
+                    [11] => 
+                    [12] => 
+                    [13] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [key] => wcgs_row_id
+                                    [value] => 87
+                                )
+
+                        )
+
+                )
+
+        )
+
+    [sheet_name] => products
+)
+Array
+(
+    [access_token] => ya29.a0ARrdaM8uwQcuf2axJTfS9Tl3XXYnd3KVuoxpb5W7cAXr3kDSUxuSHb368CzUCWXrc5GPotae_D-vti6xljRvR0mo5heobQS6uZXfLkc-7ZyX7jjxoNZglr-AJ1ZIAw1P4fbWJCXfO0L4RiDprVHEVjv5GqcL
+    [expires_in] => 3599
+    [refresh_token] => 1//0gP5vniuSNY9NCgYIARAAGBASNwF-L9IrHjqjyHIHD_no3iJvhoVpdiLdBz1xMl9ICXkIK2pex01r4GIqFX-Tj9r9HqbnHk6PJ4s
+    [scope] => https://www.googleapis.com/auth/spreadsheets
+    [token_type] => Bearer
+    [created] => 1631365062
+)
+Array
+(
+    [access_token] => ya29.a0ARrdaM9Cnl9CV0uO8-mj_vb9-3iZVu_GTfeRKJqE5lC5Jmhjv9lpGV_RDAGc_rc7Qkd9j8flynBMIO14gMxAOYwl2yOKdwgEmSJBeoJVBxLyo7G_856rIA5MTvtiaUxreC-6OHaRDwX-KoGw3nbSw9ewE5vV
+    [expires_in] => 3599
+    [refresh_token] => 1//0gs5yWCgD3ziYCgYIARAAGBASNwF-L9IrCNaCALxmmDeMN-xYBL9o6Nzn8Gu18vGhBEGri1_JFpK3pIWTZgFWOmMCGWPOOWyekA0
+    [scope] => https://www.googleapis.com/auth/spreadsheets
+    [token_type] => Bearer
+    [created] => 1631521530
+)
+Array
+(
+    [access_token] => ya29.a0ARrdaM_B5g_yB-utOd7my_SdtBjxikbN80MIfdHhkZKjoIe7SsGwdSRY4oHO79tNw3KP_E057Vu4DBJc6kl7Uw3VoIqlkIAtG1Mgn2EsylCrFjPHQCrYgLcB5iBeT6FybD5o-YwGJx2-3GnteXHUreUSeGlp
+    [expires_in] => 3599
+    [refresh_token] => 1//0grVwGnmHvrHnCgYIARAAGBASNwF-L9IrDu6UpihXFJM5MKv5kG0q8dt7je9STHkRhnpiqXJvSbosLluGo2X0zN8tjbCY8v0_8N4
+    [scope] => https://www.googleapis.com/auth/spreadsheets
+    [token_type] => Bearer
+    [created] => 1631521674
 )

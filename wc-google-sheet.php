@@ -16,6 +16,7 @@
 define('WCGS_PATH', untrailingslashit(plugin_dir_path( __FILE__ )) );
 define('WCGS_URL', untrailingslashit(plugin_dir_url( __FILE__ )) );
 define('WCGS_SETTING_URL', admin_url( 'admin.php?page=wc-settings&tab=wcgs_settings' ) );
+define('WCGS_QCONN_URL', 'https://clients.najeebmedia.com/google-sync-connect/' );
 define('WCGS_VERSION', 4.0 );
 define('WCGS_LOG', true );
 define('WCGS_SYNC_OK', 'OK' );

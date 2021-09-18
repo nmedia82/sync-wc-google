@@ -59,6 +59,7 @@ Yes
 
 == Changelog ==
 = 5.0, September 18, 2021 =
+* Feature: Removed un-used Google Libraries, now plugin files reduced from 17Mb to 1.5Mb
 * Feature: Large chunks of data can be exported
 * Feature: QuickConnect - No need to create Google credentials, all will be done via Najeebmedia Google App
 = 4.0, August 22, 2021 =

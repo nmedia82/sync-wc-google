@@ -247,7 +247,7 @@ function wcgs_sync_sheet($request) {
     $data['header_data'] = $header;
     $data['sheet_data']  = $sheet_data;
             
-    wcgs_log($data);
+    // wcgs_log($data);
     
     $wcgs_sheet = new WCGS_Sheet();
     
@@ -278,11 +278,58 @@ function wcgs_fetch_products($request) {
     $data   = $request->get_params();
     $data['header_data'] = $header;
     $data['request_args'] = isset($data['request_args']) ? json_decode($data['request_args'], true) : null;
-    // wcgs_log($data);
     
     $wcapi = new WCGS_WC_API_V3();
     $result = $wcapi->get_products_for_syncback($data);
-    // wcgs_log($result);
+    // wcgs_log($data);
+    
+    $total_rows=$total_create=$total_update=0;
+    
+    
+    if( isset($data['last_row']) ) {
+        
+        $updatable_range = [];
+        $column_no = 'A';
+        
+        if( isset($result['update']) ) {
+            $total_update = count($result['update']);
+            foreach($result['update'] as $no => $row){
+                $updatable_range["products!{$column_no}{$no}"] = $row;
+            }
+        }
+        
+        $last_row = intval($data['last_row']);
+        if( isset($result['create']) ) {
+            $total_create = count($result['create']);
+            foreach($result['create'] as $no => $row){
+                $last_row++;
+                $updatable_range["products!{$column_no}{$last_row}"] = $row;
+                
+                // Linking the new products
+                $product_id = $row[0];
+                wcgs_resource_update_meta("products", $product_id, $last_row);
+            }
+        }
+        
+        
+        // wcgs_log($updatable_range); exit;
+        if( count($updatable_range) > 0 ) {
+            $gs = new WCGS_APIConnect();
+            $resp = $gs->update_rows_with_ranges($updatable_range);
+        }
+        
+        $total_rows = $total_create+$total_update;
+        
+        $message = "{$total_create} = Created, {$total_update} = Updated \r\n";
+        $message .= "TOTAL = {$total_rows}";
+        
+        wp_send_json_success(['message'=>$message, 'create'=>$total_create,'update'=>$total_update]);
+        exit;
+        // wcgs_log($resp);
+        // exit;
+    
+    }
+    
     
     if( is_wp_error($result) ) {
         wp_send_json_error($result->get_error_message());

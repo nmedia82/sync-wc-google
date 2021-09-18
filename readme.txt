@@ -58,6 +58,9 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 5.0, September 18, 2021 =
+* Feature: Large chunks of data can be exported
+* Feature: QuickConnect - No need to create Google credentials, all will be done via Najeebmedia Google App
 = 4.0, August 22, 2021 =
 * Features: Now product meta can be added as a separate column
 * Features: Sync operation is optimized to handle more products in less time.

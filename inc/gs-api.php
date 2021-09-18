@@ -256,7 +256,7 @@ class WCGS_APIConnect {
         }
         catch (\Exception $e)
         {   
-            // wcgs_log($this->parse_message($e));
+            wcgs_log($this->parse_message($e));
             set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
         }
         
@@ -328,7 +328,7 @@ class WCGS_APIConnect {
             
             // Then you need to add some configuration
             $conf = ["valueInputOption" => "RAW"];
-            // wcgs_pa($data); exit;
+            wcgs_pa($data);
             
             
             // $result = $service->spreadsheets_values->batchUpdate($this->sheet_id, $body);
@@ -336,7 +336,8 @@ class WCGS_APIConnect {
             return $result;
         }
         catch (\Exception $e)
-        {
+        {   
+            wcgs_log($this->parse_message($e));
             set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
         }
         

@@ -47,18 +47,24 @@ class WCGS_APIConnect {
         try{
             
             $client = $this->get_google_client();
-            $client->setApplicationName('NKB Product');
+            $client->setApplicationName('GoogleSync-WooCommerce');
             // FullAccess
             $client->setScopes(Google_Service_Sheets::SPREADSHEETS);
             
-            $gs_credentials = wcgs_get_option('wcgs_google_credential');
-            $gs_credentials = json_decode($gs_credentials, true);
-            $gs_redirect_uri = wcgs_get_option('wcgs_redirect_url');
+            
+            // QuickConnect since version 5.0
+            if( file_exists(WCGS_PATH.'/quickconnect/creds.json')){
+                $gs_credentials = WCGS_PATH.'/quickconnect/creds.json';
+            }else {
+                $gs_credentials = wcgs_get_option('wcgs_google_credential');
+                $gs_credentials = json_decode($gs_credentials, true);
+            // $gs_redirect_uri = wcgs_get_option('wcgs_redirect_url');
+            }
             
             $client->setAuthConfig( $gs_credentials );
             $client->setAccessType ("offline");
             $client->setApprovalPrompt ("force");
-            $client->setRedirectUri($gs_redirect_uri);
+            // $client->setRedirectUri($gs_redirect_uri);
             // $client->setPrompt('select_account consent');
         
             // Load previously authorized token from a file, if it exists.
@@ -248,7 +254,7 @@ class WCGS_APIConnect {
             // wcgs_log($data);
             // Additional ranges to update ...
             $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
-                'valueInputOption' => "RAW",
+                'valueInputOption' => "USER_ENTERED",
                 'data' => $data
             ]);
             $result = $service->spreadsheets_values->batchUpdate($this->sheet_id, $body);
@@ -328,7 +334,7 @@ class WCGS_APIConnect {
             
             // Then you need to add some configuration
             $conf = ["valueInputOption" => "RAW"];
-            wcgs_pa($data);
+            // wcgs_pa($data);
             
             
             // $result = $service->spreadsheets_values->batchUpdate($this->sheet_id, $body);

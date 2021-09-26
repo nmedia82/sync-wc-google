@@ -102,7 +102,7 @@ function wcgs_sync_row($request){
     $params = $request->get_params();
     $sheet_name = $params['sheet_name'];
     
-    wcgs_log($params); return;
+    // wcgs_log($params); return;
     
     $response = [];
     

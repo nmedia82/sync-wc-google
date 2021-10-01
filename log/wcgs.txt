@@ -1,0 +1,231 @@
+categoriesArray
+(
+)
+Array
+(
+)
+Array
+(
+    [0] => Array
+        (
+            [row] => ERROR
+            [id] => 0
+            [message] => A term with the name provided already exists with this parent.
+        )
+
+)
+Array
+(
+)
+Array
+(
+    [0] => Array
+        (
+            [row] => ERROR
+            [id] => 0
+            [message] => A term with the name provided already exists with this parent.
+        )
+
+)
+Array
+(
+)
+Array
+(
+    [0] => Array
+        (
+            [row] => ERROR
+            [id] => 0
+            [message] => A term with the name provided already exists with this parent.
+        )
+
+)
+Array
+(
+)
+Array
+(
+    [success_rows] => 0
+    [error_rows] => 1
+    [error_msg] => <p style="color:red">FAILED: A term with the name provided already exists with this parent. (Resource ID: 0)</p><hr>
+)
+Array
+(
+)
+Array
+(
+    [success_rows] => 0
+    [error_rows] => 1
+    [error_msg] => <p style="color:red">FAILED: A term with the name provided already exists with this parent. (Resource ID: 0)</p><hr>
+)
+Array
+(
+)
+Array
+(
+    [success_rows] => 0
+    [error_rows] => 1
+    [error_msg] => <p style="color:red">FAILED: A term with the name provided already exists with this parent. (Resource ID: 0)</p><hr>
+)
+Array
+(
+)
+Array
+(
+    [success_rows] => 0
+    [error_rows] => 1
+    [error_msg] => <p style="color:red">FAILED: A term with the name provided already exists with this parent. (Resource ID: 0)</p><hr>
+)
+Array
+(
+)
+Array
+(
+    [success_rows] => 0
+    [error_rows] => 1
+    [error_msg] => <p style="color:red">FAILED: A term with the name provided already exists with this parent. (Resource ID: 0)</p><hr>
+)
+Array
+(
+)
+Array
+(
+    [success_rows] => 0
+    [error_rows] => 1
+    [error_msg] => <p style="color:red">FAILED: A term with the name provided already exists with this parent. (Resource ID: 0)</p><hr>
+)
+Array
+(
+)
+Array
+(
+    [success_rows] => 0
+    [error_rows] => 1
+    [error_msg] => <p style="color:red">FAILED: A term with the name provided already exists with this parent. (Resource ID: 0)</p><hr>
+)
+Array
+(
+    [categories!A2] => Array
+        (
+            [0] => 281
+        )
+
+    [categories!G2] => Array
+        (
+            [0] => OK
+        )
+
+)
+Array
+(
+    [success_rows] => 1
+    [error_rows] => 0
+    [error_msg] => 
+)
+Array
+(
+    [success_rows] => 1
+    [error_rows] => 0
+    [error_msg] => 
+)
+Array
+(
+    [message] => 
+    [class] => error
+)
+Array
+(
+    [success_rows] => 1
+    [error_rows] => 0
+    [error_msg] => 
+)
+Array
+(
+    [message] => 
+    [class] => error
+)
+Array
+(
+    [success_rows] => 1
+    [error_rows] => 0
+    [error_msg] => 
+)
+Array
+(
+    [success_rows] => 1
+    [error_rows] => 0
+    [error_msg] => 
+)
+Array
+(
+    [success_rows] => 1
+    [error_rows] => 0
+    [error_msg] => 
+)
+Array
+(
+    [success_rows] => 1
+    [error_rows] => 0
+    [error_msg] => 
+)
+Array
+(
+    [product_rows] => []
+    [sync_col] => G
+    [sheet_name] => categories
+)
+Array
+(
+    [product_rows] => []
+    [sync_col] => G
+    [sheet_name] => categories
+)
+Array
+(
+    [product_rows] => []
+    [sync_col] => G
+    [sheet_name] => categories
+)
+Array
+(
+    [product_rows] => []
+    [sync_col] => G
+    [sheet_name] => categories
+)
+Array
+(
+    [product_rows] => []
+    [sync_col] => G
+    [sheet_name] => categories
+)
+Array
+(
+    [product_rows] => []
+    [sync_col] => G
+    [sheet_name] => categories
+)
+Array
+(
+    [product_rows] => [{"id":15,"sync":"","rowno":2},{"id":251,"sync":"","rowno":3},{"id":253,"sync":"","rowno":4},{"id":254,"sync":"","rowno":5},{"id":255,"sync":"","rowno":6},{"id":256,"sync":"","rowno":7},{"id":257,"sync":"","rowno":8},{"id":258,"sync":"","rowno":9},{"id":259,"sync":"","rowno":10},{"id":260,"sync":"","rowno":11},{"id":261,"sync":"","rowno":12},{"id":262,"sync":"","rowno":13},{"id":263,"sync":"","rowno":14},{"id":264,"sync":"","rowno":15},{"id":265,"sync":"","rowno":16},{"id":266,"sync":"","rowno":17},{"id":267,"sync":"","rowno":18},{"id":268,"sync":"","rowno":19},{"id":269,"sync":"","rowno":20},{"id":270,"sync":"","rowno":21},{"id":271,"sync":"","rowno":22},{"id":272,"sync":"","rowno":23},{"id":275,"sync":"","rowno":24},{"id":276,"sync":"","rowno":25},{"id":277,"sync":"","rowno":26},{"id":278,"sync":"","rowno":27},{"id":279,"sync":"","rowno":28},{"id":283,"sync":"","rowno":29}]
+    [sync_col] => G
+    [sheet_name] => categories
+)
+Array
+(
+    [action] => editedtag
+    [tag_ID] => 283
+    [taxonomy] => product_cat
+    [_wp_original_http_referer] => https://nmdevteam.com/ppom/wp-admin/edit-tags.php?taxonomy=product_cat&post_type=product
+    [_wpnonce] => ca41f58bcc
+    [_wp_http_referer] => /ppom/wp-admin/term.php?taxonomy=product_cat&tag_ID=283&post_type=product&wp_http_referer=%2Fppom%2Fwp-admin%2Fedit-tags.php%3Ftaxonomy%3Dproduct_cat%26post_type%3Dproduct
+    [name] => Hen2
+    [slug] => hen
+    [parent] => -1
+    [description] => well done
+    [display_type] => 
+    [product_cat_thumbnail_id] => 0
+    [wpex_term_page_header_image] => 
+    [wpex_term_meta_nonce] => b44aa23c79
+    [wpex_redirect] => 
+    [wpex_sidebar] => 0
+)

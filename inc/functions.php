@@ -87,21 +87,23 @@ function wcgs_array_settings() {
     $wcgs_settings = array(
        
 		array(
-			'title' => 'Google Credentials',
+			'title' => 'Google Connect',
 			'type'  => 'title',
 			'desc'	=> '',
 			'id'    => 'wcgs_google_creds',
 		),
 		
-		array(
-            'title'		=> __( 'Google Credentials:', 'wcgs' ),
-            'type'		=> 'text',
-            'desc'		=> __( 'Copy/paste google credentials you downloaded from Google Console', 'wcgs' ),
-            'default'	=> __('', 'wcgs'),
-            'id'		=> 'wcgs_google_credential',
-            'css'   	=> 'min-width:300px;',
-			'desc_tip'	=> true,
-        ),
+// 		array(
+//             'title'		=> __( 'Google Credentials:', 'wcgs' ),
+//             'type'		=> 'text',
+//             'desc'		=> __( 'Copy/paste google credentials you downloaded from Google Console', 'wcgs' ),
+//             'default'	=> __('', 'wcgs'),
+//             'id'		=> 'wcgs_google_credential',
+//             'css'   	=> 'min-width:300px;',
+// 			'desc_tip'	=> true,
+//         ),
+
+
         array(
             'title'		=> __( 'Google Sheet ID:', 'wcgs' ),
             'type'		=> 'text',
@@ -111,16 +113,16 @@ function wcgs_array_settings() {
             'css'   	=> 'min-width:300px;',
 			'desc_tip'	=> true,
         ),
-        array(
-            'title'		=> __( 'Redirect URL:', 'wcgs' ),
-            'type'		=> 'text',
-            'desc'		=> __( 'Copy this redirect URL and paste into Google credentials as per guide.', 'wcgs' ),
-            'default'	=> get_rest_url(null, 'nkb/v1/auth'),
-            'id'		=> 'wcgs_redirect_url',
-            'css'   	=> 'min-width:300px;',
-            'custom_attributes' => array('readonly' => 'readonly'),
-			'desc_tip'	=> true,
-        ),  
+//         array(
+//             'title'		=> __( 'Redirect URL:', 'wcgs' ),
+//             'type'		=> 'text',
+//             'desc'		=> __( 'Copy this redirect URL and paste into Google credentials as per guide.', 'wcgs' ),
+//             'default'	=> get_rest_url(null, 'nkb/v1/auth'),
+//             'id'		=> 'wcgs_redirect_url',
+//             'css'   	=> 'min-width:300px;',
+//             'custom_attributes' => array('readonly' => 'readonly'),
+// 			'desc_tip'	=> true,
+//         ),  
         
         array(
             'title'		=> __( 'GoogleSync AuthCode:', 'wcgs' ),
@@ -146,83 +148,56 @@ function wcgs_array_settings() {
 			'type' => 'sectionend',
 			'id'   => 'wcgs_google_creds',
 		),
-		
-		array(
-			'title' => 'NOTE: No need of WooCommerce API Keys since version 2.0',
-			'type'  => 'title',
-			'desc'	=> __(''),
-			'id'    => 'wcgs_woocommerce_creds',
-		),
+        
+//         array(
+// 			'type' => 'sectionend',
+// 			'id'   => 'wcgs_woocommerce_creds',
+// 		),
 		
 // 		array(
-//             'title'		=> __( 'WooCommerce Consumer Key:', 'wcgs' ),
-//             'type'		=> 'text',
-//             'desc'		=> __( 'WooCommerce Consumer Key generated from REST API', 'wcgs' ),
-//             'default'	=> __('', 'wcgs'),
-//             'id'		=> 'wcgs_wc_ck',
-//             'css'   	=> 'min-width:300px;',
-// 			'desc_tip'	=> true,
+// 			'title' => __('General Settings', 'wcgs'),
+// 			'type'  => 'title',
+// 			'desc'	=> __(''),
+// 			'id'    => 'wcgs_woocommerce_gs',
+// 		),
+		
+// 		array(
+//             'title'             => __( 'Imports Limit', 'wcgs' ),
+//             'type'              => 'select',
+//             'label'             => __( 'Button', 'wcgs' ),
+//             'default'           => '20',
+//             'options' => array( '20'=>__('20','wcgs'),
+//                                 '50'=> __('50','wcgs'),
+                              
+//                             ),
+//             'id'       => 'wcgs_imports_limit',
+//             'desc'       => __( 'Set product import limit at a single sync.', 'wcgs' ),
+//             'desc_tip'      => true,
+//         ),
+		
+// 		array(
+//             'title'             => __( 'Images Import', 'wcgs' ),
+//             'type'              => 'select',
+//             'label'             => __( 'Button', 'wcgs' ),
+//             'default'           => 'id',
+//             'options' => array( 'id'=>__('Image ID','wcgs'),
+//                                 'src'=> __('Image URL','wcgs'),
+                              
+//                             ),
+//             'id'       => 'wcgs_image_import',
+//             'desc'       => __( 'Set image import type using existing Id or external url', 'wcgs' ),
+//             'desc_tip'      => true,
 //         ),
         
 //         array(
-//             'title'		=> __( 'WooCommerce Secret Key:', 'wcgs' ),
-//             'type'		=> 'text',
-//             'desc'		=> __( 'WooCommerce Secret Key generated from REST API', 'wcgs' ),
-//             'default'	=> __('', 'wcgs'),
-//             'id'		=> 'wcgs_wc_sk',
+//             'title'		=> __( 'Chunks size', 'wcgs' ),
+//             'type'		=> 'number',
+//             'desc'		=> __( 'Set chunk size to import/export larger group of data', 'wcgs' ),
+//             'default'	=> __('30', 'wcgs'),
+//             'id'		=> 'wcgs_wc_chunk_size',
 //             'css'   	=> 'min-width:300px;',
 // 			'desc_tip'	=> true,
 //         ),
-        
-        array(
-			'type' => 'sectionend',
-			'id'   => 'wcgs_woocommerce_creds',
-		),
-		
-		array(
-			'title' => __('General Settings', 'wcgs'),
-			'type'  => 'title',
-			'desc'	=> __(''),
-			'id'    => 'wcgs_woocommerce_gs',
-		),
-		
-		array(
-            'title'             => __( 'Imports Limit', 'wcgs' ),
-            'type'              => 'select',
-            'label'             => __( 'Button', 'wcgs' ),
-            'default'           => '20',
-            'options' => array( '20'=>__('20','wcgs'),
-                                '50'=> __('50','wcgs'),
-                              
-                            ),
-            'id'       => 'wcgs_imports_limit',
-            'desc'       => __( 'Set product import limit at a single sync.', 'wcgs' ),
-            'desc_tip'      => true,
-        ),
-		
-		array(
-            'title'             => __( 'Images Import', 'wcgs' ),
-            'type'              => 'select',
-            'label'             => __( 'Button', 'wcgs' ),
-            'default'           => 'id',
-            'options' => array( 'id'=>__('Image ID','wcgs'),
-                                'src'=> __('Image URL','wcgs'),
-                              
-                            ),
-            'id'       => 'wcgs_image_import',
-            'desc'       => __( 'Set image import type using existing Id or external url', 'wcgs' ),
-            'desc_tip'      => true,
-        ),
-        
-        array(
-            'title'		=> __( 'Chunks size', 'wcgs' ),
-            'type'		=> 'number',
-            'desc'		=> __( 'Set chunk size to import/export larger group of data', 'wcgs' ),
-            'default'	=> __('30', 'wcgs'),
-            'id'		=> 'wcgs_wc_chunk_size',
-            'css'   	=> 'min-width:300px;',
-			'desc_tip'	=> true,
-        ),
         
 		array(
 			'type' => 'sectionend',

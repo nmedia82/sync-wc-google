@@ -48,16 +48,22 @@ function wcgs_categories_row_update($rowRef) {
  
     if( count($rowRef) <= 0 ) return;
     
+    // FILTER NON-ERRORS
+    $rows_ok = array_filter($rowRef, function($a){
+        return $a['row'] != 'ERROR';
+    });
+    
+    if( count($rows_ok) <= 0 ) return;
+    
     global $wpdb;
     $termmeta_table = $wpdb->prefix.'termmeta';
     
     $wpsql = "INSERT INTO {$termmeta_table} (term_id,meta_key,meta_value) VALUES ";
     $delqry = "DELETE FROM {$termmeta_table} WHERE term_id IN (";
+    
     $metakey = 'wcgs_row_id';
     
-    foreach($rowRef as $ref){
-        
-        if( $ref['row'] == 'ERROR' ) continue;
+    foreach($rows_ok as $ref){
         
         $termid = $ref['id'];    // term id
         $metaval = $ref['row'];

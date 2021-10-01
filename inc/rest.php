@@ -261,7 +261,7 @@ function wcgs_sync_sheet($request) {
         break;
     }
     
-    // wcgs_log($result);
+    wcgs_log($result);
     
     if( is_wp_error($result) ) {
         wp_send_json_error($result->get_error_message());
@@ -389,7 +389,7 @@ function wcgs_unlink_rows($request) {
 function wcgs_create_chunks($request) {
     
     $data = $request->get_params();
-    // wcgs_log($data);
+    wcgs_log($data);
     
     $wcapi = new WCGS_WC_API_V3();
     $result = $wcapi->create_product_chunks($data);

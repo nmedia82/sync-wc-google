@@ -187,7 +187,51 @@ class WCGS_Sheet {
             wp_send_json_error($result->get_error_message());
         }
         
-        return $result;
+        // wcgs_log($result);
+        // FILTER ERRORS
+        $errors = array_filter($result, function($a){
+            return $a['row'] == 'ERROR';
+        });
+        
+        // FILTER NON-ERRORS
+        $rows_ok = array_filter($result, function($a){
+            return $a['row'] != 'ERROR';
+        });
+        
+        // building error msg string
+        $err_msg = '';
+        foreach($errors as $err){
+            $err_msg .= '<p style="color:red">FAILED: '.$err['message'].' (Resource ID: '.$err['id'].')</p><hr>';
+        }
+        
+        // Since version 3.2, updating google sheet back via PHP API
+        $sheet_name = $sheet_info['sheet_name'];
+        $id_col = 'A';
+        $sync_col = $sheet_info['sync_col'];
+        $images_col = isset($sheet_info['images_col']) ? $sheet_info['images_col'] : null;
+        
+        $updatable_range = [];
+        foreach($rows_ok as $row){
+            $updatable_range["{$sheet_name}!{$id_col}{$row['row']}"] = [$row['id']];
+            $updatable_range["{$sheet_name}!{$sync_col}{$row['row']}"] = ['OK'];
+            if( $images_col ){
+                $updatable_range["{$sheet_name}!{$images_col}{$row['row']}"] = [$row['images']];
+            }
+        }
+        
+        // wcgs_log($updatable_range);
+        
+        if( count($updatable_range) > 0 ) {
+            $gs = new WCGS_APIConnect();
+            $resp = $gs->update_rows_with_ranges($updatable_range);
+        }
+        
+        $resp = ['success_rows' => count($rows_ok),
+                    'error_rows'    => count($errors),
+                    'error_msg' => $err_msg
+                    ];
+        
+        return $resp;
     }
     
     public function update($sheet_info){

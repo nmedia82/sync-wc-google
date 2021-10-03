@@ -24,18 +24,18 @@ function wcgs_settings_tab(){
 
     echo '<div class="wcgs-sync-wrapper woocommmerce">';
     
-    // if(!empty($wcgs_google_credential) && !empty($wcgs_googlesheet_id) && !empty($wcgs_imports_limit) && !empty($wcgs_redirect_url)){
-    if(!empty($wcgs_google_credential) && !empty($wcgs_googlesheet_id) && !empty($wcgs_imports_limit) && !empty($wcgs_redirect_url)){
-        
-        wp_enqueue_script('wcgs-js', WCGS_URL.'/js/wcgs.js', array('jquery') );
-        $wcgs_js_vars = array(
-        	'plugin_url'				=> WCGS_URL
-        	);
-        wp_localize_script('wcgs-js', 'wcgs_widget_vars', $wcgs_js_vars);
-        
-        $gs = new WCGS_APIConnect();
-        wcgs_admin_render_sync_widget($gs);
+    $gs = new WCGS_APIConnect();
+    
+    do_action('wcgs_before_sync_wrapper', $gs);
+    
+    if( wcgs_is_quick_connect() && ! get_option('wcgs_token')) {
+        printf(__('<a class="button button-primary wcgs-sync-btn" href="%s">%s</a>','wcgs'), esc_url(wcgs_quick_connect_url()), "Authorize Google Account");
+    } else if ( $gs->auth_link ) {
+        printf(__('<a class="button button-primary wcgs-sync-btn" href="%s">%s</a>','wcgs'), esc_url($gs->auth_link), "Authorize Google Account");
+    } else {
+        printf(__('<p class="wcgs-connected">%s</p>', 'wcgs'), "Your Store Connected with Google Sheet");
     }
+
     
     $video_guide_url  = 'https://youtu.be/3blqpP2Zvqg';
     $wcgs_demo_v3     = 'https://docs.google.com/spreadsheets/d/1JI02CBDVlPffSzgmLvSRx_zmB_4fPbQwpd2_cz_FYzw/edit?usp=sharing';

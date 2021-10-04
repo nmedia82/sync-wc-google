@@ -48,22 +48,16 @@ function wcgs_categories_row_update($rowRef) {
  
     if( count($rowRef) <= 0 ) return;
     
-    // FILTER NON-ERRORS
-    $rows_ok = array_filter($rowRef, function($a){
-        return $a['row'] != 'ERROR';
-    });
-    
-    if( count($rows_ok) <= 0 ) return;
-    
     global $wpdb;
     $termmeta_table = $wpdb->prefix.'termmeta';
     
     $wpsql = "INSERT INTO {$termmeta_table} (term_id,meta_key,meta_value) VALUES ";
     $delqry = "DELETE FROM {$termmeta_table} WHERE term_id IN (";
-    
     $metakey = 'wcgs_row_id';
     
-    foreach($rows_ok as $ref){
+    foreach($rowRef as $ref){
+        
+        if( $ref['row'] == 'ERROR' ) continue;
         
         $termid = $ref['id'];    // term id
         $metaval = $ref['row'];
@@ -203,25 +197,11 @@ function create_synced_product_column_data( $column, $post_id){
     }
 }
 
-// add_filter( 'manage_products_posts_columns', 'create_synced_category_column', 20);
-// function create_synced_category_column($columns){
-//     $columns['wcgs_column'] = __('Sync Row#' , 'wcgs_category');
-//     return  $columns;
+add_filter( 'rest_product_collection_params', 'wcgs_change_post_per_page', 10, 1 );
+function wcgs_change_post_per_page( $params ) {
+    if ( isset( $params['per_page'] ) ) {
+        $params['per_page']['maximum'] = 400;
+    }
     
-// }
-
-// // add_filter( 'manage_product&s_posts_custom_column', 'create_synced_category_column_data', 20, 2 );
-// //manage cpt custom column data callback
-// function create_synced_category_column_data( $column, $post_id){
-
-//     switch ($column) {
-//         case 'wcgs_column':
-//             $rowno = get_post_meta($post_id,'wcgs_row_id', true);
-//             if($rowno){
-//                 echo $rowno;
-//             }else{
-//                 _e("Not synced", 'wcgs');
-//             }
-//         break;
-//     }
-// }
+    return $params;
+}

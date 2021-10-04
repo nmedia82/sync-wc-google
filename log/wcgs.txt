@@ -1,0 +1,329 @@
+Array
+(
+    [create] => Array
+        (
+            [0] => Array
+                (
+                    [0] => 3838
+                    [1] => PPOM Audio/Video Enable Multiple Selection
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => <p>PPOM Basic Audio/Video demo to choose a favorite Audio/Video and add to cart.</p>
+<p><a class="button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/05/ppom-meta-1620456953.csv">Download PPOM Meta</a></p>
+
+                    [6] => 15
+                    [7] => 
+                    [8] => OK
+                )
+
+            [1] => Array
+                (
+                    [0] => 3849
+                    [1] => My Custom Glasses
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => 80
+                    [7] => 
+                    [8] => OK
+                )
+
+            [2] => Array
+                (
+                    [0] => 3852
+                    [1] => Via Google sync
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => 9
+                    [7] => 
+                    [8] => OK
+                )
+
+            [3] => Array
+                (
+                    [0] => 3862
+                    [1] => PPOM Auto Complete Demo
+                    [2] => simple
+                    [3] => 0
+                    [4] => <p><span data-mce-type="bookmark" style="width: 0px;overflow: hidden;line-height: 0" class="mce_SELRES_start">﻿</span></p>
+
+                    [5] => <p>AutoComplete allows users to choose an option from the options list provided in settings. It&#8217;s like a Select input but values are filtered by keywords. It&#8217;s best to use when you have a long list of options.</p>
+<p><a class="_ps2id button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/02/ppom-meta-1614008944.csv">Download Auto Complete Demo</a>   <a class="_ps2id button btn" href="https://najeebmedia.com/ppom-addons/#auto-complete-multiSelect" data-ps2id-offset="">Buy Now</a></p>
+<p>Download this CSV file and import into your site under PPOM fields page.</p>
+
+                    [6] => 10
+                    [7] => 
+                    [8] => OK
+                )
+
+            [4] => Array
+                (
+                    [0] => 3865
+                    [1] => PPOM Basic Audio/Video
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => <p>PPOM Basic Audio/Video demo to choose a favorite Audio/ Video and add to cart.</p>
+<p><a class="button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/05/ppom-meta-1620457421.csv">Download PPOM Meta</a></p>
+
+                    [6] => 10
+                    [7] => 
+                    [8] => OK
+                )
+
+            [5] => Array
+                (
+                    [0] => 3867
+                    [1] => Super T-shirts with colors
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => <p><strong>It&#8217;s a Standard Template Demo. For Detail <a href="https://najeebmedia.com/2017/03/22/woocommerce-bulk-quantity-options/"> Visit Here </a></strong></p>
+
+                    [6] => 1.5
+                    [7] => 
+                    [8] => OK
+                )
+
+            [6] => Array
+                (
+                    [0] => 3871
+                    [1] => T-Shirt Color Variation
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => 15
+                    [7] => 
+                    [8] => OK
+                )
+
+            [7] => Array
+                (
+                    [0] => 3872
+                    [1] => iPhone Cover Builder
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => 0
+                    [7] => 
+                    [8] => OK
+                )
+
+            [8] => Array
+                (
+                    [0] => 3874
+                    [1] => Variation with Price Matrix
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => 11
+                    [7] => 
+                    [8] => OK
+                )
+
+            [9] => Array
+                (
+                    [0] => 3875
+                    [1] => Acrylic Letters
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => 1.5
+                    [7] => 
+                    [8] => OK
+                )
+
+            [10] => Array
+                (
+                    [0] => 3878
+                    [1] => PPOM Demo
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => 3
+                    [7] => 
+                    [8] => OK
+                )
+
+            [11] => Array
+                (
+                    [0] => 3883
+                    [1] => My Custom T-shirt
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => 
+                    [6] => 100
+                    [7] => 
+                    [8] => OK
+                )
+
+            [12] => Array
+                (
+                    [0] => 3887
+                    [1] => PPOM Bulk Quantity Custom Label
+                    [2] => simple
+                    [3] => 0
+                    [4] => <p><span data-mce-type="bookmark" style="width: 0px;overflow: hidden;line-height: 0" class="mce_SELRES_start">﻿</span>Bulk Quantity for Options Addon allow store admin to set discount prices for each options. This Addon is best tool for companies like Printin, designing and who looking to sale products with options with different prices. <a href="https://najeebmedia.com/2017/03/22/woocommerce-bulk-quantity-handling-different-options/">More detail can be found here.</a><span data-mce-type="bookmark" style="width: 0px;overflow: hidden;line-height: 0" class="mce_SELRES_end">﻿</span></p>
+
+                    [5] => <p><strong>It&#8217;s a Standard Template Demo. For Detail <a href="https://najeebmedia.com/2017/03/22/woocommerce-bulk-quantity-options/"> Visit Here </a></strong></p>
+<p>Bulk Quantity for Options Addon allows store admin to set discount prices for each option. This Addon is the best tool for companies like Printing, designing and who looking to sell products with options with different prices with following settings:</p>
+<ul>
+<li>Quantity Label : Product Quantity</li>
+<li>Base Price Label : Product Base Price</li>
+<li>Total Price Label : Product Total</li>
+<li>Fixed Price Label : Product Fixed Price</li>
+</ul>
+<p><a class="button btn" href="https://najeebmedia.com/2017/03/22/woocommerce-bulk-quantity-options/">More Detail</a></p>
+<p><a class="button btn" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=DPRPRE87ET738">Buy Addon $25.00</a></p>
+<p><a class="button btn" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5MDXGCGNLETUL">Buy Addon + PPOM $45.00</a></p>
+<p><a class="button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/02/ppom-meta-1614002561.csv">Download Bulk Quantity Addon</a></p>
+<p><a class="button btn" href="https://ppom.nmediahosting.com/product/woo-logo-pkg/">Bulk Quantity Packaged Template Demo </a></p>
+<p>Download this CSV file and import into your site under PPOM fields page.</p>
+
+                    [6] => 25
+                    [7] => 
+                    [8] => OK
+                )
+
+            [13] => Array
+                (
+                    [0] => 3889
+                    [1] => PPOM Bulk Quantity Fixed Prices/Hide Base Price/Show price range
+                    [2] => simple
+                    [3] => 0
+                    [4] => <p>Bulk Quantity for Options Addon allow store admin to set discount prices for each options. This Addon is best tool for companies like Printin, designing and who looking to sale products with options with different prices. <a href="https://najeebmedia.com/2017/03/22/woocommerce-bulk-quantity-handling-different-options/">More detail can be found here.</a></p>
+
+                    [5] => <p><strong>It&#8217;s a Standard Template Demo. For Detail <a href="https://najeebmedia.com/2017/03/22/woocommerce-bulk-quantity-options/"> Visit Here </a></strong></p>
+<p>Bulk Quantity for Options Addon allows store admin to set discount prices for each option. This Addon is the best tool for companies like Printing, designing and who looking to sell products with options with different prices with following settings:</p>
+<ul>
+<li>Show price range : Yes</li>
+<li>Hide Base Price : Yes</li>
+<li>Fixed Prices : color | 50</li>
+</ul>
+<p><a class="button btn" href="https://najeebmedia.com/2017/03/22/woocommerce-bulk-quantity-options/">More Detail</a></p>
+<p><a class="button btn" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=DPRPRE87ET738">Buy Addon $25.00</a></p>
+<p><a class="button btn" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5MDXGCGNLETUL">Buy Addon + PPOM $45.00</a></p>
+<p><a class="button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/02/ppom-meta-1614002561.csv">Download Bulk Quantity Addon</a></p>
+<p><a class="button btn" href="https://ppom.nmediahosting.com/product/woo-logo-pkg/">Bulk Quantity Packaged Template Demo </a></p>
+<p>Download this CSV file and import into your site under PPOM fields page.</p>
+
+                    [6] => 25
+                    [7] => 
+                    [8] => OK
+                )
+
+            [14] => Array
+                (
+                    [0] => 3893
+                    [1] => PPOM Chained Dropdown
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => <p>PPOM Addon to render chained input in dropdown. Unlimited cascading lists can be render without refreshing the<br />
+page.<br />
+&nbsp;<br />
+<a class="button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/07/PPOM-Chained.csv">Download PPOM Meta</a></p>
+
+                    [6] => 5
+                    [7] => 
+                    [8] => OK
+                )
+
+            [15] => Array
+                (
+                    [0] => 3895
+                    [1] => PPOM Basic Checkbox Input
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => <p>PPOM basic checkbox input demo to choose a favorite color and add to cart.</p>
+<p>&nbsp;<br />
+<a class="button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/04/ppom-meta-basic-checkbox.csv">Download PPOM Meta</a></p>
+
+                    [6] => 5
+                    [7] => 
+                    [8] => OK
+                )
+
+            [16] => Array
+                (
+                    [0] => 3899
+                    [1] => PPOM Checkbox Input Options with Min/Max/Checked Option(s)
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => <p>PPOM basic checkbox input demo to choose a hobbies and add to cart with following setting.</p>
+<ul>
+<li>Min. Checked option(s)= 01</li>
+<li>Max. Checked option(s)= 03</li>
+<li>Checked option(s)= Gardening</li>
+</ul>
+<p>&nbsp;<br />
+<a class="button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/04/ppom-meta-checkbox-min-max-selected.csv">Download PPOM Meta</a></p>
+
+                    [6] => 5
+                    [7] => 
+                    [8] => OK
+                )
+
+            [17] => Array
+                (
+                    [0] => 3901
+                    [1] => PPOM Checkbox Input Options with Percentage
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => <p>PPOM  checkbox input demo to choose hobbies and add to cart with Options with percentage (Option price can be set as the percentage of the product price)</p>
+<p>&nbsp;<br />
+<a class="button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/04/ppom-meta-checkbox-with-percentage.csv">Download PPOM meta </a></p>
+
+                    [6] => 5
+                    [7] => 
+                    [8] => OK
+                )
+
+            [18] => Array
+                (
+                    [0] => 3903
+                    [1] => PPOM Popup/Modal Checkbox
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => <p>This is a customized solution for one of the client to render Checkboxes inside Popup/modal.<br />
+&nbsp;<br />
+<a class="button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/06/ppom-modal-popup.csv">Download PPOM Meta</a></p>
+
+                    [6] => 5
+                    [7] => 
+                    [8] => OK
+                )
+
+            [19] => Array
+                (
+                    [0] => 3905
+                    [1] => PPOM Basic Collapse with type start/end
+                    [2] => simple
+                    [3] => 0
+                    [4] => 
+                    [5] => <p>PPOM basic Collapse with type start/end demo and add to cart.</p>
+<p>&nbsp;<br />
+<a class="button btn" href="https://ppom.nmediahosting.com/wp-content/uploads/2021/04/ppom-meta-collapse-basic.csv"> Download PPOM meta</a></p>
+
+                    [6] => 10
+                    [7] => 
+                    [8] => OK
+                )
+
+        )
+
+)

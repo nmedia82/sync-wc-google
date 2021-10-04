@@ -281,7 +281,8 @@ function wcgs_fetch_products($request) {
     
     $wcapi = new WCGS_WC_API_V3();
     $result = $wcapi->get_products_for_syncback($data);
-    // wcgs_log($data);
+    // wcgs_log($result);
+    // exit;
     
     $total_rows=$total_create=$total_update=0;
     
@@ -389,10 +390,11 @@ function wcgs_unlink_rows($request) {
 function wcgs_create_chunks($request) {
     
     $data = $request->get_params();
-    wcgs_log($data);
+    // wcgs_log($data);
     
     $wcapi = new WCGS_WC_API_V3();
     $result = $wcapi->create_product_chunks($data);
+    
     
     wp_send_json_success($result);
 }

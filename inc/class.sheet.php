@@ -43,7 +43,7 @@ class WCGS_Sheet {
             return $row['type'] != 'variation';
         });
         
-        // wcgs_log($combined_arr);
+        wcgs_log($sheet_info);
                                     
         // Preparing data for WC API
         $wcapi_data = [];
@@ -93,7 +93,7 @@ class WCGS_Sheet {
         }
         
         $both_res = array_merge($result1, $result2);
-        // wcgs_log($both_res);
+        wcgs_log($both_res);
         
         // FILTER ERRORS
         $errors = array_filter($both_res, function($a){
@@ -117,17 +117,22 @@ class WCGS_Sheet {
         $id_col = 'A';
         $sync_col = $sheet_info['sync_col'];
         $images_col = isset($sheet_info['images_col']) ? $sheet_info['images_col'] : null;
+        $image_col = isset($sheet_info['image_col']) ? $sheet_info['image_col'] : null;
         
         $updatable_range = [];
         foreach($rows_ok as $row){
             $updatable_range["{$sheet_name}!{$id_col}{$row['row']}"] = [$row['id']];
             $updatable_range["{$sheet_name}!{$sync_col}{$row['row']}"] = ['OK'];
-            if( $images_col ){
+            if( $images_col && isset($row['images']) ){
                 $updatable_range["{$sheet_name}!{$images_col}{$row['row']}"] = [$row['images']];
             }
+            if( $image_col && isset($row['image']) ){
+                $updatable_range["{$sheet_name}!{$image_col}{$row['row']}"] = [$row['image']];
+            }
+            
         }
         
-        // wcgs_log($updatable_range);
+        wcgs_log($updatable_range);
         
         if( count($updatable_range) > 0 ) {
             $gs = new WCGS_APIConnect();

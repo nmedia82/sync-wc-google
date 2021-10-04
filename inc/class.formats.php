@@ -150,9 +150,11 @@ class WCGS_Format {
     function variation_image($image, $row){
         
         if( $image == '' ) return $image;
+        $image = trim($image);
+        $key = (filter_var($image, FILTER_VALIDATE_URL) === FALSE) ? 'id' : 'src';
+        $image_remake[$key] = $image;
         
-        $image_from = get_option('wcgs_image_import');
-        return [$image_from=>$image];
+        return $image_remake;
     }
     
     // Images

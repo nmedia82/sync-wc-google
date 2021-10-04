@@ -153,7 +153,8 @@ class WCGS_WC_API_V3 {
                         
                         $row_id_meta = reset($row_id_meta);
                         $row_id = $row_id_meta->value;
-                        return ['row'=>$row_id, 'id'=>$item['id']];
+                        $image_id = isset($item['image']['id']) ? $item['image']['id'] : null; 
+                        return ['row'=>$row_id, 'id'=>$item['id'], 'image'=>$image_id];
                           
                    }, $response['update']);
                    
@@ -172,7 +173,8 @@ class WCGS_WC_API_V3 {
                         
                         $row_id_meta = reset($row_id_meta);
                         $row_id = $row_id_meta->value;
-                        return ['row'=>$row_id, 'id'=>$item['id']];
+                        $image_id = isset($item['image']['id']) ? $item['image']['id'] : null; 
+                        return ['row'=>$row_id, 'id'=>$item['id'], 'image'=>$image_id];
                           
                    }, $response['create']);
                    

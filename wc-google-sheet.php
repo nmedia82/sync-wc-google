@@ -18,7 +18,7 @@ define('WCGS_URL', untrailingslashit(plugin_dir_url( __FILE__ )) );
 define('WCGS_SETTING_URL', admin_url( 'admin.php?page=wc-settings&tab=wcgs_settings' ) );
 define('WCGS_QCONN_URL', 'https://clients.najeebmedia.com/google-sync-connect/' );
 define('WCGS_VERSION', 5.0 );
-define('WCGS_LOG', true );
+define('WCGS_LOG', false );
 define('WCGS_SYNC_OK', 'OK' );
 
 
@@ -82,7 +82,7 @@ class WCGS_INIT {
 		$setting_title  = __('Plugin Settings', 'twoco');
 	    $video_title    = __('Video Guide', 'twoco');
 	    $settings_link  = sprintf(__('<a href="%s">%s</a>','twoco'), WCGS_SETTING_URL, $setting_title);
-	    $video_url      = 'https://youtu.be/3blqpP2Zvqg';
+	    $video_url      = 'https://youtu.be/pNdxG_otQ5c';
 	    $video_guide  = sprintf(__('<a target="_blank" href="%s">%s</a>','twoco'), $video_url, $video_title);
 	  	array_push( $links, $settings_link, $video_guide );
 	  	return $links;

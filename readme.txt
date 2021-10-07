@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: trunk
+Stable tag: 5.0
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,7 +20,7 @@ Now your store is just a Single Click away to get populated with this Amazing pl
 = How It Works? =
 [youtube https://youtu.be/3blqpP2Zvqg]
 
-= Version 4.0 =
+= Version 5.0 =
 [Make Sure You Watch This Video](https://youtu.be/897tHE1PD7I)
 
 = Features =
@@ -39,7 +39,7 @@ Now your store is just a Single Click away to get populated with this Amazing pl
 * [Get WC Google Sync PRO](https://najeebmedia.com/google-sync)
 
 = Getting Started Video? =
-[youtube https://youtu.be/3blqpP2Zvqg]
+[youtube https://youtu.be/pNdxG_otQ5c]
 
 == Installation ==
 1. Download the plugin and activate it
@@ -51,7 +51,7 @@ Now your store is just a Single Click away to get populated with this Amazing pl
 = Should I need to connect with my own Google Account? =
 Yes
 = How to setup this? =
-[Watch this Step by Step Guide](https://youtu.be/uw7xzgd54ME)
+[Watch this Step by Step Guide](https://youtu.be/pNdxG_otQ5c)
 
 == Screenshots ==
 1. Plugin Settings

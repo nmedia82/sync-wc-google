@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 5.0
+Stable tag: 5.1
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,10 +18,8 @@ import/sync these products into your WooCommerce Stores. We have created step-by
 Now your store is just a Single Click away to get populated with this Amazing plugin.
 
 = How It Works? =
-[youtube https://youtu.be/3blqpP2Zvqg]
+[youtube https://youtu.be/pNdxG_otQ5c]
 
-= Version 5.0 =
-[Make Sure You Watch This Video](https://youtu.be/897tHE1PD7I)
 
 = Features =
 * One Click Import
@@ -58,6 +56,9 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 5.1, October 13, 2021 =
+* Tweaks: Some error message optimized
+* Tweaks: [IDs not pull issue explain here](https://clients.najeebmedia.com/forums/topic/googlesync-latest-update-v5-stop-working-previous-version/)
 = 5.0, September 18, 2021 =
 * Feature: Removed un-used Google Libraries, now plugin files reduced from 17Mb to 1.5Mb
 * Feature: Large chunks of data can be exported

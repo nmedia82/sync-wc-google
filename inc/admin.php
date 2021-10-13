@@ -41,8 +41,12 @@ function wcgs_settings_tab(){
     $wcgs_demo_v3     = 'https://docs.google.com/spreadsheets/d/1JI02CBDVlPffSzgmLvSRx_zmB_4fPbQwpd2_cz_FYzw/edit?usp=sharing';
     $wcgs_demo_v4     = 'https://docs.google.com/spreadsheets/d/1TFmZunnVr__BAV9bX6f_D5kWdshyFPSBxhb5DyYbU0g/edit?usp=sharing';
     $desc = sprintf(__('<a target="_blank" href="%s">Video Tutorial</a>', 'wcgs'), $video_guide_url);
+    $reconnect = admin_url( 'admin-post.php?action=wcgs_remove_token' );
     // $desc .= sprintf(__(' | <a target="_blank" href="%s">GoogleSheet V3 Template</a>', 'wcgs'), $wcgs_demo_v3);
     $desc .= sprintf(__(' | <a target="_blank" href="%s">GoogleSheet Template</a>', 'wcgs'), $wcgs_demo_v4);
+    if( get_option('wcgs_token') ) {
+        $desc .= sprintf(__(' | <a href="%s">Re-Connect</a>', 'wcgs'), $reconnect);
+    }
     if( $sheet_id = get_option('wcgs_googlesheet_id') ) {
       $wcgs_connected_sheet = "https://docs.google.com/spreadsheets/d/{$sheet_id}/edit?usp=sharing";    
       $desc .= sprintf(__(' | <a target="_blank" href="%s">Connected Sheet</a>', 'wcgs'), $wcgs_connected_sheet);

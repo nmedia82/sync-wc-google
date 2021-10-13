@@ -262,8 +262,10 @@ class WCGS_APIConnect {
         }
         catch (\Exception $e)
         {   
-            wcgs_log($this->parse_message($e));
-            set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
+            // wcgs_log($this->parse_message($e));
+            $err = $this->parse_message($e);
+            $msg = $err['message']." Make sure you have used same email account for GoogleSheet as you use for App Connect";
+            return new WP_Error( 'gs_connection_error', $msg );
         }
         
         // wcgs_log($result);

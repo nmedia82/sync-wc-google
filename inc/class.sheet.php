@@ -43,7 +43,7 @@ class WCGS_Sheet {
             return $row['type'] != 'variation';
         });
         
-        wcgs_log($sheet_info);
+        // wcgs_log($sheet_info);
                                     
         // Preparing data for WC API
         $wcapi_data = [];
@@ -93,7 +93,7 @@ class WCGS_Sheet {
         }
         
         $both_res = array_merge($result1, $result2);
-        wcgs_log($both_res);
+        // wcgs_log($both_res);
         
         // FILTER ERRORS
         $errors = array_filter($both_res, function($a){
@@ -132,11 +132,14 @@ class WCGS_Sheet {
             
         }
         
-        wcgs_log($updatable_range);
         
+        // wcgs_log($gs);
         if( count($updatable_range) > 0 ) {
             $gs = new WCGS_APIConnect();
             $resp = $gs->update_rows_with_ranges($updatable_range);
+            if( is_wp_error($resp) ) {
+                return $resp;
+            }
         }
         
         $resp = ['success_rows' => count($rows_ok),

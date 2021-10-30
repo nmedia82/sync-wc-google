@@ -17,6 +17,8 @@ class WCGS_APIConnect {
             delete_option('wcgs_token');
         }
         
+        $this->cred_file = WCGS_PATH.'/quickconnect/service-account2.json';
+        
         $gs_sheet_id = wcgs_get_option('wcgs_googlesheet_id');
         $this->auth_link = '';
         $this->need_auth = false;
@@ -28,9 +30,6 @@ class WCGS_APIConnect {
         }
             
         $this->sheet_id = $gs_sheet_id;
-        // $this->sheet_id = '17uEHwuto1CfmXC9J0GMqPkZXtaCga7UCIaVxgAiZihs'; // NKB Products
-        // $this->sheet_id = '1sA55ZG3uo8JLr8eKyDkim0B2QcC1OtVVr26zufW0Fwo'; // Example GS
-        // $this->sheet_id = '17uEHwuto1CfmXC9J0GMqPkZXtaCga7UCIaVxgAiZihs'; // NKB Product
     }
     
     private function save_token($token){
@@ -42,7 +41,26 @@ class WCGS_APIConnect {
         return $token;
     }
     
-    function getClient($authCode=null)
+    function getClient() {
+        
+        try{
+            
+            $client = $this->get_google_client();
+            $client->setApplicationName('GoogleSync-WooCommerce');
+            // FullAccess
+            $client->setScopes(Google_Service_Sheets::SPREADSHEETS);
+            
+            $client->setAuthConfig( $this->cred_file );
+            return $client;
+        }catch (\Exception $e)
+        {
+            
+            set_transient("wcgs_client_error_notices", $this->parse_message($e), 30);
+        }
+    }
+    
+    
+    function getClient_Legacy($authCode=null)
     {
         try{
             
@@ -53,8 +71,8 @@ class WCGS_APIConnect {
             
             
             // QuickConnect since version 5.0
-            if( file_exists(WCGS_PATH.'/quickconnect/creds.json')){
-                $gs_credentials = WCGS_PATH.'/quickconnect/creds.json';
+            if( file_exists($this->cred_file)){
+                $gs_credentials = $this->cred_file;
             }else {
                 $gs_credentials = wcgs_get_option('wcgs_google_credential');
                 $gs_credentials = json_decode($gs_credentials, true);
@@ -262,7 +280,7 @@ class WCGS_APIConnect {
         }
         catch (\Exception $e)
         {   
-            // wcgs_log($this->parse_message($e));
+            wcgs_log($this->parse_message($e));
             $err = $this->parse_message($e);
             $msg = $err['message']." Make sure you have used same email account for GoogleSheet as you use for App Connect";
             return new WP_Error( 'gs_connection_error', $msg );
@@ -312,7 +330,7 @@ class WCGS_APIConnect {
     function add_new_rows($sheet_name, $Rows) {
         
         try {
-            
+           
             $service = $this->get_google_service();
             
             $end = count($Rows)+1;

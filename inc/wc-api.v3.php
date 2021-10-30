@@ -221,7 +221,7 @@ class WCGS_WC_API_V3 {
     $items = [];
     
     $args              = apply_filters('wcgs_export_products_args',
-                        ['per_page' => 150, 'include' => $include_products]);
+                        ['per_page' => $chunk_size, 'include' => $include_products]);
                         
     // wcgs_log($args);
         

@@ -3,9 +3,9 @@ Contributors: nmedia
 Tags: woocommerce, woocommerce product sync, google product, google sync, woocommerce product import
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
-Tested up to: 5.7
+Tested up to: 5.8.1
 Requires PHP: 5.6
-Stable tag: 5.1
+Stable tag: 5.2
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 5.2, October 13, 2021 =
+* Fetch products issue fixed in PRO version
 = 5.1, October 13, 2021 =
 * Tweaks: Some error message optimized
 * Tweaks: [IDs not pull issue explain here](https://clients.najeebmedia.com/forums/topic/googlesync-latest-update-v5-stop-working-previous-version/)

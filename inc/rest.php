@@ -281,7 +281,7 @@ function wcgs_fetch_products($request) {
     
     $wcapi = new WCGS_WC_API_V3();
     $result = $wcapi->get_products_for_syncback($data);
-    // wcgs_log($result);
+    // wcgs_log_dump($result);
     // exit;
     
     $total_rows=$total_create=$total_update=0;
@@ -319,6 +319,7 @@ function wcgs_fetch_products($request) {
             $resp = $gs->update_rows_with_ranges($updatable_range);
         }
         
+        // wcgs_log($resp);
         $total_rows = $total_create+$total_update;
         
         $message = "{$total_create} = Created, {$total_update} = Updated \r\n";
@@ -326,7 +327,6 @@ function wcgs_fetch_products($request) {
         
         wp_send_json_success(['message'=>$message, 'create'=>$total_create,'update'=>$total_update]);
         exit;
-        // wcgs_log($resp);
         // exit;
     
     }

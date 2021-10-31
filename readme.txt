@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 5.8.1
 Requires PHP: 5.6
-Stable tag: 5.2
+Stable tag: 5.2.1
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 5.2.1, October 13, 2021 =
+* Bug fixed: Fetch products issue fixed when some fields has NULL values
 = 5.2, October 13, 2021 =
 * Fetch products issue fixed in PRO version
 = 5.1, October 13, 2021 =

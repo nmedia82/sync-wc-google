@@ -241,6 +241,16 @@ function wcgs_log ( $log )  {
     }
 }
 
+function wcgs_log_dump ( $log )  {
+    
+    if ( WCGS_LOG ) {
+        ob_start();                    // start buffer capture
+        var_dump( $log );           // dump the values
+        $contents = ob_get_clean(); // put the buffer into a variable
+        $resp = error_log( $contents, 3, WCGS_PATH.'/log/wcgs.txt' );
+    }
+}
+
 // Set item meta with key: wcgs_row_id
 function wcgs_resource_update_meta($resource, $id, $row_no){
     

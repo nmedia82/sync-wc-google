@@ -207,7 +207,7 @@ class WCGS_Format {
                 
                 $value = $product[$key];
                 
-                $value = $value === NULL ? '' : $value;
+                $value = $value === NULL ? "" : $value;
                 $value = apply_filters("wcgs_products_syncback_value", $value, $key);
                 $value = apply_filters("wcgs_products_syncback_value_{$key}", $value, $key);
                 
@@ -217,13 +217,22 @@ class WCGS_Format {
             // Check if sync column meta exists
             $wcgs_row_id = get_post_meta($product['id'], 'wcgs_row_id', true);
             if( $wcgs_row_id ) {
-                $products_refined['update'][$wcgs_row_id] = array_values($product);
+                 $update_array = array_map( function($item) {
+                    $item = $item == "" ? "" : $item;
+                    return $item;
+                }, array_values($product));
+                $products_refined['update'][$wcgs_row_id] = $update_array;
             }else{
-                $products_refined['create'][] = array_values($product);
+                $create_array = array_map( function($item) {
+                    $item = $item == "" ? "" : $item;
+                    return $item;
+                }, array_values($product));
+                $products_refined['create'][] = $create_array;
             }
         }
         
-        // wcgs_log($products_refined); exit;
+        // wcgs_log_dump($products_refined); exit;
+        // exit;
         return $products_refined;
     }
     

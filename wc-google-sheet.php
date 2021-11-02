@@ -28,8 +28,8 @@ include_once WCGS_PATH . "/inc/admin.php";
 include_once WCGS_PATH . "/inc/wc-api.php";
 include_once WCGS_PATH . "/inc/wc-api.v3.php";
 include_once WCGS_PATH . "/inc/gs-api.php";
-include_once WCGS_PATH . "/inc/gs-categories.php";
-include_once WCGS_PATH . "/inc/gs-products.php";
+include_once WCGS_PATH . "/classes/gs-categories.php";
+include_once WCGS_PATH . "/classes/gs-products.php";
 include_once WCGS_PATH . "/inc/gs-variations.php";
 include_once WCGS_PATH . "/inc/rest.php";
 include_once WCGS_PATH . "/inc/hooks.php";
@@ -37,6 +37,8 @@ include_once WCGS_PATH . "/inc/callbacks.php";
 include_once WCGS_PATH . "/inc/columns.php";
 include_once WCGS_PATH . "/inc/class.sheet.php";
 include_once WCGS_PATH . "/inc/class.formats.php";
+include_once WCGS_PATH . "/classes/sheet.class.php";
+include_once WCGS_PATH . "/classes/sync.class.php";
 
 
 class WCGS_INIT {

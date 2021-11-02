@@ -7,6 +7,7 @@ require WCGS_PATH . '/lib/googleclient/vendor/autoload.php';
 
 class WCGS_APIConnect {
     
+    static $cred_file;
     function __construct() {
         
         // Get the API client and construct the service object.
@@ -17,45 +18,45 @@ class WCGS_APIConnect {
             delete_option('wcgs_token');
         }
         
-        $this->cred_file = WCGS_PATH.'/quickconnect/service-account2.json';
+        self::$cred_file = WCGS_PATH.'/quickconnect/service-account2.json';
         
-        $gs_sheet_id = wcgs_get_option('wcgs_googlesheet_id');
+        // $gs_sheet_id = wcgs_get_option('wcgs_googlesheet_id');
         $this->auth_link = '';
-        $this->need_auth = false;
+        // $this->need_auth = false;
         
-        if( $this->getClient() !== null ) {
-            $this->client = $this->getClient();
-        }else{
-            delete_option('wcgs_token');
-        }
+        // if( $this->getClient() !== null ) {
+        //     $this->client = $this->getClient();
+        // }else{
+        //     delete_option('wcgs_token');
+        // }
             
-        $this->sheet_id = $gs_sheet_id;
+        // $this->sheet_id = $gs_sheet_id;
     }
     
-    private function save_token($token){
-        update_option('wcgs_token', $token);
-    }
+    // private function save_token($token){
+    //     update_option('wcgs_token', $token);
+    // }
     
-    private function get_token(){
-        $token = get_option('wcgs_token');
-        return $token;
-    }
+    // private function get_token(){
+    //     $token = get_option('wcgs_token');
+    //     return $token;
+    // }
     
-    function getClient() {
+    public static function getSheetService() {
         
         try{
             
-            $client = $this->get_google_client();
+            $client = self::get_google_client();
             $client->setApplicationName('GoogleSync-WooCommerce');
             // FullAccess
             $client->setScopes(Google_Service_Sheets::SPREADSHEETS);
-            
-            $client->setAuthConfig( $this->cred_file );
-            return $client;
+            $client->setAuthConfig( self::$cred_file );
+            return new Google_Service_Sheets($client);
         }catch (\Exception $e)
         {
-            
-            set_transient("wcgs_client_error_notices", $this->parse_message($e), 30);
+            $err = self::parse_message($e);
+            var_dump($err);
+            return new WP_Error( 'gs_client_error', $err['message'] );
         }
     }
     
@@ -64,7 +65,7 @@ class WCGS_APIConnect {
     {
         try{
             
-            $client = $this->get_google_client();
+            $client = self::get_google_client();
             $client->setApplicationName('GoogleSync-WooCommerce');
             // FullAccess
             $client->setScopes(Google_Service_Sheets::SPREADSHEETS);
@@ -125,7 +126,7 @@ class WCGS_APIConnect {
             return $client;
         }catch (\Exception $e)
         {
-            set_transient("wcgs_client_error_notices", $this->parse_message($e), 30);
+            set_transient("wcgs_client_error_notices", self::parse_message($e), 30);
         }
     }
     
@@ -152,7 +153,7 @@ class WCGS_APIConnect {
         }catch (\Exception $e)
         {
             // wcgs_pa($e);
-            set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
+            set_transient("wcgs_admin_notices", self::parse_message($e), 30);
         }
         
     }
@@ -172,7 +173,7 @@ class WCGS_APIConnect {
         catch (\Exception $e)
         {
             // wcgs_pa($e);
-            set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
+            set_transient("wcgs_admin_notices", self::parse_message($e), 30);
         }
     }
     
@@ -199,7 +200,7 @@ class WCGS_APIConnect {
         catch (\Exception $e)
         {
             // wcgs_pa($e);
-            set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
+            set_transient("wcgs_admin_notices", self::parse_message($e), 30);
         }
         
     }
@@ -245,7 +246,7 @@ class WCGS_APIConnect {
         catch (\Exception $e)
         {
             // wcgs_pa($e);
-            set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
+            set_transient("wcgs_admin_notices", self::parse_message($e), 30);
         }
         
         // wcgs_pa($result);
@@ -280,8 +281,8 @@ class WCGS_APIConnect {
         }
         catch (\Exception $e)
         {   
-            wcgs_log($this->parse_message($e));
-            $err = $this->parse_message($e);
+            wcgs_log(self::parse_message($e));
+            $err = self::parse_message($e);
             $msg = $err['message']." Make sure you have used same email account for GoogleSheet as you use for App Connect";
             return new WP_Error( 'gs_connection_error', $msg );
         }
@@ -322,7 +323,7 @@ class WCGS_APIConnect {
         catch (\Exception $e)
         {
             // wcgs_pa($e);
-            set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
+            set_transient("wcgs_admin_notices", self::parse_message($e), 30);
         }
     }
     
@@ -363,14 +364,14 @@ class WCGS_APIConnect {
         }
         catch (\Exception $e)
         {   
-            wcgs_log($this->parse_message($e));
-            set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
+            wcgs_log(self::parse_message($e));
+            set_transient("wcgs_admin_notices", self::parse_message($e), 30);
         }
         
         return $result;
     }
     
-    function get_google_client(){
+    static function get_google_client(){
         
         
         if( ! class_exists('Google_Client') ) {
@@ -391,7 +392,7 @@ class WCGS_APIConnect {
     
     
     //parse the error message
-    function parse_message($e) {
+    static function parse_message($e) {
         
         $object = json_decode($e->getMessage(), true);
         $result['message'] = isset($object['error']['message']) ? "Google Sheet API Error: ".$object['error']['message'] : '';
@@ -400,3 +401,5 @@ class WCGS_APIConnect {
     }
     
 }
+
+return new WCGS_APIConnect;

@@ -62,24 +62,9 @@ class WCGS_Sync {
             $send_json = true;
         }
         
-        $saved_chunked  = get_transient('wcgs_product_chunk');
-        $sync_col_index = get_transient('wcgs_product_sync_col_index');
+        $rows = self::$sheet->sync('products');
         
-        if( $chunk === null ) 
-            $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : '';
-            
-        $response = array();
-        if( !isset($saved_chunked[$chunk]) ) {
-            $response['status'] = 'error';
-            $response['message'] = __("No chunk found to sync","wcgs");
-            return $send_json ? wp_send_json($response) : $response;
-        }
-        
-        $chunked_rows = array_map(function($row) use($sync_col_index){
-            return array_pad($row, $sync_col_index, "");
-        }, $saved_chunked[$chunk]);
-        
-        wp_send_json($saved_chunked[$chunk]);
+        wp_send_json($rows);
         
         $sheet_name = 'products';
         

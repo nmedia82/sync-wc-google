@@ -189,15 +189,15 @@ function wcgs_array_settings() {
 //             'desc_tip'      => true,
 //         ),
         
-//         array(
-//             'title'		=> __( 'Chunks size', 'wcgs' ),
-//             'type'		=> 'number',
-//             'desc'		=> __( 'Set chunk size to import/export larger group of data', 'wcgs' ),
-//             'default'	=> __('30', 'wcgs'),
-//             'id'		=> 'wcgs_wc_chunk_size',
-//             'css'   	=> 'min-width:300px;',
-// 			'desc_tip'	=> true,
-//         ),
+        array(
+            'title'		=> __( 'Chunks size', 'wcgs' ),
+            'type'		=> 'number',
+            'desc'		=> __( 'Set chunk size to import/export larger group of data', 'wcgs' ),
+            'default'	=> __('30', 'wcgs'),
+            'id'		=> 'wcgs_wc_chunk_size',
+            'css'   	=> 'min-width:300px;',
+			'desc_tip'	=> true,
+        ),
         
 		array(
 			'type' => 'sectionend',
@@ -219,7 +219,7 @@ function wcgs_get_last_sync_date() {
 
 // Chunk size
 function wcgs_get_chunk_size(){
-    $chunksize = get_option('wcgs_wc_chunk_size', 30);
+    $chunksize = get_option('wcgs_wc_chunk_size', 1);
     return apply_filters('wcgs_chunk_size', intval($chunksize));
 }
 

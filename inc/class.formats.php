@@ -28,10 +28,9 @@ class WCGS_Format {
     }
     
     
-    function format_data_products($sheet_data, $sheet_info) {
+    function format_data_products($sheet_data, $sheet_name) {
         
-        $sheet_data = array_map(function($item) use ($sheet_info) {
-            $sheet_name = $sheet_info['sheet_name'];
+        $sheet_data = array_map(function($item) use ($sheet_name) {
             foreach(wcgs_fields_format_required() as $key => $type){
                 
                 if( !isset($item[$key]) ) continue;

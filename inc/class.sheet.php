@@ -33,7 +33,7 @@ class WCGS_Sheet {
          * 2. Setting meta_data key for the product
          * 3. product meta columns handling
          **/
-        $combined_arr = apply_filters('wcgs_sync_data_products_before_processing', $combined_arr, $sheet_info);
+        $combined_arr = apply_filters('wcgs_sync_data_products_before_processing', $combined_arr, $sheet_info['sheet_name']);
         
         $variations = array_filter($combined_arr, function($row){
             return $row['type'] == 'variation' && ! empty($row['parent_id']);

@@ -44,8 +44,6 @@ class WCGS_Categories {
             return $result;
         }
         
-        // wcgs_log($result); exit;
-        
         return $result;
     }
     

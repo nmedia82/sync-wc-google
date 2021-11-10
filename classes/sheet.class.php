@@ -76,8 +76,7 @@ class WCGS_Sheet2 {
         // remove sync column from header
         array_pop($header);
         
-        if( $chunk === null ) 
-            $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : '';
+        $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : '';
             
         $response = array();
         if( !isset($saved_chunked[$chunk]) ) {
@@ -150,7 +149,8 @@ class WCGS_Sheet2 {
             }
         }
         
-        wcgs_log($ranged_data);
+        // wcgs_log($ranged_data);
+        
         if( count($ranged_data) > 0 ) {
             // $service = WCGS_APIConnect::getSheetService();
             $resp = WCGS_APIConnect::update_rows_with_ranges($ranged_data, self::$sheet_id);

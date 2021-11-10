@@ -74,8 +74,6 @@ function wcgs_categories_row_update($sync_data) {
     
     }
     
-    // wcgs_log($wpsql); exit;
-    
     // Delete query
     $delqry = rtrim($delqry, ',');
     $delqry .= ") AND meta_key='{$metakey}'";

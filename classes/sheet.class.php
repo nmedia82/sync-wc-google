@@ -12,23 +12,20 @@ class WCGS_Sheet2 {
     static $sheet_id;
     static $chunk_size;
     static $header;
-    function __construct($id) {
+    function __construct($sheet_name) {
         
-        self::$sheet_id = $id;    
+        $this->sheet_name = $sheet_name;
+        self::$sheet_id = wcgs_get_sheet_id();    
         self::$chunk_size = wcgs_get_chunk_size();    
     }
     
-    function create_chunk($sheet){
+    function create_chunk(){
         
-        $service = WCGS_APIConnect::getSheetService();
-        if( is_wp_error($service) ) {
+        $range = $this->sheet_name;
+        $gs_rows = WCGS_APIConnect::get_sheet_rows(self::$sheet_id, $range);
+        if( is_wp_error($gs_rows) ) {
             return new WP_Error( 'gs_client_error', $service->get_error_message() );
         }
-        
-        $range = $sheet;
-        
-        $response = $service->spreadsheets_values->get(self::$sheet_id, $range);
-        $gs_rows = $response->getValues();
         
         self::$header = $gs_rows[0];  // setting header
         unset($gs_rows[0]);    // Skip heading row
@@ -38,27 +35,43 @@ class WCGS_Sheet2 {
             return new WP_Error( 'gs_heading_error', __('Make sure sheet has correct header format','wcgs') );
         }
         
-        $syncable_filter = array_filter($gs_rows, function($r) use($sync_col_index){
-          return $r[$sync_col_index] != WCGS_SYNC_OK;
+        // saving images, image col index as well
+        $images_col_index = array_search('images', self::$header);
+        $image_col_index = array_search('image', self::$header);
+        
+        // actually the the syncable rows are not equal == header index
+        // so we will first fetch nonsyncabel then subtract (array_diff_key) from org data
+        $nonsyncable_rows = array_filter($gs_rows, function($r) use($sync_col_index){
+          return isset($r[$sync_col_index]) && $r[$sync_col_index] == WCGS_SYNC_OK;
         });
         
-        // if( !$syncable_filter ) return null;
-        $chunked_array = array_chunk($syncable_filter, self::$chunk_size, true);
-        set_transient('wcgs_product_chunk', $chunked_array);
-        set_transient('wcgs_product_header', self::$header);
-        set_transient('wcgs_product_sync_col_index', $sync_col_index);
+        $syncable_data = array_diff_key($gs_rows, $nonsyncable_rows);
         
-        $response = ['total_products'=>count($syncable_filter), 'chunks'=>count($chunked_array),'chunk_size'=>self::$chunk_size];
+        // if( !$syncable_data ) return null;
+        $chunked_array = array_chunk($syncable_data, self::$chunk_size, true);
+        
+        $sync_transient = [ 'chunk'    => $chunked_array,
+                            'header'   => self::$header,
+                            'sync_col_index'   => $sync_col_index,
+                            'images_col_index' => $images_col_index,
+                            'image_col_index'  => $image_col_index
+                            ];
+                            
+        wcgs_set_transient("sync_{$this->sheet_name}_transient", $sync_transient);
+        
+        $response = ['total_rows'=>count($syncable_data), 'chunks'=>count($chunked_array),'chunk_size'=>self::$chunk_size];
         
         return $response;
     }
     
-    function sync($sheet) {
+    function sync() {
         
-        $saved_chunked  = get_transient('wcgs_product_chunk');
-        $header  = get_transient('wcgs_product_header');
-        $sync_col_index = get_transient('wcgs_product_sync_col_index');
-        // wcgs_log($saved_chunked);
+        $sync_transient = wcgs_get_transient("sync_{$this->sheet_name}_transient");
+        $saved_chunked  = $sync_transient['chunk'];
+        $header         = $sync_transient['header'];
+        $sync_col_index = $sync_transient['sync_col_index'];
+        $images_col_index = $sync_transient['images_col_index'];
+        $image_col_index = $sync_transient['image_col_index'];
         
         // remove sync column from header
         array_pop($header);
@@ -73,121 +86,86 @@ class WCGS_Sheet2 {
             return $send_json ? wp_send_json($response) : $response;
         }
         
+        
+        // adjusting the syn column
         $chunked_rows = array_map(function($row) use($sync_col_index){
             return array_pad($row, $sync_col_index, "");
         }, $saved_chunked[$chunk]);
         
+        // wcgs_pa($chunked_rows); exit;
+        // headers => rows (associative)
         $combined_arr = array_map(function($row) use ($header) {
                                         return array_combine($header, $row);
                                     }, 
                                     $chunked_rows);
         
-        /**
-         * Defined: class.formats.php
-         * 1. formatting each column data with wcgs_{$sheet}_data_{$key}
-         * 2. Setting meta_data key for the product
-         * 3. product meta columns handling
-         **/
-        $combined_arr = apply_filters('wcgs_sync_data_products_before_processing', $combined_arr, $sheet);
-        
-        
-        
-        $variations = array_filter($combined_arr, function($row){
-            return $row['type'] == 'variation' && ! empty($row['parent_id']);
-        });
-        
-        $without_variations = array_filter($combined_arr, function($row){
-            return $row['type'] != 'variation';
-        });
-        
-        // Preparing data for WC API
-        $wcapi_data = [];
-        // Existing data
-        $wcapi_data['update'] = array_filter($without_variations, function($row){
-                        return $row['id'] != '';
-            });
-        // New data
-        $wcapi_data['create'] = array_filter($without_variations, function($row){
-                        return $row['id'] == '';
-            });
+        $synced_data = [];
+        switch( $this->sheet_name ) {
             
-        // Handling Variations
-        // Preparing variations data for WC API
-        $wcapi_variations = [];
-        foreach($variations as $variation){
-            
-            $id = $variation['id'];
-            $parent_id = $variation['parent_id'];
-            
-            if( $id != '' ) {
-                $wcapi_variations[$parent_id]['update'][] = $variation;   
-            }else{
-                unset($variation['id']);
-                $wcapi_variations[$parent_id]['create'][] = $variation;
-            }
+            case 'products':
+                $synced_data = WCGS_Products::sync($combined_arr);
+                break;
+                
+            case 'categories':
+                $synced_data = WCGS_Categories::sync($combined_arr);
+                break;
         }
         
-        $result1 = $result2 = [];        
-    
-        // wcgs_log($wcapi_data); exit;
-        $wcapi_v3 = new WCGS_WC_API_V3();
-        
-        if($wcapi_data) {
-            $result1 = $wcapi_v3->batch_update_products($wcapi_data);
-            if( is_wp_error($result1) ) {
-                wp_send_json_error($result1->get_error_message());
-            }
+        if( is_wp_error($synced_data) ) {
+            return $synced_data;
         }
-        
-        if($wcapi_variations) {
-            $result2 = $wcapi_v3->batch_update_variations($wcapi_variations);
-            if( is_wp_error($result2) ) {
-                wp_send_json_error($result2->get_error_message());
-            }
-        }
-        
-        $both_res = array_merge($result1, $result2);
-        wcgs_log($both_res);
         
         // FILTER ERRORS
-        $errors = array_filter($both_res, function($a){
+        $rows_error = array_filter($synced_data, function($a){
             return $a['row'] == 'ERROR';
         });
         
         // FILTER NON-ERRORS
-        $rows_ok = array_filter($both_res, function($a){
+        $rows_ok = array_filter($synced_data, function($a){
             return $a['row'] != 'ERROR';
         });
         
         // building error msg string
         $err_msg = '';
-        foreach($errors as $err){
+        foreach($rows_error as $err){
             $err_msg .= '<p style="color:red">FAILED: '.$err['message'].' (Resource ID: '.$err['id'].')</p><hr>';
         }
         
+        // wcgs_log($err_msg);
         
         $id_col = 'A';
-        $sync_col = $sheet_info['sync_col'];
-        $images_col = isset($sheet_info['images_col']) ? $sheet_info['images_col'] : null;
-        $image_col = isset($sheet_info['image_col']) ? $sheet_info['image_col'] : null;
+        $sync_col = wcgs_get_header_column_by_index($sync_col_index);
+        $images_col = wcgs_get_header_column_by_index($images_col_index);
+        $image_col = wcgs_get_header_column_by_index($image_col_index);
         
-        $updatable_range = [];
+        $ranged_data = [];
         foreach($rows_ok as $row){
-            $updatable_range["{$sheet}!{$id_col}{$row['row']}"] = [$row['id']];
-            $updatable_range["{$sheet}!{$sync_col}{$row['row']}"] = ['OK'];
+            $ranged_data["{$this->sheet_name}!{$id_col}{$row['row']}"] = [$row['id']];
+            $ranged_data["{$this->sheet_name}!{$sync_col}{$row['row']}"] = ['OK'];
             if( $images_col && isset($row['images']) ){
-                $updatable_range["{$sheet}!{$images_col}{$row['row']}"] = [$row['images']];
+                $ranged_data["{$this->sheet_name}!{$images_col}{$row['row']}"] = [$row['images']];
             }
             if( $image_col && isset($row['image']) ){
-                $updatable_range["{$sheet}!{$image_col}{$row['row']}"] = [$row['image']];
+                $ranged_data["{$this->sheet_name}!{$image_col}{$row['row']}"] = [$row['image']];
             }
-            
         }
         
+        wcgs_log($ranged_data);
+        if( count($ranged_data) > 0 ) {
+            // $service = WCGS_APIConnect::getSheetService();
+            $resp = WCGS_APIConnect::update_rows_with_ranges($ranged_data, self::$sheet_id);
+            if( is_wp_error($resp) ) {
+                return $resp;
+            }
+        }
         
-        wcgs_log($updatable_range);
-        return $wcapi_data;
-        // wp_send_json($saved_chunked[$chunk]);
+        $resp = ['success_rows' => count($rows_ok),
+                'error_rows'    => count($rows_error),
+                'error_msg'     => $err_msg
+                    ];
+        
+        return $resp;
+        
     }
     
 }

@@ -10,25 +10,33 @@
 class WCGS_Sync {
     
     static $sheet_id;
-    static $sheet;
+    // static $sheet;
     function __construct() {
         
         
-        self::$sheet_id = '1X9dG492eyzx-s-WVjpGoXGTcQLUHoEkTBTBqmJFqdlQ'; //wcgs_get_option('wcgs_googlesheet_id');
-        self::$sheet = new WCGS_Sheet2(self::$sheet_id);
+        self::$sheet_id = wcgs_get_sheet_id();
         
-        add_action('wp_ajax_wcgs_sync_data_products', array($this, 'chunk_products'), 99, 1);
+        
+        // callbacks
+        add_action('wp_ajax_wcgs_sync_data_products', array($this, 'chunk_data'), 99, 1);
         add_action('wp_ajax_wcgs_sync_chunk_products', array($this, 'sync_chunk_products'), 99, 1);
+        add_action('wp_ajax_wcgs_sync_data_categories', array($this, 'chunk_data'), 99, 1);
+        add_action('wp_ajax_wcgs_sync_chunk_categories', array($this, 'sync_chunk_products'), 99, 1);
     }
     
     // creating chunk
-    function chunk_products($send_json=true) {
+    function chunk_data() {
     
         if ( is_admin() && ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
             $send_json = true;
         }
         
-        $chunks = self::$sheet->create_chunk('products');
+        $sheet_name = isset($_POST['sheet']) ? $_POST['sheet'] : '';
+        
+        $sheet_obj = new WCGS_Sheet2($sheet_name);
+        $chunks = $sheet_obj->create_chunk();
+        
+        // wcgs_log($chunks);
         
         $response = [];
         
@@ -43,7 +51,7 @@ class WCGS_Sync {
             if( $chunks ) {
                 $response['status'] = 'chunked';
                 $response['chunks'] =  $chunks;
-                $response['message'] =  sprintf(__("Total %d Products found, chunked into %d", "wcgs"), $chunks['total_products'], $chunks['chunks']);
+                $response['message'] =  sprintf(__("Total %d Row(s) found, chunked into %d", "wcgs"), $chunks['total_rows'], $chunks['chunks']);
             }
         }
         
@@ -56,61 +64,67 @@ class WCGS_Sync {
     }
     
     // start syncing products chunk by chunk
-    function sync_chunk_products($send_json=true, $chunk=null) {
+    function sync_chunk_products() {
     
         if ( is_admin() && ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
             $send_json = true;
         }
         
-        $rows = self::$sheet->sync('products');
+        $sheet_name = isset($_POST['sheet']) ? $_POST['sheet'] : '';
         
-        wp_send_json($rows);
+        $sheet_obj = new WCGS_Sheet2($sheet_name);
+        $sync_result = $sheet_obj->sync();
+        // wcgs_log($sync_result); exit;
         
-        $sheet_name = 'products';
-        
-        $sync_result = null;
-        
-        $product = new WCGS_Products();
-        $sync_result = $product->sync($chunked_rows);
-        // wcgs_pa($saved_chunked);
-        
-        // if( $sync_result == null ) return '';
-        // var_dump($sync_result);
-        
-        $response['raw'] = $sync_result;
-        // parse erros
-        if( isset($sync_result['batch_errors']['Batch_Errors']) && count($sync_result['batch_errors']['Batch_Errors']) > 0 ){
-            foreach($sync_result['batch_errors']['Batch_Errors'] as $error){
-                $message = sprintf(__("%s - ID (%s) \r\n", 'wcgs'), $error['error']['message'], $error['id']);
-            }
+        $response = [];
+        if( is_wp_error($sync_result) ) {
             
             $response['status'] = 'error';
-            $response['message'] = $message;
-        }else if( ! empty($sync_result['rest_error']) ){
-            
-            $link = 'https://clients.najeebmedia.com/forums/topic/error-while-using-google-sync/';
-            $message = sprintf(__("%s - <a href='%s' target='_blank'>See this</a>", 'wcgs'), $sync_result['rest_error'], $link);
-            
-            $response['status'] = 'error';
-            $response['message'] = $message;
+            $response['message'] = $sync_result->get_error_message();
         } else {
             
-            $rows_updated = isset($sync_result['sync_result']['totalUpdatedRows']) ? $sync_result['sync_result']['totalUpdatedRows'] : null;
-            if( $rows_updated != null ) {
-                $message = sprintf(__("Total %d Rows updated", 'wcgs'), $rows_updated);
-            }elseif($sync_result['no_sync']){
-                $message = __("No data to sync", "wcgs");
-            }
-            
+            $message = sprintf(__("%s Rows updated successfully and %d errors found", 'wcgs'), $sync_result['success_rows'], $sync_result['error_rows']);
+            $message .= $sync_result['error_msg'];
             $response['status'] = 'success';
             $response['message'] = $message;
-            
         }
         
-        $response['status'] = 'message_response';
-        $response['message'] = $message;
-        
         return $send_json ? wp_send_json($response) : $response;
+    }
+    
+    // creating chunk
+    function chunk_categories() {
+    
+        if ( is_admin() && ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+            $send_json = true;
+        }
+        
+        $sheet_obj = new WCGS_Sheet2('categories');
+        $chunks = $sheet_obj->create_chunk();
+        
+        $response = [];
+        
+        if( is_wp_error($chunks) ) {
+            $response['status'] = 'error';
+            $response['message'] =  $chunks->get_error_message();
+        } else {
+        
+            $response['status'] = 'success';
+            $response['message'] =  __("No data to sync", "wcgs");
+                
+            if( $chunks ) {
+                $response['status'] = 'chunked';
+                $response['chunks'] =  $chunks;
+                $response['message'] =  sprintf(__("Total %d Products found, chunked into %d", "wcgs"), $chunks['total_rows'], $chunks['chunks']);
+            }
+        }
+        
+        if( $send_json ) {
+            wp_send_json($response);
+        } else {
+            return $response;
+        }
+        
     }
         
 }

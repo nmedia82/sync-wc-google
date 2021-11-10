@@ -6,6 +6,52 @@
 
 class WCGS_Categories {
     
+    public static function sync($syncable_data) {
+        
+        /**
+         * Defined: class.formats.php
+         * 1. formatting each column data with wcgs_products_data_{$key}
+         * 2. Setting meta_data key for the product
+         * 3. product meta columns handling
+         **/
+        $syncable_data = apply_filters('wcgs_sync_data_categories_before_processing', $syncable_data);
+        
+        // wcgs_log($syncable_data); exit;
+        
+        // Saving category name/id and row
+        $rowRef = array();
+        // Preparing data for WC API
+        $wcapi_data = [];
+        // Existing data
+        foreach($syncable_data as $row) {
+            
+            $id   = isset($row['id']) ? $row['id'] : '';
+            $name = isset($row['name']) ? sanitize_key($row['name']) : '';
+            
+            if( $id != '' ) {
+                $wcapi_data['update'][] = $row;   
+                $rowRef[$id] = $row['wcgs_row_id'];
+            }else{
+                $wcapi_data['create'][] = $row;
+                $rowRef[$name] = $row['wcgs_row_id'];
+            }
+        }
+        
+        // wcgs_log($rowRef); exit;
+        $wcapi_v3 = new WCGS_WC_API_V3();
+        $result = $wcapi_v3->batch_update_categories($wcapi_data, $rowRef);
+        if( is_wp_error($result) ) {
+            return $result;
+        }
+        
+        // wcgs_log($result); exit;
+        
+        return $result;
+    }
+    
+}
+    
+/*class WCGS_Categories {
     function __construct() {
         
         $this->map = array();
@@ -173,4 +219,4 @@ class WCGS_Categories {
         //   wcgs_pa($response);
          return $response;
     }   
-}
+}*/

@@ -7,7 +7,7 @@ class WCGS_Format {
     
     function __construct() {
         
-        add_filter('wcgs_sync_data_products_before_processing', array($this, 'format_data_products'), 11, 2);
+        add_filter('wcgs_sync_data_products_before_processing', array($this, 'format_data_products'), 11, 1);
         add_filter('wcgs_products_data_categories', array($this, 'product_categories'), 99, 2);
         add_filter('wcgs_products_data_tags', array($this, 'product_tags'), 99, 2);
         add_filter('wcgs_products_data_attributes', array($this, 'product_attributes'), 99, 2);
@@ -21,16 +21,23 @@ class WCGS_Format {
             add_filter('wcgs_categories_synback', array($this, 'syncback_data_categories'), 11, 2);
             
             // Categories
-            add_filter('wcgs_sync_data_categories_before_processing', array($this, 'format_data_categories'), 11, 2);
+            add_filter('wcgs_sync_data_categories_before_processing', array($this, 'format_data_categories'), 11, 1);
             add_filter('wcgs_categories_data_image', array($this, 'categories_image'), 99, 2);
         }
     
     }
     
     
-    function format_data_products($sheet_data, $sheet_name) {
+    function format_data_products($sheet_data) {
         
-        $sheet_data = array_map(function($item) use ($sheet_name) {
+        // $sheet_data = array_map(function($item) use ($sheet_name) {
+        $sheet_name = "products";
+        $after_filter = [];
+        foreach($sheet_data as $row_no => $item ) {
+            
+            // row is empty
+            if( empty($item) ) continue;
+            
             foreach(wcgs_fields_format_required() as $key => $type){
                 
                 if( !isset($item[$key]) ) continue;
@@ -39,11 +46,11 @@ class WCGS_Format {
             }
             
             // If row_meta column is not set then create one
-            // and set row_id_meta, then remove row_id_meta
+            // and set row_id_meta = sheet_row
             if( empty($item['meta_data']) ){
-                $item['meta_data'] = $item['row_id_meta'];
+                $item['meta_data'] = [['key'=>'wcgs_row_id', 'value'=>$row_no+1]];
             }
-            unset($item['row_id_meta']);
+            
             
             // Adding meta column if found
             $meta_keys = get_option('wcgs_metadata_keys');
@@ -66,30 +73,33 @@ class WCGS_Format {
                 }
             }
             
-            return $item;
+            $after_filter[] = $item;
             
-        }, $sheet_data);
+        }
         
-        return $sheet_data;
+        return $after_filter;
     }
     
-    function format_data_categories($sheet_data, $sheet_info) {
+    function format_data_categories($sheet_data) {
         
-        $sheet_data = array_map(function($item) use ($sheet_info) {
-            $sheet_name = $sheet_info['sheet_name'];
+        // $sheet_data = array_map(function($item) {
+        $after_filter = [];
+        foreach($sheet_data as $row_no => $item ) {
+            
             foreach(wcgs_fields_format_required() as $key => $type){
                 
                 if( !isset($item[$key]) ) continue;
                 
-                $item[$key] = apply_filters("wcgs_{$sheet_name}_data_{$key}", $item[$key], $item);
+                $item[$key] = apply_filters("wcgs_categories_data_{$key}", $item[$key], $item);
             }
             
+            $item['wcgs_row_id'] = $row_no+1;
             
-            return $item;
+            $after_filter[] = $item;
             
-        }, $sheet_data);
+        }
         
-        return $sheet_data;
+        return $after_filter;
     }
     
     // Categories

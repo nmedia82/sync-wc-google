@@ -44,9 +44,14 @@ function wcgs_update_termmeta($categories, $sheet_name, $synced_result) {
 }
 
 add_action('wcgs_after_categories_synced_v3', 'wcgs_categories_row_update');
-function wcgs_categories_row_update($rowRef) {
+function wcgs_categories_row_update($sync_data) {
  
-    if( count($rowRef) <= 0 ) return;
+    // FILTER NON-ERRORS
+    $rows_ok = array_filter($sync_data, function($a){
+        return $a['row'] != 'ERROR';
+    });
+        
+    if( count($rows_ok) <= 0 ) return;
     
     global $wpdb;
     $termmeta_table = $wpdb->prefix.'termmeta';
@@ -55,7 +60,7 @@ function wcgs_categories_row_update($rowRef) {
     $delqry = "DELETE FROM {$termmeta_table} WHERE term_id IN (";
     $metakey = 'wcgs_row_id';
     
-    foreach($rowRef as $ref){
+    foreach($rows_ok as $ref){
         
         if( $ref['row'] == 'ERROR' ) continue;
         
@@ -69,7 +74,7 @@ function wcgs_categories_row_update($rowRef) {
     
     }
     
-    // var_dump($wpsql); exit;
+    // wcgs_log($wpsql); exit;
     
     // Delete query
     $delqry = rtrim($delqry, ',');
@@ -83,7 +88,7 @@ function wcgs_categories_row_update($rowRef) {
 }
 
 // When WC categories created
-add_action( "created_product_cat", "wcgs_update_gsheet_create_cat", 99, 2);
+// add_action( "created_product_cat", "wcgs_update_gsheet_create_cat", 99, 2);
 function wcgs_update_gsheet_create_cat($term_id, $tt_id){
     
     
@@ -96,7 +101,7 @@ function wcgs_update_gsheet_create_cat($term_id, $tt_id){
 }
 
 // When WC categories updated
-add_action( "edited_product_cat", "wcgs_update_gsheet_edit_cat", 99, 2);
+// add_action( "edited_product_cat", "wcgs_update_gsheet_edit_cat", 99, 2);
 function wcgs_update_gsheet_edit_cat($term_id, $tt_id){
     
     wcgs_log($_POST);
@@ -112,7 +117,7 @@ function wcgs_update_gsheet_edit_cat($term_id, $tt_id){
 }
 
 // When WC categories deleted
-add_action( "pre_delete_term", "wcgs_update_gsheet_delete_cat", 99, 2);
+// add_action( "pre_delete_term", "wcgs_update_gsheet_delete_cat", 99, 2);
 function wcgs_update_gsheet_delete_cat($term_id, $taxonomy){
     
     if( ! array_key_exists ('action', $_POST) ) return '';
@@ -130,7 +135,7 @@ function wcgs_update_gsheet_delete_cat($term_id, $taxonomy){
 /** ================ Product Update/Create Hooks ================ **/
 
 // When product creatd
-add_action('woocommerce_new_product', 'wcgs_create_product_gsheet', 99, 2);
+// add_action('woocommerce_new_product', 'wcgs_create_product_gsheet', 99, 2);
 function wcgs_create_product_gsheet($id, $product){
     
     if( isset($_POST['request_type']) && $_POST['request_type'] == 'sync-sheet-data')
@@ -155,7 +160,7 @@ function wcgs_updat_product_gsheet($id, $product){
 }
 
 // Before deleting the product remove from Sheet
-add_action( 'before_delete_post', 'wcgs_delete_sheet_product' );
+// add_action( 'before_delete_post', 'wcgs_delete_sheet_product' );
 function wcgs_delete_sheet_product($porduct_id){
     
     $row_id = get_post_meta($porduct_id, 'wcgs_row_id', true);

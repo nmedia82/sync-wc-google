@@ -24,6 +24,7 @@ define('WCGS_SYNC_OK', 'OK' );
 
 include_once WCGS_PATH . "/inc/const.php";
 include_once WCGS_PATH . "/inc/functions.php";
+include_once WCGS_PATH . "/inc/transient.php";
 include_once WCGS_PATH . "/inc/admin.php";
 include_once WCGS_PATH . "/inc/wc-api.php";
 include_once WCGS_PATH . "/inc/wc-api.v3.php";

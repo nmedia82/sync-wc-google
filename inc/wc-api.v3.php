@@ -25,6 +25,8 @@ class WCGS_WC_API_V3 {
     } else{
         $response = $response->get_data();
         
+        // wcgs_log($response);
+        
         $result1 = $result2 = [];
         if( isset($response['update']) ) {
              $result1 = array_map(function($item){

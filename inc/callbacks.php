@@ -4,7 +4,7 @@
  * */
 // use \AvangateClient\Client;
  
-add_action('wp_ajax_wcgs_sync_data_categories', 'wcgs_sync_data_categories');
+// add_action('wp_ajax_wcgs_sync_data_categories', 'wcgs_sync_data_categories');
 function wcgs_sync_data_categories($send_json=true) {
     
     if ( is_admin() && ( defined( 'DOING_AJAX' ) || DOING_AJAX ) ) {

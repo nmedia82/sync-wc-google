@@ -7,6 +7,11 @@
 // Sync column index
 define('WCGS_SYNC_COLUMN_INDEX', 1);
 
+function wcgs_get_sheet_id(){
+    
+    return '1X9dG492eyzx-s-WVjpGoXGTcQLUHoEkTBTBqmJFqdlQ'; //wcgs_get_option('wcgs_googlesheet_id');
+}
+
 function wcgs_get_header_column_by_index($index) {
     
     $column_names = array('A', 'B', 'C',

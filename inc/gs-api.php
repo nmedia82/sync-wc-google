@@ -55,7 +55,6 @@ class WCGS_APIConnect {
         }catch (\Exception $e)
         {
             $err = self::parse_message($e);
-            var_dump($err);
             return new WP_Error( 'gs_client_error', $err['message'] );
         }
     }
@@ -160,20 +159,20 @@ class WCGS_APIConnect {
     
     
     // Get sheet values
-    function get_sheet_rows($range) {
+    public static function get_sheet_rows($sheet_id, $range) {
         
         try{
             
-            $service = $this->get_google_service();
+            $service = self::getSheetService();
+            $response = $service->spreadsheets_values->get($sheet_id, $range);
+            $gs_rows = $response->getValues();
     
-            $response = $service->spreadsheets_values->get($this->sheet_id, $range);
-            $values = $response->getValues();
-            return $values;
+            return $gs_rows;
         }
         catch (\Exception $e)
         {
-            // wcgs_pa($e);
-            set_transient("wcgs_admin_notices", self::parse_message($e), 30);
+            $err = self::parse_message($e);
+            return new WP_Error( 'gs_client_error', $err['message'] );
         }
     }
     
@@ -253,13 +252,13 @@ class WCGS_APIConnect {
     }
     
     // Update Rows with defined ranges
-    function update_rows_with_ranges($ranges_value, $row=NULL) {
+    public static function update_rows_with_ranges($ranges_value, $sheet_id) {
         
         $result = [];
         
         try{
             
-            $service = $this->get_google_service();
+            $service = self::getSheetService();
             
             foreach($ranges_value as $range => $value) {
                 
@@ -276,7 +275,7 @@ class WCGS_APIConnect {
                 'valueInputOption' => "USER_ENTERED",
                 'data' => $data
             ]);
-            $result = $service->spreadsheets_values->batchUpdate($this->sheet_id, $body);
+            $result = $service->spreadsheets_values->batchUpdate($sheet_id, $body);
             do_action('wcgs_after_rows_updated', $result, $ranges_value);
         }
         catch (\Exception $e)

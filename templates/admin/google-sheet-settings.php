@@ -23,6 +23,12 @@ if ( $google_client->auth_link ) {
   
   printf(__('<a class="button button-primary wcgs-sync-btn" href="#" id="wcgs-sync-btn">%s</a>', 'wcgs'), "Sync Data");
   
+  do_action('wcgs_after_sync_button', $google_client);
+  
+  echo '<div id="wcgs_progressbar">';
+  printf(__('<div class="pb-run">%s</div>','wcgs'), 'Please wait...');
+  echo '</div>';
+  
   echo '<pre id="wcgs_working"></pre>';
    
  }

@@ -280,17 +280,22 @@ function wcgs_category_range_for_update($category_id){
 }
 
 // Getting last_sync index by category
-function wcgs_get_las_sync_index_by_sheet($sheet){
+function wcgs_get_last_sync_index_by_sheet($sheet){
     
-    $header = [];
-    switch($sheet){
-        case 'categories':
-            $header = get_option('wcgs_category_header');
-            break;
-    }
+    $header = get_option("wcgs_{$sheet}_header");
     
     $index = isset($header['last_sync']) ? $header['last_sync'] : null;
     return $index;
+}
+
+
+// set sheets headers
+function wcgs_set_sheet_header($sheet, $header){
+    set_option("wcgs_{$sheet}_header", $header);
+}
+// get sheets headers
+function wcgs_get_sheet_header($sheet){
+    get_option("wcgs_{$sheet}_header");
 }
 
 // Getting sheet info

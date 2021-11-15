@@ -77,7 +77,52 @@ class WCGS_Products {
         // wcgs_log($both_res); exit;
         
         return $both_res;
+    }
+    
+    
+    // Fetch (synback) products
+    public static function fetch($products_ids, $chunk_size, $header) {
         
+        $args  = apply_filters('wcgs_export_products_args',
+                    ['per_page' => $chunk_size, 'include' => $products_ids]);
+        // wcgs_log($args);
+        
+        $request = new WP_REST_Request( 'GET', '/wc/v3/products' );
+        $request->set_query_params( $args );
+        $response = rest_do_request( $request );
+        if ( ! $response->is_error() ) {
+            $items = $response->get_data();
+        }
+        
+        
+        $header  = apply_filters('wcgs_page_header_data', $header);
+        if( !$header ) {
+            return new WP_Error( 'header_not_found', __( "Oops, you have to sync first.", "wcgs" ) );
+        }
+        
+        $items = apply_filters('wcgs_products_list_before_syncback', $items, $header);
+        // wcgs_log($items); exit;
+        
+        $sortby_id = array_column($items, 'id');
+        array_multisort($sortby_id, SORT_ASC, $items);
+        
+        $header = array_fill_keys($header, '');
+        
+         $products = array();
+         foreach($items as $item) {
+             
+             $product_row = array();
+             if( $header ) {
+               
+              // My Hero :)
+              $header['sync'] = 'OK';
+              $products[] = array_replace($header, array_intersect_key($item, $header));    // replace only the wanted keys
+             }
+             
+         }
+         
+        // wcgs_log($products); exit;
+        return apply_filters('wcgs_products_synback', $products, $sheet_info);
     }
 }
 

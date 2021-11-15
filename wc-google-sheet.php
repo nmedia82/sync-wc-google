@@ -38,8 +38,9 @@ include_once WCGS_PATH . "/inc/callbacks.php";
 include_once WCGS_PATH . "/inc/columns.php";
 include_once WCGS_PATH . "/inc/class.sheet.php";
 include_once WCGS_PATH . "/inc/class.formats.php";
-include_once WCGS_PATH . "/classes/sheet.class.php";
+// include_once WCGS_PATH . "/classes/sheet.class.php";
 include_once WCGS_PATH . "/classes/sync.class.php";
+include_once WCGS_PATH . "/classes/fetch.class.php";
 
 
 class WCGS_INIT {

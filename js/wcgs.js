@@ -41,18 +41,18 @@ jQuery(function($) {
                     $("#wcgs_progressbar").show();
                     $(`.pb-run`).css('width', '10%');
                     // $(`.pb-run`).html('');
-                    for(var c=0; c<chunks.chunks; c++){
+                    for(var c=0; c<chunks; c++){
                         
                         wcgs_sync_data_in_chunks(c, function(chunk, sync_result){
                             
                             chunk_count++;
-                            const resp_msg = `Chunk# ${chunk_count}/${chunks.chunks}: ${sync_result.message}`;
-                            var run = (chunk_count/chunks.chunks) * 100;
+                            const resp_msg = `Chunk# ${chunk_count}/${chunks}: ${sync_result.message}`;
+                            var run = (chunk_count/chunks) * 100;
                             $(`.pb-run`).css('width', `${run}%`);
                             
                             $(`.pb-run`).html(resp_msg);
                             
-                            if( chunk_count == chunks.chunks ) {
+                            if( chunk_count == chunks ) {
                                 $(`.pb-run`).html('SYNC OPERATION COMPLETED SUCCESSFULLY !!');
                                 $(`.pb-run`).css('background-color','#6ea820');
                             }

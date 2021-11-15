@@ -2,8 +2,24 @@
 /**
  * WP Callbacks
  * */
-// use \AvangateClient\Client;
- 
+
+// check service account connention
+add_action('wp_ajax_wcgs_check_service_connect', 'wcgs_check_service_connect');
+
+function wcgs_check_service_connect(){
+    
+    if ( !is_admin() ||  ! ( defined( 'DOING_AJAX' ) || DOING_AJAX ) ) {
+        wp_send_json_error('Oops, try again');
+    }
+    
+    $gs = new WCGS_APIConnect();
+    if( $gs -> is_connected() ){
+        wp_send_json_success('Excellent, Connection Ok.', 'wcgs');
+    } else {
+        wp_send_json_error("Fail to connect, make sure you have shared your sheet with google-sync-service-account-2@lateral-array-290609.iam.gserviceaccount.com", 'wcgs');
+    }
+}
+
 add_action('wp_ajax_wcgs_sync_data_categories', 'wcgs_sync_data_categories');
 function wcgs_sync_data_categories($send_json=true) {
     

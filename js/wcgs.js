@@ -70,6 +70,17 @@ jQuery(function($) {
         }, 'json');
 
     });
+    
+    
+    $(document).on('click', '.wcgs-sync-btn', function(e){
+        e.preventDefault();
+        
+        const data = {action: 'wcgs_check_service_connect'};
+        $.post(ajaxurl, data, function(response) {
+            console.log(response);
+        });
+        
+    })
 
 });
 

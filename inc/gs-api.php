@@ -42,6 +42,10 @@ class WCGS_APIConnect {
         return $token;
     }
     
+    private function delete_token(){
+        delete_option('wcgs_token');
+    }
+    
     function getClient($authCode=null)
     {
         try{
@@ -53,8 +57,8 @@ class WCGS_APIConnect {
             
             
             // QuickConnect since version 5.0
-            if( file_exists(WCGS_PATH.'/quickconnect/creds.json')){
-                $gs_credentials = WCGS_PATH.'/quickconnect/creds.json';
+            if( file_exists(WCGS_PATH.'/quickconnect/service.json')){
+                $gs_credentials = WCGS_PATH.'/quickconnect/service.json';
             }else {
                 $gs_credentials = wcgs_get_option('wcgs_google_credential');
                 $gs_credentials = json_decode($gs_credentials, true);
@@ -97,8 +101,7 @@ class WCGS_APIConnect {
                         
                         $this->save_token( json_encode($accessToken) );
                     } else {
-                        $authUrl = $client->createAuthUrl();
-                        $this->auth_link = $authUrl;
+                        $this->delete_token();
                     }
                 }
             }
@@ -109,6 +112,13 @@ class WCGS_APIConnect {
         {
             set_transient("wcgs_client_error_notices", $this->parse_message($e), 30);
         }
+    }
+    
+    
+    function is_connected() {
+        
+        $token = $this->get_token();
+        return $token == null ? false : true;
     }
     
     function setSheetInfo() {

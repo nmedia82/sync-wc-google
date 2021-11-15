@@ -432,9 +432,10 @@ function wcgs_get_product_meta_col_value($product, $col_key){
     return $value_found;
 }
 
-function wcgs_is_quick_connect() {
+function wcgs_is_service_connect() {
     
-    return true;
+    $service_conn = get_option('wcgs_token', true);
+    return $service_conn;
 }
 
 

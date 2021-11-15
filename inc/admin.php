@@ -15,11 +15,11 @@ function wcgs_add_settings_tab($settings_tabs){
 
 function wcgs_settings_tab(){
     
-    $wcgs_google_credential  = wcgs_get_option('wcgs_google_credential');
     $wcgs_googlesheet_id = wcgs_get_option('wcgs_googlesheet_id');
     $wcgs_imports_limit = wcgs_get_option('wcgs_imports_limit');
     $wcgs_redirect_url = get_rest_url(null, 'nkb/v1/auth');
     
+    wp_enqueue_script('wcgs-js', WCGS_URL.'/js/wcgs.js', ['jquery'], WCGS_VERSION, true );
     wp_enqueue_style('wcgs-style', WCGS_URL.'/css/wcgs.css' );
 
     echo '<div class="wcgs-sync-wrapper woocommmerce">';
@@ -28,10 +28,8 @@ function wcgs_settings_tab(){
     
     do_action('wcgs_before_sync_wrapper', $gs);
     
-    if( wcgs_is_quick_connect() && ! get_option('wcgs_token')) {
-        printf(__('<a class="button button-primary wcgs-sync-btn" href="%s">%s</a>','wcgs'), esc_url(wcgs_quick_connect_url()), "Authorize Google Account");
-    } else if ( $gs->auth_link ) {
-        printf(__('<a class="button button-primary wcgs-sync-btn" href="%s">%s</a>','wcgs'), esc_url($gs->auth_link), "Authorize Google Account");
+    if( wcgs_is_service_connect() ) {
+        printf(__('<a class="button button-primary wcgs-sync-btn" href="#">%s</a>','wcgs'), "Verify Connection");
     } else {
         printf(__('<p class="wcgs-connected">%s</p>', 'wcgs'), "Your Store Connected with Google Sheet");
     }

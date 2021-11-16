@@ -409,7 +409,7 @@ function wcgs_verfiy_connected($sheet_authcode){
 
 function wcgs_is_connected(){
     $return = false;
-    $result = get_option('wcgs_wcgs_connected');
+    $result = get_option('wcgs_wcgs_connected', false);
     if( $result ){
         $return = true;
     }
@@ -434,7 +434,7 @@ function wcgs_get_product_meta_col_value($product, $col_key){
 
 function wcgs_is_service_connect() {
     
-    $service_conn = get_option('wcgs_token', true);
+    $service_conn = get_option('wcgs_service_connect', false);
     return $service_conn;
 }
 

@@ -224,6 +224,10 @@ function wcgs_connect_store($request) {
         wp_send_json_error(__("Sorry, but your AuthCode is not valid", 'wcgs'));
     }
     
+    if( ! wcgs_is_service_connect() ) {
+        wp_send_json_error(__("Connection failed, make sure you have shared your connected Google Sheet with the following email: \r\n\r\n google-sync-service-account-2@lateral-array-290609.iam.gserviceaccount.com", 'wcgs'));
+    }
+    
     // wcgs_log($data); exit;
     $wcgs_sheet = new WCGS_Sheet();
     $wcgs_sheet->update($data);

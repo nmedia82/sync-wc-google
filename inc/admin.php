@@ -28,12 +28,13 @@ function wcgs_settings_tab(){
     
     do_action('wcgs_before_sync_wrapper', $gs);
     
-    if( wcgs_is_service_connect() ) {
+    if( ! wcgs_is_service_connect() ) {
         printf(__('<a class="button button-primary wcgs-sync-btn" href="#">%s</a>','wcgs'), "Verify Connection");
     } else {
         printf(__('<p class="wcgs-connected">%s</p>', 'wcgs'), "Your Store Connected with Google Sheet");
     }
 
+    echo '<div id="wcgs_working"></div>';
     
     $video_guide_url  = 'https://youtu.be/3blqpP2Zvqg';
     $wcgs_demo_v3     = 'https://docs.google.com/spreadsheets/d/1JI02CBDVlPffSzgmLvSRx_zmB_4fPbQwpd2_cz_FYzw/edit?usp=sharing';

@@ -13,10 +13,17 @@ function wcgs_check_service_connect(){
     }
     
     $gs = new WCGS_APIConnect();
-    if( $gs -> is_connected() ){
+    $info = $gs->getSheetInfo();
+    if( !is_wp_error($info) ) {
+        update_option('wcgs_service_connect', true);
         wp_send_json_success('Excellent, Connection Ok.', 'wcgs');
     } else {
-        wp_send_json_error("Fail to connect, make sure you have shared your sheet with google-sync-service-account-2@lateral-array-290609.iam.gserviceaccount.com", 'wcgs');
+        delete_option('wcgs_service_connect');
+        $message = $info->get_error_message();
+        if( $info->get_error_code() == 'gs_connection_error' ) {
+            $message = __('Connection failed, make sure you have shared your connected Google Sheet with this email google-sync-service-account-2@lateral-array-290609.iam.gserviceaccount.com', 'wcgs');
+        }
+        wp_send_json_error($message);
     }
 }
 

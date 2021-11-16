@@ -7,129 +7,31 @@ require WCGS_PATH . '/lib/googleclient/vendor/autoload.php';
 
 class WCGS_APIConnect {
     
+    static $cred_file;
     function __construct() {
         
         // Get the API client and construct the service object.
         // $service = new Google_Service_Sheets($client);
         
+        self::$cred_file = WCGS_PATH.'/quickconnect/service.json';
+        
         $debug = false;
         if( $debug ) {
-            delete_option('wcgs_token');
+            delete_option('wcgs_service_connect');
         }
         
         $gs_sheet_id = wcgs_get_option('wcgs_googlesheet_id');
-        $this->auth_link = '';
-        $this->need_auth = false;
         
-        if( $this->getClient() !== null ) {
-            $this->client = $this->getClient();
-        }else{
-            delete_option('wcgs_token');
-        }
-            
         $this->sheet_id = $gs_sheet_id;
-        // $this->sheet_id = '17uEHwuto1CfmXC9J0GMqPkZXtaCga7UCIaVxgAiZihs'; // NKB Products
-        // $this->sheet_id = '1sA55ZG3uo8JLr8eKyDkim0B2QcC1OtVVr26zufW0Fwo'; // Example GS
-        // $this->sheet_id = '17uEHwuto1CfmXC9J0GMqPkZXtaCga7UCIaVxgAiZihs'; // NKB Product
-    }
-    
-    private function save_token($token){
-        update_option('wcgs_token', $token);
-    }
-    
-    private function get_token(){
-        $token = get_option('wcgs_token');
-        return $token;
-    }
-    
-    private function delete_token(){
-        delete_option('wcgs_token');
-    }
-    
-    function getClient($authCode=null)
-    {
-        try{
-            
-            $client = $this->get_google_client();
-            $client->setApplicationName('GoogleSync-WooCommerce');
-            // FullAccess
-            $client->setScopes(Google_Service_Sheets::SPREADSHEETS);
-            
-            
-            // QuickConnect since version 5.0
-            if( file_exists(WCGS_PATH.'/quickconnect/service.json')){
-                $gs_credentials = WCGS_PATH.'/quickconnect/service.json';
-            }else {
-                $gs_credentials = wcgs_get_option('wcgs_google_credential');
-                $gs_credentials = json_decode($gs_credentials, true);
-            // $gs_redirect_uri = wcgs_get_option('wcgs_redirect_url');
-            }
-            
-            $client->setAuthConfig( $gs_credentials );
-            $client->setAccessType ("offline");
-            $client->setApprovalPrompt ("force");
-            // $client->setRedirectUri($gs_redirect_uri);
-            // $client->setPrompt('select_account consent');
         
-            // Load previously authorized token from a file, if it exists.
-            // The file token.json stores the user's access and refresh tokens, and is
-            // created automatically when the authorization flow completes for the first
-            // time.
-            // var_dump($this->get_token());
-            if ($token = $this->get_token()) {
-                $accessToken = json_decode($token, true);
-                $client->setAccessToken($accessToken);
-            }
-        
-            // If there is no previous token or it's expired.
-            if ($client->isAccessTokenExpired()) {
-                // Refresh the token if possible, else fetch a new one.
-                // var_dump($client->getRefreshToken());
-                if ($client->getRefreshToken()) {
-                    $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-                } else {
-                    // Request authorization from the user.
-                    
-                    if( $authCode ) {
-                        $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
-                        $client->setAccessToken($accessToken);
-                        
-                        // Check to see if there was an error.
-                        if (array_key_exists('error', $accessToken)) {
-                            throw new Exception(join(', ', $accessToken));
-                        }
-                        
-                        $this->save_token( json_encode($accessToken) );
-                    } else {
-                        $this->delete_token();
-                    }
-                }
-            }
-            
-            delete_transient("wcgs_client_error_notices");
-            return $client;
-        }catch (\Exception $e)
-        {
-            set_transient("wcgs_client_error_notices", $this->parse_message($e), 30);
-        }
     }
     
-    
-    function is_connected() {
-        
-        $token = $this->get_token();
-        return $token == null ? false : true;
-    }
-    
-    function setSheetInfo() {
+    function getSheetInfo() {
         
         try{
             
             $service = $this->get_google_service();
 
-            // Prints the names and majors of students in a sample spreadsheet:
-            // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-            // $spreadsheetId = '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms';
             $spreadsheet_info = $service->spreadsheets->get($this->sheet_id);
             
             $gs_info = array();
@@ -140,11 +42,13 @@ class WCGS_APIConnect {
             }
         
         update_option('wcgs_sheets_info', $gs_info);
+        return $gs_info;
             
         }catch (\Exception $e)
         {
             // wcgs_pa($e);
-            set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
+            $err = self::parse_message($e);
+            return new WP_Error( 'gs_connection_error', $err['message'] );
         }
         
     }
@@ -362,7 +266,7 @@ class WCGS_APIConnect {
         return $result;
     }
     
-    function get_google_client(){
+    static function get_google_client(){
         
         
         if( ! class_exists('Google_Client') ) {
@@ -374,11 +278,19 @@ class WCGS_APIConnect {
     
     function get_google_service(){
         
-        if( ! $this->client ) {
-            $err['error']['message'] = __('You need to connect your Google Account.', 'wcgs');
-            throw new Exception(json_encode($err));
+        try{
+            
+            $client = self::get_google_client();
+            $client->setApplicationName('GoogleSync-WooCommerce');
+            // FullAccess
+            $client->setScopes(Google_Service_Sheets::SPREADSHEETS);
+            $client->setAuthConfig( self::$cred_file );
+            return new Google_Service_Sheets($client);
+        }catch (\Exception $e)
+        {
+            $err = self::parse_message($e);
+            return new WP_Error( 'gs_client_error', $err['message'] );
         }
-        return new Google_Service_Sheets($this->client);
     }
     
     

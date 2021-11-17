@@ -48,12 +48,7 @@ function wcgs_settings_tab(){
     }
     
     $desc .= sprintf(__('<a target="_blank" href="%s">Video Tutorial</a>', 'wcgs'), $video_guide_url);
-    
-    // if( $sheet_id = get_option('wcgs_googlesheet_id') ) {
-    //   $wcgs_connected_sheet = "https://docs.google.com/spreadsheets/d/{$sheet_id}/edit?usp=sharing";    
-    //   $desc .= sprintf(__(' | <a target="_blank" href="%s">Connected Sheet</a>', 'wcgs'), $wcgs_connected_sheet);
-    // }
-    
+
     printf(__('<p class="wcgs-connected-desc">%s</p>', 'wcgs'), $desc);
      
     echo '</div>';

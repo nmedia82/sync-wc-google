@@ -21,7 +21,7 @@ function wcgs_check_service_connect(){
         delete_option('wcgs_service_connect');
         $message = $info->get_error_message();
         if( $info->get_error_code() == 'gs_connection_error' ) {
-            $message = __('Connection failed, make sure you have shared your connected Google Sheet with this email google-sync-service-account-2@lateral-array-290609.iam.gserviceaccount.com', 'wcgs');
+            $message = __('Connection failed, make sure you have shared your connected Google Sheet with following email <br><br> google-sync-service-account-2@lateral-array-290609.iam.gserviceaccount.com', 'wcgs');
         }
         wp_send_json_error($message);
     }

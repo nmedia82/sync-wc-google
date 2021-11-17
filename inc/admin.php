@@ -17,7 +17,7 @@ function wcgs_settings_tab(){
     
     $wcgs_googlesheet_id = wcgs_get_option('wcgs_googlesheet_id');
     $wcgs_imports_limit = wcgs_get_option('wcgs_imports_limit');
-    $wcgs_redirect_url = get_rest_url(null, 'nkb/v1/auth');
+    $wcgs_demo_sheet     = 'https://docs.google.com/spreadsheets/d/1TFmZunnVr__BAV9bX6f_D5kWdshyFPSBxhb5DyYbU0g/edit?usp=sharing';
     
     wp_enqueue_script('wcgs-js', WCGS_URL.'/js/wcgs.js', ['jquery'], WCGS_VERSION, true );
     wp_enqueue_style('wcgs-style', WCGS_URL.'/css/wcgs.css' );
@@ -28,7 +28,10 @@ function wcgs_settings_tab(){
     
     do_action('wcgs_before_sync_wrapper', $gs);
     
-    if( ! wcgs_is_service_connect() ) {
+    if( ! $wcgs_googlesheet_id ) {
+        printf(__('<a target="_blank" class="button button-primary wcgs-sheet-missing-btn" href="%s">%s</a>','wcgs'), $wcgs_demo_sheet, "Clone Sheet");
+    }
+    elseif( ! wcgs_is_service_connect() ) {
         printf(__('<a class="button button-primary wcgs-sync-btn" href="#">%s</a>','wcgs'), "Verify Connection");
     } else {
         printf(__('<p class="wcgs-connected">%s</p>', 'wcgs'), "Your Store Connected with Google Sheet");
@@ -37,19 +40,14 @@ function wcgs_settings_tab(){
     echo '<div id="wcgs_working"></div>';
     
     $video_guide_url  = 'https://youtu.be/3blqpP2Zvqg';
-    $wcgs_demo_v3     = 'https://docs.google.com/spreadsheets/d/1JI02CBDVlPffSzgmLvSRx_zmB_4fPbQwpd2_cz_FYzw/edit?usp=sharing';
-    $wcgs_demo_v4     = 'https://docs.google.com/spreadsheets/d/1TFmZunnVr__BAV9bX6f_D5kWdshyFPSBxhb5DyYbU0g/edit?usp=sharing';
+    
     $desc = sprintf(__('<a target="_blank" href="%s">Video Tutorial</a>', 'wcgs'), $video_guide_url);
-    $reconnect = admin_url( 'admin-post.php?action=wcgs_remove_token' );
-    // $desc .= sprintf(__(' | <a target="_blank" href="%s">GoogleSheet V3 Template</a>', 'wcgs'), $wcgs_demo_v3);
-    $desc .= sprintf(__(' | <a target="_blank" href="%s">GoogleSheet Template</a>', 'wcgs'), $wcgs_demo_v4);
-    if( get_option('wcgs_token') ) {
-        $desc .= sprintf(__(' | <a href="%s">Re-Connect</a>', 'wcgs'), $reconnect);
-    }
-    if( $sheet_id = get_option('wcgs_googlesheet_id') ) {
-      $wcgs_connected_sheet = "https://docs.google.com/spreadsheets/d/{$sheet_id}/edit?usp=sharing";    
-      $desc .= sprintf(__(' | <a target="_blank" href="%s">Connected Sheet</a>', 'wcgs'), $wcgs_connected_sheet);
-    }
+    // $reconnect = admin_url( 'admin-post.php?action=wcgs_remove_token' );
+    // $desc .= sprintf(__(' | <a target="_blank" href="%s">GoogleSheet Template</a>', 'wcgs'), $wcgs_demo_sheet);
+    // if( $sheet_id = get_option('wcgs_googlesheet_id') ) {
+    //   $wcgs_connected_sheet = "https://docs.google.com/spreadsheets/d/{$sheet_id}/edit?usp=sharing";    
+    //   $desc .= sprintf(__(' | <a target="_blank" href="%s">Connected Sheet</a>', 'wcgs'), $wcgs_connected_sheet);
+    // }
     
      printf(__('<p class="wcgs-connected-desc">%s</p>', 'wcgs'), $desc);
      

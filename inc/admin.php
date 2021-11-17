@@ -39,8 +39,8 @@ function wcgs_settings_tab(){
 
     echo '<div id="wcgs_working"></div>';
     
-    $video_connect_url  = 'https://youtu.be/pNdxG_otQ5c';
-    $video_guide_url  = 'https://youtu.be/3blqpP2Zvqg';
+    $video_connect_url  = 'https://youtu.be/7J2H92wfOus';
+    $video_guide_url  = 'https://youtu.be/pNdxG_otQ5c';
     
     $desc = '';
     if( ! wcgs_is_service_connect() ) {

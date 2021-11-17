@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 5.8.1
 Requires PHP: 5.6
-Stable tag: 5.2.1
+Stable tag: 6.0
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,8 @@ Now your store is just a Single Click away to get populated with this Amazing pl
 = How It Works? =
 [youtube https://youtu.be/pNdxG_otQ5c]
 
+= Version 6.0 Connection Settings =
+[youtube https://youtu.be/7J2H92wfOus]
 
 = Features =
 * One Click Import
@@ -56,6 +58,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 6.0, October 13, 2021 =
+* Feature: [Now sheet will connect is much easier with Google Service Account](https://www.youtube.com/watch?v=7J2H92wfOus)
 = 5.2.1, October 13, 2021 =
 * Bug fixed: Fetch products issue fixed when some fields has NULL values
 = 5.2, October 13, 2021 =

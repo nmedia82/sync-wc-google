@@ -15,7 +15,7 @@ class WCGS_APIConnect {
         
         self::$cred_file = WCGS_PATH.'/quickconnect/service.json';
         
-        $debug = false;
+        $debug = true;
         if( $debug ) {
             delete_option('wcgs_service_connect');
         }

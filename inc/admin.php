@@ -41,6 +41,7 @@ function wcgs_settings_tab(){
     
     $video_connect_url  = 'https://youtu.be/7J2H92wfOus';
     $video_guide_url  = 'https://youtu.be/pNdxG_otQ5c';
+    $wcgs_demo_v5     = 'https://docs.google.com/spreadsheets/d/1TFmZunnVr__BAV9bX6f_D5kWdshyFPSBxhb5DyYbU0g/edit?usp=sharing';
     
     $desc = '';
     if( ! wcgs_is_service_connect() ) {
@@ -48,6 +49,11 @@ function wcgs_settings_tab(){
     }
     
     $desc .= sprintf(__('<a target="_blank" href="%s">Video Tutorial</a>', 'wcgs'), $video_guide_url);
+    $desc .= sprintf(__(' | <a target="_blank" href="%s">GoogleSheet Template</a>', 'wcgs'), $wcgs_demo_v5);
+    if( $sheet_id = get_option('wcgs_googlesheet_id') ) {
+      $wcgs_connected_sheet = "https://docs.google.com/spreadsheets/d/{$sheet_id}/edit?usp=sharing";    
+      $desc .= sprintf(__(' | <a target="_blank" href="%s">Connected Sheet</a>', 'wcgs'), $wcgs_connected_sheet);
+    }
 
     printf(__('<p class="wcgs-connected-desc">%s</p>', 'wcgs'), $desc);
      

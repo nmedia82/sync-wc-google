@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 5.8.1
 Requires PHP: 5.6
-Stable tag: 6.1
+Stable tag: 6.2
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 6.3 - December 2 2021 =
+* Tweaks: Some links added in admin side
 = 6.1 - November 17 2021 =
 * Connection issue fixed
 = 6.0, October 13, 2021 =

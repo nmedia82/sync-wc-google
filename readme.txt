@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 5.8.1
 Requires PHP: 5.6
-Stable tag: 6.2
+Stable tag: 6.3
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,7 +58,9 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
-= 6.3 - December 2 2021 =
+= 6.3 - December 20 2021 =
+* Feature: Now product status can be set for syncback (exporting to sheet) as pro feature
+= 6.2 - December 2 2021 =
 * Tweaks: Some links added in admin side
 = 6.1 - November 17 2021 =
 * Connection issue fixed

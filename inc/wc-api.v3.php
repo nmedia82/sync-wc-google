@@ -10,6 +10,12 @@ class WCGS_WC_API_V3 {
     // Adding variations into products lists
     add_filter('wcgs_products_list_before_syncback', array($this, 'add_variations'), 11, 2);
     add_filter('wcgs_products_list_before_syncback', array($this, 'add_meta_columns'), 21, 2);
+    
+    // Meta query extends to fetch the products for syncback chunking
+    $syncback_setting = get_option('wcgs_syncback_settings');
+    if( $syncback_setting == 'not_linked' ){
+      add_filter( 'woocommerce_product_data_store_cpt_get_products_query', 'wcgs_product_meta_query', 10, 3 );
+    }
       
   }
   
@@ -394,22 +400,8 @@ class WCGS_WC_API_V3 {
       $sheet_name = $sheet_info['sheet_name'];
       $chunk_size = $sheet_info['chunk_size'];
       
-      global $wpdb;
-      $qry = "SELECT DISTINCT ID FROM {$wpdb->prefix}posts WHERE";
-      $qry .= " post_type = 'product'";
-      $qry .= " AND post_status = 'publish'";
-      $syncback_setting = get_option('wcgs_syncback_settings');
-      if( $syncback_setting == 'not_linked' ){
+      $include_products = wcgs_get_syncback_product_ids();
           
-          $qry .= " AND NOT EXISTS (SELECT * from {$wpdb->prefix}postmeta where {$wpdb->prefix}postmeta.post_id = {$wpdb->prefix}posts.ID AND {$wpdb->prefix}postmeta.meta_key = 'wcgs_row_id');";
-      }
-      
-      $products_notsync = $wpdb->get_results($qry, ARRAY_N);
-      $include_products = array_map(function($item){ return $item[0]; }, $products_notsync);
-      // wcgs_log($include_products); exit;
-          
-      // $products_notsync = get_posts($args);
-      
       $response = [];
       
       if($include_products) {
@@ -429,5 +421,5 @@ class WCGS_WC_API_V3 {
           
       return $response;
   }
-
+  
 }

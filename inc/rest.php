@@ -399,7 +399,6 @@ function wcgs_create_chunks($request) {
     $wcapi = new WCGS_WC_API_V3();
     $result = $wcapi->create_product_chunks($data);
     
-    
     wp_send_json_success($result);
 }
 

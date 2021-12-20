@@ -149,56 +149,6 @@ function wcgs_array_settings() {
 			'id'   => 'wcgs_google_creds',
 		),
         
-//         array(
-// 			'type' => 'sectionend',
-// 			'id'   => 'wcgs_woocommerce_creds',
-// 		),
-		
-// 		array(
-// 			'title' => __('General Settings', 'wcgs'),
-// 			'type'  => 'title',
-// 			'desc'	=> __(''),
-// 			'id'    => 'wcgs_woocommerce_gs',
-// 		),
-		
-// 		array(
-//             'title'             => __( 'Imports Limit', 'wcgs' ),
-//             'type'              => 'select',
-//             'label'             => __( 'Button', 'wcgs' ),
-//             'default'           => '20',
-//             'options' => array( '20'=>__('20','wcgs'),
-//                                 '50'=> __('50','wcgs'),
-                              
-//                             ),
-//             'id'       => 'wcgs_imports_limit',
-//             'desc'       => __( 'Set product import limit at a single sync.', 'wcgs' ),
-//             'desc_tip'      => true,
-//         ),
-		
-// 		array(
-//             'title'             => __( 'Images Import', 'wcgs' ),
-//             'type'              => 'select',
-//             'label'             => __( 'Button', 'wcgs' ),
-//             'default'           => 'id',
-//             'options' => array( 'id'=>__('Image ID','wcgs'),
-//                                 'src'=> __('Image URL','wcgs'),
-                              
-//                             ),
-//             'id'       => 'wcgs_image_import',
-//             'desc'       => __( 'Set image import type using existing Id or external url', 'wcgs' ),
-//             'desc_tip'      => true,
-//         ),
-        
-//         array(
-//             'title'		=> __( 'Chunks size', 'wcgs' ),
-//             'type'		=> 'number',
-//             'desc'		=> __( 'Set chunk size to import/export larger group of data', 'wcgs' ),
-//             'default'	=> __('30', 'wcgs'),
-//             'id'		=> 'wcgs_wc_chunk_size',
-//             'css'   	=> 'min-width:300px;',
-// 			'desc_tip'	=> true,
-//         ),
-        
 		array(
 			'type' => 'sectionend',
 			'id'   => 'wcgs_woocommerce_gs',
@@ -444,4 +394,63 @@ function wcgs_quick_connect_url() {
     $args = ['request_from' => get_bloginfo('url'), 'redirect_url'=>get_rest_url(null, 'wcgs/v1/quickconnect')];
     $url = add_query_arg($args, WCGS_QCONN_URL);
     return $url;
+}
+
+function wcgs_get_syncback_product_ids() {
+    
+    $product_status = get_option('wcgs_syncback_status', ['publish']);
+    $include_products = [];
+    
+    // better to use wp_query method, as wc_get_products not working with status=>draft
+    if( apply_filters('wcgs_use_wp_query', true) ) {
+    
+        global $wpdb;
+        $qry = "SELECT DISTINCT ID FROM {$wpdb->prefix}posts WHERE";
+        $qry .= " post_type = 'product'";
+        // product status
+        // adding single qoute
+        $product_status = array_map(function($status){
+            return "'{$status}'";
+        }, $product_status);
+        
+        $product_status = implode(",",$product_status);
+        $qry .= " AND post_status IN ({$product_status})";
+        $syncback_setting = get_option('wcgs_syncback_settings');
+        if( $syncback_setting == 'not_linked' ){
+            
+            $qry .= " AND NOT EXISTS (SELECT * from {$wpdb->prefix}postmeta where {$wpdb->prefix}postmeta.post_id = {$wpdb->prefix}posts.ID AND {$wpdb->prefix}postmeta.meta_key = 'wcgs_row_id');";
+        }
+        
+        $products_notsync = $wpdb->get_results($qry, ARRAY_N);
+        $include_products = array_map(function($item){ return $item[0]; }, $products_notsync);
+        
+    } else {
+    
+        // Get product ids.
+        $args = array(
+          'return'  => 'ids',
+          'orderby' => 'id',
+          'order'   => 'ASC',  
+          'limit'   => -1,
+          'status'  => $product_status,
+        );
+        
+        
+        $include_products = wc_get_products( $args );
+    }
+    
+    // wcgs_log($include_products); exit;
+    return apply_filters('wcgs_get_syncback_product_ids', $include_products);
+  
+}
+
+// Meta query extends to fetch the products for syncback chunking
+function wcgs_product_meta_query( $wp_query_args, $query_vars, $data_store_cpt ) {
+  $meta_key = 'wcgs_row_id'; // The custom meta_key
+
+  $wp_query_args['meta_query'][] = array(
+      'key'     => $meta_key,
+      'compare' => 'NOT EXISTS'
+  );
+  return $wp_query_args;
 }

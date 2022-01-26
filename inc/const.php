@@ -108,3 +108,11 @@ function wcgs_fields_format_required() {
     return apply_filters('wcgs_fields_format_required', 
                         ['categories'=>'array','tags'=>'array','images'=>'array', 'attributes'=>'array','image'=>'array','meta_data'=>'array']);
 }
+
+// Field with integer arrays
+function wcgs_fields_integer_array() {
+    
+    return apply_filters('wcgs_fields_integer_array', 
+                        ['variations','grouped_products','cross_sell_ids','upsell_ids','related_ids']
+                        );
+}

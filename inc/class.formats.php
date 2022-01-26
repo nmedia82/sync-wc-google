@@ -8,10 +8,9 @@ class WCGS_Format {
     function __construct() {
         
         add_filter('wcgs_sync_data_products_before_processing', array($this, 'format_data_products'), 11, 2);
-        add_filter('wcgs_products_data_categories', array($this, 'product_categories'), 99, 2);
-        add_filter('wcgs_products_data_tags', array($this, 'product_tags'), 99, 2);
         add_filter('wcgs_products_data_attributes', array($this, 'product_attributes'), 99, 2);
-        add_filter('wcgs_products_data_variations', array($this, 'product_variations'), 99, 2);
+        add_filter('wcgs_products_data_categories', array($this, 'product_extract_id_from_array'), 99, 2);
+        add_filter('wcgs_products_data_tags', array($this, 'product_extract_id_from_array'), 99, 2);
         add_filter('wcgs_products_data_image', array($this, 'variation_image'), 99, 2);
         add_filter('wcgs_products_data_images', array($this, 'product_images'), 99, 2);
         add_filter('wcgs_products_data_meta_data', array($this, 'product_meta_data'), 99, 2);
@@ -37,6 +36,14 @@ class WCGS_Format {
                 if( !isset($item[$key]) ) continue;
                 
                 $item[$key] = apply_filters("wcgs_{$sheet_name}_data_{$key}", $item[$key], $item);
+            }
+            
+            // since version 6.2 integer array values will be parsed here
+            foreach(wcgs_fields_integer_array() as $key){
+                
+                if( !isset($item[$key]) ) continue;
+                
+                $item[$key] = $this->parsing_integer_sting_to_array($item[$key], $item);
             }
             
             // If row_meta column is not set then create one
@@ -93,31 +100,33 @@ class WCGS_Format {
         return $sheet_data;
     }
     
-    // Categories
-    function product_categories($categories, $row){
+    // Categories|Tags Sheet ==> Site
+    function product_extract_id_from_array($value, $row){
         
-        // var_dump($categories);
-        if( ! $categories ) return $categories;
-        $make_array = explode('|', $categories);
-        $categories = array_map(function ($category) {
-            $cat['id'] = $category;
-            return $cat;
+        // var_dump($value);
+        if( ! $value ) return $value;
+        $make_array = explode('|', $value);
+        $value = array_map(function ($v) {
+            $item['id'] = $v;
+            return $item;
         }, $make_array);
-        return $categories;
+        return $value;
     }
     
-    // Tags
-    function product_tags($tags, $row){
+    // Parsing value from string to array for all integers
+    function parsing_integer_sting_to_array($value, $row){
         
-        if( ! $tags ) return $tags;
-        $make_array = explode('|', $tags);
-        $tags = array_map(function ($category) {
-            $cat['id'] = $category;
-            return $cat;
+        // var_dump($value);
+        if( ! $value ) return $value;
+        $make_array = explode('|', $value);
+        $value = array_map(function ($v) {
+            $item['id'] = $v;
+            return $item;
         }, $make_array);
-        // wcgs_pa($tags);
-        return $tags;
+        return $value;
     }
+    
+    
     // Attributes
     function product_attributes($attributes, $row){
         
@@ -139,12 +148,12 @@ class WCGS_Format {
     }
     
     // Variations
-    function product_variations($variations, $row){
+    // function product_variations($variations, $row){
         
-        if( ! $variations ) return $variations;
-        $variations = json_decode($variations, true);
-        return $variations;
-    }
+    //     if( ! $variations ) return $variations;
+    //     $variations = json_decode($variations, true);
+    //     return $variations;
+    // }
     
     // Image (variations)
     function variation_image($image, $row){
@@ -212,6 +221,13 @@ class WCGS_Format {
                 $value = apply_filters("wcgs_products_syncback_value_{$key}", $value, $key);
                 
                 $product[$key] = $value;
+            }
+            
+            // since version 6.2 integer array values will be parsed here
+            foreach(wcgs_fields_integer_array() as $key){
+                if( !isset($product[$key]) || !is_array($product[$key]) ) continue;
+                
+                $product[$key] = implode('|', $product[$key]);
             }
             
             // Check if sync column meta exists

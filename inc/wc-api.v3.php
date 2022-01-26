@@ -206,7 +206,7 @@ class WCGS_WC_API_V3 {
     $include_products = [];
     if( isset($sheet_info['request_args']['chunk']) ) {
         $chunk      = intval($sheet_info['request_args']['chunk']);
-        $saved_chunked = get_transient("wcgs_{$sheet_name}_syncback_chunk");
+        $saved_chunked = get_option("wcgs_{$sheet_name}_syncback_chunk");
     
         $response = array();
         if( !isset($saved_chunked[$chunk]) ) {
@@ -223,6 +223,10 @@ class WCGS_WC_API_V3 {
     }
      
     // wcgs_log($include_products);
+    
+    if( count($include_products) === 0 ) {
+        return new WP_Error( 'no_products_in_chunk', __( "Oops, No products found for sync.", "wcgs" ) );
+    }
     
     $items = [];
     
@@ -407,7 +411,7 @@ class WCGS_WC_API_V3 {
       if($include_products) {
           if( !$include_products ) return null;
           $chunked_array = array_chunk($include_products, $chunk_size, true);
-          set_transient("wcgs_{$sheet_name}_syncback_chunk", $chunked_array);
+          update_option("wcgs_{$sheet_name}_syncback_chunk", $chunked_array);
           // wcgs_pa($chunked_array);
           
           $total_chunks = count($chunked_array);

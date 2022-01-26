@@ -285,8 +285,12 @@ function wcgs_fetch_products($request) {
     
     $wcapi = new WCGS_WC_API_V3();
     $result = $wcapi->get_products_for_syncback($data);
-    // wcgs_log_dump($result);
+    // wcgs_log($result);
     // exit;
+    
+    if( is_wp_error($result) ) {
+        wp_send_json_error($result->get_error_message());
+    }
     
     $total_rows=$total_create=$total_update=0;
     
@@ -335,13 +339,8 @@ function wcgs_fetch_products($request) {
     
     }
     
-    
-    if( is_wp_error($result) ) {
-        wp_send_json_error($result->get_error_message());
-    }else{
-        // wcgs_log($result); exit;
-        wp_send_json_success($result);
-    }
+    // wcgs_log($result); exit;
+    wp_send_json_success($result);
 }
 
 // Fetch categories from store

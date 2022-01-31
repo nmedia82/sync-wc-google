@@ -373,10 +373,11 @@ function wcgs_get_product_meta_col_value($product, $col_key){
       return $m->key == $col_key;
     });
     
+    // resetting index
+    $meta_cols = array_values($meta_cols);
     $value_found = '';
     if(isset($meta_cols[0])){
         $value_found = is_array($meta_cols[0]->value) ? json_encode($meta_cols[0]->value) : $meta_cols[0]->value;
-        // $value_found = $meta_cols[0]->value;
     }
     
     return $value_found;

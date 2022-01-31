@@ -222,6 +222,8 @@ class WCGS_WC_API_V3 {
         $include_products = wcgs_get_non_linked_products_ids();
     }
      
+    // debug
+    $include_products = [4955];
     // wcgs_log($include_products);
     
     if( count($include_products) === 0 ) {
@@ -381,7 +383,6 @@ class WCGS_WC_API_V3 {
       
         $products = array_map(function($p) use ($meta_column_found){
         
-        $p_meta = $p['meta_data'];
         $meta_cols = [];
         foreach($meta_column_found as $meta_col){
           

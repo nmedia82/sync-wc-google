@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 5.8.1
 Requires PHP: 5.6
-Stable tag: 6.5
+Stable tag: 6.6
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 6.2 - February 1, 2022 =
+* Bug fixed: [Product fetch issue fixed in PRO version](https://clients.najeebmedia.com/forums/topic/products-not-fetching-on-fetch-products/)
 = 6.5 - January 31, 2022 =
 * Bug fixed: [Meta data export issue fixed](https://clients.najeebmedia.com/forums/topic/googlesync-transferring-meta-data-to-googlesheet-from-wordpress/)
 = 6.4 - January 26, 2022 =

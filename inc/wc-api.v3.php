@@ -222,8 +222,6 @@ class WCGS_WC_API_V3 {
         $include_products = wcgs_get_non_linked_products_ids();
     }
      
-    // debug
-    $include_products = [4955];
     // wcgs_log($include_products);
     
     if( count($include_products) === 0 ) {

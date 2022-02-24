@@ -59,6 +59,7 @@ Yes
 
 == Changelog ==
 = 6.7 - February 21, 2022 =
+* Bug fixed: Dimensions update issue fixed
 * Bug fixed: Fetch issue fixed when the dimensions are added
 = 6.6 - February 1, 2022 =
 * Bug fixed: [Product fetch issue fixed in PRO version](https://clients.najeebmedia.com/forums/topic/products-not-fetching-on-fetch-products/)

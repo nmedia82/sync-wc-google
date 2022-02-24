@@ -13,6 +13,7 @@ class WCGS_Format {
         add_filter('wcgs_products_data_tags', array($this, 'product_extract_id_from_array'), 99, 2);
         add_filter('wcgs_products_data_image', array($this, 'variation_image'), 99, 2);
         add_filter('wcgs_products_data_images', array($this, 'product_images'), 99, 2);
+        add_filter('wcgs_products_data_dimensions', array($this, 'product_dimensions'), 99, 2);
         add_filter('wcgs_products_data_meta_data', array($this, 'product_meta_data'), 99, 2);
         
         if( wcgs_pro_is_installed() ) {
@@ -189,6 +190,14 @@ class WCGS_Format {
         $image_remake[$key] = $image;
         
         return $image_remake;
+    }
+    
+    // Dimensions
+    function product_dimensions($dimensions, $row){
+        
+        if( $dimensions == '' ) return $dimensions;
+        $dimensions = json_decode($dimensions, true);
+        return $dimensions;
     }
     
     // Product Meta Data

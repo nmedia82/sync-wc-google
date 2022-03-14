@@ -194,11 +194,9 @@ function wcgs_sync_chunk_products($send_json=true, $chunk=null) {
     return $send_json ? wp_send_json($response) : $response;
 }
 
-// add_action('wp_ajax_wcgs_sync_data_products', 'wcgs_sync_test_rest', 99, 1);
-function wcgs_sync_test_rest() {
+add_action('wp_ajax_wcgs_disconnect', 'wcgs_disconnect_sheet', 99, 1);
+function wcgs_disconnect_sheet() {
     
-    $request = new WP_REST_Request( 'GET', '/wc/v3/batch' );
-    $request->set_query_params( [ 'per_page' => 12 ] );
-    $response = rest_do_request( $request );
-    wp_send_json($response->get_headers());
+    delete_option('wcgs_service_connect');
+    exit;
 }

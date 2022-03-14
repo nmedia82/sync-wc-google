@@ -46,6 +46,8 @@ function wcgs_settings_tab(){
     $desc = '';
     if( ! wcgs_is_service_connect() ) {
         $desc .= sprintf(__('<a target="_blank" href="%s">Connection Guide</a> | ', 'wcgs'), $video_connect_url);
+    } else {
+        $desc .= sprintf(__('<a target="_blank" id="wcgs-disconnect" href="#">%s</a> | ', 'wcgs'), 'Disconnect');
     }
     
     $desc .= sprintf(__('<a target="_blank" href="%s">Video Tutorial</a>', 'wcgs'), $video_guide_url);

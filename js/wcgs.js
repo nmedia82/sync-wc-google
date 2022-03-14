@@ -3,6 +3,17 @@ jQuery(function($) {
     // const { GoogleSpreadsheet } = require('google-spreadsheet');
 
     const work_div = $("#wcgs_working");
+    
+    $(document).on('click', '#wcgs-disconnect', function(e) {
+        e.preventDefault();
+        const a = confirm('Are you sure to disconnect current connection?');
+        if( !a ) return;
+        
+        const data = { 'action': `wcgs_disconnect` };
+        $.post(ajaxurl, data, function(response) {
+            window.location.reload();
+        });
+    })
 
     // Hide sync-back by default
     $(".wcgs-sync-back-btn").hide();

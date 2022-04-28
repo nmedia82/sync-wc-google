@@ -407,7 +407,7 @@ function wcgs_get_syncback_product_ids() {
     
         global $wpdb;
         $qry = "SELECT DISTINCT ID FROM {$wpdb->prefix}posts WHERE";
-        $qry .= " post_type = 'product'";
+        $qry .= " post_type IN ('product','product_variation')";
         // product status
         // adding single qoute
         $product_status = array_map(function($status){
@@ -421,6 +421,8 @@ function wcgs_get_syncback_product_ids() {
             
             $qry .= " AND NOT EXISTS (SELECT * from {$wpdb->prefix}postmeta where {$wpdb->prefix}postmeta.post_id = {$wpdb->prefix}posts.ID AND {$wpdb->prefix}postmeta.meta_key = 'wcgs_row_id');";
         }
+        
+        $qry = apply_filters('wcgs_chunk_query', $qry);
         
         $products_notsync = $wpdb->get_results($qry, ARRAY_N);
         $include_products = array_map(function($item){ return $item[0]; }, $products_notsync);

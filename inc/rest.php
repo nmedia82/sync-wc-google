@@ -346,6 +346,12 @@ function wcgs_fetch_products($request) {
 // Fetch categories from store
 function wcgs_fetch_categories($request) {
     
+    if( !wcgs_pro_is_installed() ) {
+        $link = 'https://najeebmedia.com/googlesync';
+        $msg = sprintf(__('Sorry, you need to update PRO version in order to use Fetch. <a target="_blank" href="%s">Buy Pro</a>', 'wcgs'), $link);
+        wp_send_json_error($msg);
+    }
+    
     $header = json_decode($request->get_param('header_data'), true);
     $header = reset($header);
     $data   = $request->get_params();
@@ -391,6 +397,12 @@ function wcgs_unlink_rows($request) {
 }
 
 function wcgs_create_chunks($request) {
+    
+    if( !wcgs_pro_is_installed() ) {
+        $link = 'https://najeebmedia.com/googlesync';
+        $msg = sprintf(__('Sorry, you need to update PRO version in order to use Fetch. <a target="_blank" href="%s">Buy Pro</a>', 'wcgs'), $link);
+        wp_send_json_error($msg);
+    }
     
     $data = $request->get_params();
     // wcgs_log($data);

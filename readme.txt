@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 5.8.1
 Requires PHP: 5.6
-Stable tag: 6.8
+Stable tag: 6.9
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 6.9 - April 28, 2022 =
+* Bug fixed: Variations were not being fetched
 = 6.8 - March 14, 2022 =
 * Feature: Disconnect with current connect feature added.
 = 6.7 - February 21, 2022 =

@@ -407,7 +407,7 @@ function wcgs_get_syncback_product_ids() {
     
         global $wpdb;
         $qry = "SELECT DISTINCT ID FROM {$wpdb->prefix}posts WHERE";
-        $qry .= " post_type IN ('product','product_variation')";
+        $qry .= " post_type = 'product'";
         // product status
         // adding single qoute
         $product_status = array_map(function($status){

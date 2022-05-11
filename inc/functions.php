@@ -457,3 +457,23 @@ function wcgs_product_meta_query( $wp_query_args, $query_vars, $data_store_cpt )
   );
   return $wp_query_args;
 }
+
+// Unlink Google Sync from products,categories
+// $sh
+function wcgs_unlink_google_sync($sheet_name){
+    
+    global $wpdb;
+    $val = 'wcgs_row_id';
+    
+    switch( $data['sheet_name'] ) {
+        case 'products':
+            $table = "{$wpdb->prefix}postmeta";
+            $wpdb->delete( $table, array( 'meta_key' => $val ) );
+        break;
+        
+        case 'categories':
+            $table = "{$wpdb->prefix}termmeta";
+            $wpdb->delete( $table, array( 'meta_key' => $val ) );
+        break;
+    }
+}

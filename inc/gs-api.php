@@ -178,7 +178,11 @@ class WCGS_APIConnect {
         {   
             // wcgs_log($this->parse_message($e));
             $err = $this->parse_message($e);
-            $msg = $err['message']." Make sure you have used same email account for GoogleSheet as you use for App Connect";
+            $msg = $err['message'];
+            if( 'INVALID_ARGUMENT' === $err['status'] ) {
+                $msg .= "\r\nPlease remove description, short_description column and try again.";
+                $msg .= "\r\nYou must clear you sheet data if any before fetch again.";
+            }
             return new WP_Error( 'gs_connection_error', $msg );
         }
         
@@ -259,7 +263,7 @@ class WCGS_APIConnect {
         }
         catch (\Exception $e)
         {   
-            wcgs_log($this->parse_message($e));
+            // wcgs_log($this->parse_message($e));
             set_transient("wcgs_admin_notices", $this->parse_message($e), 30);
         }
         
@@ -298,8 +302,10 @@ class WCGS_APIConnect {
     function parse_message($e) {
         
         $object = json_decode($e->getMessage(), true);
-        $result['message'] = isset($object['error']['message']) ? "Google Sheet API Error: ".$object['error']['message'] : '';
-        $result['class'] = 'error';
+        $result['message']  = isset($object['error']['message']) ? "Google Sheet API Error: ".$object['error']['message'] : 'Unknown Error: Make sure you have used same email account for GoogleSheet as you use for App Connect';
+        $result['code']		= isset($object['error']['code']) ? $object['error']['code'] : '';
+        $result['status']   = isset($object['error']['status']) ? $object['error']['status'] : '';
+        $result['class']    = 'error';
         return $result;
     }
     

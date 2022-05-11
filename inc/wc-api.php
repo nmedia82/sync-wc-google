@@ -604,7 +604,7 @@
                             $value = $value ? 'TRUE' : 'FALSE';
                             break;
                         case 'description':
-                            $value = apply_filters('the_conent', $value);
+                            $value = apply_filters('the_content', $value);
                             $char_count = strlen($value);
                             if( $char_count >= 45000){
                                 $value = '';

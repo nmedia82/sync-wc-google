@@ -325,6 +325,13 @@ function wcgs_fetch_products($request) {
         if( count($updatable_range) > 0 ) {
             $gs = new WCGS_APIConnect();
             $resp = $gs->update_rows_with_ranges($updatable_range);
+            
+            if( is_wp_error($resp) ) {
+                
+                // unlink wcgs_row_id from products if failed
+                wcgs_unlink_google_sync( 'products' );
+                wp_send_json_error($resp->get_error_message());
+            }
         }
         
         // wcgs_log($resp);
@@ -376,21 +383,7 @@ function wcgs_unlink_rows($request) {
     
     $data   = $request->get_params();
     // wcgs_log($data); exit;
-    global $wpdb;
-    $val = 'wcgs_row_id';
-    
-    switch( $data['sheet_name'] ) {
-        case 'products':
-            $table = "{$wpdb->prefix}postmeta";
-            $wpdb->delete( $table, array( 'meta_key' => $val ) );
-        break;
-        
-        case 'categories':
-            $table = "{$wpdb->prefix}termmeta";
-            $wpdb->delete( $table, array( 'meta_key' => $val ) );
-        break;
-    }
-    
+    wcgs_unlink_google_sync( $data['sheet_name'] );
     
     wp_send_json_success(['message'=>'All keys removed']);
     

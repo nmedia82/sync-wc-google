@@ -214,34 +214,49 @@ class WCGS_Format {
     
     // Formatting products before syncback
     function syncback_data_products($products, $sheet_info) {
+        
+        global $wpdb;
+        $qry = "SELECT post_id, meta_value from {$wpdb->prefix}postmeta where {$wpdb->prefix}postmeta.meta_key = 'wcgs_row_id'";
+        $db_results = $wpdb->get_results($qry);
+        $pid_rows = [];
+        foreach($db_results as $row){
+          $pid_rows[$row->post_id] = $row->meta_value;
+        }
+        
+        // since version 6.2 integer array values will be parsed here
+        foreach(wcgs_fields_integer_array() as $key){
+            if( !isset($product[$key]) || !is_array($product[$key]) ) continue;
+            $products = array_map(function($p) use($key){
+                $p[$key] = implode('|', $p[$key]);
+                return $p;
+            });
+        }
+        
+        foreach(wcgs_fields_format_required() as $key=>$type){
+            $key = trim($key);
+            
+            $products = array_map(function($p) use($key){
+                
+                if( isset($p[$key]) ){
+            
+                    $value = $p[$key];
+                    
+                    $value = $value === NULL ? "" : $value;
+                    $value = apply_filters("wcgs_products_syncback_value", $value, $key);
+                    $value = apply_filters("wcgs_products_syncback_value_{$key}", $value, $key);
+                    
+                    $p[$key] = $value;
+                }
+                
+                return $p;
+            }, $products);
+        }
+        
     
         $products_refined = [];
         foreach($products as $product) {
-            
-            foreach(wcgs_fields_format_required() as $key=>$type){
-                $key = trim($key);
-                
-                if( !isset($product[$key]) ) continue;
-                
-                $value = $product[$key];
-                
-                $value = $value === NULL ? "" : $value;
-                $value = apply_filters("wcgs_products_syncback_value", $value, $key);
-                $value = apply_filters("wcgs_products_syncback_value_{$key}", $value, $key);
-                
-                $product[$key] = $value;
-            }
-            
-            // since version 6.2 integer array values will be parsed here
-            foreach(wcgs_fields_integer_array() as $key){
-                if( !isset($product[$key]) || !is_array($product[$key]) ) continue;
-                
-                $product[$key] = implode('|', $product[$key]);
-            }
-            
             // Check if sync column meta exists
-            $wcgs_row_id = get_post_meta($product['id'], 'wcgs_row_id', true);
-            if( $wcgs_row_id ) {
+            if( isset($pid_rows[$product['id']]) && $wcgs_row_id = $pid_rows[$product['id']] ) {
                  $update_array = array_map( function($item) {
                     $item = $item == "" ? "" : $item;
                     return $item;
@@ -256,7 +271,7 @@ class WCGS_Format {
             }
         }
         
-        // wcgs_log_dump($products_refined); exit;
+        // wcgs_log($products_refined); exit;
         // exit;
         return $products_refined;
     }

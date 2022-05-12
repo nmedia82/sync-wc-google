@@ -59,6 +59,7 @@ Yes
 
 == Changelog ==
 = 6.10.1 - May 11, 2022 =
+* Feature: Fetch operation is optimized to make it more speedy.
 * Bug fixed: A minor bug fixed due to last udpate regarding Reset function.
 = 6.10 - May 11, 2022 =
 * Bug fixed: [Product fetch issue fixed](https://wordpress.org/support/topic/error-while-fetching-the-products-in-google-sync/)

@@ -465,7 +465,7 @@ function wcgs_unlink_google_sync($sheet_name){
     global $wpdb;
     $val = 'wcgs_row_id';
     
-    switch( $data['sheet_name'] ) {
+    switch( $sheet_name ) {
         case 'products':
             $table = "{$wpdb->prefix}postmeta";
             $wpdb->delete( $table, array( 'meta_key' => $val ) );

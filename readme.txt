@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 5.8.1
 Requires PHP: 5.6
-Stable tag: 6.10
+Stable tag: 6.10.1
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 6.10.1 - May 11, 2022 =
+* Bug fixed: A minor bug fixed due to last udpate regarding Reset function.
 = 6.10 - May 11, 2022 =
 * Bug fixed: [Product fetch issue fixed](https://wordpress.org/support/topic/error-while-fetching-the-products-in-google-sync/)
 = 6.9 - April 28, 2022 =

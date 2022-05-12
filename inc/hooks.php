@@ -99,7 +99,7 @@ function wcgs_update_gsheet_create_cat($term_id, $tt_id){
 add_action( "edited_product_cat", "wcgs_update_gsheet_edit_cat", 99, 2);
 function wcgs_update_gsheet_edit_cat($term_id, $tt_id){
     
-    wcgs_log($_POST);
+    // wcgs_log($_POST);
     if( ! array_key_exists ('action', $_POST) ) return '';
     if ( $_POST['action'] != 'editedtag' && $_POST['action'] != 'inline-save-tax') return '';
     

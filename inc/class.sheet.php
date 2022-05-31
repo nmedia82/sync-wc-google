@@ -57,6 +57,8 @@ class WCGS_Sheet {
             });
             
             
+        // wcgs_log($wcapi_data);
+        // wcgs_log($variations); exit;
         // Handling Variations
         // Preparing variations data for WC API
         $wcapi_variations = [];
@@ -75,7 +77,6 @@ class WCGS_Sheet {
         
         $result1 = $result2 = [];        
     
-        // wcgs_log($wcapi_data); exit;
         $wcapi_v3 = new WCGS_WC_API_V3();
         
         if($wcapi_data) {

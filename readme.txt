@@ -3,9 +3,9 @@ Contributors: nmedia
 Tags: woocommerce, woocommerce product sync, google product, google sync, woocommerce product import
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
-Tested up to: 5.8.1
+Tested up to: 6.0
 Requires PHP: 5.6
-Stable tag: 6.10.1
+Stable tag: 6.10.2
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 6.10.2- May 11, 2022 =
+* Bug fixed: Variation image was not being fetched. Now it is fixed.
 = 6.10.1 - May 11, 2022 =
 * Feature: Fetch operation is optimized to make it more speedy.
 * Bug fixed: A minor bug fixed due to last udpate regarding Reset function.

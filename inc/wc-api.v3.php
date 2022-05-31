@@ -145,6 +145,7 @@ class WCGS_WC_API_V3 {
                 return new WP_Error( 'wcapi_batch_variation_error', $error->get_error_message() );
             } else{
               $response = $response->get_data();
+                // wcgs_log($response);
               
               $result1 = $result2 = [];
               if( isset($response['update']) ) {
@@ -164,7 +165,6 @@ class WCGS_WC_API_V3 {
                           
                    }, $response['update']);
                    
-                  // wcgs_log($result);
               }
               
               if( isset($response['create']) ) {
@@ -364,6 +364,12 @@ class WCGS_WC_API_V3 {
   				    $variation_data = $variation->get_data();
   				    
   				    $variation_data['type'] = 'variation';
+  				    
+  				    /**
+  				     * since we are pulling variation via wc_get_products (not with WC API)
+  				     * Some keys are not matched like image_id is returned instead of image
+  				     **/
+  				    $variation_data['image'] = $variation_data['image_id'];
   				    $variations[] = $variation_data;
   				}
       }

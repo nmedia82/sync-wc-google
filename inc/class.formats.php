@@ -79,6 +79,7 @@ class WCGS_Format {
             
         }, $sheet_data);
         
+        // wcgs_log($sheet_data);
         return $sheet_data;
     }
     
@@ -120,11 +121,11 @@ class WCGS_Format {
         // var_dump($value);
         if( ! $value ) return $value;
         $make_array = explode('|', $value);
-        $value = array_map(function ($v) {
-            $item['id'] = $v;
-            return $item;
-        }, $make_array);
-        return $value;
+        // $value = array_map(function ($v) {
+        //     $item['id'] = $v;
+        //     return $item;
+        // }, $make_array);
+        return $make_array;
     }
     
     

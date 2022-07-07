@@ -58,6 +58,8 @@ Yes
 2. Google Sheet Products
 
 == Changelog ==
+= 6.10.3 July xxxx, 2022 =
+* Bug Fixed: [Upsell Ids issue fixed](https://clients.najeebmedia.com/forums/topic/upsell_ids-product-data-is-not-fetched-and-causes-an-error/)
 = 6.10.2- May 11, 2022 =
 * Bug fixed: Variation image was not being fetched. Now it is fixed.
 = 6.10.1 - May 11, 2022 =

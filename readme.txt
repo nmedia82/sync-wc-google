@@ -21,7 +21,7 @@ GoogleSync is a fantastic way to keep all of your products in one location, and 
 [youtube https://youtu.be/pNdxG_otQ5c]
 
 **[GoogleSync Demo](https://tastewp.com/template/XrA1SAaUSxo)**
-=How to use Demo=
+= How to use Demo =
 [youtube https://youtu.be/aaJzK_BDE3s]
 
 

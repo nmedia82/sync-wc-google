@@ -12,10 +12,12 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 GoogleSync is a WooCommerce plugin to manage products with Google Sheets in bulk.
 
 == Description ==
-GoogleSync is a creative, quick, and easy way to use Google Sheets to bulk update or create products and categories for your WooCommerce store. To add new products to WooCommerce or even to make a single adjustment, you must go through a long-form (product edit page). Your time is wasted while you wait for login, website updates, and several clicks.
+GoogleSync is a creative, quick, and easy way to use Google Sheets to bulk update or create products and categories for your WooCommerce store. 
+**Normal way to manage products/categories** *hactic,time-wasting,boring,difficult*
+To add new products to WooCommerce or even to make a single adjustment, you must go through a long-form (product edit page). Your time is wasted while you wait for login, website updates, and several clicks.
 
-**One Click** *update/add thousands of products*
-GoogleSync is a keeps all of your products in one location, and it only takes one click to add thousands of products to your store. Please watch this video instruction to learn more about the features and how to use it.
+**With Google Sync** *quick,smart,few-clicks,managed*
+Use Google Sheets to add products and categories, and it only takes one click to add thousands of products to your store. Please watch this video instruction to learn more about the features and how to use it.
 
 = How It Works? =
 [youtube https://youtu.be/pNdxG_otQ5c]

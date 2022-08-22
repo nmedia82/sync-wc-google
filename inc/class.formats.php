@@ -9,8 +9,8 @@ class WCGS_Format {
         
         add_filter('wcgs_sync_data_products_before_processing', array($this, 'format_data_products'), 11, 2);
         add_filter('wcgs_products_data_attributes', array($this, 'product_attributes'), 99, 2);
-        add_filter('wcgs_products_data_categories', array($this, 'product_extract_id_from_array'), 99, 2);
-        add_filter('wcgs_products_data_tags', array($this, 'product_extract_id_from_array'), 99, 2);
+        add_filter('wcgs_products_data_categories', array($this, 'product_extract_id_categories'), 99, 2);
+        add_filter('wcgs_products_data_tags', array($this, 'product_extract_id_tags'), 99, 2);
         add_filter('wcgs_products_data_image', array($this, 'variation_image'), 99, 2);
         add_filter('wcgs_products_data_images', array($this, 'product_images'), 99, 2);
         add_filter('wcgs_products_data_dimensions', array($this, 'product_dimensions'), 99, 2);
@@ -103,13 +103,42 @@ class WCGS_Format {
     }
     
     // Categories|Tags Sheet ==> Site
-    function product_extract_id_from_array($value, $row){
+    function product_extract_id_categories($value, $row){
+        
+        $names_enabled = false;
+        if( 'name' === WCGS_CATEGORIES_TAG_DATA ){
+            $cat_names = wcgs_get_taxonomy_names('product_cat');
+            $cat_names = array_flip($cat_names);
+            $names_enabled = true;
+        }
+        // wcgs_log($row);
         
         // var_dump($value);
         if( ! $value ) return $value;
         $make_array = explode('|', $value);
-        $value = array_map(function ($v) {
-            $item['id'] = $v;
+        $value = array_map(function ($v) use($cat_names, $names_enabled) {
+            $item['id'] = $names_enabled ? $cat_names[trim($v)] : $v;
+            return $item;
+        }, $make_array);
+        return $value;
+    }
+    
+    // Tags Sheet ==> Site
+    function product_extract_id_tags($value, $row){
+        
+        $names_enabled = false;
+        if( 'name' === WCGS_CATEGORIES_TAG_DATA ){
+            $cat_names = wcgs_get_taxonomy_names('product_tag');
+            $cat_names = array_flip($cat_names);
+            $names_enabled = true;
+        }
+        // wcgs_log($row);
+        
+        // var_dump($value);
+        if( ! $value ) return $value;
+        $make_array = explode('|', $value);
+        $value = array_map(function ($v) use($cat_names, $names_enabled) {
+            $item['id'] = $names_enabled ? $cat_names[trim($v)] : $v;
             return $item;
         }, $make_array);
         return $value;

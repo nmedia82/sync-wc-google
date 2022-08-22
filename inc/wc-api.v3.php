@@ -288,34 +288,44 @@ class WCGS_WC_API_V3 {
     // $chunk_size = $sheet_info['chunk_size'];
     // $chunk      = intval($sheet_info['request_args']['chunk']);
     $chunk_size = 100;
+    $args_product_cat = ['taxonomy'=>'product_cat','hide_empty' => false];
+    $total_cats = wp_count_terms($args_product_cat);
+    $no_of_pages = floor($total_cats);
+    // wcgs_log($no_of_pages);
     
     $items = [];
-    $args              = apply_filters('wcgs_export_categories_args',
-                        ['per_page' => $chunk_size]);
-                        
-    // if request_args has ids then only select those ids
-    if( isset($sheet_info['request_args']['ids']) ) {
-      $args['include'] = $sheet_info['request_args']['ids'];
+    
+    for($i=1; $i<=$no_of_pages; $i++){
+      
+      $args              = apply_filters('wcgs_export_categories_args',
+                          ['per_page' => $chunk_size,
+                          'page'      => $i]);
+                          
+      // if request_args has ids then only select those ids
+      if( isset($sheet_info['request_args']['ids']) ) {
+        $args['include'] = $sheet_info['request_args']['ids'];
+      }
+      
+      // if request_args has new_only then include only unlinked data
+      if( isset($sheet_info['request_args']['new_only']) ) {
+        $args['include'] = wcgs_get_non_linked_categories_ids();
+        // if new catesgory are synced then sync should be null to LINK
+        $sync_data = '';
+      }
+      
+      // wcgs_log($args);
+      $request = new WP_REST_Request( 'GET', '/wc/v3/products/categories' );
+      $request->set_query_params( $args );
+      $response = rest_do_request( $request );
+      if ( $response->is_error() ) {
+          $error = $response->as_error();
+          return new WP_Error( 'wcapi_categories_fetch_error', $error->get_error_message() );
+      }
+      
+      $items = array_merge($items, $response->get_data());
     }
     
-    // if request_args has new_only then include only unlinked data
-    if( isset($sheet_info['request_args']['new_only']) ) {
-      $args['include'] = wcgs_get_non_linked_categories_ids();
-      // if new catesgory are synced then sync should be null to LINK
-      $sync_data = '';
-    }
-    
-    
-    $request = new WP_REST_Request( 'GET', '/wc/v3/products/categories' );
-    $request->set_query_params( $args );
-    $response = rest_do_request( $request );
-    if ( $response->is_error() ) {
-        $error = $response->as_error();
-        return new WP_Error( 'wcapi_categories_fetch_error', $error->get_error_message() );
-    }
-    
-    $items = $response->get_data();
-    
+    // wcgs_log($items);
     $items = apply_filters('wcgs_categories_list_before_syncback', $items);
     
     $sortby_id = array_column($items, 'id');

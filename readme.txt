@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.0
 Requires PHP: 5.6
-Stable tag: 6.10.3
+Stable tag: 6.11
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -81,6 +81,9 @@ It's because the scripts we uploaded to the Google Sheet require certain permiss
 4. Settings page
 
 == Changelog ==
+= 6.11 August 22, 2022 =
+* Bug fixed: All categories were being pulled, now it is fixed now
+* Feature: Categories and Tags now can be set with Names also.
 = 6.10.3 July 19, 2022 =
 * Bug Fixed: [Upsell Ids issue fixed](https://clients.najeebmedia.com/forums/topic/upsell_ids-product-data-is-not-fetched-and-causes-an-error/)
 = 6.10.2- May 11, 2022 =

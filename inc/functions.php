@@ -477,3 +477,18 @@ function wcgs_unlink_google_sync($sheet_name){
         break;
     }
 }
+
+/**
+ * Get product categories id => names array for to extract
+ * IDs if Display settings is set to 'name'
+ * */
+function wcgs_get_taxonomy_names($tax){
+    
+    $terms = get_terms( array(
+        'taxonomy' => $tax,
+        'hide_empty' => false,
+        'fields'    => 'id=>name'
+    ) );
+    
+    return $terms;
+}

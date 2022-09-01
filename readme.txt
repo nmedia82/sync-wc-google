@@ -3,9 +3,9 @@ Contributors: nmedia
 Tags: bulk products, bulk stock manage, bulk price editor, woocommerce products, woocommerce stock, stock update
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
-Tested up to: 6.0
+Tested up to: 6.0.2
 Requires PHP: 5.6
-Stable tag: 6.11
+Stable tag: 6.12
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -81,6 +81,8 @@ It's because the scripts we uploaded to the Google Sheet require certain permiss
 4. Settings page
 
 == Changelog ==
+= 6.12 September 1, 2022 =
+* Bug fixed: HTML entities were not decoding in short_description and title
 = 6.11 August 22, 2022 =
 * Bug fixed: All categories were being pulled, now it is fixed now
 * Feature: Categories and Tags now can be set with Names also.

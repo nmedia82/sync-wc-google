@@ -288,7 +288,7 @@ class WCGS_Format {
             // Check if sync column meta exists
             if( isset($pid_rows[$product['id']]) && $wcgs_row_id = $pid_rows[$product['id']] ) {
                  $update_array = array_map( function($item) {
-                    $item = $item == "" ? "" : $item;
+                    $item = $item == "" ? "" : html_entity_decode($item);
                     return $item;
                 }, array_values($product));
                 $products_refined['update'][$wcgs_row_id] = $update_array;

@@ -260,7 +260,6 @@ class WCGS_WC_API_V3 {
   
     }
     
-    // wcgs_log($items); exit;
     
     $items = apply_filters('wcgs_products_list_before_syncback', $items, $sheet_info);
     
@@ -272,6 +271,7 @@ class WCGS_WC_API_V3 {
         return array_replace($header, array_intersect_key($data, $header));
     }, $items);
     
+    // wcgs_log($items); exit;
     
     // wcgs_log($pid_rows); exit;
     return apply_filters('wcgs_products_synback', $items, $sheet_info);

@@ -294,7 +294,7 @@ class WCGS_Format {
                 $products_refined['update'][$wcgs_row_id] = $update_array;
             }else{
                 $create_array = array_map( function($item) {
-                    $item = $item == "" ? "" : $item;
+                    $item = $item == "" ? "" : html_entity_decode($item);
                     return $item;
                 }, array_values($product));
                 $products_refined['create'][] = $create_array;

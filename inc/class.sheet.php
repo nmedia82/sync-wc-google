@@ -43,7 +43,7 @@ class WCGS_Sheet {
             return $row['type'] != 'variation';
         });
         
-        // wcgs_log($sheet_info);
+        // wcgs_log($variations); exit;
                                     
         // Preparing data for WC API
         $wcapi_data = [];
@@ -58,7 +58,6 @@ class WCGS_Sheet {
             
             
         // wcgs_log($wcapi_data);
-        // wcgs_log($variations); exit;
         // Handling Variations
         // Preparing variations data for WC API
         $wcapi_variations = [];
@@ -74,6 +73,8 @@ class WCGS_Sheet {
                 $wcapi_variations[$parent_id]['create'][] = $variation;
             }
         }
+        
+        // wcgs_log($wcapi_variations);
         
         $result1 = $result2 = [];        
     

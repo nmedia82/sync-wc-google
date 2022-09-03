@@ -162,8 +162,9 @@ class WCGS_Format {
     function product_attributes($attributes, $row){
         
         if( ! $attributes ) return [];
-        
         $attributes = json_decode($attributes, true);
+        // wcgs_log($attributes);
+        return $attributes;
         
         if($row['type'] == 'variation') {
             $atts = [];

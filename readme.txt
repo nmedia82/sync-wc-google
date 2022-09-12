@@ -20,7 +20,7 @@ To add new products to WooCommerce or even to make a single adjustment, you must
 Use Google Sheets to add products and categories, and it only takes one click to add thousands of products to your store. Please watch this video instruction to learn more about the features and how to use it.
 
 = How It Works? =
-[youtube https://youtu.be/pNdxG_otQ5c]
+[youtube https://www.youtube.com/watch?v=MNomoD3Es0g]
 
 **[GoogleSync Demo](https://tastewp.com/template/XrA1SAaUSxo)**
 = How to use Demo =

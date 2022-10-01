@@ -1,3 +1,5 @@
+/* global jQuery ajaxurl */
+
 jQuery(function($) {
 
     // const { GoogleSpreadsheet } = require('google-spreadsheet');

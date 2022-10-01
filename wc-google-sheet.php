@@ -1,9 +1,9 @@
 <?php 
 /**
- * Plugin Name: Sync WooCommerce with Google Sheets
+ * Plugin Name: Sync WooCommerce with Google Sheets V7.0
  * Plugin URI: https://najeebmedia.com/googlesync
  * Description: Sync your products with Google Sheet into your WooCommerce Store
- * Version: 6.12
+ * Version: 7.0
  * Author: N-Media
  * Author URI: http://najeebmedia.com
  * License: GPLv2 or later
@@ -16,7 +16,7 @@ define('WCGS_PATH', untrailingslashit(plugin_dir_path( __FILE__ )) );
 define('WCGS_URL', untrailingslashit(plugin_dir_url( __FILE__ )) );
 define('WCGS_SETTING_URL', admin_url( 'admin.php?page=wc-settings&tab=wcgs_settings' ) );
 define('WCGS_QCONN_URL', 'https://clients.najeebmedia.com/google-sync-connect/' );
-define('WCGS_VERSION', '6.12' );
+define('WCGS_VERSION', '7.0' );
 define('WCGS_LOG', true );
 define('WCGS_SYNC_OK', 'OK' );
 
@@ -26,19 +26,19 @@ define('WCGS_CATEGORIES_TAG_DATA', get_option('wcgs_category_tags_data'));
 
 include_once WCGS_PATH . "/inc/const.php";
 include_once WCGS_PATH . "/inc/functions.php";
-include_once WCGS_PATH . "/inc/admin.php";
-include_once WCGS_PATH . "/inc/wc-api.php";
-include_once WCGS_PATH . "/inc/wc-api.v3.php";
-include_once WCGS_PATH . "/inc/gs-api.php";
-include_once WCGS_PATH . "/inc/gs-categories.php";
-include_once WCGS_PATH . "/inc/gs-products.php";
-include_once WCGS_PATH . "/inc/gs-variations.php";
-include_once WCGS_PATH . "/inc/rest.php";
-include_once WCGS_PATH . "/inc/hooks.php";
-include_once WCGS_PATH . "/inc/callbacks.php";
-include_once WCGS_PATH . "/inc/columns.php";
-include_once WCGS_PATH . "/inc/class.sheet.php";
-include_once WCGS_PATH . "/inc/class.formats.php";
+include_once WCGS_PATH . "/v7/inc/admin.php";
+// include_once WCGS_PATH . "/inc/wc-api.php";
+// include_once WCGS_PATH . "/inc/wc-api.v3.php";
+// include_once WCGS_PATH . "/inc/gs-api.php";
+// include_once WCGS_PATH . "/inc/gs-categories.php";
+// include_once WCGS_PATH . "/inc/gs-products.php";
+// include_once WCGS_PATH . "/inc/gs-variations.php";
+// include_once WCGS_PATH . "/inc/rest.php";
+// include_once WCGS_PATH . "/inc/hooks.php";
+// include_once WCGS_PATH . "/inc/callbacks.php";
+// include_once WCGS_PATH . "/inc/columns.php";
+// include_once WCGS_PATH . "/inc/class.sheet.php";
+// include_once WCGS_PATH . "/inc/class.formats.php";
 
 
 class WCGS_INIT {
@@ -74,7 +74,7 @@ class WCGS_INIT {
 		add_action( 'admin_notices', 'wcgs_admin_show_notices' );
 		
 		// Column Manager
-		if( is_admin() ) WCGS_COLUMNS_INIT();
+		// if( is_admin() ) WCGS_COLUMNS_INIT();
 		
 		add_filter('woocommerce_rest_check_permissions', '__return_true');
 		

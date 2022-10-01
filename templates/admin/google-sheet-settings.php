@@ -5,8 +5,14 @@
  *
  * */
  
- 
-do_action('wcgs_before_sync_wrapper', $google_client);
+?>
 
-// var_dump($google_client->auth_link);
- 
+<div class="wcgs-sync-wrapper">
+    
+    <?php if(wcgs_is_service_connect()): ?>
+    
+    <button id="wcgs-sync-btn" class="btn btn-primary">Sync</button>
+    
+    <?php endif; ?>
+    
+</div>

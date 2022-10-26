@@ -28,14 +28,15 @@
   background-color: black;
   /*border-radius: 13px;*/ /* (height of inner div) / 2 + padding */
   padding: 3px;
-  display:none;
+  min-height: 15px;
+  margin:5px 0;
+  display: flex;
+  visibility: hidden;
 }
 
-#wcgs_progressbar > div.pb-run {
-   background-color: orange;
-   width: 100%; /* Adjust with JavaScript */
-   height: 20px;
-   /*border-radius: 10px;*/
+#wcgs_progressbar > div#pb-run {
+   background-color: lightgreen;
+   width: 0%; /* Adjust with JavaScript */
    color:#fff;
 }
 
@@ -46,4 +47,12 @@
 
 .wcgs-connected-desc{
     font-size:16px;
+}
+
+.wcgs-red{
+    color:red;
+}
+
+.wcgs-green{
+    color:green;
 }

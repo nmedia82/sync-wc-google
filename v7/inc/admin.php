@@ -17,9 +17,11 @@ function wcgs_settings_tab(){
     
     $wcgs_googlesheet_id = wcgs_get_option('wcgs_googlesheet_id');
     $wcgs_imports_limit = wcgs_get_option('wcgs_imports_limit');
-    $wcgs_demo_sheet     = 'https://docs.google.com/spreadsheets/d/1TFmZunnVr__BAV9bX6f_D5kWdshyFPSBxhb5DyYbU0g/edit?usp=sharing';
+    $wcgs_demo_sheet    = 'https://docs.google.com/spreadsheets/d/1TFmZunnVr__BAV9bX6f_D5kWdshyFPSBxhb5DyYbU0g/edit?usp=sharing';
+    $wcgs_url           = wcgs_get_option('wcgs_appurl');
     
     wp_enqueue_script('wcgs-js', WCGS_URL.'/js/wcgs.js', ['jquery'], WCGS_VERSION, true );
+    wp_localize_script( 'wcgs-js', 'wcgs_vars', ['gas_url' => $wcgs_url]);
     wp_enqueue_style('wcgs-style', WCGS_URL.'/css/wcgs.css' );
 
     echo '<div class="wcgs-sync-wrapper woocommmerce">';
@@ -36,8 +38,6 @@ function wcgs_settings_tab(){
     } else {
         printf(__('<p class="wcgs-connected">%s</p>', 'wcgs'), "Your Store Connected with Google Sheet");
     }
-
-    echo '<div id="wcgs_working"></div>';
     
     $video_connect_url  = 'https://youtu.be/7J2H92wfOus';
     $video_guide_url  = 'https://youtu.be/pNdxG_otQ5c';

@@ -1,10 +1,11 @@
-/* global jQuery ajaxurl */
+/* global jQuery ajaxurl wcgs_vars */
+
+const work_div = jQuery("#wcgs_working");
 
 jQuery(function($) {
 
     // const { GoogleSpreadsheet } = require('google-spreadsheet');
 
-    const work_div = $("#wcgs_working");
     
     $(document).on('click', '#wcgs-disconnect', function(e) {
         e.preventDefault();
@@ -25,11 +26,14 @@ jQuery(function($) {
         e.preventDefault();
 
         work_div.html('Please wait ...');
-
-        $("#wcgs_progressbar").hide();
+        
+        $("#wcgs_progressbar").css('visibility','hidden');
 
         const sheet_name = $("#sheet_name").val();
-        const data = { 'action': `wcgs_sync_data_${sheet_name}`, 'sheet': sheet_name };
+        /**
+         * 1- get total products via Google API
+         * */
+        const data = { 'action': `wcgs_get_total_${sheet_name}`, 'sheet': sheet_name };
         $.post(ajaxurl, data, function(response) {
 
             console.log(response);
@@ -51,28 +55,13 @@ jQuery(function($) {
                 case 'chunked':
                     const message_4 = $("<div/>").html(message).appendTo(work_div);
                     var chunk_count = 0;
-                    $("#wcgs_progressbar").show();
-                    $(`.pb-run`).css('width', '10%');
-                    // $(`.pb-run`).html('');
-                    for (var c = 0; c < chunks.chunks; c++) {
+                    $("#wcgs_progressbar").css('visibility','visible');
+                    $(`#pb-run`).css('width', '10%');
+                    // $(`#pb-run`).html('');
+                    // for (var c = 0; c < chunks; c++) {
 
-                        wcgs_sync_data_in_chunks(c, function(chunk, sync_result) {
-
-                            chunk_count++;
-                            const resp_msg = `Chunk# ${chunk_count}/${chunks.chunks}: ${sync_result.message}`;
-                            var run = (chunk_count / chunks.chunks) * 100;
-                            $(`.pb-run`).css('width', `${run}%`);
-
-                            $(`.pb-run`).html(resp_msg);
-
-                            if (chunk_count == chunks.chunks) {
-                                $(`.pb-run`).html('SYNC OPERATION COMPLETED SUCCESSFULLY !!');
-                                $(`.pb-run`).css('background-color', '#6ea820');
-                            }
-
-                            $("<div/>").html(resp_msg).appendTo(work_div);
-                        });
-                    }
+                        wcgs_sync_data_in_chunks(chunk_count, chunks, wcgs_products_sync_callback);
+                    // }
                     break;
 
                 default:
@@ -105,13 +94,69 @@ jQuery(function($) {
 
 });
 
+// chunk syncing callback funciton
+function wcgs_products_sync_callback(chunk, chunks, sync_result) {
+
+    var chunk_count = chunk+1;
+    const {message, status, updatble_ranges} = sync_result;
+    const msg_class = status === 'success' ? 'wcgs-green' : 'wcgs-red';
+    var resp_msg = `<span class="${msg_class}">Chunk# ${chunk_count}/${chunks}: ${message}</span>`;
+    
+    // now updating id, sync, images, image cols after product synced
+    jQuery.ajax({
+    url: wcgs_vars.gas_url,
+    type: "POST",
+    data: JSON.stringify(updatble_ranges),
+    success: function(data, status, xhr) {
+        const {status:s, message} = data;
+        if(s === 'success'){
+            jQuery(`#pb-run`).append(':: Sheet Updated ::');      
+        }else{
+            jQuery(`#pb-run`).html(message).css('width', `100%`);
+        }
+      
+    },
+    error: function(data, textStatus, errorThrown) {
+        alert(errorThrown);
+    }
+    });
+    
+    console.log(chunk_count, chunks)
+    
+    var run = (chunk_count / chunks) * 100;
+    jQuery(`#pb-run`).css('width', `${run}%`);
+    jQuery(`#pb-run`).html(resp_msg);
+    jQuery("<div/>").html(resp_msg).appendTo(work_div);
+    
+    if( chunk_count < chunks ) {
+        wcgs_sync_data_in_chunks(chunk_count, chunks, wcgs_products_sync_callback);
+    } else {
+        jQuery(`#pb-run`).html('SYNC OPERATION COMPLETED SUCCESSFULLY !!');
+        jQuery(`#pb-run`).css('background-color', '#6ea820');
+    }
+}
+
 // start syncing data into chunks
-function wcgs_sync_data_in_chunks(chunk, callback) {
+function wcgs_sync_data_in_chunks(chunk, chunks, callback) {
 
     const sheet_name = jQuery("#sheet_name").val();
     const data = { 'action': `wcgs_sync_chunk_${sheet_name}`, 'sheet': sheet_name, 'chunk': chunk };
     jQuery.post(ajaxurl, data, function(response) {
-        callback(chunk, response);
+        callback(chunk, chunks, response);
     }, 'json');
 
+}
+
+
+function wcgs_post_to_GAS() {
+    
+    jQuery.ajax({
+    url: wcgs_vars.gas_url,
+    type: "POST",
+    data: JSON.stringify({"hello":"man"}),
+    success: function(data, status, xhr) {
+      console.log("success");
+      console.log(JSON.parse(data.postdata));
+    }
+    });
 }

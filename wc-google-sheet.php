@@ -19,26 +19,27 @@ define('WCGS_QCONN_URL', 'https://clients.najeebmedia.com/google-sync-connect/' 
 define('WCGS_VERSION', '7.0' );
 define('WCGS_LOG', true );
 define('WCGS_SYNC_OK', 'OK' );
+define('WCGS_CHUNK_SIZE', 6 );
 
 // Data display
 define('WCGS_CATEGORIES_TAG_DATA', get_option('wcgs_category_tags_data'));
 
 
 include_once WCGS_PATH . "/inc/const.php";
-include_once WCGS_PATH . "/inc/functions.php";
+include_once WCGS_PATH . "/v7/inc/functions.php";
 include_once WCGS_PATH . "/v7/inc/admin.php";
+include_once WCGS_PATH . "/v7/inc/class.products.php";
 // include_once WCGS_PATH . "/inc/wc-api.php";
-// include_once WCGS_PATH . "/inc/wc-api.v3.php";
+include_once WCGS_PATH . "/v7/inc/wc-api.v3.php";
 // include_once WCGS_PATH . "/inc/gs-api.php";
 // include_once WCGS_PATH . "/inc/gs-categories.php";
-// include_once WCGS_PATH . "/inc/gs-products.php";
 // include_once WCGS_PATH . "/inc/gs-variations.php";
 // include_once WCGS_PATH . "/inc/rest.php";
 // include_once WCGS_PATH . "/inc/hooks.php";
 // include_once WCGS_PATH . "/inc/callbacks.php";
 // include_once WCGS_PATH . "/inc/columns.php";
 // include_once WCGS_PATH . "/inc/class.sheet.php";
-// include_once WCGS_PATH . "/inc/class.formats.php";
+include_once WCGS_PATH . "/v7/inc/class.formats.php";
 
 
 class WCGS_INIT {

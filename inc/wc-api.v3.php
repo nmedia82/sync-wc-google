@@ -221,6 +221,8 @@ class WCGS_WC_API_V3 {
     }else if( isset($sheet_info['request_args']['new_only']) ) {
         $include_products = wcgs_get_non_linked_products_ids();
     }
+    
+    // $include_products = [6577]
      
     
     if( count($include_products) === 0 ) {

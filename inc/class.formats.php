@@ -20,6 +20,8 @@ class WCGS_Format {
             add_filter('wcgs_products_synback', array($this, 'syncback_data_products'), 11, 2);
             add_filter('wcgs_categories_synback', array($this, 'syncback_data_categories'), 11, 2);
             
+            // add_filter('wcgs_products_syncback_value_grouped_products', 'wcgs_pro_grouped_products_value', 22, 2);
+            
             // Categories
             add_filter('wcgs_sync_data_categories_before_processing', array($this, 'format_data_categories'), 11, 2);
             add_filter('wcgs_categories_data_image', array($this, 'categories_image'), 99, 2);
@@ -254,15 +256,19 @@ class WCGS_Format {
           $pid_rows[$row->post_id] = $row->meta_value;
         }
         
+        
         // since version 6.2 integer array values will be parsed here
         foreach(wcgs_fields_integer_array() as $key){
-            if( !isset($product[$key]) || !is_array($product[$key]) ) continue;
+            // if( !isset($product[$key]) || !is_array($product[$key]) ) continue;
             $products = array_map(function($p) use($key){
-                $p[$key] = implode('|', $p[$key]);
+                if(in_array($key, array_keys($p)) && $p['type'] !== "variation"){
+                    $p[$key] = implode('|', $p[$key]);
+                }
                 return $p;
-            });
+            }, $products);
         }
         
+        // wcgs_log_dump($products);
         foreach(wcgs_fields_format_required() as $key=>$type){
             $key = trim($key);
             
@@ -283,18 +289,23 @@ class WCGS_Format {
             }, $products);
         }
         
+        
+        
     
         $products_refined = [];
         foreach($products as $product) {
             // Check if sync column meta exists
             if( isset($pid_rows[$product['id']]) && $wcgs_row_id = $pid_rows[$product['id']] ) {
                  $update_array = array_map( function($item) {
+                    // wcgs_log_dump($item);
                     $item = $item == "" ? "" : html_entity_decode($item);
                     return $item;
                 }, array_values($product));
                 $products_refined['update'][$wcgs_row_id] = $update_array;
             }else{
                 $create_array = array_map( function($item) {
+                    // wcgs_log_dump($item);
+                    // wcgs_log(gettype($item));
                     $item = $item == "" ? "" : html_entity_decode($item);
                     return $item;
                 }, array_values($product));
@@ -302,7 +313,7 @@ class WCGS_Format {
             }
         }
         
-        // wcgs_log($products_refined); exit;
+        // wcgs_log($products_refined);
         // exit;
         return $products_refined;
     }
@@ -330,6 +341,16 @@ class WCGS_Format {
         
         // wcgs_log($categories_refined); exit;
         return $categories_refined;
+    }
+    
+    
+    function wcgs_pro_grouped_products_value( $grouped_products, $key ) { 
+	
+    	if (!$grouped_products ) {
+    		return '';
+    	}
+    	
+    	return implode('|', $only_ids);
     }
 
 }

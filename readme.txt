@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.0.2
 Requires PHP: 5.6
-Stable tag: 6.12
+Stable tag: 6.13
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -81,6 +81,8 @@ It's because the scripts we uploaded to the Google Sheet require certain permiss
 4. Settings page
 
 == Changelog ==
+= 6.13 December 1, 2022 =
+* Bug fixed: Grouped products were not being synced and fetched, now it is fixed.
 = 6.12 September 1, 2022 =
 * Bug fixed: HTML entities were not decoding in short_description and title
 = 6.11 August 22, 2022 =

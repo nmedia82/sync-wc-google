@@ -257,11 +257,13 @@ class WCGS_Format {
         
         // since version 6.2 integer array values will be parsed here
         foreach(wcgs_fields_integer_array() as $key){
-            if( !isset($product[$key]) || !is_array($product[$key]) ) continue;
             $products = array_map(function($p) use($key){
-                $p[$key] = implode('|', $p[$key]);
+                // $p['type'] !== "variation" - variation does not have any array data in these keys
+                if(in_array($key, array_keys($p)) && $p['type'] !== "variation"){
+                    $p[$key] = implode('|', $p[$key]);
+                }
                 return $p;
-            });
+            }, $products);
         }
         
         foreach(wcgs_fields_format_required() as $key=>$type){

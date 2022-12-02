@@ -40,7 +40,7 @@ function wcgs_settings_tab(){
     echo '<div id="wcgs_working"></div>';
     
     $video_connect_url  = 'https://youtu.be/7J2H92wfOus';
-    $video_guide_url  = 'https://youtu.be/pNdxG_otQ5c';
+    $video_guide_url  = 'https://www.youtube.com/watch?v=MNomoD3Es0g&t=0s';
     $wcgs_demo_v5     = 'https://docs.google.com/spreadsheets/d/1TFmZunnVr__BAV9bX6f_D5kWdshyFPSBxhb5DyYbU0g/edit?usp=sharing';
     
     $desc = '';

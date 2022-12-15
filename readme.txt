@@ -1,28 +1,28 @@
-=== GoogleSync - Bulk Product Editor for WooCommerce with Google Sheets ===
+=== Bulk Product Sync - Bulk Product Editor for WooCommerce with Google Sheets™ ===
 Contributors: nmedia
 Tags: bulk products, bulk stock manage, bulk price editor, woocommerce products, woocommerce stock, stock update
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.0.2
 Requires PHP: 5.6
-Stable tag: 6.13
+Stable tag: 6.14
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-GoogleSync is a WooCommerce plugin to manage products with Google Sheets in bulk.
+Bulk Product Sync is a WooCommerce plugin to manage products with Google Sheets™ in bulk.
 
 == Description ==
-GoogleSync is a creative, quick, and easy way to use Google Sheets to bulk update or create products and categories for your WooCommerce store. 
+Bulk Product Sync with Google Sheets™ is a creative, quick, and easy way to use Google Sheets™ to bulk update or create products and categories for your WooCommerce store. 
 **Normal way to manage products/categories** *hactic,time-wasting,boring,difficult*
 To add new products to WooCommerce or even to make a single adjustment, you must go through a long-form (product edit page). Your time is wasted while you wait for login, website updates, and several clicks.
 
-**With Google Sync** *quick,smart,few-clicks,managed*
-Use Google Sheets to add products and categories, and it only takes one click to add thousands of products to your store. Please watch this video instruction to learn more about the features and how to use it.
+**With Bulk Product Sync ** *quick,smart,few-clicks,managed*
+Use Google Sheets™ to add products and categories, and it only takes one click to add thousands of products to your store. Please watch this video instruction to learn more about the features and how to use it.
 
 = How It Works? =
 [youtube https://www.youtube.com/watch?v=MNomoD3Es0g]
 
-**[GoogleSync Demo](https://tastewp.com/template/XrA1SAaUSxo)**
+**[Bulk Product Sync Demo](https://tastewp.com/template/XrA1SAaUSxo)**
 = How to use Demo =
 [youtube https://youtu.be/aaJzK_BDE3s]
 
@@ -32,26 +32,26 @@ Use Google Sheets to add products and categories, and it only takes one click to
 * Sync All Your Products
 * Sync All Your Categories
 * Add/remove product fields
-* Sync from Store to Google Sheet
+* Sync from Store to Google Sheet™
 * Build using the latest Google App Script API
 
 = PRO Features =
 * Variable Products Supported
 * Auto-Sync [hourly, twice daily, daily]
 * Logging Auto Sync
-* Export Existing Products into Google Sheet
-* Export Existing Categories into Google Sheet
-* Export Existing Variations into Google Sheet
+* Export Existing Products into Google Sheet™
+* Export Existing Categories into Google Sheet™
+* Export Existing Variations into Google Sheet™
 * Metadata columns
 
-[Learn More GoogleSync PRO](https://najeebmedia.com/wordpress-plugin/woocommerce-google-sync/)
+[Learn More Bulk Product Sync PRO](https://najeebmedia.com/wordpress-plugin/woocommerce-google-sync/)
 
 == Use Cases ==
 **Opening a new store** *Add all of your products to the Google sheet, select `Sync Products` and bask in the joy.*
-**Managing an existing store** *To manage any updates or new products, export all of your products from your store to Google Sheets.*
-**Managing the stock** If the present solution's stock management is driving you crazy, use GoogleSync to add `manage_stock` and `quantity` columns to the sheet, and you'll be free of the problem.
-**Managing the price** *Price changes were frequent due to the economy's instability; however, GoogleSync will now adjust product prices in bulk for your store.*
-**Variable products** *In WooCommerce, it is difficult to create variations and variable products; however, GoogleSync has made this process quite simple and quick.*
+**Managing an existing store** *To manage any updates or new products, export all of your products from your store to Google Sheets.™*
+**Managing the stock** If the present solution's stock management is driving you crazy, use Bulk Product Sync to add `manage_stock` and `quantity` columns to the sheet, and you'll be free of the problem.
+**Managing the price** *Price changes were frequent due to the economy's instability; however, Bulk Product Sync will now adjust product prices in bulk for your store.*
+**Variable products** *In WooCommerce, it is difficult to create variations and variable products; however, Bulk Product Sync has made this process quite simple and quick.*
 **Much more ...** *As per your needs*
 
 == Installation ==
@@ -62,25 +62,27 @@ Use Google Sheets to add products and categories, and it only takes one click to
 
 == Frequently Asked Questions ==
 = What is the difference between Pro and Free versions? =
-The only import option in the free version is from a Google sheet to the store, and some fields, such as images, and variable products, cannot be imported. As mentioned above in the PRO features list, you can export (from store to Google sheet) and do much more when using the Pro version.
+The only import option in the free version is from a Google Sheet™ to the store, and some fields, such as images, and variable products, cannot be imported. As mentioned above in the PRO features list, you can export (from store to Google Sheet™) and do much more when using the Pro version.
 = Can I fetch my existing products/categories? =
 Yes, in Pro version
 = Should I need to connect with my own Google Account? =
 Yes
-= When connecting for the first time to Google Sheet, why do we notice a warning? Is this harmful? =
-It's because the scripts we uploaded to the Google Sheet require certain permissions in order to run. Allowing these permissions is not problematic, since, for privacy reasons, we only have access to the current Google Sheet, not the whole Google Drive.
+= When connecting for the first time to Google Sheet™, why do we notice a warning? Is this harmful? =
+It's because the scripts we uploaded to the Google Sheet™ require certain permissions in order to run. Allowing these permissions is not problematic, since, for privacy reasons, we only have access to the current Google Sheet™, not the whole Google Drive.
 = How to link product metadata (custom fields)? =
 [Watch this video](https://youtu.be/897tHE1PD7I)
 = How to set up AutoSync? =
 [Watch this video](https://youtu.be/vYPk73uGPcc)
 
 == Screenshots ==
-1. Import products from Google sheet to store
+1. Import products from Google Sheet™ to store
 2. Showing products sync status in admin
-3. Google sync columns
+3. Google Sync™ columns
 4. Settings page
 
 == Changelog ==
+= 6.14 December 1, 2022 =
+* Due to some branding issues name changed from GoogleSync to Bulk Product Sync
 = 6.13 December 1, 2022 =
 * Bug fixed: Grouped products were not being synced and fetched, now it is fixed.
 = 6.12 September 1, 2022 =
@@ -137,7 +139,7 @@ It's because the scripts we uploaded to the Google Sheet require certain permiss
 * Bug fixed: [Tags were not adding from sheet to store, it is fixed](https://www.youtube.com/channel/UCEA9i5lXJMIo1u5aYbf2qgw)
 = 3.0 - June 14, 2021 =
 * Features: Major update to manage sync from the Google Sheet menu
-* Features: Google App script used to send products from Google Sheet
+* Features: Google App script used to send products from Google Sheet™
 = 2.6 - May 13, 2021 =
 * Bug fixed: [Critical error fixed when google client is not set](https://wordpress.org/support/topic/critical-error-in-plugin-setting-page/)
 = 2.5 - April 18, 2021 =
@@ -164,7 +166,7 @@ It's because the scripts we uploaded to the Google Sheet require certain permiss
 * Bug fixed: REST API endpoint warning issue fixed
 * Bug fixed: PRO: Sync-back products/categories limits removed
 = 1.3 - February 1, 2021 =
-* Features: Now existing products can be added to Google Sheet
+* Features: Now existing products can be added to Google Sheet™
 = 1.2 - December 11, 2020 =
 * Features: Now images can be added via URL
 = 1.1 - November 10, 2020 =

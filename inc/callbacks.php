@@ -128,7 +128,7 @@ function wcgs_sync_chunk_products($send_json=true, $chunk=null) {
     $saved_chunked = get_transient('wcgs_product_chunk');
     
     if( $chunk === null ) 
-        $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : '';
+        $chunk = isset($_POST['chunk']) ? intval($_POST['chunk']) : '';
         
     $response = array();
     if( !isset($saved_chunked[$chunk]) ) {

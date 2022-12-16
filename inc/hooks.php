@@ -189,7 +189,7 @@ function create_synced_product_column_data( $column, $post_id){
         case 'wcgs_column':
             $rowno = get_post_meta($post_id,'wcgs_row_id', true);
             if($rowno){
-                echo $rowno;
+                echo esc_attr($rowno);
             }else{
                 _e("Not synced", 'wcgs');
             }

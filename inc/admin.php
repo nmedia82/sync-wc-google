@@ -74,8 +74,8 @@ function wcgs_admin_show_notices() {
     
     if ( $resp_notices = get_transient( "wcgs_admin_notices" ) ) {
 		?>
-		<div id="message" class="<?php echo $resp_notices['class']; ?> updated notice is-dismissible">
-		    <p><?php echo $resp_notices['message']; ?></p>
+		<div id="message" class="<?php echo esc_attr($resp_notices['class']); ?> updated notice is-dismissible">
+		    <p><?php echo esc_html($resp_notices['message']); ?></p>
 			<button type="button" class="notice-dismiss">
 				<span class="screen-reader-text"><?php _e( 'Dismiss this notice', 'ppom' ); ?></span>
 			</button>

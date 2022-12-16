@@ -82,6 +82,7 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 
 == Changelog ==
 = 6.14 December 1, 2022 =
+* Bug fixed:[Data validations applied as per standards](https://developer.wordpress.org/apis/security/escaping/)
 * Due to some branding issues name changed from GoogleSync to Bulk Product Sync
 = 6.13 December 1, 2022 =
 * Bug fixed: Grouped products were not being synced and fetched, now it is fixed.

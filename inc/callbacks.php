@@ -197,6 +197,13 @@ function wcgs_sync_chunk_products($send_json=true, $chunk=null) {
 add_action('wp_ajax_wcgs_disconnect', 'wcgs_disconnect_sheet', 99, 1);
 function wcgs_disconnect_sheet() {
     
+    // delete service account check/flag
     delete_option('wcgs_service_connect');
+    // delete sheet id
+    delete_option('wcgs_googlesheet_id');
+    // delete authcode
+    delete_option('wcgs_appurl');
+    // delete appurl
+    delete_option('wcgs_authcode');
     exit;
 }

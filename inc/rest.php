@@ -216,9 +216,9 @@ function wcgs_connect_store($request) {
     // wp_send_json($_POST);
     
     $data   = $request->get_params();
-    $header = json_decode($request->get_param('header_data'), true);
-    $header = reset($header);
-    $data['header_data'] = $header;
+    // $header = json_decode($request->get_param('header_data'), true);
+    // $header = reset($header);
+    // $data['header_data'] = $header;
     
     if( !wcgs_verfiy_connected($data['authcode']) ){
         wp_send_json_error(__("Sorry, but your AuthCode is not valid", 'wcgs'));
@@ -229,8 +229,8 @@ function wcgs_connect_store($request) {
     }
     
     // wcgs_log($data); exit;
-    $wcgs_sheet = new WCGS_Sheet();
-    $wcgs_sheet->update($data);
+    // $wcgs_sheet = new WCGS_Sheet();
+    // $wcgs_sheet->update($data);
     
     wp_send_json_success(__("Good Job! Sheet is connected", 'wcgs'));
 }

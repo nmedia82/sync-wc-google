@@ -69,17 +69,6 @@ function wcgs_get_option($key, $default_val=false) {
 	return $value;
 }
 
-// ignore header keys
-// function wcgs_system_header_keys() {
-//     return ['sync', 'last_sync','last_sync_source'];
-// }
-// // system header with keys
-// function wcgs_system_header_key_values($key){
-    
-//     $header = ['sync' => 1, 'last_sync' => current_datetime(),'last_sync_source'=>get_bloginfo('name')];
-//     return isset($header[$key]) ? $header[$key] : false;
-// }
-
 // WCGS Settings Admin
 function wcgs_array_settings() {
 	

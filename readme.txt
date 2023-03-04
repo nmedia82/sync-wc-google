@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.1.1
 Requires PHP: 5.6
-Stable tag: 6.14
+Stable tag: 6.15
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -81,6 +81,8 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
+= 6.15 March 4, 2023 =
+* Feature: Googleclient libraries updated
 = 6.14 December 1, 2022 =
 * Bug fixed:[Data validations applied as per standards](https://developer.wordpress.org/apis/security/escaping/)
 * Due to some branding issues name changed from GoogleSync to Bulk Product Sync

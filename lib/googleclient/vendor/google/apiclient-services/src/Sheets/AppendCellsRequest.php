@@ -20,15 +20,28 @@ namespace Google\Service\Sheets;
 class AppendCellsRequest extends \Google\Collection
 {
   protected $collection_key = 'rows';
+  /**
+   * @var string
+   */
   public $fields;
   protected $rowsType = RowData::class;
   protected $rowsDataType = 'array';
+  public $rows;
+  /**
+   * @var int
+   */
   public $sheetId;
 
+  /**
+   * @param string
+   */
   public function setFields($fields)
   {
     $this->fields = $fields;
   }
+  /**
+   * @return string
+   */
   public function getFields()
   {
     return $this->fields;
@@ -47,10 +60,16 @@ class AppendCellsRequest extends \Google\Collection
   {
     return $this->rows;
   }
+  /**
+   * @param int
+   */
   public function setSheetId($sheetId)
   {
     $this->sheetId = $sheetId;
   }
+  /**
+   * @return int
+   */
   public function getSheetId()
   {
     return $this->sheetId;

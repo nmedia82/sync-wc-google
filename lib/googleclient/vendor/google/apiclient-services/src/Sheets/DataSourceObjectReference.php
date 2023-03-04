@@ -19,19 +19,34 @@ namespace Google\Service\Sheets;
 
 class DataSourceObjectReference extends \Google\Model
 {
+  /**
+   * @var int
+   */
   public $chartId;
   protected $dataSourceFormulaCellType = GridCoordinate::class;
   protected $dataSourceFormulaCellDataType = '';
+  public $dataSourceFormulaCell;
   protected $dataSourcePivotTableAnchorCellType = GridCoordinate::class;
   protected $dataSourcePivotTableAnchorCellDataType = '';
+  public $dataSourcePivotTableAnchorCell;
   protected $dataSourceTableAnchorCellType = GridCoordinate::class;
   protected $dataSourceTableAnchorCellDataType = '';
+  public $dataSourceTableAnchorCell;
+  /**
+   * @var string
+   */
   public $sheetId;
 
+  /**
+   * @param int
+   */
   public function setChartId($chartId)
   {
     $this->chartId = $chartId;
   }
+  /**
+   * @return int
+   */
   public function getChartId()
   {
     return $this->chartId;
@@ -78,10 +93,16 @@ class DataSourceObjectReference extends \Google\Model
   {
     return $this->dataSourceTableAnchorCell;
   }
+  /**
+   * @param string
+   */
   public function setSheetId($sheetId)
   {
     $this->sheetId = $sheetId;
   }
+  /**
+   * @return string
+   */
   public function getSheetId()
   {
     return $this->sheetId;

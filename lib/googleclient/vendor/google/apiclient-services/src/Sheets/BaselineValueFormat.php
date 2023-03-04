@@ -19,33 +19,57 @@ namespace Google\Service\Sheets;
 
 class BaselineValueFormat extends \Google\Model
 {
+  /**
+   * @var string
+   */
   public $comparisonType;
+  /**
+   * @var string
+   */
   public $description;
   protected $negativeColorType = Color::class;
   protected $negativeColorDataType = '';
+  public $negativeColor;
   protected $negativeColorStyleType = ColorStyle::class;
   protected $negativeColorStyleDataType = '';
+  public $negativeColorStyle;
   protected $positionType = TextPosition::class;
   protected $positionDataType = '';
+  public $position;
   protected $positiveColorType = Color::class;
   protected $positiveColorDataType = '';
+  public $positiveColor;
   protected $positiveColorStyleType = ColorStyle::class;
   protected $positiveColorStyleDataType = '';
+  public $positiveColorStyle;
   protected $textFormatType = TextFormat::class;
   protected $textFormatDataType = '';
+  public $textFormat;
 
+  /**
+   * @param string
+   */
   public function setComparisonType($comparisonType)
   {
     $this->comparisonType = $comparisonType;
   }
+  /**
+   * @return string
+   */
   public function getComparisonType()
   {
     return $this->comparisonType;
   }
+  /**
+   * @param string
+   */
   public function setDescription($description)
   {
     $this->description = $description;
   }
+  /**
+   * @return string
+   */
   public function getDescription()
   {
     return $this->description;

@@ -21,12 +21,21 @@ class BasicChartAxis extends \Google\Model
 {
   protected $formatType = TextFormat::class;
   protected $formatDataType = '';
+  public $format;
+  /**
+   * @var string
+   */
   public $position;
+  /**
+   * @var string
+   */
   public $title;
   protected $titleTextPositionType = TextPosition::class;
   protected $titleTextPositionDataType = '';
+  public $titleTextPosition;
   protected $viewWindowOptionsType = ChartAxisViewWindowOptions::class;
   protected $viewWindowOptionsDataType = '';
+  public $viewWindowOptions;
 
   /**
    * @param TextFormat
@@ -42,18 +51,30 @@ class BasicChartAxis extends \Google\Model
   {
     return $this->format;
   }
+  /**
+   * @param string
+   */
   public function setPosition($position)
   {
     $this->position = $position;
   }
+  /**
+   * @return string
+   */
   public function getPosition()
   {
     return $this->position;
   }
+  /**
+   * @param string
+   */
   public function setTitle($title)
   {
     $this->title = $title;
   }
+  /**
+   * @return string
+   */
   public function getTitle()
   {
     return $this->title;

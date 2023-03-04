@@ -19,14 +19,24 @@ namespace Google\Service\Sheets;
 
 class UpdateChartSpecRequest extends \Google\Model
 {
+  /**
+   * @var int
+   */
   public $chartId;
   protected $specType = ChartSpec::class;
   protected $specDataType = '';
+  public $spec;
 
+  /**
+   * @param int
+   */
   public function setChartId($chartId)
   {
     $this->chartId = $chartId;
   }
+  /**
+   * @return int
+   */
   public function getChartId()
   {
     return $this->chartId;

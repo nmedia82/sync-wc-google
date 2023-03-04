@@ -21,9 +21,14 @@ class RepeatCellRequest extends \Google\Model
 {
   protected $cellType = CellData::class;
   protected $cellDataType = '';
+  public $cell;
+  /**
+   * @var string
+   */
   public $fields;
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
+  public $range;
 
   /**
    * @param CellData
@@ -39,10 +44,16 @@ class RepeatCellRequest extends \Google\Model
   {
     return $this->cell;
   }
+  /**
+   * @param string
+   */
   public function setFields($fields)
   {
     $this->fields = $fields;
   }
+  /**
+   * @return string
+   */
   public function getFields()
   {
     return $this->fields;

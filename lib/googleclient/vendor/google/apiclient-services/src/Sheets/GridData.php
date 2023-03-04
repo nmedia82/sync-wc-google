@@ -22,11 +22,20 @@ class GridData extends \Google\Collection
   protected $collection_key = 'rowMetadata';
   protected $columnMetadataType = DimensionProperties::class;
   protected $columnMetadataDataType = 'array';
+  public $columnMetadata;
   protected $rowDataType = RowData::class;
   protected $rowDataDataType = 'array';
+  public $rowData;
   protected $rowMetadataType = DimensionProperties::class;
   protected $rowMetadataDataType = 'array';
+  public $rowMetadata;
+  /**
+   * @var int
+   */
   public $startColumn;
+  /**
+   * @var int
+   */
   public $startRow;
 
   /**
@@ -71,18 +80,30 @@ class GridData extends \Google\Collection
   {
     return $this->rowMetadata;
   }
+  /**
+   * @param int
+   */
   public function setStartColumn($startColumn)
   {
     $this->startColumn = $startColumn;
   }
+  /**
+   * @return int
+   */
   public function getStartColumn()
   {
     return $this->startColumn;
   }
+  /**
+   * @param int
+   */
   public function setStartRow($startRow)
   {
     $this->startRow = $startRow;
   }
+  /**
+   * @return int
+   */
   public function getStartRow()
   {
     return $this->startRow;

@@ -19,18 +19,30 @@ namespace Google\Service\Sheets;
 
 class BandedRange extends \Google\Model
 {
+  /**
+   * @var int
+   */
   public $bandedRangeId;
   protected $columnPropertiesType = BandingProperties::class;
   protected $columnPropertiesDataType = '';
+  public $columnProperties;
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
+  public $range;
   protected $rowPropertiesType = BandingProperties::class;
   protected $rowPropertiesDataType = '';
+  public $rowProperties;
 
+  /**
+   * @param int
+   */
   public function setBandedRangeId($bandedRangeId)
   {
     $this->bandedRangeId = $bandedRangeId;
   }
+  /**
+   * @return int
+   */
   public function getBandedRangeId()
   {
     return $this->bandedRangeId;

@@ -21,6 +21,10 @@ class TextFormatRun extends \Google\Model
 {
   protected $formatType = TextFormat::class;
   protected $formatDataType = '';
+  public $format;
+  /**
+   * @var int
+   */
   public $startIndex;
 
   /**
@@ -37,10 +41,16 @@ class TextFormatRun extends \Google\Model
   {
     return $this->format;
   }
+  /**
+   * @param int
+   */
   public function setStartIndex($startIndex)
   {
     $this->startIndex = $startIndex;
   }
+  /**
+   * @return int
+   */
   public function getStartIndex()
   {
     return $this->startIndex;

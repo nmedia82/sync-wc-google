@@ -19,14 +19,24 @@ namespace Google\Service\Sheets;
 
 class DataSourceColumn extends \Google\Model
 {
+  /**
+   * @var string
+   */
   public $formula;
   protected $referenceType = DataSourceColumnReference::class;
   protected $referenceDataType = '';
+  public $reference;
 
+  /**
+   * @param string
+   */
   public function setFormula($formula)
   {
     $this->formula = $formula;
   }
+  /**
+   * @return string
+   */
   public function getFormula()
   {
     return $this->formula;

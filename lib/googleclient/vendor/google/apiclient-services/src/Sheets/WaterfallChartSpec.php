@@ -22,15 +22,28 @@ class WaterfallChartSpec extends \Google\Collection
   protected $collection_key = 'series';
   protected $connectorLineStyleType = LineStyle::class;
   protected $connectorLineStyleDataType = '';
+  public $connectorLineStyle;
   protected $domainType = WaterfallChartDomain::class;
   protected $domainDataType = '';
+  public $domain;
+  /**
+   * @var bool
+   */
   public $firstValueIsTotal;
+  /**
+   * @var bool
+   */
   public $hideConnectorLines;
   protected $seriesType = WaterfallChartSeries::class;
   protected $seriesDataType = 'array';
+  public $series;
+  /**
+   * @var string
+   */
   public $stackedType;
   protected $totalDataLabelType = DataLabel::class;
   protected $totalDataLabelDataType = '';
+  public $totalDataLabel;
 
   /**
    * @param LineStyle
@@ -60,18 +73,30 @@ class WaterfallChartSpec extends \Google\Collection
   {
     return $this->domain;
   }
+  /**
+   * @param bool
+   */
   public function setFirstValueIsTotal($firstValueIsTotal)
   {
     $this->firstValueIsTotal = $firstValueIsTotal;
   }
+  /**
+   * @return bool
+   */
   public function getFirstValueIsTotal()
   {
     return $this->firstValueIsTotal;
   }
+  /**
+   * @param bool
+   */
   public function setHideConnectorLines($hideConnectorLines)
   {
     $this->hideConnectorLines = $hideConnectorLines;
   }
+  /**
+   * @return bool
+   */
   public function getHideConnectorLines()
   {
     return $this->hideConnectorLines;
@@ -90,10 +115,16 @@ class WaterfallChartSpec extends \Google\Collection
   {
     return $this->series;
   }
+  /**
+   * @param string
+   */
   public function setStackedType($stackedType)
   {
     $this->stackedType = $stackedType;
   }
+  /**
+   * @return string
+   */
   public function getStackedType()
   {
     return $this->stackedType;

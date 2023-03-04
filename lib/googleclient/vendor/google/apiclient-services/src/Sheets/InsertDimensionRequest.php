@@ -19,14 +19,24 @@ namespace Google\Service\Sheets;
 
 class InsertDimensionRequest extends \Google\Model
 {
+  /**
+   * @var bool
+   */
   public $inheritFromBefore;
   protected $rangeType = DimensionRange::class;
   protected $rangeDataType = '';
+  public $range;
 
+  /**
+   * @param bool
+   */
   public function setInheritFromBefore($inheritFromBefore)
   {
     $this->inheritFromBefore = $inheritFromBefore;
   }
+  /**
+   * @return bool
+   */
   public function getInheritFromBefore()
   {
     return $this->inheritFromBefore;

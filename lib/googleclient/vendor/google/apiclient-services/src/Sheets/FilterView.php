@@ -22,14 +22,27 @@ class FilterView extends \Google\Collection
   protected $collection_key = 'sortSpecs';
   protected $criteriaType = FilterCriteria::class;
   protected $criteriaDataType = 'map';
+  public $criteria;
   protected $filterSpecsType = FilterSpec::class;
   protected $filterSpecsDataType = 'array';
+  public $filterSpecs;
+  /**
+   * @var int
+   */
   public $filterViewId;
+  /**
+   * @var string
+   */
   public $namedRangeId;
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
+  public $range;
   protected $sortSpecsType = SortSpec::class;
   protected $sortSpecsDataType = 'array';
+  public $sortSpecs;
+  /**
+   * @var string
+   */
   public $title;
 
   /**
@@ -60,18 +73,30 @@ class FilterView extends \Google\Collection
   {
     return $this->filterSpecs;
   }
+  /**
+   * @param int
+   */
   public function setFilterViewId($filterViewId)
   {
     $this->filterViewId = $filterViewId;
   }
+  /**
+   * @return int
+   */
   public function getFilterViewId()
   {
     return $this->filterViewId;
   }
+  /**
+   * @param string
+   */
   public function setNamedRangeId($namedRangeId)
   {
     $this->namedRangeId = $namedRangeId;
   }
+  /**
+   * @return string
+   */
   public function getNamedRangeId()
   {
     return $this->namedRangeId;
@@ -104,10 +129,16 @@ class FilterView extends \Google\Collection
   {
     return $this->sortSpecs;
   }
+  /**
+   * @param string
+   */
   public function setTitle($title)
   {
     $this->title = $title;
   }
+  /**
+   * @return string
+   */
   public function getTitle()
   {
     return $this->title;

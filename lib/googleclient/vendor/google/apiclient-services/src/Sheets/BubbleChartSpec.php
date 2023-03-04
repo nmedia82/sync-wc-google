@@ -21,24 +21,44 @@ class BubbleChartSpec extends \Google\Model
 {
   protected $bubbleBorderColorType = Color::class;
   protected $bubbleBorderColorDataType = '';
+  public $bubbleBorderColor;
   protected $bubbleBorderColorStyleType = ColorStyle::class;
   protected $bubbleBorderColorStyleDataType = '';
+  public $bubbleBorderColorStyle;
   protected $bubbleLabelsType = ChartData::class;
   protected $bubbleLabelsDataType = '';
+  public $bubbleLabels;
+  /**
+   * @var int
+   */
   public $bubbleMaxRadiusSize;
+  /**
+   * @var int
+   */
   public $bubbleMinRadiusSize;
+  /**
+   * @var float
+   */
   public $bubbleOpacity;
   protected $bubbleSizesType = ChartData::class;
   protected $bubbleSizesDataType = '';
+  public $bubbleSizes;
   protected $bubbleTextStyleType = TextFormat::class;
   protected $bubbleTextStyleDataType = '';
+  public $bubbleTextStyle;
   protected $domainType = ChartData::class;
   protected $domainDataType = '';
+  public $domain;
   protected $groupIdsType = ChartData::class;
   protected $groupIdsDataType = '';
+  public $groupIds;
+  /**
+   * @var string
+   */
   public $legendPosition;
   protected $seriesType = ChartData::class;
   protected $seriesDataType = '';
+  public $series;
 
   /**
    * @param Color
@@ -82,26 +102,44 @@ class BubbleChartSpec extends \Google\Model
   {
     return $this->bubbleLabels;
   }
+  /**
+   * @param int
+   */
   public function setBubbleMaxRadiusSize($bubbleMaxRadiusSize)
   {
     $this->bubbleMaxRadiusSize = $bubbleMaxRadiusSize;
   }
+  /**
+   * @return int
+   */
   public function getBubbleMaxRadiusSize()
   {
     return $this->bubbleMaxRadiusSize;
   }
+  /**
+   * @param int
+   */
   public function setBubbleMinRadiusSize($bubbleMinRadiusSize)
   {
     $this->bubbleMinRadiusSize = $bubbleMinRadiusSize;
   }
+  /**
+   * @return int
+   */
   public function getBubbleMinRadiusSize()
   {
     return $this->bubbleMinRadiusSize;
   }
+  /**
+   * @param float
+   */
   public function setBubbleOpacity($bubbleOpacity)
   {
     $this->bubbleOpacity = $bubbleOpacity;
   }
+  /**
+   * @return float
+   */
   public function getBubbleOpacity()
   {
     return $this->bubbleOpacity;
@@ -162,10 +200,16 @@ class BubbleChartSpec extends \Google\Model
   {
     return $this->groupIds;
   }
+  /**
+   * @param string
+   */
   public function setLegendPosition($legendPosition)
   {
     $this->legendPosition = $legendPosition;
   }
+  /**
+   * @return string
+   */
   public function getLegendPosition()
   {
     return $this->legendPosition;

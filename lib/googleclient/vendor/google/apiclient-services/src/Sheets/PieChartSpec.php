@@ -21,10 +21,18 @@ class PieChartSpec extends \Google\Model
 {
   protected $domainType = ChartData::class;
   protected $domainDataType = '';
+  public $domain;
+  /**
+   * @var string
+   */
   public $legendPosition;
   public $pieHole;
   protected $seriesType = ChartData::class;
   protected $seriesDataType = '';
+  public $series;
+  /**
+   * @var bool
+   */
   public $threeDimensional;
 
   /**
@@ -41,10 +49,16 @@ class PieChartSpec extends \Google\Model
   {
     return $this->domain;
   }
+  /**
+   * @param string
+   */
   public function setLegendPosition($legendPosition)
   {
     $this->legendPosition = $legendPosition;
   }
+  /**
+   * @return string
+   */
   public function getLegendPosition()
   {
     return $this->legendPosition;
@@ -71,10 +85,16 @@ class PieChartSpec extends \Google\Model
   {
     return $this->series;
   }
+  /**
+   * @param bool
+   */
   public function setThreeDimensional($threeDimensional)
   {
     $this->threeDimensional = $threeDimensional;
   }
+  /**
+   * @return bool
+   */
   public function getThreeDimensional()
   {
     return $this->threeDimensional;

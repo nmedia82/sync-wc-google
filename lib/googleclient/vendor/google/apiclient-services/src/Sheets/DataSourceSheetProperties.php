@@ -22,8 +22,13 @@ class DataSourceSheetProperties extends \Google\Collection
   protected $collection_key = 'columns';
   protected $columnsType = DataSourceColumn::class;
   protected $columnsDataType = 'array';
+  public $columns;
   protected $dataExecutionStatusType = DataExecutionStatus::class;
   protected $dataExecutionStatusDataType = '';
+  public $dataExecutionStatus;
+  /**
+   * @var string
+   */
   public $dataSourceId;
 
   /**
@@ -54,10 +59,16 @@ class DataSourceSheetProperties extends \Google\Collection
   {
     return $this->dataExecutionStatus;
   }
+  /**
+   * @param string
+   */
   public function setDataSourceId($dataSourceId)
   {
     $this->dataSourceId = $dataSourceId;
   }
+  /**
+   * @return string
+   */
   public function getDataSourceId()
   {
     return $this->dataSourceId;

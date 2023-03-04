@@ -22,6 +22,10 @@ class GetSpreadsheetByDataFilterRequest extends \Google\Collection
   protected $collection_key = 'dataFilters';
   protected $dataFiltersType = DataFilter::class;
   protected $dataFiltersDataType = 'array';
+  public $dataFilters;
+  /**
+   * @var bool
+   */
   public $includeGridData;
 
   /**
@@ -38,10 +42,16 @@ class GetSpreadsheetByDataFilterRequest extends \Google\Collection
   {
     return $this->dataFilters;
   }
+  /**
+   * @param bool
+   */
   public function setIncludeGridData($includeGridData)
   {
     $this->includeGridData = $includeGridData;
   }
+  /**
+   * @return bool
+   */
   public function getIncludeGridData()
   {
     return $this->includeGridData;

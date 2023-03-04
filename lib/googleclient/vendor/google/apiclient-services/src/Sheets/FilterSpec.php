@@ -19,16 +19,27 @@ namespace Google\Service\Sheets;
 
 class FilterSpec extends \Google\Model
 {
+  /**
+   * @var int
+   */
   public $columnIndex;
   protected $dataSourceColumnReferenceType = DataSourceColumnReference::class;
   protected $dataSourceColumnReferenceDataType = '';
+  public $dataSourceColumnReference;
   protected $filterCriteriaType = FilterCriteria::class;
   protected $filterCriteriaDataType = '';
+  public $filterCriteria;
 
+  /**
+   * @param int
+   */
   public function setColumnIndex($columnIndex)
   {
     $this->columnIndex = $columnIndex;
   }
+  /**
+   * @return int
+   */
   public function getColumnIndex()
   {
     return $this->columnIndex;

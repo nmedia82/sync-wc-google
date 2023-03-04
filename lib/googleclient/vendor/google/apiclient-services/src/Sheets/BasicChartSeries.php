@@ -22,19 +22,32 @@ class BasicChartSeries extends \Google\Collection
   protected $collection_key = 'styleOverrides';
   protected $colorType = Color::class;
   protected $colorDataType = '';
+  public $color;
   protected $colorStyleType = ColorStyle::class;
   protected $colorStyleDataType = '';
+  public $colorStyle;
   protected $dataLabelType = DataLabel::class;
   protected $dataLabelDataType = '';
+  public $dataLabel;
   protected $lineStyleType = LineStyle::class;
   protected $lineStyleDataType = '';
+  public $lineStyle;
   protected $pointStyleType = PointStyle::class;
   protected $pointStyleDataType = '';
+  public $pointStyle;
   protected $seriesType = ChartData::class;
   protected $seriesDataType = '';
+  public $series;
   protected $styleOverridesType = BasicSeriesDataPointStyleOverride::class;
   protected $styleOverridesDataType = 'array';
+  public $styleOverrides;
+  /**
+   * @var string
+   */
   public $targetAxis;
+  /**
+   * @var string
+   */
   public $type;
 
   /**
@@ -135,18 +148,30 @@ class BasicChartSeries extends \Google\Collection
   {
     return $this->styleOverrides;
   }
+  /**
+   * @param string
+   */
   public function setTargetAxis($targetAxis)
   {
     $this->targetAxis = $targetAxis;
   }
+  /**
+   * @return string
+   */
   public function getTargetAxis()
   {
     return $this->targetAxis;
   }
+  /**
+   * @param string
+   */
   public function setType($type)
   {
     $this->type = $type;
   }
+  /**
+   * @return string
+   */
   public function getType()
   {
     return $this->type;

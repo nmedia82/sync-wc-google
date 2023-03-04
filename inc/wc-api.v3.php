@@ -292,8 +292,8 @@ class WCGS_WC_API_V3 {
     $chunk_size = 100;
     $args_product_cat = ['taxonomy'=>'product_cat','hide_empty' => false];
     $total_cats = wp_count_terms($args_product_cat);
-    $no_of_pages = floor($total_cats);
-    // wcgs_log($no_of_pages);
+    $no_of_pages = ceil($total_cats/$chunk_size);
+    wcgs_log($no_of_pages);
     
     $items = [];
     

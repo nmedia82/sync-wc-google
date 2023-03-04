@@ -21,9 +21,17 @@ class InterpolationPoint extends \Google\Model
 {
   protected $colorType = Color::class;
   protected $colorDataType = '';
+  public $color;
   protected $colorStyleType = ColorStyle::class;
   protected $colorStyleDataType = '';
+  public $colorStyle;
+  /**
+   * @var string
+   */
   public $type;
+  /**
+   * @var string
+   */
   public $value;
 
   /**
@@ -54,18 +62,30 @@ class InterpolationPoint extends \Google\Model
   {
     return $this->colorStyle;
   }
+  /**
+   * @param string
+   */
   public function setType($type)
   {
     $this->type = $type;
   }
+  /**
+   * @return string
+   */
   public function getType()
   {
     return $this->type;
   }
+  /**
+   * @param string
+   */
   public function setValue($value)
   {
     $this->value = $value;
   }
+  /**
+   * @return string
+   */
   public function getValue()
   {
     return $this->value;

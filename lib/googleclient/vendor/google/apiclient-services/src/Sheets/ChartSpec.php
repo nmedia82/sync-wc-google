@@ -20,53 +20,95 @@ namespace Google\Service\Sheets;
 class ChartSpec extends \Google\Collection
 {
   protected $collection_key = 'sortSpecs';
+  /**
+   * @var string
+   */
   public $altText;
   protected $backgroundColorType = Color::class;
   protected $backgroundColorDataType = '';
+  public $backgroundColor;
   protected $backgroundColorStyleType = ColorStyle::class;
   protected $backgroundColorStyleDataType = '';
+  public $backgroundColorStyle;
   protected $basicChartType = BasicChartSpec::class;
   protected $basicChartDataType = '';
+  public $basicChart;
   protected $bubbleChartType = BubbleChartSpec::class;
   protected $bubbleChartDataType = '';
+  public $bubbleChart;
   protected $candlestickChartType = CandlestickChartSpec::class;
   protected $candlestickChartDataType = '';
+  public $candlestickChart;
   protected $dataSourceChartPropertiesType = DataSourceChartProperties::class;
   protected $dataSourceChartPropertiesDataType = '';
+  public $dataSourceChartProperties;
   protected $filterSpecsType = FilterSpec::class;
   protected $filterSpecsDataType = 'array';
+  public $filterSpecs;
+  /**
+   * @var string
+   */
   public $fontName;
+  /**
+   * @var string
+   */
   public $hiddenDimensionStrategy;
   protected $histogramChartType = HistogramChartSpec::class;
   protected $histogramChartDataType = '';
+  public $histogramChart;
+  /**
+   * @var bool
+   */
   public $maximized;
   protected $orgChartType = OrgChartSpec::class;
   protected $orgChartDataType = '';
+  public $orgChart;
   protected $pieChartType = PieChartSpec::class;
   protected $pieChartDataType = '';
+  public $pieChart;
   protected $scorecardChartType = ScorecardChartSpec::class;
   protected $scorecardChartDataType = '';
+  public $scorecardChart;
   protected $sortSpecsType = SortSpec::class;
   protected $sortSpecsDataType = 'array';
+  public $sortSpecs;
+  /**
+   * @var string
+   */
   public $subtitle;
   protected $subtitleTextFormatType = TextFormat::class;
   protected $subtitleTextFormatDataType = '';
+  public $subtitleTextFormat;
   protected $subtitleTextPositionType = TextPosition::class;
   protected $subtitleTextPositionDataType = '';
+  public $subtitleTextPosition;
+  /**
+   * @var string
+   */
   public $title;
   protected $titleTextFormatType = TextFormat::class;
   protected $titleTextFormatDataType = '';
+  public $titleTextFormat;
   protected $titleTextPositionType = TextPosition::class;
   protected $titleTextPositionDataType = '';
+  public $titleTextPosition;
   protected $treemapChartType = TreemapChartSpec::class;
   protected $treemapChartDataType = '';
+  public $treemapChart;
   protected $waterfallChartType = WaterfallChartSpec::class;
   protected $waterfallChartDataType = '';
+  public $waterfallChart;
 
+  /**
+   * @param string
+   */
   public function setAltText($altText)
   {
     $this->altText = $altText;
   }
+  /**
+   * @return string
+   */
   public function getAltText()
   {
     return $this->altText;
@@ -169,18 +211,30 @@ class ChartSpec extends \Google\Collection
   {
     return $this->filterSpecs;
   }
+  /**
+   * @param string
+   */
   public function setFontName($fontName)
   {
     $this->fontName = $fontName;
   }
+  /**
+   * @return string
+   */
   public function getFontName()
   {
     return $this->fontName;
   }
+  /**
+   * @param string
+   */
   public function setHiddenDimensionStrategy($hiddenDimensionStrategy)
   {
     $this->hiddenDimensionStrategy = $hiddenDimensionStrategy;
   }
+  /**
+   * @return string
+   */
   public function getHiddenDimensionStrategy()
   {
     return $this->hiddenDimensionStrategy;
@@ -199,10 +253,16 @@ class ChartSpec extends \Google\Collection
   {
     return $this->histogramChart;
   }
+  /**
+   * @param bool
+   */
   public function setMaximized($maximized)
   {
     $this->maximized = $maximized;
   }
+  /**
+   * @return bool
+   */
   public function getMaximized()
   {
     return $this->maximized;
@@ -263,10 +323,16 @@ class ChartSpec extends \Google\Collection
   {
     return $this->sortSpecs;
   }
+  /**
+   * @param string
+   */
   public function setSubtitle($subtitle)
   {
     $this->subtitle = $subtitle;
   }
+  /**
+   * @return string
+   */
   public function getSubtitle()
   {
     return $this->subtitle;
@@ -299,10 +365,16 @@ class ChartSpec extends \Google\Collection
   {
     return $this->subtitleTextPosition;
   }
+  /**
+   * @param string
+   */
   public function setTitle($title)
   {
     $this->title = $title;
   }
+  /**
+   * @return string
+   */
   public function getTitle()
   {
     return $this->title;

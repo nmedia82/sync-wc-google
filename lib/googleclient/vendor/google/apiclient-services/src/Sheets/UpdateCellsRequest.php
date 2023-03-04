@@ -20,18 +20,30 @@ namespace Google\Service\Sheets;
 class UpdateCellsRequest extends \Google\Collection
 {
   protected $collection_key = 'rows';
+  /**
+   * @var string
+   */
   public $fields;
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
+  public $range;
   protected $rowsType = RowData::class;
   protected $rowsDataType = 'array';
+  public $rows;
   protected $startType = GridCoordinate::class;
   protected $startDataType = '';
+  public $start;
 
+  /**
+   * @param string
+   */
   public function setFields($fields)
   {
     $this->fields = $fields;
   }
+  /**
+   * @return string
+   */
   public function getFields()
   {
     return $this->fields;

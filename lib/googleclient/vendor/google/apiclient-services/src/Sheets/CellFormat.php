@@ -21,22 +21,44 @@ class CellFormat extends \Google\Model
 {
   protected $backgroundColorType = Color::class;
   protected $backgroundColorDataType = '';
+  public $backgroundColor;
   protected $backgroundColorStyleType = ColorStyle::class;
   protected $backgroundColorStyleDataType = '';
+  public $backgroundColorStyle;
   protected $bordersType = Borders::class;
   protected $bordersDataType = '';
+  public $borders;
+  /**
+   * @var string
+   */
   public $horizontalAlignment;
+  /**
+   * @var string
+   */
   public $hyperlinkDisplayType;
   protected $numberFormatType = NumberFormat::class;
   protected $numberFormatDataType = '';
+  public $numberFormat;
   protected $paddingType = Padding::class;
   protected $paddingDataType = '';
+  public $padding;
+  /**
+   * @var string
+   */
   public $textDirection;
   protected $textFormatType = TextFormat::class;
   protected $textFormatDataType = '';
+  public $textFormat;
   protected $textRotationType = TextRotation::class;
   protected $textRotationDataType = '';
+  public $textRotation;
+  /**
+   * @var string
+   */
   public $verticalAlignment;
+  /**
+   * @var string
+   */
   public $wrapStrategy;
 
   /**
@@ -81,18 +103,30 @@ class CellFormat extends \Google\Model
   {
     return $this->borders;
   }
+  /**
+   * @param string
+   */
   public function setHorizontalAlignment($horizontalAlignment)
   {
     $this->horizontalAlignment = $horizontalAlignment;
   }
+  /**
+   * @return string
+   */
   public function getHorizontalAlignment()
   {
     return $this->horizontalAlignment;
   }
+  /**
+   * @param string
+   */
   public function setHyperlinkDisplayType($hyperlinkDisplayType)
   {
     $this->hyperlinkDisplayType = $hyperlinkDisplayType;
   }
+  /**
+   * @return string
+   */
   public function getHyperlinkDisplayType()
   {
     return $this->hyperlinkDisplayType;
@@ -125,10 +159,16 @@ class CellFormat extends \Google\Model
   {
     return $this->padding;
   }
+  /**
+   * @param string
+   */
   public function setTextDirection($textDirection)
   {
     $this->textDirection = $textDirection;
   }
+  /**
+   * @return string
+   */
   public function getTextDirection()
   {
     return $this->textDirection;
@@ -161,18 +201,30 @@ class CellFormat extends \Google\Model
   {
     return $this->textRotation;
   }
+  /**
+   * @param string
+   */
   public function setVerticalAlignment($verticalAlignment)
   {
     $this->verticalAlignment = $verticalAlignment;
   }
+  /**
+   * @return string
+   */
   public function getVerticalAlignment()
   {
     return $this->verticalAlignment;
   }
+  /**
+   * @param string
+   */
   public function setWrapStrategy($wrapStrategy)
   {
     $this->wrapStrategy = $wrapStrategy;
   }
+  /**
+   * @return string
+   */
   public function getWrapStrategy()
   {
     return $this->wrapStrategy;

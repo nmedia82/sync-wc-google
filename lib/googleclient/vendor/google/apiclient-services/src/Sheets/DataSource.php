@@ -22,10 +22,18 @@ class DataSource extends \Google\Collection
   protected $collection_key = 'calculatedColumns';
   protected $calculatedColumnsType = DataSourceColumn::class;
   protected $calculatedColumnsDataType = 'array';
+  public $calculatedColumns;
+  /**
+   * @var string
+   */
   public $dataSourceId;
+  /**
+   * @var int
+   */
   public $sheetId;
   protected $specType = DataSourceSpec::class;
   protected $specDataType = '';
+  public $spec;
 
   /**
    * @param DataSourceColumn[]
@@ -41,18 +49,30 @@ class DataSource extends \Google\Collection
   {
     return $this->calculatedColumns;
   }
+  /**
+   * @param string
+   */
   public function setDataSourceId($dataSourceId)
   {
     $this->dataSourceId = $dataSourceId;
   }
+  /**
+   * @return string
+   */
   public function getDataSourceId()
   {
     return $this->dataSourceId;
   }
+  /**
+   * @param int
+   */
   public function setSheetId($sheetId)
   {
     $this->sheetId = $sheetId;
   }
+  /**
+   * @return int
+   */
   public function getSheetId()
   {
     return $this->sheetId;

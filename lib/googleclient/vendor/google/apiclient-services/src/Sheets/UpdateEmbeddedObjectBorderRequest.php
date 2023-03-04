@@ -21,7 +21,14 @@ class UpdateEmbeddedObjectBorderRequest extends \Google\Model
 {
   protected $borderType = EmbeddedObjectBorder::class;
   protected $borderDataType = '';
+  public $border;
+  /**
+   * @var string
+   */
   public $fields;
+  /**
+   * @var int
+   */
   public $objectId;
 
   /**
@@ -38,18 +45,30 @@ class UpdateEmbeddedObjectBorderRequest extends \Google\Model
   {
     return $this->border;
   }
+  /**
+   * @param string
+   */
   public function setFields($fields)
   {
     $this->fields = $fields;
   }
+  /**
+   * @return string
+   */
   public function getFields()
   {
     return $this->fields;
   }
+  /**
+   * @param int
+   */
   public function setObjectId($objectId)
   {
     $this->objectId = $objectId;
   }
+  /**
+   * @return int
+   */
   public function getObjectId()
   {
     return $this->objectId;

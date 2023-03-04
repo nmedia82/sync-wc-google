@@ -21,25 +21,42 @@ class TreemapChartSpec extends \Google\Model
 {
   protected $colorDataType = ChartData::class;
   protected $colorDataDataType = '';
+  public $colorData;
   protected $colorScaleType = TreemapChartColorScale::class;
   protected $colorScaleDataType = '';
+  public $colorScale;
   protected $headerColorType = Color::class;
   protected $headerColorDataType = '';
+  public $headerColor;
   protected $headerColorStyleType = ColorStyle::class;
   protected $headerColorStyleDataType = '';
+  public $headerColorStyle;
+  /**
+   * @var bool
+   */
   public $hideTooltips;
+  /**
+   * @var int
+   */
   public $hintedLevels;
   protected $labelsType = ChartData::class;
   protected $labelsDataType = '';
+  public $labels;
+  /**
+   * @var int
+   */
   public $levels;
   public $maxValue;
   public $minValue;
   protected $parentLabelsType = ChartData::class;
   protected $parentLabelsDataType = '';
+  public $parentLabels;
   protected $sizeDataType = ChartData::class;
   protected $sizeDataDataType = '';
+  public $sizeData;
   protected $textFormatType = TextFormat::class;
   protected $textFormatDataType = '';
+  public $textFormat;
 
   /**
    * @param ChartData
@@ -97,18 +114,30 @@ class TreemapChartSpec extends \Google\Model
   {
     return $this->headerColorStyle;
   }
+  /**
+   * @param bool
+   */
   public function setHideTooltips($hideTooltips)
   {
     $this->hideTooltips = $hideTooltips;
   }
+  /**
+   * @return bool
+   */
   public function getHideTooltips()
   {
     return $this->hideTooltips;
   }
+  /**
+   * @param int
+   */
   public function setHintedLevels($hintedLevels)
   {
     $this->hintedLevels = $hintedLevels;
   }
+  /**
+   * @return int
+   */
   public function getHintedLevels()
   {
     return $this->hintedLevels;
@@ -127,10 +156,16 @@ class TreemapChartSpec extends \Google\Model
   {
     return $this->labels;
   }
+  /**
+   * @param int
+   */
   public function setLevels($levels)
   {
     $this->levels = $levels;
   }
+  /**
+   * @return int
+   */
   public function getLevels()
   {
     return $this->levels;

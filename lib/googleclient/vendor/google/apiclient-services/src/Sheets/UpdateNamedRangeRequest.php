@@ -19,14 +19,24 @@ namespace Google\Service\Sheets;
 
 class UpdateNamedRangeRequest extends \Google\Model
 {
+  /**
+   * @var string
+   */
   public $fields;
   protected $namedRangeType = NamedRange::class;
   protected $namedRangeDataType = '';
+  public $namedRange;
 
+  /**
+   * @param string
+   */
   public function setFields($fields)
   {
     $this->fields = $fields;
   }
+  /**
+   * @return string
+   */
   public function getFields()
   {
     return $this->fields;

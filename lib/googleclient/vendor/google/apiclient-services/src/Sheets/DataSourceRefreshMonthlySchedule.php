@@ -20,14 +20,24 @@ namespace Google\Service\Sheets;
 class DataSourceRefreshMonthlySchedule extends \Google\Collection
 {
   protected $collection_key = 'daysOfMonth';
+  /**
+   * @var int[]
+   */
   public $daysOfMonth;
   protected $startTimeType = TimeOfDay::class;
   protected $startTimeDataType = '';
+  public $startTime;
 
+  /**
+   * @param int[]
+   */
   public function setDaysOfMonth($daysOfMonth)
   {
     $this->daysOfMonth = $daysOfMonth;
   }
+  /**
+   * @return int[]
+   */
   public function getDaysOfMonth()
   {
     return $this->daysOfMonth;

@@ -22,25 +22,43 @@ class CellData extends \Google\Collection
   protected $collection_key = 'textFormatRuns';
   protected $dataSourceFormulaType = DataSourceFormula::class;
   protected $dataSourceFormulaDataType = '';
+  public $dataSourceFormula;
   protected $dataSourceTableType = DataSourceTable::class;
   protected $dataSourceTableDataType = '';
+  public $dataSourceTable;
   protected $dataValidationType = DataValidationRule::class;
   protected $dataValidationDataType = '';
+  public $dataValidation;
   protected $effectiveFormatType = CellFormat::class;
   protected $effectiveFormatDataType = '';
+  public $effectiveFormat;
   protected $effectiveValueType = ExtendedValue::class;
   protected $effectiveValueDataType = '';
+  public $effectiveValue;
+  /**
+   * @var string
+   */
   public $formattedValue;
+  /**
+   * @var string
+   */
   public $hyperlink;
+  /**
+   * @var string
+   */
   public $note;
   protected $pivotTableType = PivotTable::class;
   protected $pivotTableDataType = '';
+  public $pivotTable;
   protected $textFormatRunsType = TextFormatRun::class;
   protected $textFormatRunsDataType = 'array';
+  public $textFormatRuns;
   protected $userEnteredFormatType = CellFormat::class;
   protected $userEnteredFormatDataType = '';
+  public $userEnteredFormat;
   protected $userEnteredValueType = ExtendedValue::class;
   protected $userEnteredValueDataType = '';
+  public $userEnteredValue;
 
   /**
    * @param DataSourceFormula
@@ -112,26 +130,44 @@ class CellData extends \Google\Collection
   {
     return $this->effectiveValue;
   }
+  /**
+   * @param string
+   */
   public function setFormattedValue($formattedValue)
   {
     $this->formattedValue = $formattedValue;
   }
+  /**
+   * @return string
+   */
   public function getFormattedValue()
   {
     return $this->formattedValue;
   }
+  /**
+   * @param string
+   */
   public function setHyperlink($hyperlink)
   {
     $this->hyperlink = $hyperlink;
   }
+  /**
+   * @return string
+   */
   public function getHyperlink()
   {
     return $this->hyperlink;
   }
+  /**
+   * @param string
+   */
   public function setNote($note)
   {
     $this->note = $note;
   }
+  /**
+   * @return string
+   */
   public function getNote()
   {
     return $this->note;

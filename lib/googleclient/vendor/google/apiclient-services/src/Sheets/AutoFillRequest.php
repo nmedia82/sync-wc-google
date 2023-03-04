@@ -21,8 +21,13 @@ class AutoFillRequest extends \Google\Model
 {
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
+  public $range;
   protected $sourceAndDestinationType = SourceAndDestination::class;
   protected $sourceAndDestinationDataType = '';
+  public $sourceAndDestination;
+  /**
+   * @var bool
+   */
   public $useAlternateSeries;
 
   /**
@@ -53,10 +58,16 @@ class AutoFillRequest extends \Google\Model
   {
     return $this->sourceAndDestination;
   }
+  /**
+   * @param bool
+   */
   public function setUseAlternateSeries($useAlternateSeries)
   {
     $this->useAlternateSeries = $useAlternateSeries;
   }
+  /**
+   * @return bool
+   */
   public function getUseAlternateSeries()
   {
     return $this->useAlternateSeries;

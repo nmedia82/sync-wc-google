@@ -19,14 +19,24 @@ namespace Google\Service\Sheets;
 
 class PivotGroupValueMetadata extends \Google\Model
 {
+  /**
+   * @var bool
+   */
   public $collapsed;
   protected $valueType = ExtendedValue::class;
   protected $valueDataType = '';
+  public $value;
 
+  /**
+   * @param bool
+   */
   public function setCollapsed($collapsed)
   {
     $this->collapsed = $collapsed;
   }
+  /**
+   * @return bool
+   */
   public function getCollapsed()
   {
     return $this->collapsed;

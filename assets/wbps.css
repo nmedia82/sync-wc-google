@@ -1,0 +1,41 @@
+/**
+** setup: verification authcode
+**/
+/* Add some basic styling to the container */
+.wrap {
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px #ccc;
+    margin-bottom: 20px;
+}
+
+/* Style the heading */
+.wp-heading-inline {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Style the authcode input field */
+#authcode {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Style the save button */
+#btn_authcode {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+#btn_authcode:hover {
+    background-color: #3e8e41;
+}

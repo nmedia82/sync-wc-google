@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.1.1
 Requires PHP: 5.6
-Stable tag: 6.15
+Stable tag: 7.0
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,11 +20,15 @@ To add new products to WooCommerce or even to make a single adjustment, you must
 Use Google Sheets™ to add products and categories, and it only takes one click to add thousands of products to your store. Please watch this video instruction to learn more about the features and how to use it.
 
 = How It Works? =
-[youtube https://www.youtube.com/watch?v=MNomoD3Es0g]
+[youtube https://youtu.be/yKNokaTP2iU]
 
 **[Bulk Product Sync Demo](https://tastewp.com/template/XrA1SAaUSxo)**
 = How to use Demo =
 [youtube https://youtu.be/aaJzK_BDE3s]
+
+= Migrations to Version 7? =
+* Just create new sheet and connect as described in video and fetch all existing products
+* No need to use Template, just use your own Google Sheet.
 
 
 = Features =
@@ -81,6 +85,11 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
+= 7.0 April 5, 2023 =
+* Feature: [Bulk Product Sync is now released as Google Addon](https://workspace.google.com/u/0/marketplace/app/bulk_product_sync_with_google_sheets/267586530797)
+* Feature: Removed Time-out issues for larger chunks of products
+* Feature: Manage columns names
+* Feature: Product attributes generator for variable and variations in one click
 = 6.15 March 4, 2023 =
 * Feature: Googleclient libraries updated
 = 6.14 December 1, 2022 =

@@ -222,7 +222,7 @@ class WCGS_WC_API_V3 {
         $include_products = wcgs_get_non_linked_products_ids();
     }
     
-    // $include_products = [6577]
+    // $include_products = [487];
      
     
     if( count($include_products) === 0 ) {

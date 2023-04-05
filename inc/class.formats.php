@@ -268,7 +268,6 @@ class WCGS_Format {
             }, $products);
         }
         
-        // wcgs_log_dump($products);
         foreach(wcgs_fields_format_required() as $key=>$type){
             $key = trim($key);
             
@@ -289,8 +288,7 @@ class WCGS_Format {
             }, $products);
         }
         
-        
-        
+        wcgs_log_dump($products);
     
         $products_refined = [];
         foreach($products as $product) {

@@ -3,7 +3,7 @@ Contributors: nmedia
 Tags: bulk products, bulk stock manage, bulk price editor, woocommerce products, woocommerce stock, stock update
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
-Tested up to: 6.1.1
+Tested up to: 6.2
 Requires PHP: 5.6
 Stable tag: 7.0
 License: GPL2

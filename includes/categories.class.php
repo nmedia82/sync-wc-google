@@ -19,7 +19,7 @@ class WBPS_Categories {
     /**
      * chunk [ [id], [row] ]
      * */
-    public static function sync($chunk) {
+    public static function sync($chunk, $general_settings) {
         
         try{
             
@@ -28,7 +28,7 @@ class WBPS_Categories {
              * 1. formatting each column data with wcgs_{$sheet_name}_data_{$key}
              * 2. product meta columns handling
              **/
-            $categories = apply_filters('wcgs_sync_data_categories_before_processing', $chunk);
+            $categories = apply_filters('wcgs_sync_data_categories_before_processing', $chunk, $general_settings);
             
             // Preparing data for WC API
             $wcapi_data = [];

@@ -136,7 +136,7 @@ class WBPS_WP_REST {
         $chunk = array_replace(...$chunk);
         // wbps_logger_array($chunk);
         $categories_ins = init_wbps_categories();
-        $response = $categories_ins::sync($chunk);
+        $response = $categories_ins::sync($chunk, $general_settings);
         if( is_wp_error($response) ) {
             wp_send_json_error($response->get_error_message());
         }

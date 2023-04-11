@@ -30,8 +30,8 @@ class WBPS_Format {
             add_filter('wbps_products_synback', array($this, 'syncback_data_products'), 11, 3);
             
             // Categories
-            add_filter('wcgs_sync_data_categories_before_processing', array($this, 'format_data_categories'), 11, 1);
-            add_filter('wcgs_categories_data_image', array($this, 'categories_image'), 99, 2);
+            add_filter('wcgs_sync_data_categories_before_processing', array($this, 'format_data_categories'), 11, 2);
+            add_filter('wcgs_categories_data_image', array($this, 'categories_image'), 99, 3);
         }
     
     }
@@ -86,14 +86,14 @@ class WBPS_Format {
         return $sheet_data;
     }
     
-    function format_data_categories($sheet_data) {
+    function format_data_categories($sheet_data, $general_settings) {
         
         $sheet_data = array_map(function($item) {
             foreach(wbps_fields_format_required() as $key => $type){
                 
                 if( !isset($item[$key]) ) continue;
                 
-                $item[$key] = apply_filters("wcgs_categories_data_{$key}", $item[$key], $item);
+                $item[$key] = apply_filters("wcgs_categories_data_{$key}", $item[$key], $item, $general_settings);
             }
             
             return $item;
@@ -242,6 +242,12 @@ class WBPS_Format {
     
     // Category Image
     function categories_image($image, $row, $general_settings){
+        
+        $return_value = $general_settings['image_return_value'];
+        
+        if( $return_value === 'object' ){
+            return json_decode($image, true);
+        }
         
         if( $image == '' ) return $image;
         $image = trim($image);

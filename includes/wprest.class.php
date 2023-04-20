@@ -318,7 +318,7 @@ class WBPS_WP_REST {
         $data   = $request->get_params();
         extract($data);
         
-        $response = update_post_meta($product_id, 'wbps_row_id', $row_id);
+        $response = update_post_meta($product_id, 'wbps_row_id', intval($row_id));
         // wbps_logger_array($response);
         
         wp_send_json($response);

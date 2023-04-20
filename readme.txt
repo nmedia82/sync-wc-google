@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 7.0
+Stable tag: 7.1
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,8 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
+= 7.1 April 20, 2023 =
+* Feature: [AutoFetch is optimized with new way](https://najeebmedia.com/blog/how-to-enable-autofetch-in-bulk-product-sync-for-real-time-store-updates-in-your-google-sheet/)
 = 7.0 April 5, 2023 =
 * Feature: [Bulk Product Sync is now released as Google Addon](https://workspace.google.com/u/0/marketplace/app/bulk_product_sync_with_google_sheets/267586530797)
 * Feature: Removed Time-out issues for larger chunks of products

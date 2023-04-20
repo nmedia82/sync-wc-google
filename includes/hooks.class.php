@@ -196,13 +196,44 @@ class WBPS_Hooks {
         $wpdb->query($wpsql);
     }
     
-    function modify_webhook_payload($payload, $resource, $resource_id, $event_type) {
-      // Modify the payload data here
-      $payload['sheet_props']   = get_option('wbps_sheet_props');
-      $product_id               = $payload['id'];
-      $payload['row_no']        = get_post_meta($product_id,'wbps_row_id', true);
-    //   wbps_logger_array($payload);
-      return $payload;
+    function modify_webhook_payload($payload, $resource, $resource_id, $webhook_id) {
+        
+        if( $resource !== 'product' ) return $payload;
+        $sheet_props    = get_option('wbps_sheet_props');
+        unset($sheet_props['product_mapping']); // removing overloaded data
+        unset($sheet_props['webhook_status']); // removing overloaded data
+        
+        // in case of delete
+        if(count($payload) === 1){
+            $payload_new['row_id']  = get_post_meta($payload['id'],'wbps_row_id', true);
+            $payload_new['sheet_props']     = $sheet_props;
+            // wbps_logger_array($payload_new);
+            return $payload_new;
+        }
+    
+        $sheet_header   = json_decode($sheet_props['header']);
+        
+        // Get only the keys from $payload that exist in $sheet_header
+        $payload_keys = array_intersect($sheet_header, array_keys($payload));
+       
+        $sheet_header = array_flip($sheet_header);
+        $sheet_header['sync'] = 'OK';
+        
+        // Create a new array that has the keys from $sheet_header in the order they appear in $sheet_header, and the values from the corresponding keys in $payload
+        $ordered_payload = array_merge($sheet_header, array_intersect_key($payload, array_flip($payload_keys)));
+
+        $items = [$ordered_payload];
+        
+        $settings_keys = ['categories_return_value','tags_return_value','images_return_value','image_return_value'];
+        $settings = array_intersect_key($sheet_props, array_flip($settings_keys));
+        
+        $items = apply_filters('wbps_products_synback', $items, $header, $settings);
+        $payload_new['row_id']  = get_post_meta($payload['id'],'wbps_row_id', true);
+        $payload_new['row']     = array_map('array_values', $items);
+        $payload_new['product_id']     = $payload['id'];
+        $payload_new['sheet_props']     = $sheet_props;
+
+        return $payload_new;
     }
 }
 

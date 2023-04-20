@@ -144,7 +144,7 @@ class WBPS_Products {
 
         }
         
-        // wbps_logger_array($items);
+        
         // adding variation based on this hook
         $items = apply_filters('wbps_products_list_before_syncback', $items, $header);
         
@@ -155,7 +155,7 @@ class WBPS_Products {
         $items = array_map(function($data) use($header){
             return array_replace($header, array_intersect_key($data, $header));
         }, $items);
-        
+        // wbps_logger_array($items);
         
         $items = apply_filters('wbps_products_synback', $items, $header, $settings);
         

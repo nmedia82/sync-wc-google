@@ -23,6 +23,8 @@ function wbps_get_rest_endpoints() {
                     ['slug'=>'link-new-product','callback'=>'link_new_product','method'=>'POST'],
                     ['slug'=>'save-sheet-props','callback'=>'save_sheet_props','method'=>'POST'],
                     ['slug'=>'relink-products','callback'=>'relink_products','method'=>'POST'],
+                    ['slug'=>'enable-webhook','callback'=>'enable_webhook','method'=>'POST'],
+                    ['slug'=>'disable-webhook','callback'=>'disable_webhook','method'=>'POST'],
                     ];
                     
     return apply_filters('wbps_rest_endpoints', $endpionts);

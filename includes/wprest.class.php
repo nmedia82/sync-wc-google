@@ -107,7 +107,7 @@ class WBPS_WP_REST {
         $data   = $request->get_params();
         extract($data);
         
-        wbps_logger_array($general_settings);
+        // wbps_logger_array($general_settings);
         // will remove extra indexed level
         $chunk = array_replace(...$chunk);
         $products_ins = init_wbps_products();
@@ -178,11 +178,11 @@ class WBPS_WP_REST {
         
         // wbps_logger_array($data);
         // when make a call via webhook, need to adjust few params
-        if(isset($source) && $source === 'webhook'){
-            $sheet_header = json_decode($sheet_header);
-            $chunk = json_decode($chunk);
-            $general_settings = json_decode($general_settings, true);
-        }
+        // if(isset($source) && $source === 'webhook'){
+        //     $sheet_header = json_decode($sheet_header);
+        //     $chunk = json_decode($chunk);
+        //     $general_settings = json_decode($general_settings, true);
+        // }
         
         /**
          * chunk, sheet_header, general_settings, last_row
@@ -333,6 +333,24 @@ class WBPS_WP_REST {
         delete_option('wbps_woocommerce_keys');
         // saving woocommerce keys
         update_option('wbps_woocommerce_keys', $data);
+        return '';
+    }
+    
+    // Enabling the webhook
+    function enable_webhook($request){
+        
+        $data   = $request->get_params();
+        
+        update_option('wbps_webhook_url', $data['webapp_url']);
+        return '';
+    }
+    
+    // Disabling the webhook
+    function disable_webhook($request){
+        
+        $data   = $request->get_params();
+        
+        delete_option('wbps_webhook_url');
         return '';
     }
     

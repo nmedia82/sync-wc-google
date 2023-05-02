@@ -96,3 +96,8 @@ function wbps_get_syncback_product_ids($product_status=['publish']) {
     return apply_filters('wbps_get_syncback_product_ids', $include_products);
   
 }
+
+function wbps_get_webapp_url(){
+    $url = get_option('wbps_webhook_url', true);
+    return $url;
+}

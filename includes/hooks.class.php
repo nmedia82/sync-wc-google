@@ -27,7 +27,48 @@ class WBPS_Hooks {
         add_action('wbps_after_categories_synced', [$this, 'link_category_with_sheet'], 11, 1);
         
         // modify webhook before it trigger, added sheets properties
-        add_filter('woocommerce_webhook_payload', [$this, 'modify_webhook_payload'], 10, 4);
+        // add_filter('woocommerce_webhook_payload', [$this, 'modify_webhook_payload'], 10, 4);
+       
+        // when product is created in wc
+        add_action( 'woocommerce_update_product', function($product_id){
+            
+            if ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Google-Apps-Script' ) !== false ) {
+                return;
+            }
+            
+            $wc_product = wc_get_product( $product_id );
+            $wbps_row_id = $wc_product->get_meta( 'wbps_row_id' );
+            if ( $wbps_row_id ) {
+                $this->trigger_webhook_on_product_update($product_id);
+            }
+            
+        }, 10, 1 );
+        
+        
+       add_action( 'save_post_product', function( $post_id, $post, $update ) {
+            
+            // Check if this is an auto-save
+            if ( wp_is_post_autosave( $post_id ) ) {
+                return;
+            }
+            
+            
+            if ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Google-Apps-Script' ) !== false ) {
+                return;
+            }
+
+        	// If an old book is being updated, exit
+        	if ( $update ) {
+        		return '';
+        	}
+        	
+            $this->trigger_webhook_on_new_product($post_id);
+        
+        }, 10, 3 );
+
+
+        
+        add_action( 'transition_post_status', [$this, 'handle_product_trashed'], 10, 3 );
         
     }
     
@@ -72,10 +113,6 @@ class WBPS_Hooks {
     
     // Add variation before syncback via hook
     function add_variations($products, $header){
-        
-      
-        // $header  = apply_filters('wcgs_page_header_data', $sheet_info['header_data']);
-        // $header = array_fill_keys($header, '');
         
         $variable_products = array_filter($products, function($product){
                     return $product['type'] == 'variable';
@@ -235,6 +272,252 @@ class WBPS_Hooks {
 
         return $payload_new;
     }
+    
+    // function build_payload_for_webhook($product) {
+        
+    //     $sheet_props    = get_option('wbps_sheet_props');
+    //     unset($sheet_props['product_mapping']); // removing overloaded data
+    //     unset($sheet_props['webhook_status']); // removing overloaded data
+        
+    //     $sheet_header   = json_decode($sheet_props['header']);
+        
+    //     // Get only the keys from $payload that exist in $sheet_header
+    //     $payload_keys = array_intersect($sheet_header, array_keys($product));
+    //     // wbps_logger_array($payload_keys);
+       
+    //     $sheet_header = array_flip($sheet_header);
+    //     $sheet_header['sync'] = 'OK';
+        
+    //     // adding variation based on this hook
+    //     $items = apply_filters('wbps_products_list_before_syncback', $items, $sheet_header);
+        
+    //     // Create a new array that has the keys from $sheet_header in the order they appear in $sheet_header, and the values from the corresponding keys in $payload
+    //     $ordered_payload = array_merge($sheet_header, array_intersect_key($product, array_flip($payload_keys)));
+
+    //     $items = [$ordered_payload];
+        
+        
+        
+    //     $settings_keys = ['categories_return_value','tags_return_value','images_return_value','image_return_value'];
+    //     $settings = array_intersect_key($sheet_props, array_flip($settings_keys));
+        
+        
+    //     $items = apply_filters('wbps_products_synback', $items, $sheet_header, $settings);
+    //     $payload_new['row_id']  = get_post_meta($product['id'],'wbps_row_id', true);
+    //     $payload_new['row']     = array_map('array_values', $items);
+    //     $payload_new['product_id']     = $product['id'];
+    //     $payload_new['sheet_props']     = $sheet_props;
+
+    //     wbps_logger_array($items);
+    //     return $payload_new;
+    // }
+    
+    function build_payload_for_webhook($product) {
+        
+        $sheet_props    = get_option('wbps_sheet_props');
+        unset($sheet_props['product_mapping']); // removing overloaded data
+        unset($sheet_props['webhook_status']); // removing overloaded data
+        
+        $header   = json_decode($sheet_props['header']);
+        
+        // $products_ins = init_wbps_products();
+        // $response = $products_ins::fetch($chunk, $header, $sheet_props, $last_row);
+        
+        $header = array_fill_keys($header, '');
+        $items = [$product];
+        
+        // adding variation based on this hook
+        $items = apply_filters('wbps_products_list_before_syncback', $items, $header);
+        
+        $sortby_id = array_column($items, 'id');
+        array_multisort($sortby_id, SORT_ASC, $items);
+        
+        $header['sync'] = 'OK';
+        $items = array_map(function($data) use($header){
+            return array_replace($header, array_intersect_key($data, $header));
+        }, $items);
+        
+        $settings_keys = ['categories_return_value','tags_return_value','images_return_value','image_return_value'];
+        $settings = array_intersect_key($sheet_props, array_flip($settings_keys));
+        $items = apply_filters('wbps_products_synback', $items, $header, $settings);
+        // wbps_logger_array($items);
+        
+        
+        $items = array_reduce($items, function($result, $item) {
+            $row_id = get_post_meta($item['id'], 'wbps_row_id', true);
+            $result[$row_id] = array_values($item);
+            return $result;
+        }, []);
+        
+        $payload_new['row_id']  = get_post_meta($product['id'],'wbps_row_id', true);
+        $payload_new['rows']     = $items;
+        $payload_new['product_id']     = $product['id'];
+        $payload_new['sheet_props']     = $sheet_props;
+
+        return $payload_new;
+    }
+    
+    
+    function handle_product_trashed( $new_status, $old_status, $post ) {
+        
+        if ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Google-Apps-Script' ) !== false ) {
+            return;
+        }
+    
+        if ( 'product' !== $post->post_type ) {
+            return;
+        }
+    
+        if ( 'trash' === $new_status ) {
+            // Product is trashed
+            $this->trigger_webhook_on_product_trash($post->ID);
+        }
+    }
+
+    function trigger_webhook_on_new_product( $post_id ) {
+        
+        $endpoint_url = wbps_get_webapp_url();
+        if( !$endpoint_url ) return;
+        
+        $wc_product = wc_get_product( $post_id );
+    
+        // Check if the post is a product
+        if ( $wc_product ) {
+            $endpoint_url = add_query_arg( array(
+                'event_type' => 'product_created',
+                'sheet_name' => 'products'
+            ), $endpoint_url );
+    
+            
+            // because WC API is not ready when a new product is created
+            $response = $wc_product->get_data();
+            
+            /**
+            * since we are pulling variation via wc_get_products (not with WC API)
+            * Some keys are not matched like image_id is returned instead of image
+            **/
+            $response = $wc_product->get_data();
+            $response['image']      = $response['image_id'];
+            $response['images']     = $response['gallery_image_ids'];
+            $response['categories'] = $response['category_ids'];
+            $response['tags']       = $response['tag_ids'];
+            $response['permalink']  = get_permalink( $post_id );
+            $response['type']       = $wc_product->get_type();
+            $response['price']       = $wc_product->get_price();
+            
+    
+            $payload = $this->build_payload_for_webhook( $response );
+            // return wbps_logger_array($payload);
+            
+            // Send the webhook request
+            $response = wp_remote_post( $endpoint_url, array(
+              'method' => 'POST',
+              'headers' => array( 'Content-Type' => 'application/json' ),
+              'body' => json_encode( $payload ),
+            ) );
+    
+            // Log the response
+            if ( is_wp_error( $response ) ) {
+              wbps_logger_array( 'Webhook request failed: ' . $response->get_error_message() );
+            } else {
+              wbps_logger_array( 'Webhook Ok - Created: ' . wp_remote_retrieve_body( $response ) );
+            }
+        }
+    }
+    
+    function trigger_webhook_on_product_update( $post_id ) {
+        
+        $endpoint_url = wbps_get_webapp_url();
+        wbps_logger_array($endpoint_url);
+        
+        if( !$endpoint_url ) return;
+        
+        $wc_product = wc_get_product( $post_id );
+        
+        // Check if the post is a product
+        if ( $wc_product ) {
+            $endpoint_url = add_query_arg( array(
+                'event_type' => 'product_updated',
+                'sheet_name' => 'products'
+            ), $endpoint_url );
+            
+            $request = new WP_REST_Request( 'GET', '/wc/v3/products/'.$post_id );
+            $request->set_body_params( $data );
+            $response = @rest_do_request( $request );
+            
+            if ( $response->is_error() ) {
+                $error = $response->as_error();
+                return new WP_Error( 'wcapi_batch_product_error', $error->get_error_message() );
+            } else{
+                $response = $response->get_data();
+            }
+            
+            $payload = $this->build_payload_for_webhook( $response );
+            // return wbps_logger_array($payload);
+            
+            // Send the webhook request
+            $response = wp_remote_post( $endpoint_url, array(
+              'method' => 'POST',
+              'headers' => array( 'Content-Type' => 'application/json' ),
+              'body' => json_encode( $payload ),
+            ) );
+            
+            // Log the response
+            if ( is_wp_error( $response ) ) {
+              wbps_logger_array( 'Webhook request failed: ' . $response->get_error_message() );
+            } else {
+              wbps_logger_array( 'Webhook Ok - Updated: ' . wp_remote_retrieve_body( $response ) );
+            }
+        }
+    }
+    
+    
+    function trigger_webhook_on_product_trash( $post_id ) {
+        
+        $endpoint_url = wbps_get_webapp_url();
+        if( !$endpoint_url ) return;
+        $wc_product = wc_get_product( $post_id );
+        
+        // Check if the post is a product
+        if ( $wc_product ) {
+            $endpoint_url = add_query_arg( array(
+                'event_type' => 'product_deleted',
+                'sheet_name' => 'products'
+            ), $endpoint_url );
+            
+            
+            $request = new WP_REST_Request( 'GET', '/wc/v3/products/'.$post_id );
+            $request->set_body_params( $data );
+            $response = @rest_do_request( $request );
+            // wbps_logger_array($response);
+            
+            if ( $response->is_error() ) {
+                $error = $response->as_error();
+                return new WP_Error( 'wcapi_delete_product_error', $error->get_error_message() );
+            } else{
+                $response = $response->get_data();
+            }
+            
+            $payload = $this->build_payload_for_webhook( $response );
+            
+            
+            // Send the webhook request
+            $response = wp_remote_post( $endpoint_url, array(
+              'method' => 'POST',
+              'headers' => array( 'Content-Type' => 'application/json' ),
+              'body' => json_encode( $payload ),
+            ) );
+            
+            // Log the response
+            if ( is_wp_error( $response ) ) {
+              wbps_logger_array( 'Webhook request failed: ' . $response->get_error_message() );
+            } else {
+              wbps_logger_array( 'Webhook Ok - Deleted: ' . wp_remote_retrieve_body( $response ) );
+            }
+        }
+    }
+
+
 }
 
 function init_wpbs_hooks(){

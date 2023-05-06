@@ -225,9 +225,6 @@ class WBPS_WP_REST {
             wp_send_json_error( ['message'=>$request->get_error_message()] );
         }
         
-        // remove code
-        delete_option('wbps_authcode');
-        
         global $wpdb;
         $val = 'wbps_row_id';
         
@@ -237,9 +234,19 @@ class WBPS_WP_REST {
         $table = "{$wpdb->prefix}termmeta";
         $wpdb->delete( $table, array( 'meta_key' => $val ) );
         
+        // delete webhook url:
+        delete_option('wbps_webhook_url');
+        
+        $wc_keys = get_option('wbps_woocommerce_keys');
+        $key_id = isset($wc_keys['key_id']) ? $wc_keys['key_id'] : null;
+        
         // deleting WC REST keys
-        $key_id = $request->get_param('wc_rest_id');
-		$delete = $wpdb->delete( $wpdb->prefix . 'woocommerce_api_keys', array( 'key_id' => $key_id ), array( '%d' ) );
+        if($key_id) {
+		    $delete = $wpdb->delete( $wpdb->prefix . 'woocommerce_api_keys', array( 'key_id' => $key_id ), array( '%d' ) );
+        }
+        
+        // wc keys
+        delete_option('wbps_woocommerce_keys');
         
         wp_send_json_success(__("Store is unlinked","wbps"));
     
@@ -329,6 +336,8 @@ class WBPS_WP_REST {
     function webhook_callback($request){
         
         $data   = $request->get_params();
+        
+        // wbps_logger_array($data);
         
         delete_option('wbps_woocommerce_keys');
         // saving woocommerce keys

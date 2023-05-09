@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 7.3
+Stable tag: 7.3.1
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,8 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
+= 7.3.1 May 6, 2023 =
+* Bug fixed: During sync operation old installations were stucked.
 = 7.3 May 6, 2023 =
 * Bug fixed: [Due to last update, sync was not working. It is fixed now](https://clients.najeebmedia.com/forums/topic/synchronization-never-starts/#post-151067)
 * Bug fixed: [Error on AutFetch enable fixed](https://clients.najeebmedia.com/forums/topic/google-sync-button-in-woocommerce-settings-not-displaying/)

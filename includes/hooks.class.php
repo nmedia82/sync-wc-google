@@ -39,7 +39,7 @@ class WBPS_Hooks {
             $wc_product = wc_get_product( $product_id );
             $wbps_row_id = $wc_product->get_meta( 'wbps_row_id' );
             if ( $wbps_row_id ) {
-                $this->trigger_webhook_on_product_update($product_id);
+                $this->trigger_webhook_on_product_updat1e($product_id);
             }
             
         }, 10, 1 );
@@ -167,7 +167,12 @@ class WBPS_Hooks {
     function add_meta_columns($products, $header_data){
     
         $sheet_properties = get_option('wbps_sheet_props');
+        
+        if( !$sheet_properties ) return $products;
+        
         $product_mapping = json_decode($sheet_properties['product_mapping'], true);
+        
+        if( !$product_mapping ) return $products;
         // now getting only custom fields
         $filtered_array = array_filter($product_mapping, function($item) {
             return $item['source'] === 'custom';

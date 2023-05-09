@@ -29,7 +29,7 @@ class WBPS_Hooks {
         // modify webhook before it trigger, added sheets properties
         // add_filter('woocommerce_webhook_payload', [$this, 'modify_webhook_payload'], 10, 4);
        
-        // when product is created in wc
+        // when product is updated in wc
         add_action( 'woocommerce_update_product', function($product_id){
             
             if ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Google-Apps-Script' ) !== false ) {
@@ -166,14 +166,20 @@ class WBPS_Hooks {
     // Adding meta columns if found
     function add_meta_columns($products, $header_data){
     
-        $meta_keys = get_option('wcgs_metadata_keys');
-        if( !$meta_keys ) return $products;
+        $sheet_properties = get_option('wbps_sheet_props');
+        $product_mapping = json_decode($sheet_properties['product_mapping'], true);
+        // now getting only custom fields
+        $filtered_array = array_filter($product_mapping, function($item) {
+            return $item['source'] === 'custom';
+        });
         
-        // getting the allowed meta keys and converting to array
-        $meta_array = explode(',', $meta_keys);
-        $meta_array = array_map('trim', $meta_array);
+        $custom_keys = array_column($filtered_array, 'key');
+        
+        if( !$custom_keys ) return $products;
+        
+        $custom_keys = array_map('trim', $custom_keys);
         // extract only meta data columns
-        $meta_column_found = array_intersect($meta_array, $header_data);
+        $meta_column_found = array_intersect($custom_keys, array_keys($header_data));
         if( $meta_column_found ) {
           
             $products = array_map(function($p) use ($meta_column_found){
@@ -181,7 +187,7 @@ class WBPS_Hooks {
             $meta_cols = [];
             foreach($meta_column_found as $meta_col){
               
-              $p[$meta_col] = wcgs_get_product_meta_col_value($p, $meta_col);
+              $p[$meta_col] = wbps_get_product_meta_col_value($p, $meta_col);
               
             }
             return $p;
@@ -189,7 +195,6 @@ class WBPS_Hooks {
           }, $products);
         }
         
-        // wbps_logger_array($products);
         return $products;
         
     }
@@ -273,48 +278,11 @@ class WBPS_Hooks {
         return $payload_new;
     }
     
-    // function build_payload_for_webhook($product) {
-        
-    //     $sheet_props    = get_option('wbps_sheet_props');
-    //     unset($sheet_props['product_mapping']); // removing overloaded data
-    //     unset($sheet_props['webhook_status']); // removing overloaded data
-        
-    //     $sheet_header   = json_decode($sheet_props['header']);
-        
-    //     // Get only the keys from $payload that exist in $sheet_header
-    //     $payload_keys = array_intersect($sheet_header, array_keys($product));
-    //     // wbps_logger_array($payload_keys);
-       
-    //     $sheet_header = array_flip($sheet_header);
-    //     $sheet_header['sync'] = 'OK';
-        
-    //     // adding variation based on this hook
-    //     $items = apply_filters('wbps_products_list_before_syncback', $items, $sheet_header);
-        
-    //     // Create a new array that has the keys from $sheet_header in the order they appear in $sheet_header, and the values from the corresponding keys in $payload
-    //     $ordered_payload = array_merge($sheet_header, array_intersect_key($product, array_flip($payload_keys)));
-
-    //     $items = [$ordered_payload];
-        
-        
-        
-    //     $settings_keys = ['categories_return_value','tags_return_value','images_return_value','image_return_value'];
-    //     $settings = array_intersect_key($sheet_props, array_flip($settings_keys));
-        
-        
-    //     $items = apply_filters('wbps_products_synback', $items, $sheet_header, $settings);
-    //     $payload_new['row_id']  = get_post_meta($product['id'],'wbps_row_id', true);
-    //     $payload_new['row']     = array_map('array_values', $items);
-    //     $payload_new['product_id']     = $product['id'];
-    //     $payload_new['sheet_props']     = $sheet_props;
-
-    //     wbps_logger_array($items);
-    //     return $payload_new;
-    // }
-    
     function build_payload_for_webhook($product) {
         
         $sheet_props    = get_option('wbps_sheet_props');
+        if( !$sheet_props ) return;
+        
         unset($sheet_props['product_mapping']); // removing overloaded data
         unset($sheet_props['webhook_status']); // removing overloaded data
         
@@ -326,7 +294,7 @@ class WBPS_Hooks {
         $header = array_fill_keys($header, '');
         $items = [$product];
         
-        // adding variation based on this hook
+        // adding variation and meta_data based on this hook
         $items = apply_filters('wbps_products_list_before_syncback', $items, $header);
         
         $sortby_id = array_column($items, 'id');
@@ -428,7 +396,7 @@ class WBPS_Hooks {
     function trigger_webhook_on_product_update( $post_id ) {
         
         $endpoint_url = wbps_get_webapp_url();
-        wbps_logger_array($endpoint_url);
+        // wbps_logger_array($endpoint_url);
         
         if( !$endpoint_url ) return;
         
@@ -464,7 +432,7 @@ class WBPS_Hooks {
             
             // Log the response
             if ( is_wp_error( $response ) ) {
-              wbps_logger_array( 'Webhook request failed: ' . $response->get_error_message() );
+              wbps_logger_array( 'Webhook on Update failed: ' . $response->get_error_message() );
             } else {
               wbps_logger_array( 'Webhook Ok - Updated: ' . wp_remote_retrieve_body( $response ) );
             }

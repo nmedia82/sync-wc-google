@@ -101,3 +101,21 @@ function wbps_get_webapp_url(){
     $url = get_option('wbps_webhook_url', true);
     return $url;
 }
+
+function wbps_get_product_meta_col_value($product, $col_key){
+    
+    $value_found = '';
+    $value_found = get_post_meta($product['id'], $col_key, true);
+    if( $value_found ) return $value_found;
+    // wbps_logger_array($value_found);
+    
+    // backup meta value check
+    $value_found = array_reduce($product['meta_data'], function($acc, $meta) use ($col_key) {
+        if ($meta->key === $col_key) {
+            return $meta->value;
+        }
+        return $acc;
+    });
+    
+    return $value_found;
+}

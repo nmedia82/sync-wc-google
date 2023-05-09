@@ -7,10 +7,6 @@ class WBPS_WCAPI {
 
   function __construct() {
     
-    // Adding variations into products lists
-    add_filter('wcgs_products_list_before_syncback', array($this, 'add_variations'), 11, 2);
-    add_filter('wcgs_products_list_before_syncback', array($this, 'add_meta_columns'), 21, 2);
-    
     // Meta query extends to fetch the products for syncback chunking
     $syncback_setting = get_option('wcgs_syncback_settings');
     if( $syncback_setting == 'not_linked' ){

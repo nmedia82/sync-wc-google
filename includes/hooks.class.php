@@ -32,14 +32,15 @@ class WBPS_Hooks {
         // when product is updated in wc
         add_action( 'woocommerce_update_product', function($product_id){
             
-            if ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Google-Apps-Script' ) !== false ) {
+            if ( $_SERVER['REQUEST_URI'] === '/wp-json/wbps/v1/product-sync' ) {
                 return;
             }
+            
             
             $wc_product = wc_get_product( $product_id );
             $wbps_row_id = $wc_product->get_meta( 'wbps_row_id' );
             if ( $wbps_row_id ) {
-                $this->trigger_webhook_on_product_updat1e($product_id);
+                $this->trigger_webhook_on_product_update($product_id);
             }
             
         }, 10, 1 );
@@ -53,7 +54,7 @@ class WBPS_Hooks {
             }
             
             
-            if ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Google-Apps-Script' ) !== false ) {
+            if ( $_SERVER['REQUEST_URI'] === '/wp-json/wbps/v1/product-sync' ) {
                 return;
             }
 
@@ -333,7 +334,7 @@ class WBPS_Hooks {
     
     function handle_product_trashed( $new_status, $old_status, $post ) {
         
-        if ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Google-Apps-Script' ) !== false ) {
+        if ( $_SERVER['REQUEST_URI'] === '/wp-json/wbps/v1/product-sync' ) {
             return;
         }
     
@@ -391,9 +392,9 @@ class WBPS_Hooks {
     
             // Log the response
             if ( is_wp_error( $response ) ) {
-              wbps_logger_array( 'Webhook request failed: ' . $response->get_error_message() );
+              wbps_logger_array( 'Webhook Created failed: ' . $response->get_error_message() );
             } else {
-              wbps_logger_array( 'Webhook Ok - Created: ' . wp_remote_retrieve_body( $response ) );
+            //   wbps_logger_array( 'Webhook Ok - Created: ' . wp_remote_retrieve_body( $response ) );
             }
         }
     }
@@ -439,7 +440,7 @@ class WBPS_Hooks {
             if ( is_wp_error( $response ) ) {
               wbps_logger_array( 'Webhook on Update failed: ' . $response->get_error_message() );
             } else {
-              wbps_logger_array( 'Webhook Ok - Updated: ' . wp_remote_retrieve_body( $response ) );
+            //   wbps_logger_array( 'Webhook Ok - Updated: ' . wp_remote_retrieve_body( $response ) );
             }
         }
     }
@@ -483,9 +484,9 @@ class WBPS_Hooks {
             
             // Log the response
             if ( is_wp_error( $response ) ) {
-              wbps_logger_array( 'Webhook request failed: ' . $response->get_error_message() );
+              wbps_logger_array( 'Webhook Delete failed: ' . $response->get_error_message() );
             } else {
-              wbps_logger_array( 'Webhook Ok - Deleted: ' . wp_remote_retrieve_body( $response ) );
+            //   wbps_logger_array( 'Webhook Ok - Deleted: ' . wp_remote_retrieve_body( $response ) );
             }
         }
     }

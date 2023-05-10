@@ -110,13 +110,13 @@ class WBPS_WP_REST {
         // wbps_logger_array($general_settings);
         // will remove extra indexed level
         $chunk = array_replace(...$chunk);
+        // wbps_logger_array($chunk);
         $products_ins = init_wbps_products();
         $response = $products_ins::sync($chunk, $general_settings);
         if( is_wp_error($response) ) {
             wp_send_json_error($response->get_error_message());
         }
         
-        // wbps_logger_array($response);
         // sleep(intval($chunk));
         
         wp_send_json_success($response);

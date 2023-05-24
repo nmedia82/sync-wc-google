@@ -303,6 +303,7 @@ class WBPS_Hooks {
         // adding variation and meta_data based on this hook
         $items = apply_filters('wbps_products_list_before_syncback', $items, $header);
         
+        // wbps_logger_array($items);
         $sortby_id = array_column($items, 'id');
         array_multisort($sortby_id, SORT_ASC, $items);
         
@@ -314,7 +315,6 @@ class WBPS_Hooks {
         $settings_keys = ['categories_return_value','tags_return_value','images_return_value','image_return_value'];
         $settings = array_intersect_key($sheet_props, array_flip($settings_keys));
         $items = apply_filters('wbps_products_synback', $items, $header, $settings);
-        // wbps_logger_array($items);
         
         
         $items = array_reduce($items, function($result, $item) {

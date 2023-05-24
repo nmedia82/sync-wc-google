@@ -202,9 +202,12 @@ class WBPS_WCAPI {
               }
           }
           
-          $all_result = array_merge($result1, $result2);
+          $all_result = array_merge($all_result, [array_merge($result1, $result2)]);
+
       }
       
+      // flattern the results
+      $all_result = array_merge(...$all_result);
       return $all_result;
   }
   

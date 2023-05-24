@@ -78,12 +78,13 @@ class WBPS_Products {
             
             // wbps_logger_array($wcapi_data);
             // wbps_logger_array($wcapi_variations);
+            // return;
             
             $wcapi = new WBPS_WCAPI();
             
             $result1 = [];
             
-            if($wcapi_data) {
+            if( count($wcapi_data) > 0 ) {
                 $result1 = $wcapi->batch_update_products($wcapi_data);
                 if( is_wp_error($result1) ) {
                     return $result1;
@@ -91,7 +92,7 @@ class WBPS_Products {
             }
             
             $result2 = [];
-            if($wcapi_variations) {
+            if( count($wcapi_variations) > 0 ) {
                 $result2 = $wcapi->batch_update_variations($wcapi_variations);
                 if( is_wp_error($result2) ) {
                     return $result2;
@@ -145,7 +146,7 @@ class WBPS_Products {
         }
         
         
-        // adding variation based on this hook
+        // adding variation and meta column based on this hook
         $items = apply_filters('wbps_products_list_before_syncback', $items, $header);
         
         $sortby_id = array_column($items, 'id');

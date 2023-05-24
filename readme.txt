@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 7.4
+Stable tag: 7.5
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,8 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
+= 7.5 May 24, 2023 =
+* Bug fixed: Due to PHP version code is updated to work with all versions.
 = 7.4 May 10, 2023 =
 * Bug fixed: Sync operation slow issue fixed.
 = 7.3.1 May 8, 2023 =

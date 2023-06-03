@@ -119,3 +119,18 @@ function wbps_get_product_meta_col_value($product, $col_key){
     
     return $value_found;
 }
+
+function wbps_return_bytes($size) {
+    $unit = strtoupper(substr($size, -1));
+    $value = substr($size, 0, -1);
+    switch ($unit) {
+        case 'K':
+            return $value * 1024;
+        case 'M':
+            return $value * 1024 * 1024;
+        case 'G':
+            return $value * 1024 * 1024 * 1024;
+        default:
+            return $value;
+    }
+}

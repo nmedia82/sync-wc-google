@@ -137,6 +137,7 @@ class WBPS_Format {
         
         $return_value = $general_settings['tags_return_value'];
         
+        
         if( $return_value === 'object' ){
             return json_decode($value);
         }

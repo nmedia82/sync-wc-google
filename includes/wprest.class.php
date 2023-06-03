@@ -196,14 +196,7 @@ class WBPS_WP_REST {
         $data   = $request->get_params();
         extract($data);
         
-        // wbps_logger_array($data);
-        // when make a call via webhook, need to adjust few params
-        // if(isset($source) && $source === 'webhook'){
-        //     $sheet_header = json_decode($sheet_header);
-        //     $chunk = json_decode($chunk);
-        //     $general_settings = json_decode($general_settings, true);
-        // }
-        
+         
         /**
          * chunk, sheet_header, general_settings, last_row
          * */

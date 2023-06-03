@@ -98,19 +98,39 @@ class WBPS_WP_REST {
     }
     
     // product sync
-    function product_sync($request){
-        
-        if( ! $request->sanitize_params() ) {
-            wp_send_json_error( ['message'=>$request->get_error_message()] );
+    function product_sync($request) {
+        // Check if the POST data size exceeds the limit
+        $postMaxSizeBytes = wbps_return_bytes(ini_get('post_max_size'));
+        $postDataSize = strlen(file_get_contents('php://input'));
+        // wbps_logger_array($postMaxSizeBytes);
+        // wbps_logger_array($postDataSize);
+    
+        if ($postDataSize > $postMaxSizeBytes) {
+            // Handle the situation where the POST data size exceeds the limit
+            wp_send_json_error(['message' => 'The size of the POST data exceeds the limit.']);
         }
+    
+        // Continue with the rest of the function
+        if (!$request->sanitize_params()) {
+            wp_send_json_error(['message' => $request->get_error_message()]);
+        }
+
         
+    
         $data   = $request->get_params();
+        // wbps_logger_array($data);
         extract($data);
-        
-        // wbps_logger_array($general_settings);
+
+        // since version 7.5.2 products are being sent as json
+        $decodedChunk = json_decode($chunk);
+        if ($decodedChunk !== null && is_string($chunk) && json_last_error() === JSON_ERROR_NONE) {
+            // 'chunk' is a valid JSON string
+            $chunk = json_decode($chunk, true);
+        }
+
         // will remove extra indexed level
         $chunk = array_replace(...$chunk);
-        // wbps_logger_array($chunk);
+        // return;
         $products_ins = init_wbps_products();
         $response = $products_ins::sync($chunk, $general_settings);
         if( is_wp_error($response) ) {

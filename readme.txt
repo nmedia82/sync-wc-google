@@ -85,6 +85,8 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
+= 7.5.2 June 3, 2023 =
+* Bug fixed: Larger chunks for product issue is fixed.
 = 7.5 May 24, 2023 =
 * Bug fixed: Due to PHP version code is updated to work with all versions.
 = 7.4 May 10, 2023 =

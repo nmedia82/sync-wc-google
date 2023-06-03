@@ -197,6 +197,14 @@ class WBPS_WP_REST {
         extract($data);
         
         
+        // since version 7.5.2 products are being sent as json
+        $decodedChunk = json_decode($chunk);
+        if ($decodedChunk !== null && is_string($chunk) && json_last_error() === JSON_ERROR_NONE) {
+            // 'chunk' is a valid JSON string
+            $chunk = json_decode($chunk, true);
+        }
+        
+        // wbps_logger_array($response);
          
         /**
          * chunk, sheet_header, general_settings, last_row

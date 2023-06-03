@@ -122,6 +122,8 @@ class WBPS_Products {
         $header = array_fill_keys($header, '');
         $items = [];
         
+        $products = [1031];
+        
         /**
          * If include_products are greater then limit (400) then chunk it down
          * */
@@ -142,9 +144,9 @@ class WBPS_Products {
             if ( ! $response->is_error() ) {
               $items = array_merge($items, $response->get_data());
             }
+            
 
         }
-        
         
         // adding variation and meta column based on this hook
         $items = apply_filters('wbps_products_list_before_syncback', $items, $header);

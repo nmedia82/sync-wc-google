@@ -196,6 +196,7 @@ class WBPS_WP_REST {
         $data   = $request->get_params();
         extract($data);
         
+        
          
         /**
          * chunk, sheet_header, general_settings, last_row
@@ -203,7 +204,6 @@ class WBPS_WP_REST {
         
         $products_ins = init_wbps_products();
         $response = $products_ins::fetch($chunk, $sheet_header, $general_settings, $last_row);
-        // wbps_logger_array($response);
        
         wp_send_json_success(['products'=>json_encode($response)]);
     }

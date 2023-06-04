@@ -122,7 +122,6 @@ class WBPS_Products {
         $header = array_fill_keys($header, '');
         $items = [];
         
-        $products = [1031];
         
         /**
          * If include_products are greater then limit (400) then chunk it down

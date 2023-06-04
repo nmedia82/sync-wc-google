@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.2.2
 Requires PHP: 5.6
-Stable tag: 7.5.2
+Stable tag: 7.5.3
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,8 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
+= 7.5.3 June 4, 2023 =
+* Bug fixed: Debuggin removed which cause error in fetching.
 = 7.5.2 June 3, 2023 =
 * Bug fixed: Larger chunks for product issue is fixed.
 = 7.5 May 24, 2023 =

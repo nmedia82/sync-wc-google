@@ -39,3 +39,46 @@
 #btn_authcode:hover {
     background-color: #3e8e41;
 }
+
+#wbps-main{
+    margin: 22px auto;
+    width: 50%;
+    background-color: #fff;
+    min-height: 300px;
+    padding: 8px;
+}
+
+#wbps-main header{
+    display: flex;
+    align-items: center;
+}
+
+.head-item{
+    flex: 1 0 auto;
+}
+#wbps-main header h1{
+    line-height: 1.8rem;
+}
+.connection-tasks{
+    display: flex;
+    flex-direction:column;
+}
+.task-item{
+    font-size: 14px;
+    border-top: 1px solid;
+    padding: 10px 0;
+    display:flex;
+    align-items: center;
+}
+.task-unit{
+    flex:1;
+}
+.task-unit.name{
+    flex-grow:5;
+}
+.task-unit.status{
+    text-align: center
+}
+#wbps-main a{
+    text-decoration: none;
+}

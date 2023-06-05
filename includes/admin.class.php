@@ -30,6 +30,7 @@ class WBPS_Admin {
         // product columns
         add_filter( 'manage_product_posts_columns', [$this, 'product_column'], 20);
         add_filter( 'manage_product_posts_custom_column', [$this, 'product_column_data'], 20, 2 );
+        
     }
     
  
@@ -52,7 +53,7 @@ class WBPS_Admin {
         add_action( 'load-'. $hook, [$this, 'load_scripts'] );
         
         // this hide page from menu, but can be accessible via link
-        remove_submenu_page( 'options-general.php', 'wbps-settings' );
+        // remove_submenu_page( 'options-general.php', 'wbps-settings' );
     }
     
     

@@ -98,7 +98,7 @@ function wbps_get_syncback_product_ids($product_status=['publish']) {
 }
 
 function wbps_get_webapp_url(){
-    $url = get_option('wbps_webhook_url', true);
+    $url = get_option('wbps_webhook_url');
     return $url;
 }
 
@@ -133,4 +133,19 @@ function wbps_return_bytes($size) {
         default:
             return $value;
     }
+}
+
+function wbps_settings_link($links) {
+	
+	$connection_settings = admin_url( 'options-general.php?page=wbps-settings&tpl=main');
+	
+	$wbps_links = array();
+	$wbps_links[] = sprintf(__('<a href="%s">Connection Manager</a>', "wbps"), esc_url($connection_settings) );
+	
+	foreach($wbps_links as $link) {
+		
+  		array_push( $links, $link );
+	}
+	
+  	return $links;
 }

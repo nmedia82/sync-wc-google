@@ -137,7 +137,7 @@ function wbps_return_bytes($size) {
 
 function wbps_settings_link($links) {
 	
-	$connection_settings = admin_url( 'options-general.php?page=wbps-settings&tpl=main');
+	$connection_settings = admin_url( 'admin.php?page=wbps-connection');
 	
 	$wbps_links = array();
 	$wbps_links[] = sprintf(__('<a href="%s">Connection Manager</a>', "wbps"), esc_url($connection_settings) );

@@ -72,9 +72,13 @@ class WBPS_WP_REST {
         
         $wc_keys = get_option('wbps_woocommerce_keys');
         if( $wc_keys ){
+            // also setting connection_status in sheet_props
+            $sheet_props = get_option('wbps_sheet_props');
+            $sheet_props['connection_status'] = 'verified';
+            update_option('wbps_sheet_props', $sheet_props);
             wp_send_json_success(__('Congratulations! setup is successfully completed.', 'wbps'));
         }else{
-            wp_send_json_error(__('Error while verifying, please make sure you have completed the Authorization in previous step or try again after few seconds', 'wbps'));
+            wp_send_json_error(__('Oops, it seems that an error occurred while verifying. Please close this window and try reconnecting. If the problem persists, please contact our support team for assistance.', 'wbps'));
         }
     }
     
@@ -268,6 +272,9 @@ class WBPS_WP_REST {
         
         // wc keys
         delete_option('wbps_woocommerce_keys');
+        
+        // sheet props
+        delete_option('wbps_sheet_props');
         
         wp_send_json_success(__("Store is unlinked","wbps"));
     

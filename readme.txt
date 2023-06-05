@@ -87,6 +87,7 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 == Changelog ==
 = 7.6 June 6, 2023 =
 * Feature: Settings page added inside plugin for connection status
+* Feature: Pro activate process made easy
 = 7.5.3 June 4, 2023 =
 * Bug fixed: Debuggin removed which cause error in fetching.
 = 7.5.2 June 3, 2023 =

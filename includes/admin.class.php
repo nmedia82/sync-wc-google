@@ -31,13 +31,16 @@ class WBPS_Admin {
         add_filter( 'manage_product_posts_columns', [$this, 'product_column'], 20);
         add_filter( 'manage_product_posts_custom_column', [$this, 'product_column_data'], 20, 2 );
         
+        
+        
     }
     
  
    function admin_menu() {
         
+        // for setup
         $parent = 'options-general.php';
-        $hook = add_submenu_page(
+        $hook_setup = add_submenu_page(
             $parent,
              __('BulkProductSync - Bulk Product Manager with Google Sheets', 'wbps'),
              __('BulkProductSync', 'wbps') ,
@@ -45,15 +48,32 @@ class WBPS_Admin {
             'wbps-settings',
             array(
                 $this,
-                'settings_page'
+                'after_setup_done'
             ),
             35
         );
         // script will be only loaded for this current settings page, not all the pages.
-        add_action( 'load-'. $hook, [$this, 'load_scripts'] );
+        add_action( 'load-'. $hook_setup, [$this, 'load_scripts'] );
         
         // this hide page from menu, but can be accessible via link
-        // remove_submenu_page( 'options-general.php', 'wbps-settings' );
+        remove_submenu_page( 'options-general.php', 'wbps-settings' );
+        
+        // for connection manager
+        $parent = 'woocommerce';
+        $hook_setup = add_submenu_page(
+            $parent,
+             __('BulkProductSync - Bulk Product Manager with Google Sheets', 'wbps'),
+             __('BulkProductSync', 'wbps') ,
+            'manage_woocommerce',
+            'wbps-connection',
+            array(
+                $this,
+                'connection_manager'
+            ),
+            35
+        );
+        // script will be only loaded for this current settings page, not all the pages.
+        add_action( 'load-'. $hook_setup, [$this, 'load_scripts'] );
     }
     
     
@@ -67,12 +87,12 @@ class WBPS_Admin {
     }
     
     
-    function settings_page() {
-        
-        $tpl = isset($_GET['tpl']) ? $_GET['tpl'] : 'setup';
-        $tpl = "{$tpl}.php";
-        
-        wbps_load_file($tpl);
+    function after_setup_done() {
+        wbps_load_file('setup.php');
+    }
+    
+    function connection_manager() {
+        wbps_load_file('main.php');
     }
     
     // save authcode

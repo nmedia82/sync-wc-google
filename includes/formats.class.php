@@ -288,15 +288,16 @@ class WBPS_Format {
     // Formatting products before syncback
     function syncback_data_products($products, $header, $settings) {
         
-        foreach(wbps_fields_integer_array() as $key){
-            $products = array_map(function($p) use($key){
+        foreach (wbps_fields_integer_array() as $key) {
+            $products = array_map(function ($p) use ($key) {
                 // $p['type'] !== "variation" - variation does not have any array data in these keys
-                if(in_array($key, array_keys($p)) && $p['type'] !== "variation"){
+                if (in_array($key, array_keys($p)) && $p['type'] !== "variation" && !empty($p[$key])) {
                     $p[$key] = implode('|', $p[$key]);
                 }
                 return $p;
             }, $products);
         }
+
         
         foreach(wbps_fields_format_required() as $key=>$type){
             $key = trim($key);

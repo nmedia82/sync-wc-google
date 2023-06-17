@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.2.2
 Requires PHP: 5.6
-Stable tag: 7.6
+Stable tag: 7.7
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,8 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
+= 7.7 June 17, 2023 =
+* Bug fixed: Fetch error fixed when used few columns like cross_sell_ids, upsell_ids etc
 = 7.6 June 6, 2023 =
 * Feature: Settings page added inside plugin for connection status
 * Feature: Pro activate process made easy

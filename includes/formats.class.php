@@ -291,7 +291,7 @@ class WBPS_Format {
         foreach (wbps_fields_integer_array() as $key) {
             $products = array_map(function ($p) use ($key) {
                 // $p['type'] !== "variation" - variation does not have any array data in these keys
-                if (in_array($key, array_keys($p)) && $p['type'] !== "variation" && !empty($p[$key])) {
+                if (in_array($key, array_keys($p)) && $p['type'] !== "variation") {
                     $p[$key] = implode('|', $p[$key]);
                 }
                 return $p;

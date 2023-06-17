@@ -157,9 +157,9 @@ class WBPS_Products {
         $items = array_map(function($data) use($header){
             return array_replace($header, array_intersect_key($data, $header));
         }, $items);
-        // wbps_logger_array($items);
         
         $items = apply_filters('wbps_products_synback', $items, $header, $settings);
+        // wbps_logger_array($items);
         
         $products = self::prepare_for_syncback($items, $settings, $last_row);
         

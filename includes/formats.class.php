@@ -106,58 +106,58 @@ class WBPS_Format {
     // Categories|Tags Sheet ==> Site
     function product_extract_id_categories($value, $row, $general_settings){
         
+        if( ! $value ) return $value;
+        
         $return_value = $general_settings['categories_return_value'];
+        $names_enabled = false;
+        $tag_data = [];
+        
         
         if( $return_value === 'object' ){
-            return json_decode($value);
+            $value = json_decode($value);
+        } elseif($return_value === 'name'){
+            $value = wbps_get_taxonomy_ids_by_names('product_cat', $value);
+            $value = array_map( function($id){
+                $item['id'] = $id;
+                return $item;
+            }, $value);
+        } else {
+            $value = explode('|', $value);
+            $value = array_map( function($id){
+                $item['id'] = trim($id);
+                return $item;
+            }, $value);
         }
         
-        $names_enabled = false;
-        $cat_names = [];
-        if( 'name' === WBPS_CATEGORIES_TAG_DATA ){
-            $cat_names = wcgs_get_taxonomy_names('product_cat');
-            $cat_names = array_flip($cat_names);
-            $names_enabled = true;
-        }
-        
-        // var_dump($value);
-        if( ! $value ) return $value;
-        $make_array = explode('|', $value);
-        $value = array_map(function ($v) use($cat_names, $names_enabled) {
-            $item['id'] = $names_enabled ? $cat_names[trim($v)] : $v;
-            return $item;
-        }, $make_array);
-        
-        // wbps_logger_array($value);
         return $value;
     }
     
     // Tags Sheet ==> Site
     function product_extract_id_tags($value, $row, $general_settings){
         
+        if( ! $value ) return $value;
+        
         $return_value = $general_settings['tags_return_value'];
+        $names_enabled = false;
+        $tag_data = [];
         
         
         if( $return_value === 'object' ){
             return json_decode($value);
+        } elseif($return_value === 'name'){
+            $value = wbps_get_taxonomy_ids_by_names('product_tag', $value);
+            $value = array_map( function($id){
+                $item['id'] = $id;
+                return $item;
+            }, $value);
+        } else {
+            $value = explode('|', $value);
+            $value = array_map( function($id){
+                $item['id'] = trim($id);
+                return $item;
+            }, $value);
         }
         
-        $names_enabled = false;
-        $cat_names = [];
-        if( 'name' === WBPS_CATEGORIES_TAG_DATA ){
-            $cat_names = wcgs_get_taxonomy_names('product_tag');
-            $cat_names = array_flip($cat_names);
-            $names_enabled = true;
-        }
-        // wcgs_log($row);
-        
-        // var_dump($value);
-        if( ! $value ) return $value;
-        $make_array = explode('|', $value);
-        $value = array_map(function ($v) use($cat_names, $names_enabled) {
-            $item['id'] = $names_enabled ? $cat_names[trim($v)] : $v;
-            return $item;
-        }, $make_array);
         return $value;
     }
     

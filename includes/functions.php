@@ -149,3 +149,33 @@ function wbps_settings_link($links) {
 	
   	return $links;
 }
+
+// Names provided like tag1|tag2 with taxonomy type
+// will return the ids
+function wbps_get_taxonomy_ids_by_names($taxonomy_type, $taxonomy_names) {
+    global $wpdb;
+    
+    $taxonomy_table = $wpdb->prefix . 'term_taxonomy';
+    $term_table = $wpdb->prefix . 'terms';
+    
+    $taxonomy_names = explode('|', $taxonomy_names);
+    $taxonomy_names = array_map('trim', $taxonomy_names);
+    
+    $placeholders = array_fill(0, count($taxonomy_names), '%s');
+    $placeholders = implode(',', $placeholders);
+    
+    $placeholders_values = array_merge([$taxonomy_type], $taxonomy_names);
+    
+    $query = $wpdb->prepare(
+    "SELECT t.term_id
+    FROM $term_table AS t
+    INNER JOIN $taxonomy_table AS tt ON tt.term_id = t.term_id
+    WHERE tt.taxonomy = %s
+    AND t.name IN ($placeholders)",
+    $placeholders_values
+    );
+    
+    $taxonomy_ids = $wpdb->get_col($query);
+    
+    return $taxonomy_ids;
+}

@@ -177,8 +177,20 @@ class WBPS_WP_REST {
             wp_send_json_error( ['message'=>$request->get_error_message()] );
         }
         
-        $data   = $request->get_params();
+        $data = $request->get_params();
         extract($data);
+        
+        $refresh = isset($data['refresh_fetch']) && $data['refresh_fetch'] == 'yes' ? true : false;
+        
+        if ($refresh) {
+            global $wpdb;
+            $val = 'wbps_row_id';
+            
+            $table = "{$wpdb->prefix}postmeta";
+            $wpdb->delete($table, array('meta_key' => $val));
+        }
+
+        
         
         $response = [];
         if( $sheet_name === 'products' ) {
@@ -229,6 +241,16 @@ class WBPS_WP_REST {
         
         $data   = $request->get_params();
         extract($data);
+        
+        $refresh = isset($data['refresh_fetch']) && $data['refresh_fetch'] == 'yes' ? true : false;
+        
+        if ($refresh) {
+            global $wpdb;
+            $val = 'wbps_row_id';
+            
+            $table = "{$wpdb->prefix}termmeta";
+            $wpdb->delete( $table, array( 'meta_key' => $val ) );
+        }
         
         // wbps_logger_array($data);
         

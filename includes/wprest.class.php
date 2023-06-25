@@ -130,6 +130,12 @@ class WBPS_WP_REST {
             // 'chunk' is a valid JSON string
             $chunk = json_decode($chunk, true);
         }
+        
+        
+        // Parse $general_settings if it's a string
+        if (is_string($general_settings)) {
+            $general_settings = json_decode($general_settings, true);
+        }
 
         // will remove extra indexed level
         $chunk = array_replace(...$chunk);

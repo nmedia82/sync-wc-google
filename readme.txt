@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.2.2
 Requires PHP: 5.6
-Stable tag: 7.9
+Stable tag: 7.10
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,7 +85,7 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
-= 7. June 21, 2023 =
+= 7.10 June 25, 2023 =
 * Feature: Sync operation is more optimized for larger set of data
 * Feature: Fetch now has option to Reset/Refresh.
 = 7.8 June 20, 2023 =

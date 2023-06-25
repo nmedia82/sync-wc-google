@@ -122,9 +122,8 @@ class WBPS_WP_REST {
         
     
         $data   = $request->get_params();
-        // wbps_logger_array($data);
         extract($data);
-
+        
         // since version 7.5.2 products are being sent as json
         $decodedChunk = json_decode($chunk);
         if ($decodedChunk !== null && is_string($chunk) && json_last_error() === JSON_ERROR_NONE) {

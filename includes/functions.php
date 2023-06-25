@@ -179,3 +179,23 @@ function wbps_get_taxonomy_ids_by_names($taxonomy_type, $taxonomy_names) {
     
     return $taxonomy_ids;
 }
+
+function wbps_sync_processed_data($items, $action) {
+    return array_map(function($item) use ($action) {
+        if (isset($item['error'])) {
+            $message = $item['error']['message'] . ' product:' . $item['id'];
+            return ['row' => 'ERROR', 'id' => $item['id'], 'message' => $message, 'action' => $action];
+        }
+
+        $row_id_meta = array_filter($item['meta_data'], function($meta) {
+            return $meta->key == 'wbps_row_id';
+        });
+
+        $row_id_meta = reset($row_id_meta);
+        $row_id = $row_id_meta->value;
+        $images_ids = array_column($item['images'], 'id');
+        $images_ids = apply_filters('wbps_images_ids', implode('|', $images_ids), $item);
+
+        return ['row' => $row_id, 'id' => $item['id'], 'images' => $images_ids, 'action' => $action];
+    }, $items);
+}

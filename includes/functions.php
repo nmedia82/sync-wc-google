@@ -56,6 +56,9 @@ function wbps_get_syncback_product_ids($product_status=['publish']) {
         global $wpdb;
         $qry = "SELECT DISTINCT ID FROM {$wpdb->prefix}posts WHERE";
         $qry .= " post_type = 'product'";
+        
+        $product_status = apply_filters('wbps_fetch_product_status', $product_status);
+        
         // product status
         // adding single qoute
         $product_status = array_map(function($status){

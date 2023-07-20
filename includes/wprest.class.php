@@ -161,9 +161,14 @@ class WBPS_WP_REST {
         $data   = $request->get_params();
         extract($data);
         
+        // wbps_logger_array($data);
+        
+        // Parse $general_settings if it's a string
+        if (is_string($general_settings)) {
+            $general_settings = json_decode($general_settings, true);
+        }
         // will remove extra indexed level
         $chunk = array_replace(...$chunk);
-        // wbps_logger_array($chunk);
         $categories_ins = init_wbps_categories();
         $response = $categories_ins::sync($chunk, $general_settings);
         if( is_wp_error($response) ) {

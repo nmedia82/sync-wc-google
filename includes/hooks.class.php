@@ -171,6 +171,8 @@ class WBPS_Hooks {
         
         if( !$sheet_properties ) return $products;
         
+        if( !isset($sheet_properties['product_mapping']) ) return $products;
+        
         $product_mapping = json_decode($sheet_properties['product_mapping'], true);
         
         if( !$product_mapping ) return $products;

@@ -33,12 +33,14 @@ class WBPS_Products {
             
             
             $variations = array_filter($products, function($row){
-                return $row['type'] == 'variation' && ! empty($row['parent_id']);
+                $type = isset($row['type']) ? $row['type'] : '';
+                return $type == 'variation' && ! empty($row['parent_id']);
             });
             
             // wbps_logger_array($products); return;
             $without_variations = array_filter($products, function($row){
-                return $row['type'] != 'variation';
+                $type = isset($row['type']) ? $row['type'] : '';
+                return $type != 'variation';
             });
                                         
             // Preparing data for WC API

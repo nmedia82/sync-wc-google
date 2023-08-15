@@ -204,7 +204,7 @@ class WBPS_Products {
         
         // wbps_logger_array($products_refined);
         
-        // linking categories with row ids
+        // linking products with row ids
         self::link_product_with_sheet($link_new_data);
         
         return $products_refined;

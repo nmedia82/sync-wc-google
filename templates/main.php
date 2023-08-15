@@ -9,6 +9,7 @@ $sheet_props = get_option('wbps_sheet_props');
 $connection = isset($sheet_props['connection_status']) && $sheet_props['connection_status'] === 'verified' ? '<span class="dashicons dashicons-yes"></span>' : '<span class="dashicons dashicons-no"></span>';
 $pro_activated = isset($sheet_props['pro_version']) && $sheet_props['pro_version'] === 'true' ? '<span class="dashicons dashicons-yes"></span>' : '<span class="dashicons dashicons-no"></span>';
 $sheet_id = isset($sheet_props['sheet_id']) ? $sheet_props['sheet_id'] : '';
+$chunk_size = isset($sheet_props['chunk_size']) ? $sheet_props['chunk_size'] : '';
 $sheet_url = 'https://docs.google.com/spreadsheets/d/' . $sheet_id . '/edit';
 $autofetch_url = 'https://najeebmedia.com/blog/how-to-enable-autofetch-in-bulk-product-sync-for-real-time-store-updates-in-your-google-sheet/';
 $autosync_url = 'https://najeebmedia.com/blog/how-to-enable-auto-sync-in-bulk-product-sync-for-real-time-store-updates-in-your-google-sheet/';
@@ -40,6 +41,11 @@ $google_bps_addon = 'https://workspace.google.com/marketplace/app/bulk_product_s
         <article class="task-item">
             <p class="task-unit name">Connection Status</p>
             <p class="task-unit status"><?php echo $connection;?></p>
+        </article>
+        
+        <article class="task-item">
+            <p class="task-unit name">Chunk Size</p>
+            <p class="task-unit status"><?php echo $chunk_size;?></p>
         </article>
         
         <article class="task-item">

@@ -22,7 +22,7 @@ Use Google Sheets™ to add products and categories, and it only takes one click
 = How It Works? =
 [youtube https://youtu.be/yKNokaTP2iU]
 
-**[Bulk Product Sync Demo](https://tastewp.com/template/XrA1SAaUSxo)**
+**[Bulk Product Sync Demo](https://naejebmedia.com/bps-demo)**
 = How to use Demo =
 [youtube https://youtu.be/aaJzK_BDE3s]
 

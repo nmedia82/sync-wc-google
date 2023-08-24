@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.2.2
 Requires PHP: 5.6
-Stable tag: 7.12
+Stable tag: 7.12.1
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
+= 7.12.1 August 24, 2023 =
+* Tweaks: Demo link updated & some code optimized.
+* Info: No Major bug found
 = 7.12 July 27, 2023 =
 * Bug fixed: When type column is not given it show warning
 = 7.11 July 20, 2023 =

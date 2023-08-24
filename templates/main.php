@@ -83,14 +83,34 @@ $google_bps_addon = 'https://workspace.google.com/marketplace/app/bulk_product_s
             <?php else: ?>
             <p class="task-unit status">
                 <span class="dashicons dashicons-no"></span>
-                <a href="<?php echo esc_url($pro_version_link);?>" target="_blank">Get Pro</a>
-                </p>
+            </p>
             <?php endif;?>
         </article>
         
         <article class="task-item">
             <p class="task-unit name">Help/Support?</p>
             <p class="task-unit status"><a href="<?php echo esc_url($support_url);?>" target="_blank"><span class="dashicons dashicons-external"></span></a></p>
+        </article>
+        
+        <?php if(!defined('WCGS_PRO_VERSION')): ?>
+        <section>
+            <h3>Update PRO & Unlock:</h3>
+            <ul>
+                <li>Fetch Categories</li>
+                <li>Fetch Products</li>
+                <li>Unlock all Product Columns</li>
+                <li>Update Stock & Prices Only for Quick Inventory</li>
+                <li>Variable & Variation Products Management</li>
+                <li>Auto Sync (Schedualed as per your need)</li>
+                <li>Auto Fetch (Whenever changes on site, Sheet is updated)</li>
+                <li>Access Support Forum</li>
+                <li>Fetch Orders</li>
+            </ul>
+        </section>
+        <?php endif; ?>
+        
+        <article id="wpbs-pro-btn">
+            <a class="button-primary" href="<?php echo esc_url($pro_version_link);?>" target="_blank">Get Pro</a>
         </article>
     </section>
     

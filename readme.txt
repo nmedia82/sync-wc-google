@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.3.1
 Requires PHP: 5.6
-Stable tag: 7.12.2
+Stable tag: 7.13
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,8 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
+= 7.13 October 10, 2023 =
+* Bug fixed: AutoFetch not working now it is fixed.
 = 7.12.2 September 20, 2023 =
 * Tweaks: Check with latest version of WordPress
 = 7.12.1 August 24, 2023 =

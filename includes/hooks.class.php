@@ -305,7 +305,6 @@ class WBPS_Hooks {
         // adding variation and meta_data based on this hook
         $items = apply_filters('wbps_products_list_before_syncback', $items, $header);
         
-        // wbps_logger_array($items);
         $sortby_id = array_column($items, 'id');
         array_multisort($sortby_id, SORT_ASC, $items);
         
@@ -314,8 +313,14 @@ class WBPS_Hooks {
             return array_replace($header, array_intersect_key($data, $header));
         }, $items);
         
-        $settings_keys = ['categories_return_value','tags_return_value','images_return_value','image_return_value'];
-        $settings = array_intersect_key($sheet_props, array_flip($settings_keys));
+        $settings_default = ['categories_return_value'=>'id',
+                            'tags_return_value'=>'id',
+                            'images_return_value'=>'id',
+                            'image_return_value'=>'id'];
+                            
+        // $settings = array_intersect_key($sheet_props, array_flip($settings_keys));
+        $settings = isset($sheet_props['settings']) ? json_decode($sheet_props['settings'], true) : $settings_default;
+        // wbps_logger_array($settings);
         $items = apply_filters('wbps_products_synback', $items, $header, $settings);
         
         
@@ -404,7 +409,6 @@ class WBPS_Hooks {
     function trigger_webhook_on_product_update( $post_id ) {
         
         $endpoint_url = wbps_get_webapp_url();
-        // wbps_logger_array($endpoint_url);
         
         if( !$endpoint_url ) return;
         
@@ -417,6 +421,7 @@ class WBPS_Hooks {
                 'sheet_name' => 'products'
             ), $endpoint_url );
             
+            // wbps_logger_array($endpoint_url);
             $request = new WP_REST_Request( 'GET', '/wc/v3/products/'.$post_id );
             $request->set_body_params( $data );
             $response = @rest_do_request( $request );
@@ -429,7 +434,7 @@ class WBPS_Hooks {
             }
             
             $payload = $this->build_payload_for_webhook( $response );
-            // return wbps_logger_array($payload);
+            // wbps_logger_array(json_encode( $payload ));
             
             // Send the webhook request
             $response = wp_remote_post( $endpoint_url, array(
@@ -442,7 +447,7 @@ class WBPS_Hooks {
             if ( is_wp_error( $response ) ) {
               wbps_logger_array( 'Webhook on Update failed: ' . $response->get_error_message() );
             } else {
-            //   wbps_logger_array( 'Webhook Ok - Updated: ' . wp_remote_retrieve_body( $response ) );
+              wbps_logger_array( 'Webhook Ok - Updated: ' . wp_remote_retrieve_body( $response ) );
             }
         }
     }

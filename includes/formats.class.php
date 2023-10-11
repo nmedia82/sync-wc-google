@@ -285,43 +285,79 @@ class WBPS_Format {
     //     return $meta_data;
     // }
     
-    // Formatting products before syncback
     function syncback_data_products($products, $header, $settings) {
-        
-        foreach (wbps_fields_integer_array() as $key) {
-            $products = array_map(function ($p) use ($key) {
-                // $p['type'] !== "variation" - variation does not have any array data in these keys
-                if (in_array($key, array_keys($p)) && $p['type'] !== "variation") {
-                    $p[$key] = implode('|', $p[$key]);
+        // Define a callback function for formatting and filtering product data
+        $formatAndFilter = function ($value, $key) use ($settings) {
+            $value = $value === NULL ? "" : $value;
+            $value = apply_filters("wcgs_products_syncback_value_{$key}", $value, $key, $settings);
+            return $value;
+        };
+    
+        // Define a callback function for imploding integer array fields
+        $implodeField = function ($value) {
+            return is_array($value) ? implode('|', $value) : $value;
+        };
+    
+        // Iterate through products
+        foreach ($products as &$product) {
+            foreach ($product as $key => &$value) {
+                $key = trim($key);
+                
+                // wbps_logger_array($product);
+                
+                $value = apply_filters("wcgs_products_syncback_value", $value, $key);
+                if (in_array($key, wbps_fields_integer_array())) {
+                    // Check if the key exists in integer array fields and implode if needed
+                    $value = $implodeField($value);
+                } elseif (array_key_exists($key, wbps_fields_format_required())) {
+                    // Check if the key exists in format required fields and apply formatting and filtering
+                    $value = $formatAndFilter($value, $key);
                 }
-                return $p;
-            }, $products);
+            }
         }
+    
+        return $products;
+    }
+
+
+    
+    // Formatting products before syncback - DEPRECATED
+    // function syncback_data_products($products, $header, $settings) {
+        
+    //     foreach (wbps_fields_integer_array() as $key) {
+    //         $products = array_map(function ($p) use ($key) {
+    //             // $p['type'] !== "variation" - variation does not have any array data in these keys
+    //             if (in_array($key, array_keys($p)) && $p['type'] !== "variation") {
+    //                 $p[$key] = implode('|', $p[$key]);
+    //             }
+    //             return $p;
+    //         }, $products);
+    //     }
 
         
-        foreach(wbps_fields_format_required() as $key=>$type){
-            $key = trim($key);
+    //     foreach(wbps_fields_format_required() as $key=>$type){
+    //         $key = trim($key);
             
-            $products = array_map(function($p) use($key, $settings){
+    //         $products = array_map(function($p) use($key, $settings){
                 
-                if( isset($p[$key]) ){
+    //             if( isset($p[$key]) ){
             
-                    $value = $p[$key];
+    //                 $value = $p[$key];
                     
-                    $value = $value === NULL ? "" : $value;
-                    $value = apply_filters("wcgs_products_syncback_value", $value, $key);
-                    $value = apply_filters("wcgs_products_syncback_value_{$key}", $value, $key, $settings);
+    //                 $value = $value === NULL ? "" : $value;
+    //                 $value = apply_filters("wcgs_products_syncback_value", $value, $key);
+    //                 $value = apply_filters("wcgs_products_syncback_value_{$key}", $value, $key, $settings);
                     
-                    $p[$key] = $value;
-                }
+    //                 $p[$key] = $value;
+    //             }
                 
-                return $p;
-            }, $products);
-        }
+    //             return $p;
+    //         }, $products);
+    //     }
         
-        return $products;
+    //     return $products;
         
-    }
+    // }
     
 
 }

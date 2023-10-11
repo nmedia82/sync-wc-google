@@ -320,7 +320,6 @@ class WBPS_Hooks {
                             
         // $settings = array_intersect_key($sheet_props, array_flip($settings_keys));
         $settings = isset($sheet_props['settings']) ? json_decode($sheet_props['settings'], true) : $settings_default;
-        // wbps_logger_array($settings);
         $items = apply_filters('wbps_products_synback', $items, $header, $settings);
         
         
@@ -329,6 +328,7 @@ class WBPS_Hooks {
             $result[$row_id] = array_values($item);
             return $result;
         }, []);
+        // wbps_logger_array($items);
         
         $payload_new['row_id']  = get_post_meta($product['id'],'wbps_row_id', true);
         $payload_new['rows']     = $items;

@@ -32,7 +32,8 @@ class WBPS_Hooks {
         // when product is updated in wc
         add_action( 'woocommerce_update_product', function($product_id){
             
-            if ( $_SERVER['REQUEST_URI'] === '/wp-json/wbps/v1/product-sync' ) {
+            if ( '/wp-json/wbps/v1/product-sync' === $_SERVER['REQUEST_URI'] 
+            || '/wp-json/wc/v3/products/batch' === $_SERVER['REQUEST_URI']) {
                 return;
             }
             

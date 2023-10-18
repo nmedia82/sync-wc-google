@@ -303,8 +303,6 @@ class WBPS_Format {
             foreach ($product as $key => &$value) {
                 $key = trim($key);
                 
-                // wbps_logger_array($product);
-                
                 $value = apply_filters("wcgs_products_syncback_value", $value, $key);
                 if (in_array($key, wbps_fields_integer_array())) {
                     // Check if the key exists in integer array fields and implode if needed

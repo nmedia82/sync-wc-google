@@ -107,7 +107,6 @@ class WBPS_WP_REST {
         $postMaxSizeBytes = wbps_return_bytes(ini_get('post_max_size'));
         $postDataSize = strlen(file_get_contents('php://input'));
         // wbps_logger_array($postMaxSizeBytes);
-        // wbps_logger_array($postDataSize);
     
         if ($postDataSize > $postMaxSizeBytes) {
             // Handle the situation where the POST data size exceeds the limit
@@ -123,6 +122,8 @@ class WBPS_WP_REST {
     
         $data   = $request->get_params();
         extract($data);
+        
+        wbps_logger_array($data);
         
         // since version 7.5.2 products are being sent as json
         $decodedChunk = json_decode($chunk);
@@ -187,6 +188,12 @@ class WBPS_WP_REST {
             wp_send_json_error( ['message'=>$request->get_error_message()] );
         }
         
+        if( ! wbps_pro_is_installed() ){
+            $url = 'https://najeebmedia.com/wordpress-plugin/woocommerce-google-sync/';
+            $msg = 'Pro Version is not installed or deactivated. Learn more about <a href="'.esc_url($url).'" target="_blank">Pro Version</a>';
+            wp_send_json_error( ['message'=>$msg] );
+        }
+        
         $data = $request->get_params();
         extract($data);
         
@@ -247,6 +254,12 @@ class WBPS_WP_REST {
         
         if( ! $request->sanitize_params() ) {
             wp_send_json_error( ['message'=>$request->get_error_message()] );
+        }
+        
+        if( ! wbps_pro_is_installed() ){
+            $url = 'https://najeebmedia.com/wordpress-plugin/woocommerce-google-sync/';
+            $msg = 'Pro Version is not installed or deactivated. Learn more about <a href="'.esc_url($url).'" target="_blank">Pro Version</a>';
+            wp_send_json_error( ['message'=>$msg] );
         }
         
         $data   = $request->get_params();

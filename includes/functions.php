@@ -105,6 +105,82 @@ function wbps_get_webapp_url(){
     return $url;
 }
 
+function wbps_generate_wc_api_keys() {
+    global $wpdb;
+
+    $user_id = get_current_user_id();
+
+    // Generate WooCommerce Consumer Key and Consumer Secret
+    $consumerKey = 'ck_' . wp_generate_password(24, false);
+    $consumerSecret = 'cs_' . wp_generate_password(37, false);
+
+    $description = 'BPS Rest ' . date('Y-m-d');
+
+    $args = array(
+        'user_id' => $user_id,
+        'description' => $description,
+        'permissions' => 'read_write',
+        'consumer_key' => $consumerKey,
+        'consumer_secret' => $consumerSecret,
+        'truncated_key' => substr($consumerSecret, -7),
+    );
+
+    // Insert the keys into the WooCommerce API keys table
+    $inserted = $wpdb->insert(
+        $wpdb->prefix . 'woocommerce_api_keys',
+        $args
+    );
+
+    if ($inserted) {
+        // Keys inserted successfully
+        return array(
+            'consumer_key' => $consumerKey,
+            'consumer_secret' => $consumerSecret,
+            'key_id' => $wpdb->insert_id, // Get the last inserted ID
+        );
+    } else {
+        // Error occurred during insertion, return WP_Error
+        return new WP_Error(
+            'api_key_generation_error',
+            'Error generating API keys.',
+            array('status' => 500)
+        );
+    }
+}
+
+
+function wpbs_disconnect(){
+    
+    global $wpdb;
+    $val = 'wbps_row_id';
+    
+    $table = "{$wpdb->prefix}postmeta";
+    $wpdb->delete( $table, array( 'meta_key' => $val ) );
+    
+    $table = "{$wpdb->prefix}termmeta";
+    $wpdb->delete( $table, array( 'meta_key' => $val ) );
+    
+    // delete webhook url:
+    delete_option('wbps_webhook_url');
+    
+    $wc_keys = get_option('wbps_woocommerce_keys');
+    $key_id = isset($wc_keys['key_id']) ? $wc_keys['key_id'] : null;
+    
+    // deleting WC REST keys
+    if($key_id) {
+	    $delete = $wpdb->delete( $wpdb->prefix . 'woocommerce_api_keys', array( 'key_id' => $key_id ), array( '%d' ) );
+    }
+    
+    // wc keys
+    delete_option('wbps_woocommerce_keys');
+    
+    // sheet props
+    delete_option('wbps_sheet_props');
+    
+    // connection status
+    delete_option('wbps_connection_status');
+}
+
 function wbps_get_product_meta_col_value($product, $col_key){
     
     $value_found = '';
@@ -140,7 +216,7 @@ function wbps_return_bytes($size) {
 
 function wbps_settings_link($links) {
 	
-	$connection_settings = admin_url( 'admin.php?page=wbps-connection');
+	$connection_settings = admin_url( 'admin.php?page=wbps-settings');
 	
 	$wbps_links = array();
 	$wbps_links[] = sprintf(__('<a href="%s">Connection Manager</a>', "wbps"), esc_url($connection_settings) );
@@ -201,4 +277,22 @@ function wbps_sync_processed_data($items, $action) {
 
         return ['row' => $row_id, 'id' => $item['id'], 'images' => $images_ids, 'action' => $action];
     }, $items);
+}
+
+// get authcode
+function wbps_get_authcode(){
+    
+    $authcode = get_option('wbps_authcode');
+    
+    $wc_keys = get_option('wbps_woocommerce_keys');
+    if( !$wc_keys ) {
+        $wc_keys = wbps_generate_wc_api_keys();
+        update_option('wbps_woocommerce_keys', $wc_keys);
+    }
+    
+    if( $authcode ) return $authcode;
+    
+    $authcode = 'authcode_' . wp_generate_password(24, false);
+    update_option('wbps_authcode', $authcode);
+    return $authcode;
 }

@@ -17,29 +17,6 @@
     margin-bottom: 10px;
 }
 
-/* Style the authcode input field */
-#authcode {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-/* Style the save button */
-#btn_authcode {
-    background-color: #4CAF50;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-}
-
-#btn_authcode:hover {
-    background-color: #3e8e41;
-}
-
 #wbps-main{
     margin: 22px auto;
     width: 50%;
@@ -83,5 +60,21 @@
     text-decoration: none;
 }
 #wpbs-pro-btn{
+    text-align: center;
+}
+
+.authcode-section{
+    padding: 15px;
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+#video-guide{
+    font-weight: bold;
+}
+
+#auth_code{
+    width: 100%;
+    height: 40px;
     text-align: center;
 }

@@ -37,26 +37,25 @@ class WBPS_Admin {
     
  
    function admin_menu() {
+       
+        // $parent = 'options-general.php';
+        // $hook_setup = add_submenu_page(
+        //     $parent,
+        //      __('BulkProductSync - Bulk Product Manager with Google Sheets', 'wbps'),
+        //      __('BulkProductSync', 'wbps') ,
+        //     'manage_options',
+        //     'wbps-settings',
+        //     array(
+        //         $this,
+        //         'after_setup_done'
+        //     ),
+        //     35
+        // );
+        // // script will be only loaded for this current settings page, not all the pages.
+        // add_action( 'load-'. $hook_setup, [$this, 'load_scripts'] );
         
-        // for setup
-        $parent = 'options-general.php';
-        $hook_setup = add_submenu_page(
-            $parent,
-             __('BulkProductSync - Bulk Product Manager with Google Sheets', 'wbps'),
-             __('BulkProductSync', 'wbps') ,
-            'manage_options',
-            'wbps-settings',
-            array(
-                $this,
-                'after_setup_done'
-            ),
-            35
-        );
-        // script will be only loaded for this current settings page, not all the pages.
-        add_action( 'load-'. $hook_setup, [$this, 'load_scripts'] );
-        
-        // this hide page from menu, but can be accessible via link
-        remove_submenu_page( 'options-general.php', 'wbps-settings' );
+        // // this hide page from menu, but can be accessible via link
+        // remove_submenu_page( 'options-general.php', 'wbps-settings' );
         
         // for connection manager
         $parent = 'woocommerce';
@@ -65,10 +64,10 @@ class WBPS_Admin {
              __('BulkProductSync - Bulk Product Manager with Google Sheets', 'wbps'),
              __('BulkProductSync', 'wbps') ,
             'manage_woocommerce',
-            'wbps-connection',
+            'wbps-settings',
             array(
                 $this,
-                'connection_manager'
+                'settings_page'
             ),
             35
         );
@@ -87,12 +86,22 @@ class WBPS_Admin {
     }
     
     
-    function after_setup_done() {
-        wbps_load_file('setup.php');
-    }
+    // function after_setup_done() {
+    //     wbps_load_file('setup.php');
+    // }
     
-    function connection_manager() {
-        wbps_load_file('main.php');
+    function settings_page() {
+        
+        // wpbs_disconnect();
+        
+        $connection_status = get_option('wbps_connection_status');
+        
+        $template = 'main';
+        if( !$connection_status ){
+            $template = 'setup';
+        }
+       
+        wbps_load_file("{$template}.php");
     }
     
     // save authcode

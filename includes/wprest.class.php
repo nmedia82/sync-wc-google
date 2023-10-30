@@ -70,16 +70,7 @@ class WBPS_WP_REST {
             wp_send_json_error( ['message'=>$request->get_error_message()] );
         }
         
-        $wc_keys = get_option('wbps_woocommerce_keys');
-        if( $wc_keys ){
-            // also setting connection_status in sheet_props
-            $sheet_props = get_option('wbps_sheet_props');
-            $sheet_props['connection_status'] = 'verified';
-            update_option('wbps_sheet_props', $sheet_props);
-            wp_send_json_success(__('Congratulations! setup is successfully completed.', 'wbps'));
-        }else{
-            wp_send_json_error(__('Oops, it seems that an error occurred while verifying. Please close this window and try reconnecting. If the problem persists, please contact our support team for assistance.', 'wbps'));
-        }
+        wp_send_json_success('connection_ok');
     }
     
     // 2. verifying the authcode generated from Addon.
@@ -97,8 +88,24 @@ class WBPS_WP_REST {
             wp_send_json_error(__('AuthCode is not valid','wbps'));
         }
         
-        $response = __("Authcode saved successfully",'wbps');
+        update_option('wbps_connection_status', 'verified');
+        
+        $wc_keys = get_option('wbps_woocommerce_keys');
+        
+        
+        $response = ['wc_keys'=>$wc_keys, 'is_pro'=>wbps_pro_is_installed()];
         wp_send_json_success($response);
+    }
+    
+    function disconnect_store($request){
+        
+        if( ! $request->sanitize_params() ) {
+            wp_send_json_error( ['message'=>$request->get_error_message()] );
+        }
+        
+        wpbs_disconnect();
+        
+        wp_send_json_success(__("Store is unlinked","wbps"));
     }
     
     // product sync
@@ -123,7 +130,7 @@ class WBPS_WP_REST {
         $data   = $request->get_params();
         extract($data);
         
-        wbps_logger_array($data);
+        // wbps_logger_array($data);
         
         // since version 7.5.2 products are being sent as json
         $decodedChunk = json_decode($chunk);
@@ -289,41 +296,7 @@ class WBPS_WP_REST {
     
     
     
-    function disconnect_store($request){
-        
-        if( ! $request->sanitize_params() ) {
-            wp_send_json_error( ['message'=>$request->get_error_message()] );
-        }
-        
-        global $wpdb;
-        $val = 'wbps_row_id';
-        
-        $table = "{$wpdb->prefix}postmeta";
-        $wpdb->delete( $table, array( 'meta_key' => $val ) );
-        
-        $table = "{$wpdb->prefix}termmeta";
-        $wpdb->delete( $table, array( 'meta_key' => $val ) );
-        
-        // delete webhook url:
-        delete_option('wbps_webhook_url');
-        
-        $wc_keys = get_option('wbps_woocommerce_keys');
-        $key_id = isset($wc_keys['key_id']) ? $wc_keys['key_id'] : null;
-        
-        // deleting WC REST keys
-        if($key_id) {
-		    $delete = $wpdb->delete( $wpdb->prefix . 'woocommerce_api_keys', array( 'key_id' => $key_id ), array( '%d' ) );
-        }
-        
-        // wc keys
-        delete_option('wbps_woocommerce_keys');
-        
-        // sheet props
-        delete_option('wbps_sheet_props');
-        
-        wp_send_json_success(__("Store is unlinked","wbps"));
     
-    }
     
     // Webhook handling
     // function webhook_product($request) {
@@ -421,10 +394,15 @@ class WBPS_WP_REST {
     // Enabling the webhook
     function enable_webhook($request){
         
-        $data   = $request->get_params();
+        if( ! wbps_pro_is_installed() ) {
+            $url = 'https://najeebmedia.com/googlesync';
+            wp_send_json_error(sprintf(__('Pro version is not installed or active <a target="_blank" href="%s">Get Pro</a>'), $url));
+        }
         
+        $data   = $request->get_params();
         update_option('wbps_webhook_url', $data['webapp_url']);
-        return '';
+        
+        wp_send_json_success('AutoFetch is enabled');
     }
     
     // Disabling the webhook

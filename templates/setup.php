@@ -30,7 +30,7 @@ $siteurl = get_bloginfo('url');
                 <ol>
                     <li>Start by making your own copy of the Google Sheet by clicking this link: <a href="<?php echo esc_url($master_sheet);?>" target="_blank">Get Google Sheet</a>. Don't forget to click "File" and then "Make a copy" in the new sheet.</li>
                     <li>Next, it's time to install the Bulk Product Sync Addon. Just click on this link: <a href="<?php echo esc_url($url_addon);?>" target="_blank">Install the Addon</a>, and hit the "Install" button.</li>
-                    <li>Once you've installed the addon, refresh your Google sheet. You'll notice a new menu under <strong>Extensions > BulkProductSynV7 > Setup</strong>. Enter your site URL <strong><code><?php echo esc_html($siteurl);?></code></strong> in the provided field.</li>
+                    <li>Once you've installed the addon, refresh your Google sheet. You'll notice a new menu under <strong>Extensions > Bulk Product Sync with Google Sheets™ > Setup</strong>. Enter your site URL <strong><code><?php echo esc_html($siteurl);?></code></strong> in the provided field.</li>
                     <li>Finally, enter your AuthCode: <strong><code><?php echo esc_html($authcode);?></code></strong> in the corresponding field, and click "Connect & Verify" to complete the setup.</li>
                 </ol>
                 

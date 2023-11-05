@@ -18,6 +18,7 @@ function wbps_get_rest_endpoints() {
                     ['slug'=>'prepare-fetch','callback'=>'prepare_fetch','method'=>'POST'],
                     ['slug'=>'product-fetch','callback'=>'product_fetch','method'=>'POST'],
                     ['slug'=>'category-fetch','callback'=>'category_fetch','method'=>'POST'],
+                    ['slug'=>'attributes-fetch','callback'=>'attributes_fetch','method'=>'GET'],
                     ['slug'=>'disconnect-store','callback'=>'disconnect_store','method'=>'POST'],
                     ['slug'=>'webhook-callback','callback'=>'webhook_callback','method'=>'POST'],
                     ['slug'=>'link-new-product','callback'=>'link_new_product','method'=>'POST'],

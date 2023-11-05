@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.3.1
 Requires PHP: 5.6
-Stable tag: 8.0
+Stable tag: 8.1
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,10 +13,7 @@ Bulk Product Sync is a WooCommerce plugin to manage products with Google Sheets�
 
 == Description ==
 Bulk Product Sync with Google Sheets™ is a creative, quick, and easy way to use Google Sheets™ to bulk update or create products and categories for your WooCommerce store. 
-**Normal way to manage products/categories** *hactic,time-wasting,boring,difficult*
 To add new products to WooCommerce or even to make a single adjustment, you must go through a long-form (product edit page). Your time is wasted while you wait for login, website updates, and several clicks.
-
-**With Bulk Product Sync ** *quick,smart,few-clicks,managed*
 Use Google Sheets™ to add products and categories, and it only takes one click to add thousands of products to your store. Please watch this video instruction to learn more about the features and how to use it.
 
 = How It Works? =
@@ -25,10 +22,6 @@ Use Google Sheets™ to add products and categories, and it only takes one click
 **[Bulk Product Sync Demo](https://naejebmedia.com/bps-demo)**
 = How to use Demo =
 [youtube https://youtu.be/aaJzK_BDE3s]
-
-= Migrations to Version 7? =
-* Just create new sheet and connect as described in video and fetch all existing products
-* No need to use Template, just use your own Google Sheet.
 
 
 = Features =
@@ -85,6 +78,8 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
+= 8.1 November 5, 2023 =
+* Feature: Product attributes now can be fetched
 = 8.0 October 30, 2023 =
 * Feature: Setup wizard now is super easy in less than 10 secconds.
 = 7.15 October 18, 2023 =

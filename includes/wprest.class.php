@@ -294,72 +294,48 @@ class WBPS_WP_REST {
         wp_send_json_success(['categories'=>json_encode($response)]);
     }
     
-    
-    
-    
-    
-    // Webhook handling
-    // function webhook_product($request) {
+    function attributes_fetch($request){
         
-    //     if( ! $request->sanitize_params() ) {
-    //         wp_send_json_error( ['message'=>$request->get_error_message()] );
-    //     }
+        if( ! $request->sanitize_params() ) {
+            wp_send_json_error( ['message'=>$request->get_error_message()] );
+        }
         
-    //     $data   = $request->get_params();
+        if( ! wbps_pro_is_installed() ){
+            $url = 'https://najeebmedia.com/wordpress-plugin/woocommerce-google-sync/';
+            $msg = 'Pro Version is not installed or deactivated. Learn more about <a href="'.esc_url($url).'" target="_blank">Pro Version</a>';
+            wp_send_json_error( ['message'=>$msg] );
+        }
         
-    //     // Set the token value Googlesync User
-    //     // $token = 'ya29.a0AVvZVsq0GaA1KZB1TboLjkhS0WHNAEiwBqeDFmeEwtE54cYEzacyk8wiYnAxAAUblxvaEZA2PKRxiO5Am_RgycrBJ3jHOGl4F-YYvWNCNj_y8h9vd_HmeZZDZzW6gBjCICN5mIqY5GDbUi4YFgBroy8wlcfy-5k-s3Rz254njgaCgYKATUSARMSFQGbdwaIXwlbp86RJ_Sdn4Sg7umYMg0177';
-    //     // $sheet_id = '1SeyeQkVEn612abKQmC_HQwbol9Jl0Xa1IrDb_B9Z5Ek';
+        $data   = $request->get_params();
+        extract($data);
         
-    //     $token = 'ya29.a0AVvZVspl8jFVU2NxooHesaWuQ_n4qjjOprzjK3uD5BzfhwNLTELqdACHZHCeZ6MirHZDz4i2EAsqMGn8FB79E8Ogb-TOh2UKWF93blQKkklOr6URvl5sLiWD-EKhogx-R4_4Px874RG1aVvjqhaUa0hHW5ZB2yGuC6w9tp1BeQaCgYKAYYSARMSFQGbdwaIcOr2BLvK_9hoI9VFF_8Rxg0177';
-    //     $sheet_id = '1yjk3QBYqfvPxT7C7RyuB6dWMZPeic_CYQUD-umuYTDk';
-    //     $sheet_name = 'Test';
-    //     $range = 'A2:B2';
-    //     $range = $sheet_name . '!' . $range;
-    //     $values = [["32","Fancy x3"]];
+        $refresh = isset($data['refresh_fetch']) && $data['refresh_fetch'] == 'yes' ? true : false;
         
-    //     // Set the endpoint URL where you want to send the request
-    //     $url = 'https://sheets.googleapis.com/v4/spreadsheets/' . $sheet_id . '/values/' . $range . '?valueInputOption=USER_ENTERED';
-    //     wbps_logger_array($url);
-        
-    //     // Set the headers for the request, including the Authorization header with the bearer token
-    //     $headers = array(
-    //         'Authorization' => 'Bearer ' . $token,
-    //         'Content-Type' => 'application/json'
-    //     );
-        
-    //     // // Set the data you want to send in the request body
-    //     $body = array(
-    //         'values' => $values
-    //     );
-        
-    //     // Set the arguments for the wp_remote_post function
-    //     $args = array(
-    //         'method' => 'PUT',
-    //         'headers' => $headers,
-    //         'body' => json_encode($body),
-    //         'timeout' => '30'
-    //     );
-        
-    //     // wbps_logger_array($args);
-        
-    //     // Send the request using wp_remote_post function
-    //     $response = wp_remote_post( $url, $args );
-        
-    //     // wbps_logger_array($response);
-        
-    //     // Check if there was an error with the request
-    //     if( is_wp_error( $response ) ) {
-    //         $error_message = $response->get_error_message();
-    //         echo "Error: $error_message";
-    //     } else {
-    //         // Get the response body
-    //         $response_body = wp_remote_retrieve_body( $response );
-    //         wbps_logger_array($response_body);
-    //         // Do something with the response body
-    //     }
+        $attributes_data = array();
 
-    // }
+        foreach (wc_get_attribute_taxonomies() as $values) {
+            $attribute_data = array(
+                'id' => $values->attribute_id,
+                'name' => $values->attribute_label,
+                'terms' => array()
+            );
+        
+            // Get the array of term objects for each product attribute
+            $term_objects = get_terms(array('taxonomy' => 'pa_' . $values->attribute_name, 'hide_empty' => false));
+        
+            // Extract term names from term objects
+            foreach ($term_objects as $term) {
+                $attribute_data['terms'][] = $term->name;
+            }
+        
+            $attributes_data[] = $attribute_data;
+        }
+
+       
+        wp_send_json_success(['attributes'=>json_encode($attributes_data)]);
+    }
+    
+    
     
     // when product is created inside via webhook, now link it inside store
     function link_new_product($request) {

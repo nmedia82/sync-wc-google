@@ -17,7 +17,7 @@ To add new products to WooCommerce or even to make a single adjustment, you must
 Use Google Sheets™ to add products and categories, and it only takes one click to add thousands of products to your store. Please watch this video instruction to learn more about the features and how to use it.
 
 = How It Works? =
-[youtube https://youtu.be/yKNokaTP2iU]
+[youtube https://youtu.be/aCjnnOXXiP8?si=6QNHWX9QUHFbX7iv]
 
 **[Bulk Product Sync Demo](https://naejebmedia.com/bps-demo)**
 = How to use Demo =
@@ -66,10 +66,6 @@ Yes, in Pro version
 Yes
 = When connecting for the first time to Google Sheet™, why do we notice a warning? Is this harmful? =
 It's because the scripts we uploaded to the Google Sheet™ require certain permissions in order to run. Allowing these permissions is not problematic, since, for privacy reasons, we only have access to the current Google Sheet™, not the whole Google Drive.
-= How to link product metadata (custom fields)? =
-[Watch this video](https://youtu.be/897tHE1PD7I)
-= How to set up AutoSync? =
-[Watch this video](https://youtu.be/vYPk73uGPcc)
 
 == Screenshots ==
 1. Import products from Google Sheet™ to store

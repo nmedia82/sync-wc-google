@@ -5,7 +5,7 @@
  
 $master_sheet = 'https://docs.google.com/spreadsheets/d/1P5ARmpqrEQh--o37c3McYWBhN-8Yr7zW8utJkCbA-WE/edit?usp=sharing';
 $url_addon = 'https://workspace.google.com/marketplace/app/bulk_product_sync_with_google_sheets/267586530797';
-$video_guide_url = 'https://www.youtube.com/watch?v=yKNokaTP2iU';
+$video_guide_url = 'https://www.youtube.com/watch?v=aCjnnOXXiP8';
 $authcode = wbps_get_authcode();
 $siteurl = get_bloginfo('url');
 ?>
@@ -13,7 +13,7 @@ $siteurl = get_bloginfo('url');
 <div id="wbps-main">
     <header>
         <h1 class="head-item">BulkProductSync Setup Wizard</h1>
-        <img class="head-item" width="125" src="<?php echo WBPS_URL.'/images/gsync.png'?>" alt="Bulk Product Sync Logo" />
+        <img class="head-item" width="125" src="<?php echo WBPS_URL.'/images/bps-logo.png'?>" alt="Bulk Product Sync Logo" />
     </header>
     
     <section class="authcode-section">

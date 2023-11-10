@@ -14,15 +14,15 @@ $sheet_url = 'https://docs.google.com/spreadsheets/d/' . $sheet_id . '/edit';
 $autofetch_url = 'https://najeebmedia.com/blog/how-to-enable-autofetch-in-bulk-product-sync-for-real-time-store-updates-in-your-google-sheet/';
 $autosync_url = 'https://najeebmedia.com/blog/how-to-enable-auto-sync-in-bulk-product-sync-for-real-time-store-updates-in-your-google-sheet/';
 $pro_version_link = 'https://najeebmedia.com/googlesync';
-$video_guide_url = 'https://www.youtube.com/watch?v=yKNokaTP2iU';
+$video_guide_url = 'https://www.youtube.com/watch?v=aCjnnOXXiP8';
 $support_url = 'https://clients.najeebmedia.com/forums/forum/googlesync/';
 $google_bps_addon = 'https://workspace.google.com/marketplace/app/bulk_product_sync_with_google_sheets/267586530797';
 // var_dump($sheet_props);
 ?>
 <div id="wbps-main">
     <header>
-        <h1 class="head-item">BulkProductSync Connection Manager</h1>
-        <img class="head-item" width="125" src="<?php echo WBPS_URL.'/images/gsync.png'?>" alt="Bulk Product Sync Logo" />
+        <h1 class="head-item">Bulk Product Edit with BPS</h1>
+        <img class="head-item" width="75" src="<?php echo WBPS_URL.'/images/bps-logo.png'?>" alt="Bulk Product Sync Logo" />
     </header>
     
     <section class="connection-tasks">

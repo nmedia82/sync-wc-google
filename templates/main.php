@@ -88,6 +88,11 @@ $google_bps_addon = 'https://workspace.google.com/marketplace/app/bulk_product_s
         </article>
         
         <article class="task-item">
+            <p class="task-unit name">Authcode</p>
+            <p class="task-unit status"><code><?php echo wbps_get_authcode(); ?></code></p>
+        </article>
+        
+        <article class="task-item">
             <p class="task-unit name">Help/Support?</p>
             <p class="task-unit status"><a href="<?php echo esc_url($support_url);?>" target="_blank"><span class="dashicons dashicons-external"></span></a></p>
         </article>

@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.3.1
 Requires PHP: 5.6
-Stable tag: 8.1
+Stable tag: 8.2
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,6 +74,8 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
+= 8.2 November 13, 2023 =
+* Tweaks: AuthCode added in options
 = 8.1 November 5, 2023 =
 * Feature: Product attributes now can be fetched
 = 8.0 October 30, 2023 =

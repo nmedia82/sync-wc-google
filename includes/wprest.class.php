@@ -84,6 +84,9 @@ class WBPS_WP_REST {
         extract($data);
         $saved = get_option('wbps_authcode');
         
+        wbps_logger_array($saved);
+        wbps_logger_array($data);
+        
         if( $authcode !== $saved ) {
             wp_send_json_error(__('AuthCode is not valid','wbps'));
         }

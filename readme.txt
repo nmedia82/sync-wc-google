@@ -3,7 +3,7 @@ Contributors: nmedia
 Tags: bulk products, bulk stock manage, bulk price editor, woocommerce products, woocommerce stock, stock update
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
-Tested up to: 6.3.1
+Tested up to: 6.5.2
 Requires PHP: 5.6
 Stable tag: 8.2
 License: GPL2
@@ -74,6 +74,8 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
+= 8.3 November 13, 2024 =
+* Feature: Compatible with WordPress version 6.5.2
 = 8.2 November 13, 2023 =
 * Tweaks: AuthCode added in options
 = 8.1 November 5, 2023 =

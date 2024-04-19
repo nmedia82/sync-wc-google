@@ -3,7 +3,7 @@
  * Plugin Name: Bulk Product Sync for WooCommerce
  * Plugin URI: http://www.najeebmedia.com/googlesync
  * Description: A plugin that allows bulk syncing of products between WooCommerce stores. 
- * Version: 8.2
+ * Version: 8.3
  * Author: N-Media
  * Author URI: http://najeebmedia.com
  * License: GPLv2 or later
@@ -13,7 +13,7 @@
  
 define('WBPS_PATH', untrailingslashit(plugin_dir_path( __FILE__ )) );
 define('WBPS_URL', untrailingslashit(plugin_dir_url( __FILE__ )) );
-define('WBPS_VERSION', '8.2' );
+define('WBPS_VERSION', '8.3' );
 define('WBPS_SHORTNAME', 'wbps' );
 // Data display
 define('WBPS_CATEGORIES_TAG_DATA', get_option('wcgs_category_tags_data'));
@@ -46,7 +46,9 @@ function wbps_init(){
 
 add_action('woocommerce_init', 'wbps_init');
 
-add_action( 'activated_plugin', 'wbps_redirect_to_settings' );
+
+// removing this feature due to a huge bug in activating plugin in wp 6.5.2
+// add_action( 'activated_plugin', 'wbps_redirect_to_settings' );
 function wbps_redirect_to_settings($plugin)
 {
     if( $plugin == plugin_basename( __FILE__ ) ) {

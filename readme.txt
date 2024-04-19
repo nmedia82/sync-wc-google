@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.5.2
 Requires PHP: 5.6
-Stable tag: 8.2
+Stable tag: 8.3
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

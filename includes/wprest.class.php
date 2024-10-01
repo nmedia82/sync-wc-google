@@ -127,8 +127,6 @@ class WBPS_WP_REST {
         if (!$request->sanitize_params()) {
             wp_send_json_error(['message' => $request->get_error_message()]);
         }
-
-        
     
         $data   = $request->get_params();
         extract($data);

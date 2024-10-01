@@ -74,7 +74,7 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
-= 8.3 November 13, 2024 =
+= 8.3 April 13, 2024 =
 * Feature: Compatible with WordPress version 6.5.2
 = 8.2 November 13, 2023 =
 * Tweaks: AuthCode added in options

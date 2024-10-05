@@ -151,6 +151,9 @@ class WBPS_Hooks {
           		    
           		    $variation_data['type'] = 'variation';
           		    
+          		    // variations does not have dimension key, we are making it from length,width,height
+          		    $variation_data['dimensions'] = ['length'=>$variation_data['length'],'width'=>$variation_data['width'],'height'=>$variation_data['height']];
+          		    
           		    /**
           		     * since we are pulling variation via wc_get_products (not with WC API)
           		     * Some keys are not matched like image_id is returned instead of image

@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.5.2
 Requires PHP: 5.6
-Stable tag: 8.3
+Stable tag: 8.4
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,6 +74,8 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 4. Settings page
 
 == Changelog ==
+= 8.4 October 5, 2024 =
+* Bug fixed: Dimensions fields were being fetched for variations, now it is fixed.
 = 8.3 April 13, 2024 =
 * Feature: Compatible with WordPress version 6.5.2
 = 8.2 November 13, 2023 =

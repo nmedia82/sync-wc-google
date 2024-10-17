@@ -75,7 +75,7 @@ It's because the scripts we uploaded to the Google Sheet™ require certain perm
 
 == Changelog ==
 = 8.4 October 5, 2024 =
-* Bug fixed: Dimensions fields were being fetched for variations, now it is fixed.
+* Bug fixed: Dimensions fields were not being fetched for variations, now it is fixed.
 = 8.3 April 13, 2024 =
 * Feature: Compatible with WordPress version 6.5.2
 = 8.2 November 13, 2023 =

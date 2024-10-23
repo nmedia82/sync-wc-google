@@ -19,10 +19,11 @@ Use Google Sheets™ to add products and categories, and it only takes one click
 = How It Works? =
 [youtube https://youtu.be/aCjnnOXXiP8?si=6QNHWX9QUHFbX7iv]
 
-**[Bulk Product Sync Demo](https://naejebmedia.com/bps-demo)**
-= How to use Demo =
-[youtube https://youtu.be/aaJzK_BDE3s]
-
+****
+= Live Demo =
+* Check all features in [Live Demo](https://najeebmedia.com/bps-demo)
+* This demo has already installed **BPS** Free and Pro version.
+* Make sure you follow the instructions as [explained here](https://youtu.be/aCjnnOXXiP8?si=6QNHWX9QUHFbX7iv)
 
 = Features =
 * One Click Import
@@ -64,8 +65,13 @@ The only import option in the free version is from a Google Sheet™ to the stor
 Yes, in Pro version
 = Should I need to connect with my own Google Account? =
 Yes
-= When connecting for the first time to Google Sheet™, why do we notice a warning? Is this harmful? =
-It's because the scripts we uploaded to the Google Sheet™ require certain permissions in order to run. Allowing these permissions is not problematic, since, for privacy reasons, we only have access to the current Google Sheet™, not the whole Google Drive.
+= Can I see live Demo? =
+* Check all features in [Live Demo](https://najeebmedia.com/bps-demo)
+* This demo has already installed **BPS** Free and Pro version.
+* Make sure you follow the instructions as [explained here](https://youtu.be/aCjnnOXXiP8?si=6QNHWX9QUHFbX7iv)
+= Can we use formulas in Google Sheet for e.g. prices, stock?
+Yes
+
 
 == Screenshots ==
 1. Import products from Google Sheet™ to store

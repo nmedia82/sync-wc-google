@@ -39,7 +39,9 @@ class WBPS_Format {
     
     function format_data_products($sheet_data, $general_settings) {
         
-        $sheet_data = array_map(function($item) use($general_settings) {
+        $taxonomy_found = wpbs_get_taxonomy_names();
+        
+        $sheet_data = array_map(function($item) use($general_settings, $taxonomy_found) {
             
             foreach(wbps_fields_format_required() as $key => $type){
                 

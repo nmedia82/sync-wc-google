@@ -93,6 +93,10 @@ class WBPS_Products {
                 }
             }
             
+            
+            // attaching taxonomies
+            wpbs_attach_or_remove_product_taxonomies($result1, $products);
+            
             $result2 = [];
             if( count($wcapi_variations) > 0 ) {
                 $result2 = $wcapi->batch_update_variations($wcapi_variations);

@@ -3,9 +3,9 @@ Contributors: nmedia
 Tags: bulk products, bulk stock manage, bulk price editor, woocommerce products, woocommerce stock, stock update
 Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
-Tested up to: 6.5.2
+Tested up to: 6.6.2
 Requires PHP: 5.6
-Stable tag: 8.4
+Stable tag: 8.5
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,8 @@ Yes
 4. Settings page
 
 == Changelog ==
+= 8.5 October 28, 2024 =
+* Feature: Taxonomies now can be added/updated via Google sheet.
 = 8.4 October 5, 2024 =
 * Bug fixed: Dimensions fields were not being fetched for variations, now it is fixed.
 = 8.3 April 13, 2024 =

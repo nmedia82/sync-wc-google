@@ -296,3 +296,75 @@ function wbps_get_authcode(){
     update_option('wbps_authcode', $authcode);
     return $authcode;
 }
+
+// get sheets props
+function wbps_get_sheet_props(){
+    $sheet_props = get_option('wbps_sheet_props');
+    return $sheet_props;
+}
+
+function wpbs_get_taxonomy_names() {
+    
+    $sheet_properties = wbps_get_sheet_props();
+    
+    if (!$sheet_properties) return [];
+    
+    if (!isset($sheet_properties['product_mapping'])) return [];
+    
+    $product_mapping = json_decode($sheet_properties['product_mapping'], true);
+    
+    if (!$product_mapping) return [];
+    
+    // Filter and get only taxonomy keys
+    $taxonomy_names = array_map(function($item) {
+        return $item['key'];
+    }, array_filter($product_mapping, function($item) {
+        return $item['source'] === 'taxonomy';
+    }));
+    
+    return $taxonomy_names;
+}
+
+function wpbs_attach_or_remove_product_taxonomies($results, &$products) {
+    $taxonomy_found = wpbs_get_taxonomy_names();
+
+    // Initialize a term cache for each taxonomy
+    $term_cache = [];
+    foreach ($taxonomy_found as $taxonomy) {
+        $terms = get_terms(['taxonomy' => $taxonomy, 'hide_empty' => false]);
+        foreach ($terms as $term) {
+            $term_cache[$taxonomy][$term->slug] = $term->term_id; // Cache terms by slug
+        }
+    }
+
+    // Process each product in $products for taxonomy attachment or removal
+    foreach ($products as &$item) {
+        $product_id = (int)$item['id'];
+        
+        foreach ($taxonomy_found as $taxonomy) {
+            if (!empty($item[$taxonomy])) {
+                // Split multiple terms by comma and trim whitespace
+                $term_names = array_map('trim', explode(',', $item[$taxonomy]));
+                $term_ids = []; // Array to store term IDs
+
+                foreach ($term_names as $term_name) {
+                    // Convert the term name to a slug
+                    $term_slug = sanitize_title($term_name);
+
+                    // Only attach terms that exist in the cache
+                    if (isset($term_cache[$taxonomy][$term_slug])) {
+                        $term_ids[] = (int)$term_cache[$taxonomy][$term_slug];
+                    }
+                }
+
+                // Attach all found term IDs if there are any
+                if (!empty($term_ids)) {
+                    wp_set_object_terms($product_id, $term_ids, $taxonomy, true);
+                }
+            } else {
+                // No term specified; remove all terms for this taxonomy
+                wp_set_object_terms($product_id, [], $taxonomy);
+            }
+        }
+    }
+}

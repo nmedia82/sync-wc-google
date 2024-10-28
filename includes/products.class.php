@@ -95,7 +95,8 @@ class WBPS_Products {
             
             
             // attaching taxonomies
-            wpbs_attach_or_remove_product_taxonomies($result1, $products);
+            if( function_exists('wpbs_attach_or_remove_product_taxonomies') )
+                wpbs_attach_or_remove_product_taxonomies($result1, $products);
             
             $result2 = [];
             if( count($wcapi_variations) > 0 ) {

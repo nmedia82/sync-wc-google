@@ -190,15 +190,15 @@ class WBPS_Products {
         $link_new_data = [];
         foreach($products as $product) {
             // Check if sync column meta exists
-            if( isset($pid_rows[$product['id']]) && $wcgs_row_id = $pid_rows[$product['id']] ) {
-                 $update_array = array_map( function($item) {
-                    $item = $item == "" ? "" : html_entity_decode($item);
+            if (isset($pid_rows[$product['id']]) && $wcgs_row_id = $pid_rows[$product['id']]) {
+                $update_array = array_map(function($item) {
+                    $item = (is_string($item) && $item !== "") ? html_entity_decode($item) : $item;
                     return $item;
                 }, array_values($product));
                 $products_refined['update'][$wcgs_row_id] = $update_array;
-            }else{
-                $create_array = array_map( function($item) {
-                    $item = $item == "" ? "" : html_entity_decode($item);
+            } else {
+                $create_array = array_map(function($item) {
+                    $item = (is_string($item) && $item !== "") ? html_entity_decode($item) : $item;
                     return $item;
                 }, array_values($product));
                 $row = $row + 1;
@@ -206,6 +206,7 @@ class WBPS_Products {
                 $products_refined['create'][$row] = $create_array;
             }
         }
+
         
         // wbps_logger_array($products_refined);
         

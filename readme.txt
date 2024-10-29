@@ -81,6 +81,7 @@ Yes
 
 == Changelog ==
 = 8.5 October 28, 2024 =
+* Feature: [Some suggested improvements](https://clients.najeebmedia.com/forums/topic/some-improvements-to-the-pro-version/)
 * Feature: Taxonomies now can be added/updated via Google sheet.
 = 8.4 October 5, 2024 =
 * Bug fixed: Dimensions fields were not being fetched for variations, now it is fixed.

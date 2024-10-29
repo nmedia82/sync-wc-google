@@ -23,7 +23,7 @@ Use Google Sheets™ to add products and categories, and it only takes one click
 = Live Demo =
 * Check all features in [Live Demo](https://najeebmedia.com/bps-demo)
 * This demo has already installed **BPS** Free and Pro version.
-* Make sure you follow the instructions as [explained here](https://youtu.be/aCjnnOXXiP8?si=6QNHWX9QUHFbX7iv)
+* When demo is ready, please follow the instructions as [explained here](https://youtu.be/aCjnnOXXiP8?si=6QNHWX9QUHFbX7iv)
 
 = Features =
 * One Click Import

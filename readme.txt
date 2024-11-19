@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.6.2
 Requires PHP: 5.6
-Stable tag: 8.5
+Stable tag: 8.6
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,9 @@ Yes
 4. Settings page
 
 == Changelog ==
+= 8.6 November 19, 2024 =
+* Feature: [Brands is now core part of WooCommerce, thus BPS now can handle brands just like categories](https://clients.najeebmedia.com/forums/topic/brands-taxonomy-is-not-syncing/)
+* Feature: Serialized meta now can be fetched and synced
 = 8.5 October 28, 2024 =
 * Feature: [Some suggested improvements](https://clients.najeebmedia.com/forums/topic/some-improvements-to-the-pro-version/)
 * Feature: Taxonomies now can be added/updated via Google sheet.

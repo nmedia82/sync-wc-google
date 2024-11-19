@@ -32,7 +32,7 @@ function wbps_pro_is_installed() {
 function wbps_fields_format_required() {
     
     return apply_filters('wbps_fields_format_required', 
-                        ['categories'=>'array', 'upsell_ids'=>'array','tags'=>'array','downloads'=>'array','images'=>'array', 'attributes'=>'array','image'=>'array','meta_data'=>'array','dimensions'=>'array']);
+                        ['categories'=>'array', 'brands'=>'array', 'upsell_ids'=>'array','tags'=>'array','downloads'=>'array','images'=>'array', 'attributes'=>'array','image'=>'array','meta_data'=>'array','dimensions'=>'array']);
 }
 
 // Field with integer arrays

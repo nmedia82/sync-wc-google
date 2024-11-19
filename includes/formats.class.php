@@ -19,6 +19,7 @@ class WBPS_Format {
         add_filter('wcgs_sync_data_products_before_processing', array($this, 'format_data_products'), 11, 2);
         add_filter('wcgs_products_data_attributes', array($this, 'product_attributes'), 99, 3);
         add_filter('wcgs_products_data_categories', array($this, 'product_extract_id_categories'), 99, 3);
+        add_filter('wcgs_products_data_brands', array($this, 'product_extract_id_brands'), 99, 3);
         add_filter('wcgs_products_data_tags', array($this, 'product_extract_id_tags'), 99, 3);
         add_filter('wcgs_products_data_image', array($this, 'variation_image'), 99, 3);
         add_filter('wcgs_products_data_images', array($this, 'product_images'), 99, 3);
@@ -119,6 +120,36 @@ class WBPS_Format {
             $value = json_decode($value);
         } elseif($return_value === 'name'){
             $value = wbps_get_taxonomy_ids_by_names('product_cat', $value);
+            $value = array_map( function($id){
+                $item['id'] = $id;
+                return $item;
+            }, $value);
+        } else {
+            $value = explode('|', $value);
+            $value = array_map( function($id){
+                $item['id'] = trim($id);
+                return $item;
+            }, $value);
+        }
+        
+        return $value;
+    }
+    
+    
+    // Categories|Tags Sheet ==> Site
+    function product_extract_id_brands($value, $row, $general_settings){
+        
+        if( ! $value ) return $value;
+        
+        $return_value = isset($general_settings['brands_return_value']) ? $general_settings['brands_return_value'] : 'id';
+        $names_enabled = false;
+        $tag_data = [];
+        
+        
+        if( $return_value === 'object' ){
+            $value = json_decode($value);
+        } elseif($return_value === 'name'){
+            $value = wbps_get_taxonomy_ids_by_names('product_brand', $value);
             $value = array_map( function($id){
                 $item['id'] = $id;
                 return $item;
@@ -288,36 +319,34 @@ class WBPS_Format {
     // }
     
     function syncback_data_products($products, $header, $settings) {
-        // Define a callback function for formatting and filtering product data
-        $formatAndFilter = function ($value, $key) use ($settings) {
-            $value = $value === NULL ? "" : $value;
-            $value = apply_filters("wcgs_products_syncback_value_{$key}", $value, $key, $settings);
-            return $value;
-        };
-    
-        // Define a callback function for imploding integer array fields
-        $implodeField = function ($value) {
-            return is_array($value) ? implode('|', $value) : $value;
-        };
-    
-        // Iterate through products
+        // Pre-fetch integer array fields and format required fields to avoid repeated function calls
+        $integerArrayFields = wbps_fields_integer_array();
+        $formatRequiredFields = wbps_fields_format_required();
+        
         foreach ($products as &$product) {
             foreach ($product as $key => &$value) {
                 $key = trim($key);
-                
+    
+                // Apply basic filter
                 $value = apply_filters("wcgs_products_syncback_value", $value, $key);
-                if (in_array($key, wbps_fields_integer_array())) {
-                    // Check if the key exists in integer array fields and implode if needed
-                    $value = $implodeField($value);
-                } elseif (array_key_exists($key, wbps_fields_format_required())) {
-                    // Check if the key exists in format required fields and apply formatting and filtering
-                    $value = $formatAndFilter($value, $key);
+                
+                if (in_array($key, $integerArrayFields, true)) {
+                    // If key is in integer array fields, implode value if it's an array
+                    $value = is_array($value) ? implode('|', $value) : $value;
+                } elseif (isset($formatRequiredFields[$key])) {
+                    // If key exists in format-required fields, apply formatting and filtering
+                    $value = $value === null ? "" : $value;
+                    $value = apply_filters("wcgs_products_syncback_value_{$key}", $value, $key, $settings);
+                } elseif (is_array($value)) {
+                    // If value is an array, encode it as JSON
+                    $value = json_encode($value);
                 }
             }
         }
-    
+        
         return $products;
     }
+
 
 
     

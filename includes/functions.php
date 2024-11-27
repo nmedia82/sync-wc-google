@@ -324,3 +324,21 @@ function wpbs_get_taxonomy_names() {
     
     return $taxonomy_names;
 }
+
+/**
+ * Decode data if it is a valid JSON string, otherwise return the plain string.
+ *
+ * @param string $data The input data.
+ * @return mixed Decoded data if JSON, or the plain string.
+ */
+function wbps_decode_if_json($data) {
+    // Attempt to decode the JSON string
+    $decoded_data = json_decode($data, true); // true converts JSON objects to associative arrays
+
+    if (json_last_error() === JSON_ERROR_NONE) {
+        return $decoded_data; // Return the decoded data (array or object)
+    }
+
+    // If not JSON, return the plain string
+    return sanitize_text_field($data);
+}

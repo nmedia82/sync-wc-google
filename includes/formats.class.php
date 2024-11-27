@@ -37,7 +37,7 @@ class WBPS_Format {
     
     }
     
-    
+    // syncing: format data before saving
     function format_data_products($sheet_data, $general_settings) {
         
         $taxonomy_found = wpbs_get_taxonomy_names();
@@ -55,31 +55,41 @@ class WBPS_Format {
             foreach(wbps_fields_integer_array() as $key){
                 
                 if( !isset($item[$key]) ) continue;
-                
                 $item[$key] = $this->parsing_integer_sting_to_array($item[$key], $item);
             }
             
+            if (isset($item['meta_data']) && is_array($item['meta_data'])) {
+                $item['meta_data'] = array_map(function ($meta) {
+                    // Apply the decode function to the 'value' field if it exists
+                    if (isset($meta['value'])) {
+                        $meta['value'] = wbps_decode_if_json($meta['value']);
+                    }
+                    return $meta;
+                }, $item['meta_data']);
+            }
+            
+            // META DATA IS BEING GENERATED FROM GOOGLE SHEET
             
             // Adding meta column if found
-            $meta_keys = get_option('wcgs_metadata_keys');
-            if($meta_keys){
+            // $meta_keys = get_option('wcgs_metadata_keys');
+            // if($meta_keys){
                 
-                // getting the allowed meta keys and converting to array
-                $meta_array = explode(',', $meta_keys);
-                $meta_array = array_map('trim', $meta_array);
-                // flipping: to intersect with item main data
-                $meta_array = array_flip($meta_array);
-                // extract only meta data columns
-                $meta_column_found = array_intersect_key($item, $meta_array);
+            //     // getting the allowed meta keys and converting to array
+            //     $meta_array = explode(',', $meta_keys);
+            //     $meta_array = array_map('trim', $meta_array);
+            //     // flipping: to intersect with item main data
+            //     $meta_array = array_flip($meta_array);
+            //     // extract only meta data columns
+            //     $meta_column_found = array_intersect_key($item, $meta_array);
                 
-                // Now exclude the meta columns from main data
-                $item = array_diff_key($item, $meta_array);
+            //     // Now exclude the meta columns from main data
+            //     $item = array_diff_key($item, $meta_array);
                 
-                // Adding the meta cound in meta_data
-                foreach($meta_column_found as $key => $val ){
-                    $item['meta_data'][] = ['key' => $key, 'value' => $val];
-                }
-            }
+            //     // Adding the meta cound in meta_data
+            //     foreach($meta_column_found as $key => $val ){
+            //         $item['meta_data'][] = ['key' => $key, 'value' => wbps_decode_if_json($val)];
+            //     }
+            // }
             
             return $item;
             

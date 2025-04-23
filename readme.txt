@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.6.2
 Requires PHP: 5.6
-Stable tag: 8.6
+Stable tag: 9.0
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,12 @@ Yes
 4. Settings page
 
 == Changelog ==
+= 9.0 April 23, 2025 =
+* Feature: Improved error handling for large POST body uploads during product sync
+* Feature: Added validation to all REST endpoints with fallback for empty/missing params
+* Feature: Optimized product/category linking using `prepare()` safely (PHP 7.0+ support)
+* Bug Fix: Fixed positional argument unpacking in `wpdb->prepare` when deleting meta
+* Tweaks: Refined plugin admin UI for better clarity during setup
 = 8.6 November 19, 2024 =
 * Feature: [Brands is now core part of WooCommerce, thus BPS now can handle brands just like categories](https://clients.najeebmedia.com/forums/topic/brands-taxonomy-is-not-syncing/)
 * Feature: Serialized meta now can be fetched and synced

@@ -176,8 +176,17 @@ class WBPS_Products {
     public static function prepare_for_syncback($products, $settings, $last_row){
         
         global $wpdb;
+        
         $qry = "SELECT post_id, meta_value from {$wpdb->prefix}postmeta where {$wpdb->prefix}postmeta.meta_key = 'wbps_row_id'";
+        
+        $meta_key = 'wbps_row_id';
+        $qry = $wpdb->prepare(
+            "SELECT post_id, meta_value FROM {$wpdb->prefix}postmeta WHERE meta_key = %s",
+            $meta_key
+        );
+        
         $db_results = $wpdb->get_results($qry);
+        
         $pid_rows = [];
         foreach($db_results as $row){
           $pid_rows[$row->post_id] = $row->meta_value;
@@ -216,42 +225,41 @@ class WBPS_Products {
         return $products_refined;
     }
     
-    public static function link_product_with_sheet($row_prodid){
-        
-        if( count($row_prodid) <= 0 ) return;
-        
+    public static function link_product_with_sheet($row_prodid) {
+        if (empty($row_prodid)) return;
+    
         global $wpdb;
-        $postmeta_table = $wpdb->prefix.'postmeta';
-        
-        $wpsql = "INSERT INTO {$postmeta_table} (post_id,meta_key,meta_value) VALUES ";
-        $delqry = "DELETE FROM {$postmeta_table} WHERE post_id IN (";
+        $postmeta_table = $wpdb->prefix . 'postmeta';
         $metakey = 'wbps_row_id';
-        
-        foreach($row_prodid as $row_id => $prod_id){
-            
-            
-            $metaval    = $row_id;
-            $postid     = $prod_id;    // term id
-            
-            // Delete existing terms meta if any
-            $delqry .= "{$postid},";
-            // Term meta sql
-            $wpsql .= "({$postid}, '{$metakey}', '{$metaval}'),";
-        
+    
+        $post_ids = array_map('intval', array_values($row_prodid));
+        $values = [];
+        $placeholders = [];
+    
+        foreach ($row_prodid as $row_id => $prod_id) {
+            $placeholders[] = "(%d, %s, %s)";
+            $values[] = intval($prod_id);
+            $values[] = $metakey;
+            $values[] = strval($row_id);
         }
-        
-        // Delete query
-        $delqry = rtrim($delqry, ',');
-        $delqry .= ") AND meta_key='{$metakey}'";
-        $wpdb->query($delqry);
-        
-        //insert query
-        $wpsql = rtrim($wpsql, ',');
-        
-        // wbps_logger_array($wpsql);
-        
-        $wpdb->query($wpsql);
+    
+        // DELETE old rows
+        $wpdb->query(
+            $wpdb->prepare(
+                "DELETE FROM {$postmeta_table} WHERE post_id IN (" . implode(',', array_fill(0, count($post_ids), '%d')) . ") AND meta_key = %s",
+                ...array_merge($post_ids, [$metakey])
+            )
+        );
+    
+        // INSERT new rows
+        $wpdb->query(
+            $wpdb->prepare(
+                "INSERT INTO {$postmeta_table} (post_id, meta_key, meta_value) VALUES " . implode(',', $placeholders),
+                ...$values
+            )
+        );
     }
+
         
 }
 

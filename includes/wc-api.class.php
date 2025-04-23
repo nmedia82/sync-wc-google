@@ -15,74 +15,8 @@ class WBPS_WCAPI {
       
   }
   
-  // function batch_update_products($data) {
-    
-  //   // wbps_logger_array($data);
-    
-  //   $request = new WP_REST_Request( 'POST', '/wc/v3/products/batch' );
-  //   $request->set_body_params( $data );
-  //   $response = @rest_do_request( $request );
-    
-  //   if ( $response->is_error() ) {
-  //       $error = $response->as_error();
-  //       return new WP_Error( 'wcapi_batch_product_error', $error->get_error_message() );
-  //   } else{
-  //       $response = $response->get_data();
-        
-  //       // wbps_logger_array($response);
-        
-  //       $result1 = $result2 = [];
-  //       if( isset($response['update']) ) {
-  //           $result1 = array_map(function($item){
-               
-  //                 if( isset($item['error']) ){
-  //                   $message = $item['error']['message'].' product:'.$item['id'];
-  //                   return ['row'=>'ERROR','id'=>$item['id'], 'message'=>$message,'action'=>'update'];
-  //                 }
-                
-  //                 $row_id_meta = array_filter($item['meta_data'], function($meta){
-  //                   return $meta->key == 'wbps_row_id';
-  //                 });
-                  
-  //                 $row_id_meta = reset($row_id_meta);
-  //                 $row_id = $row_id_meta->value;
-  //                 $images_ids = array_column($item['images'],'id');
-  //                 $images_ids = apply_filters('wbps_images_ids', implode('|',$images_ids), $item);
-  //                 return ['row'=>$row_id, 'id'=>$item['id'], 'images'=>$images_ids,'action'=>'update'];
-                    
-  //           }, $response['update']);
-             
-  //           // wcgs_log($result);
-  //       }
-        
-  //       if( isset($response['create']) ) {
-  //           $result2 = array_map(function($item){
-               
-  //                 if( isset($item['error']) ){
-  //                   $message = $item['error']['message'].' product:'.$item['id'];
-  //                   return ['row'=>'ERROR','id'=>$item['id'], 'message'=>$message,'action'=>'create'];
-  //                 }
-                
-  //                 $row_id_meta = array_filter($item['meta_data'], function($meta){
-  //                   return $meta->key == 'wbps_row_id';
-  //                 });
-                  
-  //                 $row_id_meta = reset($row_id_meta);
-  //                 $row_id = $row_id_meta->value;
-  //                 $images_ids = array_column($item['images'],'id');
-  //                 $images_ids = apply_filters('wbps_images_ids', implode('|',$images_ids), $item);
-  //                 return ['row'=>$row_id, 'id'=>$item['id'], 'images'=>$images_ids,'action'=>'create'];
-                    
-  //           }, $response['create']);
-             
-  //       }
-        
-  //       // wcgs_log($result);
-  //       return array_merge($result1, $result2);
-  //   }
-  // }
-  
   function batch_update_products($data) {
+    
     $request = new WP_REST_Request('POST', '/wc/v3/products/batch');
     $responseChunks = [];
 
@@ -183,7 +117,7 @@ function processResponseData($items, $action) {
                     $message = $item['error']['message'].' category:'.$item['id'];
                     return ['row'=>'ERROR','id'=>$item['id'], 'message'=>$message,'action'=>'create'];
                   }
-                
+                  
                   $item_name = sanitize_key($item['name']);
                   $row_id = isset($rowRef[$item_name]) ? $rowRef[$item_name] : '';
                   $image_id = isset($item['image']['id']) ? $item['image']['id'] : null; 

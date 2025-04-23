@@ -76,42 +76,44 @@ class WBPS_Hooks {
     
     
     function categories_row_update($rowRef) {
- 
-        if( count($rowRef) <= 0 ) return;
-        
+        if (empty($rowRef)) return;
+    
         global $wpdb;
-        $termmeta_table = $wpdb->prefix.'termmeta';
-        
-        $wpsql = "INSERT INTO {$termmeta_table} (term_id,meta_key,meta_value) VALUES ";
-        $delqry = "DELETE FROM {$termmeta_table} WHERE term_id IN (";
         $metakey = 'wcgs_row_id';
-        
-        foreach($rowRef as $ref){
-            
-            if( $ref['row'] == 'ERROR' ) continue;
-            
-            $termid = $ref['id'];    // term id
-            $metaval = $ref['row'];
-            
-            // Delete existing terms meta if any
-            $delqry .= "{$termid},";
-            // Term meta sql
-            $wpsql .= "({$termid}, '{$metakey}', '{$metaval}'),";
-        
+        $termmeta_table = $wpdb->prefix . 'termmeta';
+    
+        $term_ids = [];
+        $values = [];
+        $placeholders = [];
+    
+        foreach ($rowRef as $ref) {
+            if ($ref['row'] === 'ERROR') continue;
+            $term_ids[] = intval($ref['id']);
+            $placeholders[] = "(%d, %s, %s)";
+            $values[] = intval($ref['id']);
+            $values[] = $metakey;
+            $values[] = sanitize_text_field($ref['row']);
         }
-        
-        // var_dump($wpsql); exit;
-        
-        // Delete query
-        $delqry = rtrim($delqry, ',');
-        $delqry .= ") AND meta_key='{$metakey}'";
-        $wpdb->query($delqry);
-        
-        //insert query
-        $wpsql = rtrim($wpsql, ',');
-        
-        $wpdb->query($wpsql);
+    
+        if ($term_ids) {
+            $wpdb->query(
+                $wpdb->prepare(
+                    "DELETE FROM {$termmeta_table} WHERE term_id IN (" . implode(',', array_fill(0, count($term_ids), '%d')) . ") AND meta_key = %s",
+                    ...array_merge($term_ids, [$metakey])
+                )
+            );
+        }
+    
+        if ($placeholders) {
+            $wpdb->query(
+                $wpdb->prepare(
+                    "INSERT INTO {$termmeta_table} (term_id, meta_key, meta_value) VALUES " . implode(',', $placeholders),
+                    ...$values
+                )
+            );
+        }
     }
+
     
     // Add variation before syncback via hook
     function add_variations($products, $header){
@@ -334,7 +336,7 @@ class WBPS_Hooks {
         }, []);
         // wbps_logger_array($items);
         
-        $payload_new['row_id']  = get_post_meta($product['id'],'wbps_row_id', true);
+        $row_id = sanitize_text_field(get_post_meta($payload['id'], 'wbps_row_id', true));
         $payload_new['rows']     = $items;
         $payload_new['product_id']     = $product['id'];
         $payload_new['sheet_props']     = $sheet_props;
@@ -345,7 +347,7 @@ class WBPS_Hooks {
     
     function handle_product_trashed( $new_status, $old_status, $post ) {
         
-        if ( $_SERVER['REQUEST_URI'] === '/wp-json/wbps/v1/product-sync' ) {
+        if (isset($_SERVER['REQUEST_URI']) && strpos(sanitize_text_field($_SERVER['REQUEST_URI']), '/wp-json/wbps/v1/product-sync') !== false) {
             return;
         }
     
@@ -398,7 +400,7 @@ class WBPS_Hooks {
             $response = wp_remote_post( $endpoint_url, array(
               'method' => 'POST',
               'headers' => array( 'Content-Type' => 'application/json' ),
-              'body' => json_encode( $payload ),
+              'body' => wp_json_encode($payload),
             ) );
     
             // Log the response
@@ -444,7 +446,7 @@ class WBPS_Hooks {
             $response = wp_remote_post( $endpoint_url, array(
               'method' => 'POST',
               'headers' => array( 'Content-Type' => 'application/json' ),
-              'body' => json_encode( $payload ),
+              'body' => wp_json_encode($payload),
             ) );
             
             // Log the response
@@ -490,7 +492,7 @@ class WBPS_Hooks {
             $response = wp_remote_post( $endpoint_url, array(
               'method' => 'POST',
               'headers' => array( 'Content-Type' => 'application/json' ),
-              'body' => json_encode( $payload ),
+              'body' => wp_json_encode($payload),
             ) );
             
             // Log the response

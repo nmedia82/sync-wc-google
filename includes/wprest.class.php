@@ -66,33 +66,87 @@ class WBPS_WP_REST {
     }
 
     function product_sync($request) {
+        // Check if the POST data size exceeds the limit
         $postMaxSizeBytes = wbps_return_bytes(ini_get('post_max_size'));
-        if (strlen(file_get_contents('php://input')) > $postMaxSizeBytes) {
-            wp_send_json_error(['message' => 'POST data exceeds server limit.']);
+        $postDataSize = strlen(file_get_contents('php://input'));
+        // wbps_logger_array($postMaxSizeBytes);
+    
+        if ($postDataSize > $postMaxSizeBytes) {
+            // Handle the situation where the POST data size exceeds the limit
+            wp_send_json_error(['message' => 'The size of the POST data exceeds the limit.']);
+        }
+    
+        // Continue with the rest of the function
+        if (!$request->sanitize_params()) {
+            wp_send_json_error(['message' => $request->get_error_message()]);
+        }
+    
+        $data   = $request->get_params();
+        
+        $chunk = $request->get_param('chunk');
+        $general_settings = $request->get_param('general_settings');
+        // extract($data);
+        
+        // wbps_logger_array($data);
+        
+        // since version 7.5.2 products are being sent as json
+        $decodedChunk = json_decode($chunk);
+        if ($decodedChunk !== null && is_string($chunk) && json_last_error() === JSON_ERROR_NONE) {
+            // 'chunk' is a valid JSON string
+            $chunk = json_decode($chunk, true);
+        }
+        
+        
+        // Parse $general_settings if it's a string
+        if (is_string($general_settings)) {
+            $general_settings = json_decode($general_settings, true);
         }
 
-        $chunk = json_decode(wp_unslash($request->get_param('chunk')), true);
-        $general_settings = json_decode(wp_unslash($request->get_param('general_settings')), true);
+        // will remove extra indexed level
         $chunk = array_replace(...$chunk);
-
+        // return;
         $products_ins = init_wbps_products();
         $response = $products_ins::sync($chunk, $general_settings);
-
-        if (is_wp_error($response)) wp_send_json_error($response->get_error_message());
+        if( is_wp_error($response) ) {
+            wp_send_json_error($response->get_error_message());
+        }
+        
+        // sleep(intval($chunk));
+        
         wp_send_json_success($response);
     }
-
-    function category_sync($request) {
-        $chunk = json_decode(wp_unslash($request->get_param('chunk')), true);
-        $general_settings = json_decode(wp_unslash($request->get_param('general_settings')), true);
+    
+    // category sync
+    function category_sync($request){
+        
+        if( ! $request->sanitize_params() ) {
+            wp_send_json_error( ['message'=>$request->get_error_message()] );
+        }
+        
+        $data   = $request->get_params();
+        $chunk = $request->get_param('chunk');
+        $general_settings = $request->get_param('general_settings');
+        // extract($data);
+        
+        // wbps_logger_array($data);
+        
+        // Parse $general_settings if it's a string
+        if (is_string($general_settings)) {
+            $general_settings = json_decode($general_settings, true);
+        }
+        // will remove extra indexed level
         $chunk = array_replace(...$chunk);
-
         $categories_ins = init_wbps_categories();
         $response = $categories_ins::sync($chunk, $general_settings);
-
-        if (is_wp_error($response)) wp_send_json_error($response->get_error_message());
+        if( is_wp_error($response) ) {
+            wp_send_json_error($response->get_error_message());
+        }
+        
+        // sleep(intval($chunk));
+        
         wp_send_json_success($response);
     }
+
 
     function prepare_fetch($request) {
         if (!wbps_pro_is_installed()) {

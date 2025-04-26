@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.6.2
 Requires PHP: 5.6
-Stable tag: 9.1
+Stable tag: 9.2
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,8 @@ Yes
 4. Settings page
 
 == Changelog ==
+= 9.2 April 26, 2025 =
+* Bug fixed: CORS issue fixed while synced.
 = 9.1 April 25, 2025 =
 * Bug fixed: Sync issue fixed caused by last udpate
 = 9.0 April 23, 2025 =

@@ -14,8 +14,15 @@ class WBPS_WP_REST {
     }
 
     public function __construct() {
+        
         add_filter('woocommerce_rest_check_permissions', '__return_true');
-
+        
+        add_action( 'rest_api_init', function()
+            {
+                header( "Access-Control-Allow-Origin: *" );
+            }
+        );
+        
         add_action('rest_api_init', [$this, 'init_api']);
     }
 

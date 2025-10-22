@@ -27,14 +27,96 @@ class WBPS_Format {
         add_filter('wcgs_products_data_downloads', array($this, 'product_downloads'), 99, 3);
         // add_filter('wcgs_products_data_meta_data', array($this, 'product_meta_data'), 99, 2);
         
+        // Register dynamic taxonomy filters
+        $this->register_dynamic_taxonomy_filters();
+        
         if( wbps_pro_is_installed() ) {
             add_filter('wbps_products_synback', array($this, 'syncback_data_products'), 11, 3);
+            add_filter('wbps_products_list_before_syncback', array($this, 'map_brands_to_product_brand'), 10, 2);
             
             // Categories
             add_filter('wcgs_sync_data_categories_before_processing', array($this, 'format_data_categories'), 11, 2);
             add_filter('wcgs_categories_data_image', array($this, 'categories_image'), 99, 3);
         }
     
+    }
+    
+    // Map API 'brands' field to 'product_brand' before array_intersect_key
+    function map_brands_to_product_brand($items, $header) {
+        if (!array_key_exists('product_brand', $header)) {
+            return $items;
+        }
+        
+        foreach ($items as &$item) {
+            if (isset($item['brands'])) {
+                $item['product_brand'] = $item['brands'];
+            }
+        }
+        
+        return $items;
+    }
+    
+    // Register dynamic taxonomy filters based on sheet mapping
+    function register_dynamic_taxonomy_filters() {
+        $taxonomy_names = wpbs_get_taxonomy_names();
+        
+        foreach ($taxonomy_names as $taxonomy_name) {
+            // Skip already registered taxonomies
+            if (in_array($taxonomy_name, ['categories', 'brands', 'tags'])) {
+                continue;
+            }
+            
+            // Register sync filter (sheet to store)
+            add_filter("wcgs_products_data_{$taxonomy_name}", array($this, 'product_extract_id_dynamic_taxonomy'), 99, 3);
+            
+            // Register syncback filter (store to sheet)
+            add_filter("wcgs_products_syncback_value_{$taxonomy_name}", array($this, 'product_syncback_dynamic_taxonomy'), 99, 3);
+            
+            // Add to format required fields dynamically
+            add_filter('wbps_fields_format_required', function($fields) use ($taxonomy_name) {
+                $fields[$taxonomy_name] = 'array';
+                return $fields;
+            });
+        }
+    }
+    
+    // Handle dynamic taxonomy sync (sheet to store)
+    function product_extract_id_dynamic_taxonomy($value, $row, $general_settings) {
+        if (!$value) return $value;
+        
+        $current_filter = current_filter();
+        $taxonomy_name = str_replace('wcgs_products_data_', '', $current_filter);
+        
+        $return_value = isset($general_settings["{$taxonomy_name}_return_value"]) ? $general_settings["{$taxonomy_name}_return_value"] : 'id';
+        
+        if ($return_value === 'object') {
+            $value = json_decode($value);
+        } elseif ($return_value === 'name') {
+            $value = wbps_get_taxonomy_ids_by_names($taxonomy_name, $value);
+            $value = array_map(function($id) {
+                return ['id' => $id];
+            }, $value);
+        } else {
+            $value = explode('|', $value);
+            $value = array_map(function($id) {
+                return ['id' => trim($id)];
+            }, $value);
+        }
+        
+        return $value;
+    }
+    
+    // Handle dynamic taxonomy syncback (store to sheet)
+    function product_syncback_dynamic_taxonomy($value, $key, $settings) {
+        if (!is_array($value)) return $value;
+        
+        $return_value = isset($settings["{$key}_return_value"]) ? $settings["{$key}_return_value"] : 'id';
+        
+        if ($return_value === 'name') {
+            return implode('|', array_column($value, 'name'));
+        } else {
+            return implode('|', array_column($value, 'id'));
+        }
     }
     
     // syncing: format data before saving

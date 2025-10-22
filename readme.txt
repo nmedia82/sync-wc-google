@@ -5,7 +5,7 @@ Donate link: http://www.najeebmedia.com/donate
 Requires at least: 4.3
 Tested up to: 6.6.2
 Requires PHP: 5.6
-Stable tag: 9.3
+Stable tag: 9.5
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,7 @@ Use Google Sheets™ to add products and categories, and it only takes one click
 * Add/remove product fields
 * Sync from Store to Google Sheet™
 * Build using the latest Google App Script API
+* Dynamic Custom Taxonomy Support
 
 = PRO Features =
 * Variable Products Supported
@@ -41,6 +42,7 @@ Use Google Sheets™ to add products and categories, and it only takes one click
 * Export Existing Categories into Google Sheet™
 * Export Existing Variations into Google Sheet™
 * Metadata columns
+* Custom Taxonomy Support (product_brand, etc.)
 
 [Learn More Bulk Product Sync PRO](https://najeebmedia.com/wordpress-plugin/woocommerce-google-sync/)
 
@@ -48,6 +50,73 @@ Use Google Sheets™ to add products and categories, and it only takes one click
 **Opening a new store** *Add all of your products to the Google sheet, select `Sync Products` and bask in the joy.*
 **Managing an existing store** *To manage any updates or new products, export all of your products from your store to Google Sheets.™*
 **Managing the stock** If the present solution's stock management is driving you crazy, use Bulk Product Sync to add `manage_stock` and `quantity` columns to the sheet, and you'll be free of the problem.
+
+== Installation ==
+
+This section describes how to install the plugin and get it working.
+
+e.g.
+
+1. Upload `bulk-product-sync` to the `/wp-content/plugins/` directory
+1. Activate the plugin through the 'Plugins' menu in WordPress
+1. Go to WooCommerce > BulkProductSync to configure the plugin
+
+== Frequently Asked Questions ==
+
+= Does this plugin work with custom taxonomies? =
+
+Yes! Version 9.0 introduces dynamic custom taxonomy support. Any custom taxonomy (like product_brand) defined in your sheet mapping will automatically work for both sync and fetch operations.
+
+= Can I sync product brands? =
+
+Yes! Product brands and any other custom taxonomies are now fully supported. Just add the taxonomy column to your Google Sheet and it will sync automatically.
+
+= How do I handle large product catalogs (20k+ products)? =
+
+For large catalogs, increase your server's PHP memory limit and execution time. The plugin includes chunking to handle large datasets efficiently.
+
+== Screenshots ==
+
+1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
+the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
+directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
+(or jpg, jpeg, gif).
+2. This is the second screen shot
+
+== Changelog ==
+
+= 9.5 =
+* Added: Dynamic custom taxonomy support for all taxonomies
+* Added: Automatic product_brand and custom taxonomy sync/fetch
+* Fixed: Custom taxonomy fields not being fetched from store to sheet
+* Improved: Dynamic filter registration for better extensibility
+* Enhanced: Better handling of taxonomy data in both directions
+
+= 9.3 =
+* Fixed: Plugin activation redirect issue in WordPress 6.5.2
+* Improved: Error handling and logging
+* Updated: Compatibility with latest WordPress version
+
+= 9.2 =
+* Enhanced: Performance improvements for large datasets
+* Fixed: Memory optimization for bulk operations
+* Updated: Google Apps Script integration
+
+= 9.1 =
+* Added: Better error handling for API timeouts
+* Improved: Chunk processing for large product catalogs
+* Fixed: Various minor bugs and improvements
+
+= 9.0 =
+* Major: Dynamic custom taxonomy support
+* Added: Automatic taxonomy field detection and processing
+* Enhanced: Bidirectional sync for custom taxonomies
+* Improved: Code architecture for better maintainability
+
+== Upgrade Notice ==
+
+= 9.5 =
+Major update with dynamic custom taxonomy support. All custom taxonomies like product_brand now work automatically. Backup your site before upgrading.
 **Managing the price** *Price changes were frequent due to the economy's instability; however, Bulk Product Sync will now adjust product prices in bulk for your store.*
 **Variable products** *In WooCommerce, it is difficult to create variations and variable products; however, Bulk Product Sync has made this process quite simple and quick.*
 **Much more ...** *As per your needs*

@@ -1,13 +1,10 @@
 Bulk Product Editor plugin allows you to create and edit your WooCommerce products and categories with Google Sheets.
 
 == Description ==
-Managing products — like creating, updating inventory and prices, or updating new images, short descriptions, or titles for SEO — for your multiple products is very hectic and time-consuming.
-So, rather than focusing on marketing or sales strategy, most of your time is being eaten up by bulk product or category management. Bulk Product Editor is the ultimate solution. Our plugin allows the easiest and quickest way
-to manage your products and categories with Google Sheets. Google Sheets are amazing when it comes to managing tabular data in the cloud. We have built a [Google Sheet Addon](https://workspace.google.com/marketplace/app/bulk_product_sync_with_google_sheets/267586530797),
-approved and listed by the Google Marketplace. No complex or tricky setup. No need to generate API keys — just run our connection wizard, and your store will be connected in less than a minute. Now you can manage your products and categories with ease.
-Adding a new product or updating an existing product in Google Sheets is really easy and quick. Thousands of products can be pushed or fetched in one click. For details, watch our video:
+Managing products like creating, updating inventory and prices, or updating images, short descriptions, or titles for SEO across multiple products is very hectic and time-consuming. So, rather than focusing on marketing or sales strategy, most of your time is being eaten up by bulk product or category management. ***Bulk Product Editor*** is the ultimate solution. Our plugin provides the easiest and quickest way to manage your products and categories with Google Sheets. Google Sheets are amazing when it comes to managing tabular data in the cloud. We have built a **Google Sheet Addon**, approved and listed by the Google Marketplace. No complex or tricky setup, no need to generate API keys — just run our connection wizard, and your store will be connected in less than a minute. Now you can manage your products and categories with ease. Adding a new product or updating an existing product in Google Sheets is really easy and quick, and thousands of products can be pushed or fetched in one click.
+
 = Watch Video Guide =
-[youtube [https://youtu.be/aCjnnOXXiP8?si=6QNHWX9QUHFbX7iv](https://youtu.be/aCjnnOXXiP8?si=6QNHWX9QUHFbX7iv)]
+[youtube](https://youtu.be/aCjnnOXXiP8?si=6QNHWX9QUHFbX7iv](https://youtu.be/aCjnnOXXiP8?si=6QNHWX9QUHFbX7iv)
 
 = What is Sync Vs Fetch? =
 Sync means to push your products from Google Sheets to your connected store, and Fetch is the reverse, i.e., to pull products from your store to Google Sheets.
@@ -52,7 +49,7 @@ Sync means to push your products from Google Sheets to your connected store, and
 * Metadata columns
 * Custom Taxonomy Support (product_brand, etc.)
 
-[Learn More About Bulk Product Sync PRO](https://najeebmedia.com/wordpress-plugin/woocommerce-bulk-product-edit-google-sheet)
+[Start Manage your Store with WooCommerce Bulk Products Editor](https://najeebmedia.com/wordpress-plugin/woocommerce-bulk-product-edit-google-sheet)
 
 == Use Cases ==
 **Opening a new store**

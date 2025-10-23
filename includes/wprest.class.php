@@ -15,15 +15,30 @@ class WBPS_WP_REST {
 
     public function __construct() {
         
-        add_filter('woocommerce_rest_check_permissions', '__return_true');
+        // Only bypass permissions for wbps endpoints, not all WooCommerce endpoints
+        add_filter('woocommerce_rest_check_permissions', array($this, 'wbps_specific_permission_bypass'), 10, 4);
         
         add_action( 'rest_api_init', function()
             {
-                header( "Access-Control-Allow-Origin: *" );
+                // Only allow CORS for wbps endpoints
+                if (strpos($_SERVER['REQUEST_URI'], '/wbps/v1/') !== false) {
+                    header( "Access-Control-Allow-Origin: *" );
+                }
             }
         );
         
         add_action('rest_api_init', [$this, 'init_api']);
+    }
+
+    // Only bypass WooCommerce permissions for wbps endpoints
+    function wbps_specific_permission_bypass($permission, $context, $object_id, $object_type) {
+        // Only bypass for wbps API calls
+        if (strpos($_SERVER['REQUEST_URI'], '/wbps/v1/') !== false) {
+            return true;
+        }
+        
+        // Return original permission for all other WooCommerce endpoints
+        return $permission;
     }
 
     function init_api() {

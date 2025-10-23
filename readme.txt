@@ -1,40 +1,48 @@
-=== Bulk Product Sync - Bulk Product Editor for WooCommerce with Google Sheets™ ===
-Contributors: nmedia
-Tags: bulk products, bulk stock manage, bulk price editor, woocommerce products, woocommerce stock, stock update
-Donate link: http://www.najeebmedia.com/donate
-Requires at least: 4.3
-Tested up to: 6.6.2
-Requires PHP: 5.6
-Stable tag: 9.5
-License: GPL2
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-Bulk Product Sync is a WooCommerce plugin to manage products with Google Sheets™ in bulk.
+Bulk Product Editor plugin allows you to create and edit your WooCommerce products and categories with Google Sheets.
 
 == Description ==
-Bulk Product Sync with Google Sheets™ is a creative, quick, and easy way to use Google Sheets™ to bulk update or create products and categories for your WooCommerce store. 
-To add new products to WooCommerce or even to make a single adjustment, you must go through a long-form (product edit page). Your time is wasted while you wait for login, website updates, and several clicks.
-Use Google Sheets™ to add products and categories, and it only takes one click to add thousands of products to your store. Please watch this video instruction to learn more about the features and how to use it.
+Managing products — like creating, updating inventory and prices, or updating new images, short descriptions, or titles for SEO — for your multiple products is very hectic and time-consuming.
+So, rather than focusing on marketing or sales strategy, most of your time is being eaten up by bulk product or category management. Bulk Product Editor is the ultimate solution. Our plugin allows the easiest and quickest way
+to manage your products and categories with Google Sheets. Google Sheets are amazing when it comes to managing tabular data in the cloud. We have built a [Google Sheet Addon](https://workspace.google.com/marketplace/app/bulk_product_sync_with_google_sheets/267586530797),
+approved and listed by the Google Marketplace. No complex or tricky setup. No need to generate API keys — just run our connection wizard, and your store will be connected in less than a minute. Now you can manage your products and categories with ease.
+Adding a new product or updating an existing product in Google Sheets is really easy and quick. Thousands of products can be pushed or fetched in one click. For details, watch our video:
+= Watch Video Guide =
+[youtube [https://youtu.be/aCjnnOXXiP8?si=6QNHWX9QUHFbX7iv](https://youtu.be/aCjnnOXXiP8?si=6QNHWX9QUHFbX7iv)]
 
-= How It Works? =
-[youtube https://youtu.be/aCjnnOXXiP8?si=6QNHWX9QUHFbX7iv]
+= What is Sync Vs Fetch? =
+Sync means to push your products from Google Sheets to your connected store, and Fetch is the reverse, i.e., to pull products from your store to Google Sheets.
 
-****
-= Live Demo =
-* Check all features in [Live Demo](https://najeebmedia.com/bps-demo)
-* This demo has already installed **BPS** Free and Pro version.
-* When demo is ready, please follow the instructions as [explained here](https://youtu.be/aCjnnOXXiP8?si=6QNHWX9QUHFbX7iv)
+= How to fetch products from my store? =
+
+* Just click BPS Menu > Fetch
+* Click Fetch Products
+* Make sure you set the chunk size as per your need
+* Chunk means how many products will be pushed and pulled in one round. Recommended: 200–300
+
+= Can custom fields or taxonomies be attached? =
+
+* Yes, create a new column in the sheet and set the header name.
+* E.g., if you want to add `seo_title` as a custom field, set the header name to `seo_title`
+* Note: this `seo_title` must be set inside the `Manage Fields` menu first
+
+== Live Demo ==
+
+* Check all features in the [Live Demo](https://najeebmedia.com/bps-demo)
+* This demo has already installed BPS Free and Pro versions.
+* When the demo is ready, please follow the instructions as [explained here](https://youtu.be/aCjnnOXXiP8?si=6QNHWX9QUHFbX7iv)
 
 = Features =
-* One Click Import
+
+* One-Click Import
 * Sync All Your Products
 * Sync All Your Categories
 * Add/remove product fields
 * Sync from Store to Google Sheet™
-* Build using the latest Google App Script API
+* Built using the latest Google App Script API
 * Dynamic Custom Taxonomy Support
 
 = PRO Features =
+
 * Variable Products Supported
 * Auto-Sync [hourly, twice daily, daily]
 * Logging Auto Sync
@@ -44,36 +52,36 @@ Use Google Sheets™ to add products and categories, and it only takes one click
 * Metadata columns
 * Custom Taxonomy Support (product_brand, etc.)
 
-[Learn More Bulk Product Sync PRO](https://najeebmedia.com/wordpress-plugin/woocommerce-google-sync/)
+[Learn More About Bulk Product Sync PRO](https://najeebmedia.com/wordpress-plugin/woocommerce-bulk-product-edit-google-sheet)
 
 == Use Cases ==
-**Opening a new store** *Add all of your products to the Google sheet, select `Sync Products` and bask in the joy.*
-**Managing an existing store** *To manage any updates or new products, export all of your products from your store to Google Sheets.™*
-**Managing the stock** If the present solution's stock management is driving you crazy, use Bulk Product Sync to add `manage_stock` and `quantity` columns to the sheet, and you'll be free of the problem.
+**Opening a new store**
+*Add all of your products to the Google Sheet, select `Sync Products`, and bask in the joy.*
+**Managing an existing store**
+*To manage any updates or new products, export all of your products from your store to Google Sheets™.*
+**Managing the stock**
+*If the present solution's stock management is driving you crazy, use Bulk Product Sync to add `manage_stock` and `quantity` columns to the sheet, and you'll be free of the problem.*
 
 == Installation ==
-
 This section describes how to install the plugin and get it working.
 
 e.g.
 
 1. Upload `bulk-product-sync` to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Go to WooCommerce > BulkProductSync to configure the plugin
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Go to WooCommerce > BulkProductSync to configure the plugin
 
 == Frequently Asked Questions ==
 
 = Does this plugin work with custom taxonomies? =
-
-Yes! Version 9.0 introduces dynamic custom taxonomy support. Any custom taxonomy (like product_brand) defined in your sheet mapping will automatically work for both sync and fetch operations.
+Yes! Version 9.0 introduces dynamic custom taxonomy support. Any custom taxonomy (like `product_brand`) defined in your sheet mapping will automatically work for both sync and fetch operations.
 
 = Can I sync product brands? =
-
 Yes! Product brands and any other custom taxonomies are now fully supported. Just add the taxonomy column to your Google Sheet and it will sync automatically.
 
 = How do I handle large product catalogs (20k+ products)? =
-
 For large catalogs, increase your server's PHP memory limit and execution time. The plugin includes chunking to handle large datasets efficiently.
+
 
 == Screenshots ==
 
@@ -82,44 +90,6 @@ the /assets directory or the directory that contains the stable readme.txt (tags
 directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
 (or jpg, jpeg, gif).
 2. This is the second screen shot
-
-== Changelog ==
-
-= 9.5 =
-* Added: Dynamic custom taxonomy support for all taxonomies
-* Added: Automatic product_brand and custom taxonomy sync/fetch
-* Fixed: Custom taxonomy fields not being fetched from store to sheet
-* Improved: Dynamic filter registration for better extensibility
-* Enhanced: Better handling of taxonomy data in both directions
-
-= 9.3 =
-* Fixed: Plugin activation redirect issue in WordPress 6.5.2
-* Improved: Error handling and logging
-* Updated: Compatibility with latest WordPress version
-
-= 9.2 =
-* Enhanced: Performance improvements for large datasets
-* Fixed: Memory optimization for bulk operations
-* Updated: Google Apps Script integration
-
-= 9.1 =
-* Added: Better error handling for API timeouts
-* Improved: Chunk processing for large product catalogs
-* Fixed: Various minor bugs and improvements
-
-= 9.0 =
-* Major: Dynamic custom taxonomy support
-* Added: Automatic taxonomy field detection and processing
-* Enhanced: Bidirectional sync for custom taxonomies
-* Improved: Code architecture for better maintainability
-
-== Upgrade Notice ==
-
-= 9.5 =
-Major update with dynamic custom taxonomy support. All custom taxonomies like product_brand now work automatically. Backup your site before upgrading.
-**Managing the price** *Price changes were frequent due to the economy's instability; however, Bulk Product Sync will now adjust product prices in bulk for your store.*
-**Variable products** *In WooCommerce, it is difficult to create variations and variable products; however, Bulk Product Sync has made this process quite simple and quick.*
-**Much more ...** *As per your needs*
 
 == Installation ==
 1. Download the plugin and activate it
@@ -149,6 +119,19 @@ Yes
 4. Settings page
 
 == Changelog ==
+= 9.6 October 23, 2025 =
+* SECURITY FIX: Fixed critical vulnerability that exposed all WooCommerce REST API endpoints
+* Fixed: Permission bypass now only applies to wbps endpoints, not all WooCommerce APIs
+* Improved: CORS headers restricted to wbps endpoints only
+* Enhanced: Better security isolation for plugin-specific endpoints
+
+= 9.5 =
+* Added: Dynamic custom taxonomy support for all taxonomies
+* Added: Automatic product_brand and custom taxonomy sync/fetch
+* Fixed: Custom taxonomy fields not being fetched from store to sheet
+* Improved: Dynamic filter registration for better extensibility
+* Enhanced: Better handling of taxonomy data in both directions
+
 = 9.3 April 26, 2025 =
 Bug fixed: [Images by ids were syncing, it is fixed now](https://clients.najeebmedia.com/forums/topic/error-capturing-remote-image/)
 = 9.2 April 26, 2025 =

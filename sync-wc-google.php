@@ -22,6 +22,7 @@ include_once WBPS_PATH.'/includes/functions.php';
 include_once WBPS_PATH.'/includes/meta.json.php';
 include_once WBPS_PATH.'/includes/admin.class.php';
 include_once WBPS_PATH.'/includes/formats.class.php';
+include_once WBPS_PATH.'/includes/image-handler.php';
 include_once WBPS_PATH.'/includes/wc-api.class.php';
 include_once WBPS_PATH.'/includes/products.class.php';
 include_once WBPS_PATH.'/includes/categories.class.php';

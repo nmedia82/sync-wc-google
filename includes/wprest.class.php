@@ -194,6 +194,7 @@ class WBPS_WP_REST {
     }
 
     function product_fetch($request) {
+        
         $chunk = json_decode(wp_unslash($request->get_param('chunk')), true);
         $sheet_header = $request->get_param('sheet_header');
         $general_settings = $request->get_param('general_settings');

@@ -312,6 +312,19 @@ class WBPS_Format {
         $key = (filter_var($image, FILTER_VALIDATE_URL) === FALSE) ? 'id' : 'src';
         $image_remake[$key] = $image;
         
+        // Process remote image using enhanced handler
+        if ($key === 'src' && !empty($image)) {
+            $product_id = isset($row['id']) ? $row['id'] : null;
+            $attachment_id = WBPS_Image_Handler::download_remote_image($image, $product_id);
+            
+            if (!is_wp_error($attachment_id)) {
+                return array('id' => $attachment_id);
+            } else {
+                // Log error but continue with original data
+                wbps_logger_array("Failed to download variation image {$image}: " . $attachment_id->get_error_message());
+            }
+        }
+        
         return $image_remake;
     }
     
@@ -329,9 +342,23 @@ class WBPS_Format {
         $image_remake = [];
         foreach($make_array as $img){
             $img = trim($img);
+            if (empty($img)) continue;
+            
             $key = (filter_var($img, FILTER_VALIDATE_URL) === FALSE) ? 'id' : 'src';
             $image_remake[][$key] = $img;
         }
+        
+        // Process remote images using enhanced handler
+        if (!empty($image_remake)) {
+            $product_id = isset($row['id']) ? $row['id'] : null;
+            $processed_images = WBPS_Image_Handler::process_images_array($image_remake, $product_id);
+            
+            // If processing was successful, return processed images
+            if (!empty($processed_images)) {
+                return $processed_images;
+            }
+        }
+        
         return $image_remake;
     }
     
@@ -348,6 +375,19 @@ class WBPS_Format {
         $image = trim($image);
         $key = (filter_var($image, FILTER_VALIDATE_URL) === FALSE) ? 'id' : 'src';
         $image_remake[$key] = $image;
+        
+        // Process remote image using enhanced handler
+        if ($key === 'src' && !empty($image)) {
+            $category_id = isset($row['id']) ? $row['id'] : null;
+            $attachment_id = WBPS_Image_Handler::download_remote_image($image, $category_id);
+            
+            if (!is_wp_error($attachment_id)) {
+                return array('id' => $attachment_id);
+            } else {
+                // Log error but continue with original data
+                wbps_logger_array("Failed to download category image {$image}: " . $attachment_id->get_error_message());
+            }
+        }
         
         return $image_remake;
     }
